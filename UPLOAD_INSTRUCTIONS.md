@@ -1,14 +1,24 @@
 # Upload instructions
 
-1. Extract the ZIP locally.
-2. In the GitHub repository, upload the contents of the extracted folder, preserving directories.
-3. Replace files with the same names.
-4. Commit directly to `main`.
-5. Open **Actions**, select **Build ICP 2021 Armilar matrix**, then choose **Run workflow**.
-6. After completion, inspect:
-   - `public/latest/manifest.json`
-   - `public/latest/diagnostics.json`
-   - `public/latest/STEP2_REPORT.md`
-   - the `armilar-step2-*` workflow artifact.
+Use GitHub Desktop for this complete replacement.
 
-Do not copy the extracted parent folder itself into the repository. Upload its contents so that `.github`, `config`, `src` and `tests` remain at repository root.
+1. Extract the ZIP.
+2. Open the local clone of `tomazlucena-crypto/armilar-data-pipeline`.
+3. Delete the repository contents except the hidden `.git` directory.
+4. Copy the contents inside the extracted v0.3.0 folder into the repository root.
+5. Confirm that `.github`, `config`, `constitution`, `docs`, `schemas`, `src` and `tests` are at root level.
+6. Commit with a message such as `Implement Step 2 hybrid ICP pipeline v0.3.0`.
+7. Push to `main`.
+
+The push starts GitHub Actions automatically. Do not manually start a second run unless the automatic run fails to appear.
+
+After completion inspect:
+
+- `public/latest/step2_summary.json`
+- `public/latest/STEP2_REPORT.md`
+- `public/latest/coverage_report.csv`
+- `public/latest/weights_research_observed_normalized.csv`
+- `public/latest/weights_final_normalized.csv`
+- the `armilar-step2-*` workflow artifact.
+
+Do not treat the research matrix as the worldwide final matrix unless `global_12_category_matrix_complete=true`.

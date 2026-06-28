@@ -9,12 +9,14 @@ from typing import Any
 
 from .acquire import AcquisitionRecord, fetch_json_pages, fetch_url
 from .config import Step2Config, load_config
-from .matrix import NORMALIZED_FIELDS, MatrixResult, build_matrix
-from .measures import select_measures
+from .hybrid_matrix import HybridMatrixResult, build_hybrid_matrix
+from .measures import audit_selected_measure_identity, select_measures
 from .participation import extract_participating_names, map_participants_to_codes
-from .util import (
-    read_csv, read_json, safe_runtime_info, utc_now, write_csv, write_json, write_sha256sums,
+from .supplemental import (
+    EconomyMapper, NominalObservation, SupplementalParseResult,
+    parse_eurostat_jsonstat, parse_oecd_csv, parse_undata_zip,
 )
+from .util import read_json, safe_runtime_info, utc_now, write_csv, write_json, write_sha256sums
 from .worldbank import (
     Variable, acquire_heading_data, extract_concepts, extract_variables, identify_roles,
     parse_observation_pages, validate_classification_workbook, validate_source_metadata,
@@ -31,6 +33,7 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
     run_root.mkdir(parents=True)
     output_root.mkdir(parents=True, exist_ok=True)
     records: list[AcquisitionRecord] = []
+    acquisition_failures: list[dict[str, str]] = []
     started_at = utc_now()
     try:
         raw = run_root / "raw" / "world_bank_icp_2021"
@@ -44,27 +47,17 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
         ]
         for key, filename, accept in static_specs:
             records.append(fetch_url(
-                config,
-                source_id=f"world_bank_{key}",
-                url=config.urls[key],
-                destination=raw / filename,
-                cache_path=cache_root / "world_bank_icp_2021" / filename,
+                config, source_id=f"world_bank_{key}", url=config.urls[key],
+                destination=raw / filename, cache_path=cache_root / "world_bank_icp_2021" / filename,
                 accept=accept,
             ))
 
-        source_metadata_validation = validate_source_metadata(
-            read_json(raw / "source_metadata.json"), config.source_id
-        )
-        classification_validation = validate_classification_workbook(
-            raw / "ICPClassificationwithNonH-2021.xlsx", config.required_heading_codes
-        )
+        source_metadata_validation = validate_source_metadata(read_json(raw / "source_metadata.json"), config.source_id)
+        classification_validation = validate_classification_workbook(raw / "ICPClassificationwithNonH-2021.xlsx", config.classification_required_heading_codes)
 
         concept_records = fetch_json_pages(
-            config,
-            source_id="world_bank_source90_concepts",
-            base_url=config.urls["concepts"],
-            destination_dir=raw / "concepts",
-            cache_dir=cache_root / "world_bank_source90",
+            config, source_id="world_bank_source90_concepts", base_url=config.urls["concepts"],
+            destination_dir=raw / "concepts", cache_dir=cache_root / "world_bank_source90",
         )
         records.extend(concept_records)
         concepts: list[tuple[str, str]] = []
@@ -76,61 +69,34 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
         for concept_id, _ in concepts:
             url = config.urls["concept_variables_template"].format(concept=concept_id.lower())
             variable_records = fetch_json_pages(
-                config,
-                source_id=f"world_bank_source90_variables_{concept_id}",
-                base_url=url,
-                destination_dir=raw / "variables" / concept_id,
-                cache_dir=cache_root / "world_bank_source90",
+                config, source_id=f"world_bank_source90_variables_{concept_id}", base_url=url,
+                destination_dir=raw / "variables" / concept_id, cache_dir=cache_root / "world_bank_source90",
             )
             records.extend(variable_records)
             variables: list[Variable] = []
             for record in variable_records:
                 variables.extend(extract_variables(read_json(record.path)))
-            # Some responses use a lower-case concept ID. Pin all variables to the discovered ID.
             inventories[concept_id] = [Variable(concept_id, item.variable_id, item.value) for item in variables]
 
         roles = identify_roles(concepts, inventories, config.reference_year)
-        available_heading_ids = {item.variable_id for item in inventories[roles.heading]}
-        missing_inventory_headings = sorted(set(config.required_heading_codes) - available_heading_ids)
-        mandatory_matrix_headings = {
-            row["heading_code"] for row in read_csv(config.headings_path)
-            if row["include_in_category"].lower() == "true"
-        } | {"1100000"}
-        missing_mandatory_headings = sorted(mandatory_matrix_headings - available_heading_ids)
-        requested_data_headings = list(dict.fromkeys([
-            *config.required_heading_codes,
-            *config.imputation_detection_heading_codes,
-        ]))
-        heading_codes = [code for code in requested_data_headings if code in available_heading_ids]
-        if not heading_codes:
-            raise RuntimeError("None of the required HFCE or imputation-control headings exists in the Source 90 inventory")
-
-        publication_scope_audit = _publication_scope_audit(
-            config.publication_scope_rules_path, available_heading_ids
-        )
-        missing_scope_requirements = sorted({
-            code
-            for row in publication_scope_audit
-            if row["status"] == "BLOCKED_REQUIRED_HFCE_HEADING_MISSING"
-            for code in row["missing_required_heading_codes"].split("|")
-            if code
-        })
-        forbidden_alternatives_present = sorted({
-            code
-            for row in publication_scope_audit
-            if row["status"] == "BLOCKED_REQUIRED_HFCE_HEADING_MISSING"
-            for code in row["available_forbidden_alternative_codes"].split("|")
-            if code
-        })
-
-        data_records = acquire_heading_data(config, roles, heading_codes, raw, cache_root)
+        available_headings = {item.variable_id for item in inventories[roles.heading]}
+        missing_required_headings = sorted(set(config.required_heading_codes) - available_headings)
+        if missing_required_headings:
+            raise RuntimeError("Required Source 90 headings missing: " + ",".join(missing_required_headings))
+        data_records = acquire_heading_data(config, roles, config.required_heading_codes, raw, cache_root)
         records.extend(data_records)
-        observations = parse_observation_pages(
-            (record.path for record in data_records), run_root
+        observations = parse_observation_pages((record.path for record in data_records), run_root)
+        measures = select_measures(inventories[roles.measure], observations, roles.measure, roles.country, roles.heading)
+        identity_rows, identity_summary = audit_selected_measure_identity(
+            observations, selection=measures, country_concept=roles.country,
+            heading_concept=roles.heading, measure_concept=roles.measure,
+            tolerance=config.identity_relative_tolerance,
         )
-        measures = select_measures(
-            inventories[roles.measure], observations, roles.measure, roles.country, roles.heading
-        )
+        if identity_summary["median_status"] != "PASS":
+            raise RuntimeError(
+                "Selected Source 90 measure triple failed nominal/PPP=real median identity: "
+                + str(identity_summary)
+            )
 
         governance_html = (raw / "ICP2021_Governance.html").read_text(encoding="utf-8", errors="replace")
         participant_names = extract_participating_names(governance_html)
@@ -138,255 +104,288 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
             participant_names, inventories[roles.country], config.country_aliases_path
         )
 
-        matrix = build_matrix(
-            config, roles, observations, inventories, measures, participant_codes
-        )
-        if missing_mandatory_headings:
-            matrix.summary["blocking_reasons"].append(
-                "MANDATORY_HEADINGS_ABSENT_FROM_SOURCE90_INVENTORY:" + ",".join(missing_mandatory_headings)
-            )
-            matrix.summary["release_allowed"] = False
-            matrix.summary["global_12_category_matrix_complete"] = False
-            matrix.summary["status"] = "BLOCKED_SOURCE_PUBLICATION_SCOPE"
-        if missing_scope_requirements:
-            reason = "STRICT_HFCE_PUBLICATION_SCOPE_MISSING_REQUIRED_HEADINGS:" + ",".join(missing_scope_requirements)
-            if reason not in matrix.summary["blocking_reasons"]:
-                matrix.summary["blocking_reasons"].append(reason)
-        if forbidden_alternatives_present:
-            matrix.summary["blocking_reasons"].append(
-                "FORBIDDEN_ALTERNATIVES_AVAILABLE_BUT_NOT_USED:" + ",".join(forbidden_alternatives_present)
-            )
-        matrix.summary["strict_hfce_required_headings_missing"] = missing_scope_requirements
-        matrix.summary["forbidden_alternative_headings_available"] = forbidden_alternatives_present
+        mapper = EconomyMapper(inventories[roles.country], config.country_aliases_path, config.external_code_crosswalk_path)
+        supplemental_observations: list[NominalObservation] = []
+        supplemental_exclusions: list[dict[str, Any]] = []
+        supplemental_diagnostics: list[dict[str, Any]] = []
+        supplemental_specs = [
+            ("OECD_TABLE5_T501", "oecd_table5_t501", "oecd_table5_t501.csv", "application/vnd.sdmx.data+csv;version=2.0.0,text/csv;q=0.9,*/*;q=0.1", "COICOP1999", 10),
+            ("UNDATA_SNA_TABLE32", "undata_sna_table32", "undata_sna_table32.zip", "application/zip,application/octet-stream,*/*;q=0.1", "UNDATA", 20),
+            ("EUROSTAT_NAMA_10_CP18", "eurostat_nama_10_cp18", "eurostat_nama_10_cp18.json", "application/json,*/*;q=0.1", "EUROSTAT", 30),
+            ("OECD_TABLE5A_T501", "oecd_table5a_t501", "oecd_table5a_t501.csv", "application/vnd.sdmx.data+csv;version=2.0.0,text/csv;q=0.9,*/*;q=0.1", "COICOP2018", 40),
+        ]
+        supplemental_raw = run_root / "raw" / "supplemental_nominal_hfce"
+        for source_id, url_key, filename, accept, parser_kind, priority in supplemental_specs:
+            destination = supplemental_raw / source_id / filename
+            try:
+                record = fetch_url(
+                    config, source_id=source_id, url=config.urls[url_key], destination=destination,
+                    cache_path=cache_root / "supplemental_nominal_hfce" / source_id / filename,
+                    accept=accept,
+                )
+                records.append(record)
+                if parser_kind in {"COICOP1999", "COICOP2018"}:
+                    result = parse_oecd_csv(
+                        destination, mapper, source_id=source_id, source_url=config.urls[url_key],
+                        retrieved_at=record.retrieved_at, priority=priority, classification=parser_kind,
+                    )
+                elif parser_kind == "EUROSTAT":
+                    result = parse_eurostat_jsonstat(
+                        destination, mapper, source_id=source_id, source_url=config.urls[url_key],
+                        retrieved_at=record.retrieved_at, priority=priority,
+                    )
+                else:
+                    result = parse_undata_zip(
+                        destination, mapper, source_id=source_id, source_url=config.urls[url_key],
+                        retrieved_at=record.retrieved_at, priority=priority,
+                    )
+                supplemental_observations.extend(result.observations)
+                supplemental_exclusions.extend(result.exclusions)
+                supplemental_diagnostics.append(result.diagnostics)
+            except Exception as exc:
+                acquisition_failures.append({"source_id": source_id, "error_type": type(exc).__name__, "error": str(exc)})
+                supplemental_diagnostics.append({"source_id": source_id, "status": "FAILED", "error_type": type(exc).__name__, "error": str(exc)})
 
-        _write_outputs(
-            run_root, matrix, mapping_audit, measures.diagnostics, roles, concepts, inventories,
-            publication_scope_audit,
+        matrix = build_hybrid_matrix(
+            config, roles, observations, inventories, measures, participant_codes, supplemental_observations
         )
-        manifest = _manifest(config, started_at, records, matrix.summary, run_root)
+        matrix.exclusion_rows.extend(supplemental_exclusions)
+        matrix.summary["source90_measure_identity"] = identity_summary
+        _write_outputs(config, run_root, matrix, mapping_audit, measures.diagnostics, identity_rows, roles, concepts, inventories, supplemental_diagnostics, acquisition_failures)
+
+        manifest = _manifest(config, started_at, records, matrix.summary, run_root, acquisition_failures)
         write_json(run_root / "manifest.json", manifest)
         diagnostics = {
-            "schema_version": "2.0",
+            "schema_version": "3.0",
             "generated_at": utc_now(),
             "runtime": safe_runtime_info(),
             "source_metadata_validation": source_metadata_validation,
             "classification_workbook_validation": classification_validation,
             "source_90_dimension_roles": {
-                "country": roles.country,
-                "heading": roles.heading,
-                "measure": roles.measure,
-                "time": roles.time,
-                "year_id": roles.year_id,
-                "concept_order": list(roles.concept_order),
+                "country": roles.country, "heading": roles.heading, "measure": roles.measure,
+                "time": roles.time, "year_id": roles.year_id, "concept_order": list(roles.concept_order),
             },
             "inventory_counts": {key: len(value) for key, value in inventories.items()},
             "selected_measures": {
-                "ppp": measures.ppp_id,
-                "nominal_expenditure": measures.nominal_id,
+                "ppp": measures.ppp_id, "nominal_expenditure": measures.nominal_id,
                 "real_expenditure_ppp": measures.real_id,
             },
-            "inventory_headings_absent": missing_inventory_headings,
-            "mandatory_matrix_headings_absent": missing_mandatory_headings,
-            "publication_scope_audit": {
-                "required_hfce_headings_missing": missing_scope_requirements,
-                "forbidden_alternatives_available": forbidden_alternatives_present,
-                "all_strict_requirements_available": not missing_scope_requirements,
-            },
             "participant_mapping": {
-                "expected": 176,
+                "expected": config.expected_participating_economies,
                 "mapped": len(participant_codes),
                 "unresolved": sum(1 for row in mapping_audit if row["status"] != "MAPPED"),
             },
+            "supplemental_sources": supplemental_diagnostics,
+            "supplemental_acquisition_failures": acquisition_failures,
             "step2_summary": matrix.summary,
         }
         write_json(run_root / "diagnostics.json", diagnostics)
-        _write_methodology_report(run_root / "STEP2_REPORT.md", matrix.summary, roles, measures, missing_mandatory_headings, publication_scope_audit)
+        _write_methodology_report(run_root / "STEP2_REPORT.md", matrix.summary, supplemental_diagnostics, acquisition_failures)
         write_sha256sums(run_root, run_root / "SHA256SUMS", exclude={run_root / "SHA256SUMS"})
         bundle = _bundle(run_root, output_root, config.pipeline_version)
-        result = {
+        latest_summary = {
+            "generated_at": utc_now(), "bundle": bundle.name, "step2_summary": matrix.summary,
+            "manifest": "manifest.json", "diagnostics": "diagnostics.json", "hashes": "SHA256SUMS",
+        }
+        write_json(output_root / "latest_run_summary.json", latest_summary)
+        return {
             "status": matrix.summary["status"],
-            "release_allowed": matrix.summary["release_allowed"],
+            "research_release_allowed": matrix.summary["research_release_allowed"],
+            "monetary_release_allowed": False,
             "run_dir": str(run_root),
             "bundle": str(bundle),
             "summary": matrix.summary,
         }
-        write_json(output_root / "latest_run_summary.json", result)
-        return result
     except Exception as exc:
-        diagnostics = {
-            "schema_version": "2.0",
-            "generated_at": utc_now(),
-            "runtime": safe_runtime_info(),
-            "status": "FAILED",
-            "error_type": type(exc).__name__,
-            "error": str(exc),
-            "traceback": traceback.format_exc(),
-            "acquisitions_completed": [record.as_dict(run_root) for record in records],
+        failure = {
+            "schema_version": "3.0", "status": "FAILED", "generated_at": utc_now(),
+            "error_type": type(exc).__name__, "error": str(exc), "traceback": traceback.format_exc(),
+            "runtime": safe_runtime_info(), "acquisition_failures": acquisition_failures,
         }
-        write_json(run_root / "diagnostics.json", diagnostics)
+        write_json(run_root / "diagnostics.json", failure)
         write_sha256sums(run_root, run_root / "SHA256SUMS", exclude={run_root / "SHA256SUMS"})
-        _bundle(run_root, output_root, config.pipeline_version, suffix="failed")
+        _bundle(run_root, output_root, config.pipeline_version, suffix="FAILED")
         raise
 
 
-def _write_outputs(run_root: Path, matrix: MatrixResult, mapping_audit, measure_diagnostics, roles, concepts, inventories, publication_scope_audit):
+def _write_outputs(config: Step2Config, run_root, matrix: HybridMatrixResult, mapping_audit, measure_diagnostics, identity_rows, roles, concepts, inventories, supplemental_diagnostics, acquisition_failures):
     out = run_root / "outputs"
-    out.mkdir(parents=True, exist_ok=True)
-    write_csv(out / "normalized_icp2021.csv", NORMALIZED_FIELDS, matrix.normalized_rows)
-    write_csv(out / "raw_economy_heading_matrix.csv", NORMALIZED_FIELDS, matrix.heading_matrix_rows)
-    write_csv(out / "economy_category_matrix.csv", [
-        "economy_code", "economy_name", "icp_participation_status", "armilar_category",
-        "real_expenditure_ppp", "nominal_expenditure_lcu", "derivation", "source_files", "data_status",
-        "included_in_candidate_weights", "nominal_hfce_control_value", "nominal_armilar_category_total",
-        "nominal_hfce_less_armilar_categories", "nominal_expected_excluded_adjustments", "quality_flags",
-    ], matrix.category_rows)
-    write_csv(out / "economy_registry.csv", [
-        "economy_code", "economy_name", "icp_participation_status", "official_participation_source",
-        "detailed_hfce_observation_count", "hfce_aggregate_available",
-        "aggregate_imputation_observation_count", "imputation_detection_heading_codes",
-        "participation_status_basis", "eligible_for_12_category_matrix", "quality_flags",
-    ], matrix.country_registry_rows)
-    registry_fields = [
-        "economy_code", "economy_name", "icp_participation_status", "official_participation_source",
-        "detailed_hfce_observation_count", "hfce_aggregate_available",
-        "aggregate_imputation_observation_count", "imputation_detection_heading_codes",
-        "participation_status_basis", "eligible_for_12_category_matrix", "quality_flags",
+    write_json(out / "step2_summary.json", matrix.summary)
+    write_csv(out / "raw_economy_heading_matrix.csv", [
+        "economy_code", "economy_name", "heading_code", "heading_name", "expenditure_measure",
+        "value", "unit", "source_file", "source_url", "retrieved_at", "source_hash", "quality_flags",
+    ], matrix.normalized_source90_rows)
+    write_csv(out / "supplemental_nominal_all_sources.csv", [
+        "economy_code", "economy_name", "armilar_category", "value_lcu", "currency", "source_id",
+        "source_file", "source_url", "retrieved_at", "source_hash", "concept", "classification",
+        "quality_flags", "source_priority",
+    ], matrix.supplemental_nominal_rows)
+    write_csv(out / "nominal_source_selection_audit.csv", [
+        "economy_code", "armilar_category", "chosen_source_id", "candidate_source_id",
+        "chosen_value_lcu", "candidate_value_lcu", "relative_difference",
+        "candidate_complete_proxy_set", "candidate_missing_proxy_categories",
+        "selection_basis", "status",
+    ], matrix.nominal_selection_audit_rows)
+    write_csv(out / "unit_reconciliation.csv", [
+        "economy_code", "source_id", "direct_categories_compared", "comparison_count",
+        "median_supplemental_to_source90_nominal_ratio", "status",
+    ], matrix.unit_reconciliation_rows)
+    category_fields = [
+        "economy_code", "economy_name", "armilar_category", "nominal_household_expenditure_lcu",
+        "ppp_lcu_per_international_dollar", "real_expenditure_ppp", "numerator_source_id",
+        "numerator_source_file", "numerator_source_hash", "ppp_source_heading", "ppp_scope",
+        "derivation", "quality_flags",
     ]
-    write_csv(out / "observed_participating_economies.csv", registry_fields, [
-        row for row in matrix.country_registry_rows if row["icp_participation_status"] == "PARTICIPATING"
-    ])
-    write_csv(out / "officially_imputed_aggregate_only_economies.csv", registry_fields, [
-        row for row in matrix.country_registry_rows if row["icp_participation_status"] == "OFFICIALLY_IMPUTED_AGGREGATE_ONLY"
-    ])
-    write_csv(out / "unavailable_or_nonpublished_economies.csv", registry_fields, [
-        row for row in matrix.country_registry_rows if row["icp_participation_status"] == "UNAVAILABLE_OR_NONPUBLISHED"
-    ])
-    write_csv(out / "coverage_report.csv", ["metric", "value", "unit"], matrix.coverage_rows)
-    write_csv(out / "exclusions_report.csv", [
-        "economy_code", "heading_code", "heading_name", "reason", "value", "measure", "source_file",
-    ], matrix.exclusion_rows)
+    write_csv(out / "economy_category_matrix.csv", category_fields, matrix.all_category_rows)
+    write_csv(out / "economy_category_matrix_weight_eligible.csv", category_fields, matrix.category_rows)
     write_csv(out / "missing_data_report.csv", [
-        "economy_code", "economy_name", "armilar_category", "heading_code", "reason", "data_status", "included_in_candidate_weights",
+        "economy_code", "economy_name", "icp_participation_status", "armilar_category", "data_status", "reason",
     ], matrix.missing_rows)
-    write_csv(out / "ppp_identity_reconciliation.csv", [
-        "economy_code", "economy_name", "heading_code", "heading_name", "ppp", "nominal_expenditure",
-        "reported_real_expenditure", "derived_real_expenditure", "relative_error", "tolerance", "status",
-    ], matrix.identity_rows)
-    write_csv(out / "hierarchy_reconciliation.csv", [
-        "economy_code", "economy_name", "check", "measure_basis", "reported_value", "derived_value",
-        "difference", "relative_error", "tolerance", "status", "missing_heading_codes",
-    ], matrix.hierarchy_rows)
-    weight_fields = [
-        "economy_code", "economy_name", "armilar_category", "real_expenditure_ppp",
-        "global_denominator_real_expenditure_ppp", "weight", "weight_status", "closure_adjustment",
-    ]
-    write_csv(out / "weights_candidate_observed_participants.csv", weight_fields, matrix.weight_rows)
-    write_csv(
-        out / "weights_final_normalized.csv",
-        weight_fields,
-        matrix.weight_rows if matrix.summary.get("release_allowed") else [],
-    )
-    write_csv(out / "weights_by_economy.csv", ["economy_code", "economy_name", "weight", "weight_status"], matrix.economy_weight_rows)
-    write_csv(out / "weights_by_category.csv", ["armilar_category", "weight", "weight_status"], matrix.category_weight_rows)
-    write_csv(out / "experimental_approximations.csv", [
-        "record_type", "status", "included_in_candidate_weights", "description",
-    ], matrix.experimental_rows)
+    exclusion_fields = sorted({key for row in matrix.exclusion_rows for key in row}) if matrix.exclusion_rows else ["reason"]
+    write_csv(out / "exclusions_report.csv", exclusion_fields, matrix.exclusion_rows)
+    write_csv(out / "economy_registry.csv", [
+        "economy_code", "economy_name", "icp_participation_status", "eligible_complete_12_category_matrix",
+        "included_in_observed_research_weights", "official_imputation_category_detail_available", "participation_status_basis",
+    ], matrix.economy_registry_rows)
+    coverage = []
+    categories_by_economy: dict[str, set[str]] = {}
+    for row in matrix.all_category_rows:
+        categories_by_economy.setdefault(row["economy_code"], set()).add(row["armilar_category"])
+    participant_rows = [row for row in matrix.economy_registry_rows if row["icp_participation_status"] == "PARTICIPATING"]
+    for row in participant_rows:
+        present = categories_by_economy.get(row["economy_code"], set())
+        missing = sorted(set(f"CP{i:02d}" for i in range(1, 13)) - present)
+        coverage.append({
+            "economy_code": row["economy_code"], "economy_name": row["economy_name"],
+            "categories_available": len(present), "categories_required": 12,
+            "complete": len(present) == 12, "missing_categories": "|".join(missing),
+        })
+    write_csv(out / "coverage_report.csv", [
+        "economy_code", "economy_name", "categories_available", "categories_required", "complete", "missing_categories",
+    ], coverage)
+    weight_fields = category_fields + ["weight", "rounding_residual_applied"]
+    write_csv(out / "weights_research_observed_normalized.csv", weight_fields, matrix.weight_rows)
+    global_final = matrix.weight_rows if matrix.summary["global_12_category_matrix_complete"] else []
+    write_csv(out / "weights_final_normalized.csv", weight_fields, global_final)
+    write_csv(out / "weights_by_economy.csv", ["economy_code", "weight"], matrix.economy_weight_rows)
+    write_csv(out / "weights_by_category.csv", ["armilar_category", "weight"], matrix.category_weight_rows)
+    write_csv(out / "officially_imputed_aggregate_only_economies.csv", [
+        "economy_code", "economy_name", "icp_participation_status", "participation_status_basis",
+    ], [row for row in matrix.economy_registry_rows if row["icp_participation_status"] == "OFFICIALLY_IMPUTED_AGGREGATE_ONLY"])
     write_csv(out / "participation_mapping_audit.csv", [
         "official_page_name", "normalized_name", "economy_code", "world_bank_name", "mapping_method", "status",
     ], mapping_audit)
-    write_csv(out / "measure_selection_audit.csv", ["measure_id", "measure_name", "semantic_kind", "selected"], measure_diagnostics)
-    write_csv(out / "publication_scope_audit.csv", [
-        "record_type", "armilar_category", "required_hfce_heading_codes",
-        "available_required_heading_codes", "missing_required_heading_codes",
-        "forbidden_alternative_codes", "available_forbidden_alternative_codes",
-        "forbidden_alternative_reason", "status", "admissible_for_armilar",
-    ], publication_scope_audit)
-    write_csv(out / "source90_concepts.csv", ["concept_id", "concept_name"], [
-        {"concept_id": item[0], "concept_name": item[1]} for item in concepts
+    write_csv(out / "measure_selection_audit.csv", sorted({key for row in measure_diagnostics for key in row}) if measure_diagnostics else ["status"], measure_diagnostics)
+    write_csv(out / "measure_identity_audit.csv", [
+        "economy_code", "heading_code", "ppp", "nominal_expenditure",
+        "published_real_expenditure", "calculated_real_expenditure",
+        "relative_error", "tolerance", "status",
+    ], identity_rows)
+    write_csv(out / "supplemental_source_diagnostics.csv", sorted({key for row in supplemental_diagnostics for key in row}) if supplemental_diagnostics else ["source_id"], supplemental_diagnostics)
+    write_csv(out / "source_acquisition_failures.csv", ["source_id", "error_type", "error"], acquisition_failures)
+    write_csv(out / "source90_concepts.csv", ["position", "concept_id", "concept_label"], [
+        {"position": index, "concept_id": concept_id, "concept_label": label}
+        for index, (concept_id, label) in enumerate(concepts, start=1)
     ])
     inventory_rows = []
     for concept_id, variables in inventories.items():
         for item in variables:
             inventory_rows.append({"concept_id": concept_id, "variable_id": item.variable_id, "variable_name": item.value})
     write_csv(out / "source90_variable_inventory.csv", ["concept_id", "variable_id", "variable_name"], inventory_rows)
-    write_json(out / "step2_summary.json", matrix.summary)
+    write_json(out / "methodology_policy_snapshot.json", json.loads(config.methodology_policy_path.read_text(encoding="utf-8")))
+    write_csv(out / "normalized_icp2021.csv", [
+        "economy_code", "economy_name", "icp_participation_status", "heading_code", "heading_name",
+        "armilar_category", "expenditure_measure", "value", "unit", "currency_or_ppp_basis",
+        "source_file", "source_url", "retrieved_at", "source_hash", "quality_flags",
+    ], _unified_normalized_rows(config, matrix))
 
 
-def _publication_scope_audit(rules_path: Path, available_heading_ids: set[str]) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    for rule in read_csv(rules_path):
-        required = [code for code in rule["required_hfce_heading_codes"].split("|") if code]
-        alternatives = [code for code in rule["forbidden_alternative_codes"].split("|") if code]
-        available_required = [code for code in required if code in available_heading_ids]
-        missing_required = [code for code in required if code not in available_heading_ids]
-        available_alternatives = [code for code in alternatives if code in available_heading_ids]
-        status = "PASS_STRICT_HFCE_AVAILABLE" if not missing_required else "BLOCKED_REQUIRED_HFCE_HEADING_MISSING"
-        rows.append({
-            **rule,
-            "available_required_heading_codes": "|".join(available_required),
-            "missing_required_heading_codes": "|".join(missing_required),
-            "available_forbidden_alternative_codes": "|".join(available_alternatives),
-            "status": status,
-            "admissible_for_armilar": not missing_required,
+def _unified_normalized_rows(config: Step2Config, matrix: HybridMatrixResult) -> list[dict[str, Any]]:
+    status_by_code = {row["economy_code"]: row["icp_participation_status"] for row in matrix.economy_registry_rows}
+    heading_to_category: dict[str, str] = {}
+    for category, heading in config.direct_ppp_heading_by_category.items():
+        if category == "CP02":
+            heading_to_category["1102100"] = "CP02"
+            heading_to_category["1102200"] = "CP02"
+        else:
+            heading_to_category[heading] = category
+    heading_to_category.update({heading: category for category, heading in config.proxy_ppp_heading_by_category.items()})
+    result: list[dict[str, Any]] = []
+    for row in matrix.normalized_source90_rows:
+        measure = str(row.get("expenditure_measure", ""))
+        basis = {
+            "PPP": "LCU_PER_INTERNATIONAL_DOLLAR",
+            "NOMINAL": "LOCAL_CURRENCY_UNITS_REPORTED_SOURCE_SCALE",
+            "REAL": "PPP_BASED_INTERNATIONAL_DOLLARS_REPORTED_SOURCE_SCALE",
+        }.get(measure, "SOURCE90_MEASURE")
+        result.append({
+            **row,
+            "icp_participation_status": status_by_code.get(row["economy_code"], "UNAVAILABLE_OR_NONPUBLISHED"),
+            "armilar_category": heading_to_category.get(row["heading_code"], ""),
+            "currency_or_ppp_basis": basis,
         })
-    return rows
+    for row in matrix.supplemental_nominal_rows:
+        category = row["armilar_category"]
+        result.append({
+            "economy_code": row["economy_code"],
+            "economy_name": row["economy_name"],
+            "icp_participation_status": status_by_code.get(row["economy_code"], "UNAVAILABLE_OR_NONPUBLISHED"),
+            "heading_code": f"{row['source_id']}:{category}",
+            "heading_name": f"Strict household nominal expenditure {category}",
+            "armilar_category": category,
+            "expenditure_measure": "NOMINAL_HFCE_STRICT",
+            "value": row["value_lcu"],
+            "unit": row["currency"] or "NATIONAL_CURRENCY",
+            "currency_or_ppp_basis": "CURRENT_PRICE_DOMESTIC_HOUSEHOLD_EXPENDITURE_LCU",
+            "source_file": row["source_file"],
+            "source_url": row["source_url"],
+            "retrieved_at": row["retrieved_at"],
+            "source_hash": row["source_hash"],
+            "quality_flags": row["quality_flags"],
+        })
+    return sorted(result, key=lambda row: (str(row["economy_code"]), str(row["heading_code"]), str(row["expenditure_measure"]), str(row["source_hash"])))
 
 
-def _manifest(config, started_at, records, summary, run_root):
+def _manifest(config: Step2Config, started_at: str, records: list[AcquisitionRecord], summary, run_root, acquisition_failures):
     return {
-        "schema_version": "2.0",
-        "pipeline_version": config.pipeline_version,
-        "generated_at": utc_now(),
-        "started_at": started_at,
-        "source_database": "World Bank ICP 2021",
-        "source_id": config.source_id,
-        "reference_year": config.reference_year,
-        "entries": [record.as_dict(run_root) for record in records],
+        "schema_version": "3.0", "pipeline_version": config.pipeline_version,
+        "started_at": started_at, "completed_at": utc_now(), "reference_year": config.reference_year,
+        "source_files": [record.as_dict(run_root) for record in records],
+        "source_acquisition_failures": acquisition_failures,
         "step2_summary": summary,
     }
 
 
-def _write_methodology_report(path, summary, roles, measures, missing_headings, publication_scope_audit):
+def _write_methodology_report(path: Path, summary, supplemental_diagnostics, acquisition_failures):
     lines = [
-        "# Armilar Step 2 acquisition report", "",
+        "# Armilar Step 2 hybrid ICP 2021 report", "",
         f"Generated: {utc_now()}", "",
-        "## Source identification", "",
-        "The pipeline uses World Bank DataBank source 90, ICP 2021, and preserves the source metadata,",
-        "dimension inventories, classification workbook, participation page, FAQ and every data response page.", "",
-        "## Discovered Source 90 dimensions", "",
-        f"- Country: `{roles.country}`", f"- Heading: `{roles.heading}`", f"- Measure: `{roles.measure}`",
-        f"- Time: `{roles.time}` (`{roles.year_id}`)", "",
-        "## Selected measures", "",
-        f"- PPP: `{measures.ppp_id}`", f"- Nominal expenditure: `{measures.nominal_id}`",
-        f"- Real PPP-based expenditure: `{measures.real_id}`", "",
-        "## Methodological gates", "",
-        "- Only headings in the 1100000 household-consumption branch are accepted.",
-        "- CP02 is built from 1102100 and 1102200; 1102300 and parent 1102000 are excluded.",
-        "- AIC headings, NPISH and government individual consumption are rejected.",
-        "- An economy enters candidate weights only with all twelve categories and the HFCE control aggregate.",
-        "- PPP, nominal and real expenditure are reconciled numerically.",
-        "- Additive hierarchy identities are tested in nominal local-currency expenditure, not across non-additive PPP real expenditures.",
-        "- PPP-based real expenditure is validated separately through nominal expenditure divided by PPP.",
-        "- Published AIC or households-plus-NPISH headings are preserved as evidence and rejected as HFCE substitutes.",
-        "- No population, GDP, income or model allocation is used.", "",
-        "## Result", "",
-        f"- Status: `{summary['status']}`", f"- Release allowed: `{summary['release_allowed']}`",
-        f"- Complete participating economies: `{summary['eligible_complete_economies']}`",
-        f"- Candidate cells: `{summary['candidate_weight_cells']}`",
-        f"- Candidate weight sum: `{summary['candidate_weight_sum']}`",
+        "## Method", "",
+        "Seven categories use strict household ICP headings from World Bank Source 90.",
+        "CP02 is constructed from alcohol plus tobacco and excludes narcotics.",
+        "Five categories use strict household S14/P31DC nominal expenditure from OECD, UNSD or Eurostat,",
+        "divided by the ratified ICP actual-consumption PPP proxy for the matching category.",
+        "Government and NPISH expenditure never enters the numerator.", "",
+        "## Status", "",
+        f"- Status: `{summary['status']}`",
+        f"- Research release allowed: `{summary['research_release_allowed']}`",
+        f"- Monetary release allowed: `{summary['monetary_release_allowed']}`",
+        f"- Participating economies mapped: `{summary['participating_economies_mapped']}` / `{summary['participating_economies_expected']}`",
+        f"- Complete participating economies: `{summary['complete_participating_economies']}`",
+        f"- Research weight cells: `{summary['observed_research_weight_cells']}`",
+        f"- Research weight sum: `{summary['observed_research_weight_sum']}`",
+        f"- Officially imputed aggregate-only economies: `{summary['officially_imputed_aggregate_only_economies']}`",
+        "",
+        "## Supplemental source diagnostics", "",
     ]
-    blocked_scope = [row for row in publication_scope_audit if row["status"] != "PASS_STRICT_HFCE_AVAILABLE"]
-    if blocked_scope:
-        lines.extend(["", "## Public publication scope audit", ""])
-        for row in blocked_scope:
-            lines.append(
-                f"- {row['armilar_category']}: missing `{row['missing_required_heading_codes']}`; "
-                f"forbidden alternatives present `{row['available_forbidden_alternative_codes']}`."
-            )
-    if missing_headings:
-        lines.extend(["", "Missing required headings in Source 90 inventory: " + ", ".join(missing_headings)])
+    for item in supplemental_diagnostics:
+        lines.append(f"- `{item.get('source_id')}`: accepted={item.get('accepted_rows', 0)}, excluded={item.get('excluded_rows', 0)}, status={item.get('status', 'OK')}")
+    if acquisition_failures:
+        lines.extend(["", "## Acquisition failures", ""])
+        for item in acquisition_failures:
+            lines.append(f"- `{item['source_id']}`: {item['error_type']}: {item['error']}")
     if summary.get("blocking_reasons"):
-        lines.extend(["", "## Blocking reasons", ""] + [f"- {item}" for item in summary["blocking_reasons"]])
+        lines.extend(["", "## Remaining global-scope blockers", ""] + [f"- {reason}" for reason in summary["blocking_reasons"]])
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 

@@ -2,6 +2,10 @@ name: Build ICP 2021 Armilar matrix
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "public/latest/**"
   schedule:
     - cron: "17 05 * * 1"
 
@@ -15,7 +19,7 @@ concurrency:
 jobs:
   build-step2:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 75
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -30,8 +34,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache/armilar
-          key: armilar-icp2021-v2-${{ github.run_id }}
+          key: armilar-icp2021-v3-${{ github.run_id }}
           restore-keys: |
+            armilar-icp2021-v3-
             armilar-icp2021-v2-
 
       - name: Install package
@@ -42,7 +47,7 @@ jobs:
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
-      - name: Acquire ICP 2021 and construct Step 2 outputs
+      - name: Acquire official data and construct Step 2 outputs
         run: |
           python -m armilar_pipeline run-step2 \
             --config config/step2_icp2021.json \
@@ -50,12 +55,22 @@ jobs:
             --cache-dir .cache/armilar \
             --output-dir artifacts
 
-      - name: Show Step 2 status
+      - name: Validate generated summary and exact research weight sum
         run: |
           python - <<'PY'
+          import csv
           import json
-          summary = json.load(open('run/outputs/step2_summary.json', encoding='utf-8'))
+          from decimal import Decimal
+
+          summary = json.load(open("run/outputs/step2_summary.json", encoding="utf-8"))
           print(json.dumps(summary, indent=2, ensure_ascii=False))
+          if summary["research_release_allowed"]:
+              with open("run/outputs/weights_research_observed_normalized.csv", encoding="utf-8", newline="") as handle:
+                  total = sum((Decimal(row["weight"]) for row in csv.DictReader(handle)), Decimal("0"))
+              if total != Decimal("1"):
+                  raise SystemExit(f"Research weight sum is {total}, expected exactly 1")
+          if summary["monetary_release_allowed"]:
+              raise SystemExit("Step 2 pipeline must not authorize monetary use")
           PY
 
       - name: Upload complete acquisition bundle
@@ -75,7 +90,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 90
 
-      - name: Publish concise latest diagnostics
+      - name: Publish latest diagnostics and matrices
         if: success()
         shell: bash
         run: |
@@ -86,24 +101,37 @@ jobs:
           cp run/diagnostics.json public/latest/diagnostics.json
           cp run/SHA256SUMS public/latest/SHA256SUMS
           cp run/STEP2_REPORT.md public/latest/STEP2_REPORT.md
-          cp run/outputs/step2_summary.json public/latest/step2_summary.json
-          cp run/outputs/coverage_report.csv public/latest/coverage_report.csv
-          cp run/outputs/missing_data_report.csv public/latest/missing_data_report.csv
-          cp run/outputs/exclusions_report.csv public/latest/exclusions_report.csv
-          cp run/outputs/economy_registry.csv public/latest/economy_registry.csv
-          cp run/outputs/officially_imputed_aggregate_only_economies.csv public/latest/officially_imputed_aggregate_only_economies.csv
-          cp run/outputs/hierarchy_reconciliation.csv public/latest/hierarchy_reconciliation.csv
-          cp run/outputs/weights_candidate_observed_participants.csv public/latest/weights_candidate_observed_participants.csv
-          cp run/outputs/weights_final_normalized.csv public/latest/weights_final_normalized.csv
-          cp run/outputs/weights_by_category.csv public/latest/weights_by_category.csv
-          cp run/outputs/weights_by_economy.csv public/latest/weights_by_economy.csv
-          cp run/outputs/participation_mapping_audit.csv public/latest/participation_mapping_audit.csv
-          cp run/outputs/measure_selection_audit.csv public/latest/measure_selection_audit.csv
-          cp run/outputs/publication_scope_audit.csv public/latest/publication_scope_audit.csv
-          cp run/outputs/source90_concepts.csv public/latest/source90_concepts.csv
-          cp run/outputs/source90_variable_inventory.csv public/latest/source90_variable_inventory.csv
+          for file in \
+            step2_summary.json \
+            normalized_icp2021.csv \
+            raw_economy_heading_matrix.csv \
+            supplemental_nominal_all_sources.csv \
+            nominal_source_selection_audit.csv \
+            unit_reconciliation.csv \
+            economy_category_matrix.csv \
+            economy_category_matrix_weight_eligible.csv \
+            economy_registry.csv \
+            coverage_report.csv \
+            missing_data_report.csv \
+            exclusions_report.csv \
+            weights_research_observed_normalized.csv \
+            weights_final_normalized.csv \
+            weights_by_category.csv \
+            weights_by_economy.csv \
+            officially_imputed_aggregate_only_economies.csv \
+            participation_mapping_audit.csv \
+            measure_selection_audit.csv \
+            measure_identity_audit.csv \
+            supplemental_source_diagnostics.csv \
+            source_acquisition_failures.csv \
+            source90_concepts.csv \
+            source90_variable_inventory.csv \
+            methodology_policy_snapshot.json
+          do
+            cp "run/outputs/$file" "public/latest/$file"
+          done
 
-      - name: Commit public latest diagnostics
+      - name: Commit public latest outputs
         if: success()
         shell: bash
         run: |
@@ -112,9 +140,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/latest
           if git diff --cached --quiet; then
-            echo "No public diagnostics changed."
+            echo "No public outputs changed."
           else
-            git commit -m "Publish latest ICP 2021 Step 2 diagnostics"
+            git commit -m "Publish latest ICP 2021 Step 2 outputs"
             git push
           fi
 
@@ -135,5 +163,5 @@ jobs:
             run/STEP2_REPORT.md \
             --target "$(git rev-parse HEAD)" \
             --title "Latest Armilar ICP 2021 Step 2 bundle" \
-            --notes "Automated ICP 2021 acquisition and Step 2 matrix audit. Check release_allowed before using weights." \
+            --notes "Automated ICP 2021 and official national-accounts acquisition. Use the research matrix only when research_release_allowed=true. weights_final_normalized.csv remains empty until the full global scope passes every gate." \
             --prerelease

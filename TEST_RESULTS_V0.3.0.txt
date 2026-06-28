@@ -1,0 +1,66 @@
+Armilar data pipeline v0.3.0 final validation
+UTC: 2026-06-28T20:49:19Z
+
+Looking in indexes: https://reader:****@packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/simple
+Obtaining file:///mnt/data/armilar_v030_work
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: armilar-data-pipeline
+  Building editable for armilar-data-pipeline (pyproject.toml): started
+  Building editable for armilar-data-pipeline (pyproject.toml): finished with status 'done'
+  Created wheel for armilar-data-pipeline: filename=armilar_data_pipeline-0.3.0-0.editable-py3-none-any.whl size=4662 sha256=0f75b851ef9d792dfd3a80e74c2cebf9546e27641f208a43b6a94d49d64ea494
+  Stored in directory: /tmp/pip-ephem-wheel-cache-k66zrfm9/wheels/92/51/80/6e111f31fbaaf59e3a557840a33968c87082d78707665e6ccc
+Successfully built armilar-data-pipeline
+Installing collected packages: armilar-data-pipeline
+Successfully installed armilar-data-pipeline-0.3.0
+
+test_add_query_preserves_existing_parameters (test_acquire.AcquireTests.test_add_query_preserves_existing_parameters) ... ok
+test_all_official_acquisition_routes_are_declared (test_config.ConfigTests.test_all_official_acquisition_routes_are_declared) ... ok
+test_external_code_corrections_are_explicit (test_config.ConfigTests.test_external_code_corrections_are_explicit) ... ok
+test_pinned_to_icp_2021_source_90_and_option_b (test_config.ConfigTests.test_pinned_to_icp_2021_source_90_and_option_b) ... ok
+test_duplicate_source90_key_is_rejected (test_hybrid_matrix.HybridMatrixTests.test_duplicate_source90_key_is_rejected) ... ok
+test_full_participant_research_matrix_and_imputed_separation (test_hybrid_matrix.HybridMatrixTests.test_full_participant_research_matrix_and_imputed_separation) ... ok
+test_missing_proxy_numerator_excludes_whole_economy_without_partial_weights (test_hybrid_matrix.HybridMatrixTests.test_missing_proxy_numerator_excludes_whole_economy_without_partial_weights) ... ok
+test_identity_audit_detects_incompatible_measure_units (test_measures.MeasureTests.test_identity_audit_detects_incompatible_measure_units) ... ok
+test_numeric_identity_selects_measure_triple (test_measures.MeasureTests.test_numeric_identity_selects_measure_triple) ... ok
+test_semantic_classification (test_measures.MeasureTests.test_semantic_classification) ... ok
+test_extracts_176_unique_economies_with_dual_participation (test_participation.ParticipationTests.test_extracts_176_unique_economies_with_dual_participation) ... ok
+test_parses_preserved_official_participation_section (test_participation.ParticipationTests.test_parses_preserved_official_participation_section) ... ok
+test_source90_special_codes_map_without_false_economies (test_participation.ParticipationTests.test_source90_special_codes_map_without_false_economies) ... ok
+test_eurostat_jsonstat_cp12_bridge (test_supplemental.SupplementalTests.test_eurostat_jsonstat_cp12_bridge) ... ok
+test_oecd_coicop2018_cp12_bridge_sums_cp12_and_cp13 (test_supplemental.SupplementalTests.test_oecd_coicop2018_cp12_bridge_sums_cp12_and_cp13) ... ok
+test_oecd_current_price_household_domestic_rows_and_unit_multiplier (test_supplemental.SupplementalTests.test_oecd_current_price_household_domestic_rows_and_unit_multiplier) ... ok
+test_source_selection_refuses_category_level_provider_mixing (test_supplemental.SupplementalTests.test_source_selection_refuses_category_level_provider_mixing) ... ok
+test_source_selection_uses_one_complete_provider_per_economy (test_supplemental.SupplementalTests.test_source_selection_uses_one_complete_provider_per_economy) ... ok
+test_undata_plain_csv_is_accepted_as_well_as_zip (test_supplemental.SupplementalTests.test_undata_plain_csv_is_accepted_as_well_as_zip) ... ok
+test_undata_zip_maps_country_and_uses_2021_household_rows (test_supplemental.SupplementalTests.test_undata_zip_maps_country_and_uses_2021_household_rows) ... ok
+test_emitted_weights_sum_exactly_one (test_weights.WeightTests.test_emitted_weights_sum_exactly_one) ... ok
+test_empty_or_nonpositive_matrix_never_emits_weights (test_weights.WeightTests.test_empty_or_nonpositive_matrix_never_emits_weights) ... ok
+test_advanced_query_follows_discovered_order (test_worldbank.WorldBankTests.test_advanced_query_follows_discovered_order) ... ok
+test_classification_workbook_must_contain_required_codes (test_worldbank.WorldBankTests.test_classification_workbook_must_contain_required_codes) ... ok
+test_extract_concepts_and_variables (test_worldbank.WorldBankTests.test_extract_concepts_and_variables) ... ok
+test_role_discovery_allows_headings_in_classification_dimension (test_worldbank.WorldBankTests.test_role_discovery_allows_headings_in_classification_dimension) ... ok
+test_role_discovery_is_content_based (test_worldbank.WorldBankTests.test_role_discovery_is_content_based) ... ok
+test_validates_exact_icp2021_source_metadata (test_worldbank.WorldBankTests.test_validates_exact_icp2021_source_metadata) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.154s
+
+OK
+
+CLI help:
+usage: armilar-data [-h] {run-step2} ...
+
+positional arguments:
+  {run-step2}
+    run-step2  Acquire ICP 2021 data and build the Armilar weight matrix
+               candidate
+
+options:
+  -h, --help   show this help message and exit

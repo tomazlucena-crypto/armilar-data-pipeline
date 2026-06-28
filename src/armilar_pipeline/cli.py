@@ -15,7 +15,7 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--run-dir", default="run")
     run.add_argument("--cache-dir", default=".cache/armilar")
     run.add_argument("--output-dir", default="artifacts")
-    run.add_argument("--strict-release", action="store_true", help="Exit non-zero when release_allowed is false")
+    run.add_argument("--strict-release", action="store_true", help="Exit non-zero when research_release_allowed is false")
     return parser
 
 
@@ -28,7 +28,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"ERROR: {type(exc).__name__}: {exc}", file=sys.stderr)
             return 1
         print(json.dumps(result, indent=2, ensure_ascii=False))
-        if args.strict_release and not result["release_allowed"]:
+        if args.strict_release and not result["research_release_allowed"]:
             return 2
         return 0
     return 2

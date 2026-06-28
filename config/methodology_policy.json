@@ -1,0 +1,19 @@
+{
+  "policy_version": "1.1",
+  "status": "RATIFIED_FOR_RESEARCH_DEVELOPMENT",
+  "ratified_on": "2026-06-28",
+  "decision": "OPTION_B",
+  "numerator_scope": "STRICT_HOUSEHOLD_HFCE_S14_P31DC_CURRENT_PRICES_2021",
+  "direct_ppp_categories": ["CP01", "CP02", "CP03", "CP05", "CP07", "CP08", "CP11"],
+  "actual_consumption_ppp_proxy_categories": ["CP04", "CP06", "CP09", "CP10", "CP12"],
+  "proxy_rule": "strict household nominal expenditure divided by the ICP actual-consumption PPP for the same category",
+  "forbidden": [
+    "government_or_npish_expenditure_in_numerator",
+    "population_gdp_or_income_allocation",
+    "silent_nearest_year_substitution",
+    "silent_renormalisation_of_missing_economies",
+    "narcotics_in_cp02",
+    "aggregate_and_component_double_counting"
+  ],
+  "officially_imputed_nonparticipants_policy": "IDENTIFY_AND_EXCLUDE_FROM_OBSERVED_RESEARCH_MATRIX_BECAUSE_NO_PUBLIC_12_CATEGORY_ALLOCATION_EXISTS"
+}

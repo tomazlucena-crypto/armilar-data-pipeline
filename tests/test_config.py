@@ -1,56 +1,38 @@
+import json
 import unittest
 from pathlib import Path
 
 from armilar_pipeline.config import load_config
-from armilar_pipeline.matrix import NORMALIZED_FIELDS
-from armilar_pipeline.util import read_csv
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class ConfigTests(unittest.TestCase):
-    def test_pinned_to_icp_2021_source_90(self):
+    def test_pinned_to_icp_2021_source_90_and_option_b(self):
         config = load_config(ROOT / "config" / "step2_icp2021.json")
         self.assertEqual(config.source_id, "90")
         self.assertEqual(config.reference_year, 2021)
+        self.assertEqual(config.pipeline_version, "0.3.0")
+        self.assertEqual(config.aggregate_country_name_tokens, ("benchmark",))
+        self.assertIn("NAB", config.aggregate_country_codes)
+        self.assertEqual(set(config.proxy_ppp_heading_by_category), {"CP04", "CP06", "CP09", "CP10", "CP12"})
+        policy = json.loads((ROOT / "config" / "methodology_policy.json").read_text())
+        self.assertEqual(policy["decision"], "OPTION_B")
+        self.assertEqual(policy["status"], "RATIFIED_FOR_RESEARCH_DEVELOPMENT")
 
-    def test_crosswalk_is_strict_hfce(self):
-        rows = read_csv(ROOT / "config" / "icp_headings_to_armilar.csv")
-        included = [row for row in rows if row["include_in_category"] == "true"]
-        self.assertTrue(all(row["heading_code"].startswith("11") for row in included))
-        self.assertNotIn("1102000", {row["heading_code"] for row in included})
-        self.assertNotIn("1102300", {row["heading_code"] for row in included})
-        cp02 = {row["heading_code"] for row in included if row["armilar_category"] == "CP02"}
-        self.assertEqual(cp02, {"1102100", "1102200"})
-        self.assertEqual({row["armilar_category"] for row in included}, {f"CP{i:02d}" for i in range(1, 13)})
+    def test_all_official_acquisition_routes_are_declared(self):
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        for key in (
+            "advanced_data_base", "oecd_table5_t501", "oecd_table5a_t501",
+            "eurostat_nama_10_cp18", "undata_sna_table32",
+        ):
+            self.assertIn(key, config.urls)
+            self.assertTrue(config.urls[key].startswith("https://"))
 
-    def test_normalized_output_contract_contains_required_provenance_fields(self):
-        required = {
-            "economy_code", "economy_name", "icp_participation_status", "heading_code",
-            "heading_name", "armilar_category", "expenditure_measure", "value", "unit",
-            "currency_or_ppp_basis", "source_file", "source_url", "retrieved_at",
-            "source_hash", "quality_flags",
-        }
-        self.assertTrue(required.issubset(set(NORMALIZED_FIELDS)))
-
-    def test_source_registry_contains_all_authoritative_routes(self):
-        rows = read_csv(ROOT / "config" / "source_registry.csv")
-        source_ids = {row["source_id"] for row in rows}
-        self.assertTrue({
-            "WB_SOURCE_90_METADATA", "WB_SOURCE_90_CONCEPTS", "WB_SOURCE_90_VARIABLES",
-            "WB_SOURCE_90_DATA", "ICP_2021_CLASSIFICATION", "ICP_2021_GOVERNANCE",
-            "ICP_2021_DATA_PAGE", "ICP_FAQ", "ICP_2021_PUBLISHED_TABLE",
-        }.issubset(source_ids))
-        self.assertTrue(all(row["authority"] == "World Bank" for row in rows))
-
-    def test_publication_scope_rules_never_accept_aic_or_npish_surrogates(self):
-        from armilar_pipeline.pipeline import _publication_scope_audit
-        rules = ROOT / "config" / "publication_scope_rules.csv"
-        available = {"9100000", "9060000", "9080000", "9110000", "9120000", "9140000"}
-        rows = _publication_scope_audit(rules, available)
-        self.assertTrue(all(not row["admissible_for_armilar"] for row in rows))
-
+    def test_external_code_corrections_are_explicit(self):
+        text = (ROOT / "config" / "external_economy_codes.csv").read_text()
+        self.assertIn("RUS,RUT", text)
+        self.assertIn("BES,BON", text)
 
 
 if __name__ == "__main__":

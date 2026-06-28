@@ -1,7 +1,8 @@
 import unittest
 from pathlib import Path
 
-from armilar_pipeline.participation import extract_participating_names
+from armilar_pipeline.participation import extract_participating_names, map_participants_to_codes
+from armilar_pipeline.worldbank import Variable
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,6 +40,19 @@ class ParticipationTests(unittest.TestCase):
         self.assertEqual(result.count("Morocco"), 1)
         self.assertEqual(result.count("Sudan"), 1)
         self.assertEqual(result.count("Tunisia"), 1)
+
+    def test_source90_special_codes_map_without_false_economies(self):
+        variables = [
+            Variable("Country", "RUT", "Russian Federation"),
+            Variable("Country", "BON", "Bonaire"),
+            Variable("Country", "USA", "United States"),
+        ]
+        mapped, audit = map_participants_to_codes(
+            ["Russian Federation", "Bonaire", "United States"],
+            variables, ROOT / "config" / "country_name_aliases.csv",
+        )
+        self.assertEqual(set(mapped), {"RUT", "BON", "USA"})
+        self.assertTrue(all(row["status"] == "MAPPED" for row in audit))
 
 
 if __name__ == "__main__":

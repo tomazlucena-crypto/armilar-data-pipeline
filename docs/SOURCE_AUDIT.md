@@ -1,115 +1,69 @@
-# ICP 2021 source audit
+# Source audit
 
-Audit date: 2026-06-28
+## World Bank ICP 2021 Source 90
 
-## Repository state before this release
+Role:
 
-The public repository was a connectivity bootstrap. Its latest published run confirmed normal access to the World Bank and Eurostat. The OECD probe reached DNS and TLS but returned HTTP 416 because the bootstrap sent a bounded byte-range request to an endpoint that did not accept that range. OECD is not part of the ICP 2021 weight-matrix path in this release.
+- global PPP link;
+- direct published HFCE headings;
+- official participation and aggregate-imputation controls;
+- nominal and PPP-based real expenditure checks.
 
-## Definitive statistical database
+The global public release contains 45 headings. It directly supports seven Armilar categories after CP02 is decomposed into alcohol and tobacco. It supplies actual-consumption PPPs for the five categories covered by ratified Option B.
 
-The machine-readable ICP source is the World Bank DataBank database:
+It does not publicly supply a twelve-category allocation for the officially imputed non-participating economies.
 
-- database: International Comparison Program 2021;
-- Advanced Data API source ID: `90`;
-- expected source code when returned by metadata: `IC2`;
-- research reference year: `2021`;
-- access mechanism: World Bank Advanced Data API V2.
+## OECD Table 5 T501
 
-The pipeline downloads and validates the source descriptor before accepting any observation.
+Role:
 
-## Exact official resources
+- strict household sector S14;
+- domestic HFCE transaction P31DC;
+- current prices;
+- national currency;
+- COICOP 1999 twelve-division structure.
 
-The full registry is in `config/source_registry.csv`.
+This is the preferred nominal source where a complete five-proxy-category set exists.
 
-1. Source metadata
-   - `https://api.worldbank.org/v2/sources/90?format=json`
-   - Validates the exact database identity and availability metadata.
+## UNData SNA Table 3.2
 
-2. Source concepts
-   - `https://api.worldbank.org/v2/sources/90/concepts/data?format=json&per_page=1000`
-   - Discovers the dimensions and their order.
+Role:
 
-3. Concept-variable inventories
-   - `https://api.worldbank.org/v2/sources/90/{concept}/data?format=json&per_page=1000`
-   - Discovers economies, published expenditure headings, measures and time identifiers.
+- official country national accounts;
+- individual consumption expenditure of households;
+- domestic-market twelve-division structure;
+- current national-currency values.
 
-4. Multidimensional observations
-   - `https://api.worldbank.org/v2/sources/90/{concept}/{selector}/.../data`
-   - Supplies PPPs, nominal expenditure and PPP-based real expenditure for requested economy-heading combinations.
-   - Query paths are generated from the concept order returned by the API.
+The parser accepts either the standard ZIP/CSV download or a plain CSV response. Country-name variants are mapped explicitly. Non-household subgroups and non-2021 rows are rejected.
 
-5. ICP 2021 classification workbook
-   - `ICPClassificationwithNonH-2021.xlsx`
-   - Confirms the economic classification and the existence of strict HFCE codes in the full ICP taxonomy.
-   - It does not prove that every code is published in Source 90.
+## Eurostat `nama_10_cp18`
 
-6. ICP 2021 published table
-   - `https://databank.worldbank.org/ICP-2021-Cycle/id/3a11040d`
-   - Documents the actual 45-heading public release and the available measures.
+Role:
 
-7. ICP 2021 governance page
-   - Provides the official regional list of 176 participating economies.
-   - The parser deduplicates dual-participation economies and requires 176 unique names.
+- household domestic HFCE;
+- current prices in national currency;
+- COICOP 2018.
 
-8. ICP data page and FAQ
-   - Document 176 participating economies and 19 additional nonparticipating economies with official imputations.
-   - Official imputations are published only at GDP, household-consumption and AIC aggregate levels.
+The Armilar CP12 bridge is CP12 plus CP13. The two components must both be present. No incomplete bridge is accepted.
 
-## Public publication scope
+## OECD Table 5A T501
 
-The public 45-heading table contains strict household headings for:
+Role:
 
-- `1101000`, CP01;
-- `1102100` and `1102200`, CP02 without narcotics;
-- `1103000`, CP03;
-- `1105000`, CP05;
-- `1107000`, CP07;
-- `1108000`, CP08;
-- `1111000`, CP11.
+- COICOP 2018 fallback;
+- same household, domestic, current-price and national-currency restrictions.
 
-For five Armilar divisions, the published table uses actual-consumption headings instead of strict HFCE headings:
+The same CP12 plus CP13 bridge applies.
 
-| Armilar category | Required strict HFCE | Public alternative | Why rejected |
-|---|---:|---:|---|
-| CP04 | `1104000` | `9060000` | Actual housing can include non-household financing |
-| CP06 | `1106000` | `9080000` | Actual health can include government-financed consumption |
-| CP09 | `1109000` | `9110000` | Actual recreation and culture is AIC scope |
-| CP10 | `1110000` | `9120000` | Actual education is AIC scope |
-| CP12 | `1112000` | `9140000` | Actual miscellaneous goods and services is AIC scope |
+## Source hierarchy
 
-The published aggregate `9100000` combines households and NPISHs. It cannot replace strict HFCE control `1100000` under the Armilar Constitution.
+1. OECD Table 5 T501
+2. UNData SNA Table 3.2
+3. Eurostat `nama_10_cp18`
+4. OECD Table 5A T501
 
-The pipeline preserves these alternatives as evidence and rejects them as category inputs. `publication_scope_audit.csv` records the result directly from the live Source 90 inventory.
+The hierarchy selects one complete provider per economy. It does not splice categories from multiple providers.
 
-## Narcotics and net purchases abroad
+## Known scope limitation
 
-CP02 is constructed as:
-
-`1102100 alcohol + 1102200 tobacco`
-
-The parent `1102000` is excluded because it contains narcotics. A narcotics value is not inferred. `1102300`, when published, is preserved only for nominal hierarchy audit.
-
-`1113000` net purchases abroad is an HFCE adjustment outside the twelve-category basket. It may be positive or negative. It is preserved when published and excluded from category weights.
-
-## Additivity rule
-
-Nominal expenditures in local currency are used for hierarchy reconciliation because they are additive across headings. PPP-based real expenditures from different headings are not assumed to be additive. The pipeline tests the separate accounting identity:
-
-`nominal expenditure / PPP = PPP-based real expenditure`
-
-This distinction prevents valid ICP data from being rejected through an invalid real-expenditure sum.
-
-## Sufficiency conclusion
-
-The public ICP 2021 release is sufficient to acquire:
-
-- source identity and dimension inventories;
-- the 176-economy participation universe;
-- PPP, nominal and real expenditure measures for published headings;
-- exact CP02 components without narcotics;
-- aggregate-only official imputations for the additional 19 economies.
-
-The public release is not sufficient, on the evidence currently published, to construct the Constitution-compliant worldwide economy-by-twelve-category matrix. Five strict HFCE divisions and the strict HFCE control are replaced or omitted at the public 45-heading level. The 19 officially imputed economies also have no public twelve-category allocation.
-
-The GitHub Actions run will verify the live Source 90 inventory rather than relying only on the curated table. If the strict codes are absent, the pipeline emits diagnostics and no final weights. AIC, NPISH and modelled allocations remain excluded.
+Current national-accounts releases may include revisions made after the ICP 2021 compilation vintage. The pipeline does not conceal this. Proxy-category rows carry a vintage-mismatch quality flag and preserve exact source provenance.

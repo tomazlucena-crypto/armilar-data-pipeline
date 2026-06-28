@@ -51,6 +51,8 @@ def extract_participating_names(raw_html: str) -> list[str]:
         # The LAC source contains a full stop between mainland and Caribbean lists.
         block = block.replace("Uruguay. Anguilla", "Uruguay; Anguilla")
         block = block.replace("Somalia, South Africa", "Somalia; South Africa")
+        block = re.split(r"Dual-participation economies", block, maxsplit=1, flags=re.I)[0]
+        block = re.sub(r"United States\.\s*\.*$", "United States", block, flags=re.I)
         block = re.sub(r"\band\s+([^;]+)$", r"\1", block, flags=re.I)
         for token in block.split(";"):
             name = token.strip(" .\n")

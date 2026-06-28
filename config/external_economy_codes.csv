@@ -1,0 +1,45 @@
+external_code,world_bank_icp_code,notes
+RUS,RUT,ICP Source 90 uses RUT
+BES,BON,ICP Source 90 uses BON
+XKX,XKX,Kosovo
+KOS,XKX,Kosovo alternative
+GB,GBR,Eurostat geo
+UK,GBR,Eurostat legacy geo
+EL,GRC,Eurostat geo
+GR,GRC,ISO geo
+DE,DEU,Eurostat geo
+FR,FRA,Eurostat geo
+IT,ITA,Eurostat geo
+ES,ESP,Eurostat geo
+PT,PRT,Eurostat geo
+NL,NLD,Eurostat geo
+BE,BEL,Eurostat geo
+LU,LUX,Eurostat geo
+IE,IRL,Eurostat geo
+AT,AUT,Eurostat geo
+FI,FIN,Eurostat geo
+SE,SWE,Eurostat geo
+DK,DNK,Eurostat geo
+NO,NOR,Eurostat geo
+IS,ISL,Eurostat geo
+CH,CHE,Eurostat geo
+PL,POL,Eurostat geo
+CZ,CZE,Eurostat geo
+SK,SVK,Eurostat geo
+HU,HUN,Eurostat geo
+SI,SVN,Eurostat geo
+HR,HRV,Eurostat geo
+RO,ROU,Eurostat geo
+BG,BGR,Eurostat geo
+EE,EST,Eurostat geo
+LV,LVA,Eurostat geo
+LT,LTU,Eurostat geo
+CY,CYP,Eurostat geo
+MT,MLT,Eurostat geo
+TR,TUR,Eurostat geo
+RS,SRB,Eurostat geo
+ME,MNE,Eurostat geo
+MK,MKD,Eurostat geo
+AL,ALB,Eurostat geo
+BA,BIH,Eurostat geo
+UA,UKR,Eurostat geo

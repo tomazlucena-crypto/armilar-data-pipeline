@@ -26,12 +26,18 @@ class Step2Config:
     weight_sum_tolerance: Decimal
     identity_relative_tolerance: Decimal
     hierarchy_relative_tolerance: Decimal
+    source_conflict_relative_tolerance: Decimal
     urls: dict[str, str]
     required_heading_codes: tuple[str, ...]
-    forbidden_scope_prefixes: tuple[str, ...]
+    classification_required_heading_codes: tuple[str, ...]
     aggregate_country_name_tokens: tuple[str, ...]
+    aggregate_country_codes: tuple[str, ...]
     imputation_detection_heading_codes: tuple[str, ...]
-    publication_audit_alternative_codes: tuple[str, ...]
+    direct_ppp_heading_by_category: dict[str, str]
+    proxy_ppp_heading_by_category: dict[str, str]
+    nominal_source_priority: tuple[str, ...]
+    minimum_complete_participating_economies: int
+    exclude_officially_imputed_from_research_universe: bool
 
     @property
     def repo_root(self) -> Path:
@@ -50,8 +56,12 @@ class Step2Config:
         return self.path.parent / "country_name_aliases.csv"
 
     @property
-    def publication_scope_rules_path(self) -> Path:
-        return self.path.parent / "publication_scope_rules.csv"
+    def external_code_crosswalk_path(self) -> Path:
+        return self.path.parent / "external_economy_codes.csv"
+
+    @property
+    def methodology_policy_path(self) -> Path:
+        return self.path.parent / "methodology_policy.json"
 
 
 def load_config(path: str | Path) -> Step2Config:
@@ -62,9 +72,12 @@ def load_config(path: str | Path) -> Step2Config:
         "expected_participating_economies", "expected_officially_imputed_economies", "user_agent",
         "timeout_seconds", "retries", "backoff_seconds", "max_response_bytes", "per_page",
         "weight_decimal_places", "weight_sum_tolerance", "identity_relative_tolerance",
-        "hierarchy_relative_tolerance", "urls",
-        "required_heading_codes", "forbidden_scope_prefixes", "aggregate_country_name_tokens",
-        "imputation_detection_heading_codes", "publication_audit_alternative_codes",
+        "hierarchy_relative_tolerance", "source_conflict_relative_tolerance", "urls",
+        "required_heading_codes", "classification_required_heading_codes", "aggregate_country_name_tokens", "aggregate_country_codes",
+        "imputation_detection_heading_codes", "direct_ppp_heading_by_category",
+        "proxy_ppp_heading_by_category", "nominal_source_priority",
+        "minimum_complete_participating_economies",
+        "exclude_officially_imputed_from_research_universe",
     }
     missing = sorted(required - raw.keys())
     if missing:
@@ -73,6 +86,12 @@ def load_config(path: str | Path) -> Step2Config:
         raise ValueError("Step 2 is pinned to World Bank source 90 (ICP 2021)")
     if int(raw["reference_year"]) != 2021:
         raise ValueError("Research vintage must remain ICP 2021")
+    direct = {str(k): str(v) for k, v in raw["direct_ppp_heading_by_category"].items()}
+    proxy = {str(k): str(v) for k, v in raw["proxy_ppp_heading_by_category"].items()}
+    if set(direct) | set(proxy) != {f"CP{i:02d}" for i in range(1, 13)}:
+        raise ValueError("Direct and proxy PPP maps must cover exactly CP01-CP12")
+    if set(direct) & set(proxy):
+        raise ValueError("A category cannot be both direct and proxy PPP")
     return Step2Config(
         path=config_path,
         schema_version=str(raw["schema_version"]),
@@ -91,10 +110,16 @@ def load_config(path: str | Path) -> Step2Config:
         weight_sum_tolerance=Decimal(str(raw["weight_sum_tolerance"])),
         identity_relative_tolerance=Decimal(str(raw["identity_relative_tolerance"])),
         hierarchy_relative_tolerance=Decimal(str(raw["hierarchy_relative_tolerance"])),
+        source_conflict_relative_tolerance=Decimal(str(raw["source_conflict_relative_tolerance"])),
         urls={str(k): str(v) for k, v in raw["urls"].items()},
         required_heading_codes=tuple(str(v) for v in raw["required_heading_codes"]),
-        forbidden_scope_prefixes=tuple(str(v) for v in raw["forbidden_scope_prefixes"]),
+        classification_required_heading_codes=tuple(str(v) for v in raw["classification_required_heading_codes"]),
         aggregate_country_name_tokens=tuple(str(v).lower() for v in raw["aggregate_country_name_tokens"]),
+        aggregate_country_codes=tuple(str(v).upper() for v in raw["aggregate_country_codes"]),
         imputation_detection_heading_codes=tuple(str(v) for v in raw["imputation_detection_heading_codes"]),
-        publication_audit_alternative_codes=tuple(str(v) for v in raw["publication_audit_alternative_codes"]),
+        direct_ppp_heading_by_category=direct,
+        proxy_ppp_heading_by_category=proxy,
+        nominal_source_priority=tuple(str(v) for v in raw["nominal_source_priority"]),
+        minimum_complete_participating_economies=int(raw["minimum_complete_participating_economies"]),
+        exclude_officially_imputed_from_research_universe=bool(raw["exclude_officially_imputed_from_research_universe"]),
     )

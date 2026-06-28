@@ -1,17 +1,23 @@
 {
-  "schema_version": "2.0",
-  "pipeline_version": "0.2.0",
+  "schema_version": "3.0",
+  "pipeline_version": "0.3.0",
   "source_id": "90",
   "reference_year": 2021,
-  "user_agent": "ArmilarDataPipeline/0.2 (+https://github.com/tomazlucena-crypto/armilar-data-pipeline)",
-  "timeout_seconds": 60,
+  "user_agent": "ArmilarDataPipeline/0.3 (+https://github.com/tomazlucena-crypto/armilar-data-pipeline)",
+  "timeout_seconds": 120,
   "retries": 4,
   "backoff_seconds": 2.0,
-  "max_response_bytes": 100000000,
+  "max_response_bytes": 250000000,
   "per_page": 5000,
   "weight_decimal_places": 24,
   "weight_sum_tolerance": "1E-20",
   "identity_relative_tolerance": "0.005",
+  "hierarchy_relative_tolerance": "0.01",
+  "source_conflict_relative_tolerance": "0.02",
+  "expected_participating_economies": 176,
+  "expected_officially_imputed_economies": 19,
+  "minimum_complete_participating_economies": 30,
+  "exclude_officially_imputed_from_research_universe": true,
   "urls": {
     "source_metadata": "https://api.worldbank.org/v2/sources/90?format=json",
     "concepts": "https://api.worldbank.org/v2/sources/90/concepts/data?format=json&per_page=1000",
@@ -21,9 +27,71 @@
     "participation_page": "https://www.worldbank.org/en/programs/icp/brief/ICP2021_Governance",
     "data_page": "https://www.worldbank.org/en/programs/icp/data",
     "faq_page": "https://www.worldbank.org/en/programs/icp/faq",
-    "published_table_page": "https://databank.worldbank.org/ICP-2021-Cycle/id/3a11040d"
+    "published_table_page": "https://databank.worldbank.org/ICP-2021-Cycle/id/3a11040d",
+    "oecd_table5_t501": "https://sdmx.oecd.org/public/rest/v1/data/OECD.SDD.NAD,DSD_NAMAIN10@DF_TABLE5_T501,1.0/A...........?startPeriod=2021&endPeriod=2021",
+    "oecd_table5a_t501": "https://sdmx.oecd.org/public/rest/v1/data/OECD.SDD.NAD,DSD_NAMAIN10@DF_TABLE5A_T501,2.0/A...........?startPeriod=2021&endPeriod=2021",
+    "eurostat_nama_10_cp18": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_cp18?lang=en&time=2021",
+    "undata_sna_table32": "https://data.un.org/Handlers/DownloadHandler.ashx?DataFilter=group_code%3A302%3Byear%3A2021&DataMartId=SNA&Format=csv&c=2%2C3%2C4%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13"
   },
   "required_heading_codes": [
+    "1000000",
+    "9020000",
+    "9100000",
+    "1101000",
+    "1102000",
+    "1102100",
+    "1102200",
+    "1103000",
+    "1105000",
+    "1107000",
+    "1108000",
+    "1111000",
+    "1113000",
+    "9060000",
+    "9080000",
+    "9110000",
+    "9120000",
+    "9140000"
+  ],
+  "aggregate_country_name_tokens": [
+    "benchmark"
+  ],
+  "imputation_detection_heading_codes": [
+    "1000000",
+    "9020000",
+    "9100000"
+  ],
+  "direct_ppp_heading_by_category": {
+    "CP01": "1101000",
+    "CP02": "1102100+1102200",
+    "CP03": "1103000",
+    "CP05": "1105000",
+    "CP07": "1107000",
+    "CP08": "1108000",
+    "CP11": "1111000"
+  },
+  "proxy_ppp_heading_by_category": {
+    "CP04": "9060000",
+    "CP06": "9080000",
+    "CP09": "9110000",
+    "CP10": "9120000",
+    "CP12": "9140000"
+  },
+  "nominal_source_priority": [
+    "OECD_TABLE5_T501",
+    "UNDATA_SNA_TABLE32",
+    "EUROSTAT_NAMA_10_CP18",
+    "OECD_TABLE5A_T501"
+  ],
+  "classification_required_heading_codes": [
+    "1000000",
+    "9020000",
+    "9100000",
+    "9060000",
+    "9080000",
+    "9110000",
+    "9120000",
+    "9140000",
     "1100000",
     "1101000",
     "1102000",
@@ -42,41 +110,18 @@
     "1112000",
     "1113000"
   ],
-  "forbidden_scope_prefixes": [
-    "12",
-    "13",
-    "9"
-  ],
-  "aggregate_country_name_tokens": [
-    "world",
-    "income",
-    "region",
-    "european union",
-    "euro area",
-    "economies",
-    "countries",
-    "africa",
-    "asia",
-    "caribbean",
-    "pacific",
-    "oecd",
-    "commonwealth",
-    "western asia"
-  ],
-  "hierarchy_relative_tolerance": "0.005",
-  "expected_participating_economies": 176,
-  "expected_officially_imputed_economies": 19,
-  "imputation_detection_heading_codes": [
-    "1000000",
-    "9020000",
-    "9100000"
-  ],
-  "publication_audit_alternative_codes": [
-    "1102000",
-    "9060000",
-    "9080000",
-    "9110000",
-    "9120000",
-    "9140000"
+  "aggregate_country_codes": [
+    "EAB",
+    "ECB",
+    "HIB",
+    "LCB",
+    "LIB",
+    "LMB",
+    "MEB",
+    "NAB",
+    "SAB",
+    "SSB",
+    "UMB",
+    "WLD"
   ]
 }

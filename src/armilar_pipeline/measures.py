@@ -107,3 +107,78 @@ def select_measures(
     return MeasureSelection(
         ppp_id=chosen[0], nominal_id=chosen[1], real_id=chosen[2], diagnostics=diagnostics
     )
+
+
+def audit_selected_measure_identity(
+    observations: Iterable[Observation],
+    *,
+    selection: MeasureSelection,
+    country_concept: str,
+    heading_concept: str,
+    measure_concept: str,
+    tolerance: Decimal,
+) -> tuple[list[dict[str, object]], dict[str, object]]:
+    """Audit nominal / PPP = PPP-based real expenditure for the selected triple.
+
+    Individual rounded cells may exceed the tolerance and remain visible. The
+    pipeline fails only when the median identity error exceeds the configured
+    tolerance, which signals a wrong measure triple or incompatible units.
+    """
+    by_key: dict[tuple[str, str, str], Decimal] = {}
+    for obs in observations:
+        try:
+            country = obs.variables[country_concept][0]
+            heading = obs.variables[heading_concept][0]
+            measure = obs.variables[measure_concept][0]
+        except (KeyError, IndexError):
+            continue
+        by_key[(country, heading, measure)] = obs.value
+
+    keys = sorted({(country, heading) for country, heading, _ in by_key})
+    rows: list[dict[str, object]] = []
+    errors: list[Decimal] = []
+    for country, heading in keys:
+        ppp = by_key.get((country, heading, selection.ppp_id))
+        nominal = by_key.get((country, heading, selection.nominal_id))
+        real = by_key.get((country, heading, selection.real_id))
+        if ppp is None or nominal is None or real is None:
+            continue
+        if ppp <= 0:
+            rows.append({
+                "economy_code": country,
+                "heading_code": heading,
+                "ppp": ppp,
+                "nominal_expenditure": nominal,
+                "published_real_expenditure": real,
+                "calculated_real_expenditure": "",
+                "relative_error": "",
+                "tolerance": tolerance,
+                "status": "INVALID_NONPOSITIVE_PPP",
+            })
+            continue
+        calculated = nominal / ppp
+        denominator = max(abs(real), Decimal("1E-30"))
+        error = abs(calculated - real) / denominator
+        errors.append(error)
+        rows.append({
+            "economy_code": country,
+            "heading_code": heading,
+            "ppp": ppp,
+            "nominal_expenditure": nominal,
+            "published_real_expenditure": real,
+            "calculated_real_expenditure": calculated,
+            "relative_error": error,
+            "tolerance": tolerance,
+            "status": "PASS" if error <= tolerance else "WARN_PUBLISHED_ROUNDING_OR_INCONSISTENCY",
+        })
+    ordered = sorted(errors)
+    median_error = ordered[len(ordered) // 2] if ordered else Decimal("0")
+    summary: dict[str, object] = {
+        "comparisons": len(errors),
+        "median_relative_error": median_error,
+        "maximum_relative_error": max(errors) if errors else Decimal("0"),
+        "cells_above_tolerance": sum(1 for value in errors if value > tolerance),
+        "tolerance": tolerance,
+        "median_status": "PASS" if errors and median_error <= tolerance else ("NO_COMPARISONS" if not errors else "FAIL"),
+    }
+    return rows, summary

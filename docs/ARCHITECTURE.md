@@ -1,98 +1,76 @@
-# Step 2 architecture
+# Architecture
 
 ## 1. Acquisition
 
-All network requests run in GitHub Actions. Responses are written under `run/raw/` before parsing. Each response receives a metadata sidecar with source URL, retrieval timestamp, byte count and SHA-256 hash. A last-known-good cache is marked `stale_cache` and never presented as fresh data.
+Every source is downloaded by GitHub Actions with retries, size limits and a project user-agent. The fresh response is preserved under `run/raw`. A last-known-good cache may be used only after all fresh attempts fail; the manifest labels it `stale_cache`.
 
-## 2. Discovery
+World Bank Source 90 is mandatory. OECD, UNData and Eurostat are independent official supplemental routes. Failure of one supplemental route does not erase the others and is reported in `source_acquisition_failures.csv`.
 
-The World Bank Advanced Data API exposes Source 90 through multidimensional concepts. The pipeline downloads each concept and variable inventory, then identifies roles from content:
+## 2. Source discovery
 
-- the heading dimension contains ICP codes such as `1101000`;
-- the time dimension contains `2021`;
-- the country dimension contains economy codes;
-- the remaining dimension contains statistical measures.
+The pipeline discovers Source 90 concept order, variables and the 2021 time identifier from the API. It does not hard-code the multidimensional query order. It validates:
 
-No DataBank interface layout is hard-coded.
+- Source ID 90 and ICP 2021 identity;
+- the official classification workbook;
+- presence of every Source 90 heading required by the selected methodology;
+- the official list of 176 participating economies.
 
-## 3. Measure selection
+## 3. Economic construction
 
-The pipeline identifies:
+### Direct categories
 
-- PPP;
-- nominal expenditure in local currency;
-- PPP-based real expenditure.
+For CP01, CP03, CP05, CP07, CP08 and CP11:
 
-Semantic matching is checked through:
+`real expenditure = ICP nominal household expenditure / ICP category PPP`
 
-`nominal expenditure / PPP = PPP-based real expenditure`
+For CP02:
 
-Ambiguous measure triples are rejected.
+`real expenditure = alcohol nominal / alcohol PPP + tobacco nominal / tobacco PPP`
 
-## 4. Publication-scope audit
+The composite CP02 PPP is retained as `total nominal / total real`. The parent containing narcotics is never used.
 
-`config/publication_scope_rules.csv` defines every strict HFCE requirement and every forbidden public alternative. The live Source 90 inventory is compared against those rules.
+### Proxy-PPP categories
 
-The following never substitute for strict HFCE:
+For CP04, CP06, CP09, CP10 and CP12:
 
-- actual-consumption headings `9060000`, `9080000`, `9110000`, `9120000`, `9140000`;
-- households-plus-NPISH aggregate `9100000`;
-- CP02 parent `1102000`.
+`real expenditure = strict household domestic nominal expenditure / ICP actual-consumption PPP proxy`
 
-The audit is written to `outputs/publication_scope_audit.csv`.
+Only the deflator has the broader actual-consumption scope. The numerator is restricted to household domestic consumption.
 
-## 5. Scope enforcement
+## 4. Supplemental provider selection
 
-Only headings explicitly included by `config/icp_headings_to_armilar.csv` can enter the category matrix. CP02 is alcohol plus tobacco. Parent and child headings never enter simultaneously. AIC, NPISH, government consumption and narcotics remain outside weights.
+A provider is eligible for an economy only when it supplies all five proxy categories. One provider is selected for the whole economy according to the configured priority. Category-level provider mixing is prohibited.
 
-## 6. Economy status
+Alternative official providers are retained in the audit. Divergences are reported and never rescaled away.
 
-The registry separates:
+## 5. Unit and identity controls
 
-- `PARTICIPATING`, matched to the official 176-economy list;
-- `OFFICIALLY_IMPUTED_AGGREGATE_ONLY`, nonparticipants with aggregate Source 90 results but no category allocation;
-- `AGGREGATE`, regional or analytical aggregates;
-- `UNAVAILABLE_OR_NONPUBLISHED`.
+The selected Source 90 measures must satisfy the median identity:
 
-The 19 aggregate-only cases are identified from the Source 90 release structure and accepted as an official-imputation register only when the detected count matches the official count of 19.
+`nominal expenditure / PPP = published PPP-based real expenditure`
 
-## 7. Economy eligibility
+Supplemental nominal values are compared with overlapping direct Source 90 categories. Obvious unit-scale mismatches invalidate that source for that economy. No automatic scale correction is applied.
 
-An economy enters candidate weights only when:
+## 6. Economy eligibility
 
-- it is in the official participation list;
-- all twelve strict Armilar categories are available;
-- nominal and real values exist for every included heading;
-- strict HFCE control `1100000` is available;
-- PPP, nominal and real identities pass;
-- nominal parent-component hierarchy checks pass when their inputs are published.
+Every admissible category cell is preserved. An economy enters weights only when all twelve categories exist. Incomplete economies are excluded whole, rather than implicitly renormalising their available categories.
 
-Missing inputs remain explicit. No fallback fills them.
+The 19 officially imputed non-participants are tagged `OFFICIALLY_IMPUTED_AGGREGATE_ONLY` and excluded because the public ICP release does not provide a twelve-category allocation.
 
-## 8. Nominal hierarchy audit
+## 7. Weights
 
-Additive reconciliation uses nominal local-currency expenditure:
+For the complete observed-participant universe:
 
-- `1102000 = 1102100 + 1102200 + 1102300`;
-- `1100000 = sum of published household categories including 1113000`;
-- `1100000 - twelve Armilar categories = 1102300 + 1113000`.
+`w(i,c) = real_expenditure(i,c) / sum(real_expenditure)`
 
-PPP-based real expenditures are not required to add across headings. They are used for weight construction after the separate accounting identity passes.
+Weights are quantised to 24 decimal places. A deterministic residual is applied to the final sorted row so the emitted sum is exactly 1.
 
-## 9. Weight construction
+## 8. Release layers
 
-Candidate weights use PPP-based real expenditure:
+- `weights_research_observed_normalized.csv`: complete observed participants only.
+- `weights_final_normalized.csv`: populated only after the full global scope passes.
+- `monetary_release_allowed`: always false in Step 2.
 
-`w(i,c) = E(i,c) / sum(E(i,c))`
+## 9. Provenance
 
-Weights are emitted to 24 decimal places. The final ordered cell absorbs the disclosed decimal closure residual. The emitted sum must equal exactly one within tolerance `1E-20`.
-
-## 10. Release gate
-
-`weights_candidate_observed_participants.csv` is diagnostic or candidate output for the observed participating universe. `weights_final_normalized.csv` remains header-only unless the worldwide Constitution-compliant matrix passes every gate.
-
-A successful software run can therefore finish with economic status `BLOCKED_SOURCE_PUBLICATION_SCOPE`. This is an audited result, not a release.
-
-## 11. Publication
-
-GitHub Actions publishes concise diagnostics under `public/latest/`, uploads the complete run as an Actions artifact and replaces a rolling prerelease asset. Raw source files stay in the artifact rather than the Git history.
+Every normalised row records source file, URL, retrieval timestamp, SHA-256 and quality flags. `manifest.json` lists acquisition metadata. `SHA256SUMS` covers the entire run directory.
