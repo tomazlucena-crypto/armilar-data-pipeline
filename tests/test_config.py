@@ -12,7 +12,7 @@ class ConfigTests(unittest.TestCase):
         config = load_config(ROOT / "config" / "step2_icp2021.json")
         self.assertEqual(config.source_id, "90")
         self.assertEqual(config.reference_year, 2021)
-        self.assertEqual(config.pipeline_version, "0.3.0")
+        self.assertEqual(config.pipeline_version, "0.3.1")
         self.assertEqual(config.aggregate_country_name_tokens, ("benchmark",))
         self.assertIn("NAB", config.aggregate_country_codes)
         self.assertEqual(set(config.proxy_ppp_heading_by_category), {"CP04", "CP06", "CP09", "CP10", "CP12"})

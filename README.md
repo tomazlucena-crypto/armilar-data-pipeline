@@ -2,7 +2,11 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
-## What version 0.3.0 changes
+## What version 0.3.1 changes
+
+### GitHub Actions execution fix in v0.3.1
+
+The v0.3.0 acquisition completed but its command-line wrapper failed after writing the outputs because Python's standard JSON encoder cannot serialize exact `Decimal` values. Version 0.3.1 uses the pipeline's audited serializer and adds a regression test. Research-scope incompleteness is reported in the outputs without causing a false technical failure.
 
 Version 0.2.0 attempted to obtain all twelve household-consumption divisions from the World Bank's global 45-heading ICP 2021 release. That release does not publish five strict HFCE divisions globally. Version 0.3.0 implements the ratified research methodology instead:
 

@@ -1,0 +1,27 @@
+{
+  "expected_next_run": {
+    "public_latest_published": true,
+    "technical_status": "SUCCESS",
+    "weights_final_normalized_remains_empty": true
+  },
+  "fix": "CLI_USES_SHARED_JSON_DEFAULT_SERIALIZER",
+  "incident_run_id": "28336070795",
+  "pipeline_version": "0.3.1",
+  "real_run_validation": {
+    "complete_participating_economies": 62,
+    "file": "REAL_RUN_REPLAY_VALIDATION_V0.3.1.txt",
+    "global_matrix_complete": false,
+    "officially_imputed_aggregate_only": 19,
+    "participant_mapping": "176/176",
+    "research_release_allowed": true,
+    "research_weight_cells": 744,
+    "research_weight_sum": "1.000000000000000000000000"
+  },
+  "root_cause": "CLI_STANDARD_JSON_ENCODER_COULD_NOT_SERIALIZE_DECIMAL_AFTER_SUCCESSFUL_BUILD",
+  "schema_version": "3.0",
+  "tests": {
+    "failed": 0,
+    "file": "TEST_RESULTS_V0.3.1.txt",
+    "passed": 30
+  }
+}

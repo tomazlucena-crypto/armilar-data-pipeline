@@ -5,6 +5,7 @@ import json
 import sys
 
 from .pipeline import run_step2
+from .util import json_default
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -27,7 +28,7 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as exc:
             print(f"ERROR: {type(exc).__name__}: {exc}", file=sys.stderr)
             return 1
-        print(json.dumps(result, indent=2, ensure_ascii=False))
+        print(json.dumps(result, indent=2, ensure_ascii=False, sort_keys=True, default=json_default))
         if args.strict_release and not result["research_release_allowed"]:
             return 2
         return 0

@@ -1,8 +1,8 @@
-Armilar data pipeline v0.3.0 final validation
-UTC: 2026-06-28T20:49:19Z
+Armilar data pipeline v0.3.1 validation
 
+## Installation
 Looking in indexes: https://reader:****@packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/pypi/pypi-public/simple
-Obtaining file:///mnt/data/armilar_v030_work
+Obtaining file:///mnt/data/armilar-data-pipeline-v0.3.1
   Installing build dependencies: started
   Installing build dependencies: finished with status 'done'
   Checking if build backend supports build_editable: started
@@ -14,13 +14,16 @@ Obtaining file:///mnt/data/armilar_v030_work
 Building wheels for collected packages: armilar-data-pipeline
   Building editable for armilar-data-pipeline (pyproject.toml): started
   Building editable for armilar-data-pipeline (pyproject.toml): finished with status 'done'
-  Created wheel for armilar-data-pipeline: filename=armilar_data_pipeline-0.3.0-0.editable-py3-none-any.whl size=4662 sha256=0f75b851ef9d792dfd3a80e74c2cebf9546e27641f208a43b6a94d49d64ea494
-  Stored in directory: /tmp/pip-ephem-wheel-cache-k66zrfm9/wheels/92/51/80/6e111f31fbaaf59e3a557840a33968c87082d78707665e6ccc
+  Created wheel for armilar-data-pipeline: filename=armilar_data_pipeline-0.3.1-0.editable-py3-none-any.whl size=4909 sha256=f9128387a668fed7fd743f0f57a1d4528d0806dc2d0e182905074e694b475f9e
+  Stored in directory: /tmp/pip-ephem-wheel-cache-pdcbxokv/wheels/e9/6d/c2/5bb07a36583af0245b9ad2ba3f2b2ab77a8cc72133a2eab6a3
 Successfully built armilar-data-pipeline
 Installing collected packages: armilar-data-pipeline
-Successfully installed armilar-data-pipeline-0.3.0
+Successfully installed armilar-data-pipeline-0.3.1
 
+## Unit tests
 test_add_query_preserves_existing_parameters (test_acquire.AcquireTests.test_add_query_preserves_existing_parameters) ... ok
+test_strict_release_returns_two_only_when_research_release_is_false (test_cli.CliTests.test_strict_release_returns_two_only_when_research_release_is_false) ... ok
+test_success_result_with_decimal_and_path_is_valid_json_and_returns_zero (test_cli.CliTests.test_success_result_with_decimal_and_path_is_valid_json_and_returns_zero) ... ok
 test_all_official_acquisition_routes_are_declared (test_config.ConfigTests.test_all_official_acquisition_routes_are_declared) ... ok
 test_external_code_corrections_are_explicit (test_config.ConfigTests.test_external_code_corrections_are_explicit) ... ok
 test_pinned_to_icp_2021_source_90_and_option_b (test_config.ConfigTests.test_pinned_to_icp_2021_source_90_and_option_b) ... ok
@@ -50,17 +53,21 @@ test_role_discovery_is_content_based (test_worldbank.WorldBankTests.test_role_di
 test_validates_exact_icp2021_source_metadata (test_worldbank.WorldBankTests.test_validates_exact_icp2021_source_metadata) ... ok
 
 ----------------------------------------------------------------------
-Ran 28 tests in 0.154s
+Ran 30 tests in 0.149s
 
 OK
 
-CLI help:
-usage: armilar-data [-h] {run-step2} ...
+## Compile
+compileall: PASS
 
-positional arguments:
-  {run-step2}
-    run-step2  Acquire ICP 2021 data and build the Armilar weight matrix
-               candidate
+## Version
+0.3.1
 
-options:
-  -h, --help   show this help message and exit
+## CLI Decimal regression
+test_strict_release_returns_two_only_when_research_release_is_false (tests.test_cli.CliTests.test_strict_release_returns_two_only_when_research_release_is_false) ... ok
+test_success_result_with_decimal_and_path_is_valid_json_and_returns_zero (tests.test_cli.CliTests.test_success_result_with_decimal_and_path_is_valid_json_and_returns_zero) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+OK

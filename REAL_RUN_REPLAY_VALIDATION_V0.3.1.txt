@@ -1,0 +1,27 @@
+Armilar v0.3.1 real-run incident validation
+
+Input artefact: armilar-step2-28336070795.zip
+GitHub run: 28336070795
+Prior pipeline version: 0.3.0
+
+Verified from generated outputs:
+- acquisition failures: 0
+- participant mappings: 176 / 176
+- officially imputed aggregate-only economies: 19
+- complete participating economies: 62
+- research weight cells: 744
+- research weight sum: 1.000000000000000000000000
+- research_release_allowed: true
+- global_12_category_matrix_complete: false
+
+Root cause reproduced:
+- run_step2 completed and wrote a normal bundle.
+- CLI then passed a result containing Decimal values to json.dumps without a default serializer.
+- Standard json.dumps raises TypeError for Decimal.
+
+v0.3.1 correction verified:
+- CLI uses armilar_pipeline.util.json_default.
+- Decimal values are emitted as exact decimal strings.
+- Path values are emitted as strings.
+- normal successful research runs return exit code 0.
+- --strict-release still returns exit code 2 when research_release_allowed is false.

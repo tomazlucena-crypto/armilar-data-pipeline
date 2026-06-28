@@ -1,4 +1,4 @@
-Armilar v0.3.0 preserved-real-source parser validation
+Armilar v0.3.1 preserved-real-source parser validation
 OECD_TABLE5_T501: accepted_rows=432 economies=36 complete_proxy_economies=36 exclusions=8312
 EUROSTAT_NAMA_10_CP18: accepted_rows=384 economies=32 complete_proxy_economies=32 exclusions=0
 OECD_TABLE5A_T501: accepted_rows=360 economies=30 complete_proxy_economies=30 exclusions=8582
