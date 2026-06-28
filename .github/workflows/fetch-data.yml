@@ -1,0 +1,78 @@
+name: Fetch Armilar data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 05 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: armilar-data-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Restore last-known-good source cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/armilar
+          key: armilar-source-cache-v1-${{ github.run_id }}
+          restore-keys: |
+            armilar-source-cache-v1-
+
+      - name: Install package
+        run: python -m pip install --upgrade pip && python -m pip install -e .
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Diagnose, fetch and bundle
+        run: python -m armilar_pipeline run-all --config config/sources.json --run-dir run --cache-dir .cache/armilar --output-dir artifacts
+
+      - name: Show manifest summary
+        run: python -c "import json; m=json.load(open('run/manifest.json')); print(json.dumps(m['summary'], indent=2)); print('STATUS:', m['operational_status'])"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: armilar-data-${{ github.run_id }}
+          path: |
+            artifacts/*.zip
+            run/manifest.json
+            run/diagnostics.json
+            run/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Replace public rolling release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release delete data-latest --cleanup-tag --yes 2>/dev/null || true
+          BUNDLE=$(find artifacts -maxdepth 1 -name 'armilar_data_*.zip' -print -quit)
+          gh release create data-latest \
+            "$BUNDLE" \
+            run/manifest.json \
+            run/diagnostics.json \
+            run/SHA256SUMS \
+            --target "$GITHUB_SHA" \
+            --title "Latest Armilar data bundle" \
+            --notes "Automated rolling data acquisition release. Inspect manifest.json and diagnostics.json before using any data." \
+            --prerelease
