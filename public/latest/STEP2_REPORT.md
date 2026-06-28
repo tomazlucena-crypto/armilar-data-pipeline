@@ -1,6 +1,6 @@
 # Armilar Step 2 hybrid ICP 2021 report
 
-Generated: 2026-06-28T21:21:36Z
+Generated: 2026-06-28T22:48:34Z
 
 ## Method
 
@@ -17,8 +17,8 @@ Government and NPISH expenditure never enters the numerator.
 - Monetary release allowed: `False`
 - Participating economies mapped: `176` / `176`
 - Complete participating economies: `62`
-- Research weight cells: `744`
-- Research weight sum: `1.000000000000000000000000`
+- Observed-universe weight cells: `744`
+- Observed-universe weight sum: `1.000000000000000000000000`
 - Officially imputed aggregate-only economies: `19`
 
 ## Supplemental source diagnostics
@@ -27,6 +27,19 @@ Government and NPISH expenditure never enters the numerator.
 - `UNDATA_SNA_TABLE32`: accepted=675, excluded=12, status=OK
 - `EUROSTAT_NAMA_10_CP18`: accepted=384, excluded=0, status=OK
 - `OECD_TABLE5A_T501`: accepted=360, excluded=8582, status=OK
+
+## Step 2H0 feasibility audit
+
+- Priority economies probed: `10`
+- A/B candidates accessible in this run: `1`
+- C-only economies accessible in this run: `3`
+- Unavailable economies in this run: `6`
+- Complete-economy coverage in the seven-category priority indicator: `0.4971716160380331246617494918`
+- Option B evidence status: `INSUFFICIENT_DIRECT_EVIDENCE`
+- Direct strict-HFCE versus AIC PPP comparisons: `0`
+
+The source probe classifies availability and conceptual suitability; it does not insert any national source into the matrix.
+The priority indicator uses only seven direct ICP categories and is not a world-coverage estimate.
 
 ## Remaining global-scope blockers
 

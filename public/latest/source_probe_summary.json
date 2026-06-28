@@ -1,0 +1,15 @@
+{
+  "a_or_b_candidate_economies": 1,
+  "c_only_economies": 3,
+  "d_unavailable_economies": 6,
+  "economies_probed": 10,
+  "economy_class_counts": {
+    "A_CANDIDATE": 0,
+    "B_CANDIDATE": 1,
+    "C_ONLY": 3,
+    "D_UNAVAILABLE": 6
+  },
+  "source_candidates_accessible": 5,
+  "source_candidates_failed": 5,
+  "source_candidates_probed": 11
+}
