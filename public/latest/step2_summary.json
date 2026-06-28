@@ -1,0 +1,53 @@
+{
+  "admissible_observed_category_cells": 1537,
+  "blocking_reasons": [
+    "PARTICIPATING_ECONOMIES_WITH_INCOMPLETE_12_CATEGORY_DATA:114",
+    "OFFICIALLY_IMPUTED_NONPARTICIPANTS_EXCLUDED_NO_CATEGORY_DETAIL:19"
+  ],
+  "complete_participating_economies": 62,
+  "direct_ppp_categories": [
+    "CP01",
+    "CP02",
+    "CP03",
+    "CP05",
+    "CP07",
+    "CP08",
+    "CP11"
+  ],
+  "global_12_category_matrix_complete": false,
+  "incomplete_participating_economies": 114,
+  "methodology": "RATIFIED_OPTION_B_STRICT_HFCE_NUMERATOR_WITH_ACTUAL_CONSUMPTION_PPP_PROXY_FOR_FIVE_CATEGORIES",
+  "monetary_release_allowed": false,
+  "observed_research_weight_cells": 744,
+  "observed_research_weight_sum": "1.000000000000000000000000",
+  "observed_research_weights_valid": true,
+  "officially_imputed_aggregate_only_economies": 19,
+  "officially_imputed_economies_expected": 19,
+  "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
+  "participating_economies_expected": 176,
+  "participating_economies_mapped": 176,
+  "pipeline_version": "0.3.1",
+  "proxy_ppp_categories": [
+    "CP04",
+    "CP06",
+    "CP09",
+    "CP10",
+    "CP12"
+  ],
+  "reference_year": 2021,
+  "research_release_allowed": true,
+  "schema_version": "3.0",
+  "selected_supplemental_nominal_cells": 802,
+  "source90_measure_identity": {
+    "cells_above_tolerance": 0,
+    "comparisons": 2977,
+    "maximum_relative_error": "0.000000000000004536498750464798581586907940",
+    "median_relative_error": "0.0000000000000006383583144274258761346923188",
+    "median_status": "PASS",
+    "tolerance": "0.005"
+  },
+  "status": "RESEARCH_MATRIX_AVAILABLE_GLOBAL_SCOPE_INCOMPLETE",
+  "supplemental_nominal_observations": 1851,
+  "unit_reconciliation_failed_source_economies": 1,
+  "weight_sum_tolerance": "1E-20"
+}
