@@ -77,6 +77,38 @@ class SourceProbeTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Duplicate source probe source_id"):
                 load_source_candidates(path)
 
+    def test_corrupted_xlsx_download_is_rejected(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = root / "candidates.csv"
+            self._registry(registry)
+            with registry.open(encoding="utf-8", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            rows[0]["source_url"] = "https://example.test/bad.xlsx"
+            rows[0]["expected_content_types"] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            with registry.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=rows[0].keys())
+                writer.writeheader()
+                writer.writerows(rows)
+
+            def fake_fetch(config, *, source_id, url, destination, cache_path=None, accept="*/*"):
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes(b"PK corrupted")
+                return AcquisitionRecord(
+                    source_id, url, url, destination, "fresh", 200,
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    destination.stat().st_size, sha256_file(destination),
+                    "2026-06-28T00:00:00Z", (),
+                )
+
+            with patch("armilar_pipeline.source_probe.fetch_url", side_effect=fake_fetch):
+                result = run_source_probes(
+                    config, candidates_path=registry, run_root=root / "run", cache_root=root / "cache"
+                )
+            self.assertEqual(result.candidate_rows[0]["retrieval_status"], "CONTENT_VALIDATION_FAILED")
+            self.assertEqual(result.candidate_rows[0]["signature_status"], "FAIL")
+
     def test_standalone_probe_program_writes_auditable_outputs(self) -> None:
         config = load_config(ROOT / "config" / "step2_icp2021.json")
         with tempfile.TemporaryDirectory() as tmp:

@@ -2,6 +2,20 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.5.0: Step 2H1 / first Step 2H2 wave
+
+Version 0.5.0 adds a reusable national-adapter layer while preserving the fail-closed economic gates.
+
+The release adds:
+
+1. `armilar-country acquire`, an isolated country-adapter CLI;
+2. a typed adapter result contract with normalized rows, evidence, mapping audit, reconciliation audit and failures;
+3. an India MoSPI Statement 5.1 parser that preserves the 2021-22 fiscal year, current-price `INR crore` unit, exact many-to-one item aggregation and narcotics exclusion;
+4. audit-only adapters for Russia, China, Indonesia, Brazil, Egypt, Pakistan, Nigeria, Bangladesh and Viet Nam;
+5. stronger source-probe validation for corrupted XLSX downloads.
+
+The India parser proves that Statement 5.1 can be reconciled exactly at item level. It does not enter the exact matrix until the strict households-only S14/P31 boundary and NPISH exclusion are confirmed from an official source. China remains blocked because the official NBS evidence found is an eight-group household survey. Russia remains blocked until a deterministic official Rosstat structured table for 2021 strict household COICOP-HH is acquired.
+
 ## Version 0.4.0: Step 2H0
 
 Version 0.4.0 adds a feasibility layer before country-specific parsers are developed. It does not fill missing cells or change the ratified economic construction.
@@ -94,6 +108,15 @@ armilar-source-probe \
   --cache-dir .cache/armilar
 ```
 
+Run national adapters independently:
+
+```bash
+armilar-country acquire IND RUT CHN \
+  --config config/step2_icp2021.json \
+  --run-dir run-country \
+  --cache-dir .cache/armilar
+```
+
 The intended acquisition environment is GitHub Actions. A push to `main` starts the full workflow automatically, except when only `public/latest/**` changes.
 
 ## Main Step 2H0 outputs
@@ -107,6 +130,12 @@ The intended acquisition environment is GitHub Actions. A push to `main` starts 
 - `outputs/proxy_financing_exposure.csv`
 - `outputs/proxy_ppp_comparison.csv`
 - `outputs/proxy_validation_summary.json`
+- `outputs/country_adapter_status.csv`
+- `outputs/country_source_evidence.csv`
+- `outputs/country_normalized_rows.csv`
+- `outputs/country_mapping_audit.csv`
+- `outputs/country_reconciliation_audit.csv`
+- `outputs/country_adapter_failures.csv`
 - `outputs/weights_observed_universe.csv`
 - `outputs/weights_experimental_universe.csv`
 - `outputs/weights_final.csv`

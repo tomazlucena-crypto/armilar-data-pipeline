@@ -9,6 +9,7 @@ from typing import Any
 
 from .acquire import AcquisitionRecord, fetch_json_pages, fetch_url
 from .config import Step2Config, load_config
+from .country_adapters import run_country_adapters, write_country_outputs
 from .hybrid_matrix import HybridMatrixResult, build_hybrid_matrix
 from .gap_priority import build_gap_priority
 from .proxy_audit import build_proxy_audit
@@ -162,6 +163,8 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
             cache_root=cache_root,
         )
         records.extend(source_probe.acquisition_records)
+        country_adapters = run_country_adapters(config, run_root=run_root, cache_root=cache_root)
+        records.extend(country_adapters.acquisition_records)
         financing_rows, ppp_comparison_rows, proxy_summary = build_proxy_audit(
             config, roles=roles, observations=observations, inventories=inventories,
             measures=measures, matrix=matrix,
@@ -176,7 +179,7 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
             config, run_root, matrix, mapping_audit, measures.diagnostics, identity_rows,
             roles, concepts, inventories, supplemental_diagnostics, acquisition_failures,
             source_probe, financing_rows, ppp_comparison_rows, proxy_summary,
-            gap_priority_rows, gap_priority_summary,
+            gap_priority_rows, gap_priority_summary, country_adapters,
         )
 
         manifest = _manifest(config, started_at, records, matrix.summary, run_root, acquisition_failures + source_probe.failure_rows)
@@ -243,7 +246,7 @@ def _write_outputs(
     measure_diagnostics, identity_rows, roles, concepts, inventories,
     supplemental_diagnostics, acquisition_failures, source_probe: SourceProbeResult,
     financing_rows, ppp_comparison_rows, proxy_summary, gap_priority_rows,
-    gap_priority_summary,
+    gap_priority_summary, country_adapters,
 ):
     out = run_root / "outputs"
     write_json(out / "step2_summary.json", matrix.summary)
@@ -350,6 +353,7 @@ def _write_outputs(
     ]
     write_csv(out / "economy_gap_priority.csv", gap_priority_fields, gap_priority_rows)
     write_json(out / "gap_priority_summary.json", gap_priority_summary)
+    write_country_outputs(out, country_adapters)
     write_csv(out / "source90_concepts.csv", ["position", "concept_id", "concept_label"], [
         {"position": index, "concept_id": concept_id, "concept_label": label}
         for index, (concept_id, label) in enumerate(concepts, start=1)

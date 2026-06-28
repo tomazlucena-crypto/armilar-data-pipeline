@@ -136,6 +136,12 @@ jobs:
             proxy_financing_exposure.csv \
             proxy_ppp_comparison.csv \
             proxy_validation_summary.json \
+            country_adapter_status.csv \
+            country_source_evidence.csv \
+            country_normalized_rows.csv \
+            country_mapping_audit.csv \
+            country_reconciliation_audit.csv \
+            country_adapter_failures.csv \
             methodology_policy_snapshot.json
           do
             cp "run/outputs/$file" "public/latest/$file"

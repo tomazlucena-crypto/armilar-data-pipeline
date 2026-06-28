@@ -287,8 +287,14 @@ def _validate_signature(path: Path, content_type: str | None, expected: tuple[st
             return "FAIL", f"UNEXPECTED_CONTENT_TYPE:{actual}"
     if suffix == ".pdf" and not data.startswith(b"%PDF"):
         return "FAIL", "INVALID_PDF_SIGNATURE"
-    if suffix in {".xlsx", ".zip", ".ods"} and not data.startswith(b"PK"):
-        return "FAIL", "INVALID_ZIP_CONTAINER_SIGNATURE"
+    if suffix in {".xlsx", ".zip", ".ods"}:
+        if not data.startswith(b"PK") or not zipfile.is_zipfile(path):
+            return "FAIL", "INVALID_ZIP_CONTAINER_SIGNATURE"
+        if suffix == ".xlsx":
+            with zipfile.ZipFile(path) as archive:
+                names = set(archive.namelist())
+            if "xl/workbook.xml" not in names or not any(name.startswith("xl/worksheets/") for name in names):
+                return "FAIL", "INVALID_XLSX_STRUCTURE"
     if suffix in {".html", ".htm"} and b"<" not in data:
         return "FAIL", "INVALID_HTML_SIGNATURE"
     if path.stat().st_size == 0:

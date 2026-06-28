@@ -6,6 +6,7 @@ The repository now contains separable programmes sharing one schema and one meth
 
 - ICP and international-source acquisition;
 - `armilar-source-probe` for national-source feasibility;
+- `armilar-country` for isolated country adapters;
 - Option B evidence audit;
 - matrix builder and weight gates.
 
@@ -29,7 +30,31 @@ Candidate sources are declared in `config/source_probe_candidates.csv`. Each is 
 
 Country-specific adapters will only be written for sources that remain A or B candidates after runtime validation. C sources are retained for a future experimental universe. D sources remain unavailable.
 
-## 5. Proxy audit
+## 5. Country adapters
+
+Country adapters expose one common result shape:
+
+- `country_adapter_status.csv`;
+- `country_source_evidence.csv`;
+- `country_normalized_rows.csv`;
+- `country_mapping_audit.csv`;
+- `country_reconciliation_audit.csv`;
+- `country_adapter_failures.csv`.
+
+Each normalized cell carries economy, period, Armilar category, original item, value, currency, unit, sector, transaction, classification, source authority, file, URL, retrieval time, hash, derivation method, data class and quality flags.
+
+Adapter failures are isolated by country. A blocked Russia or China audit does not prevent India evidence, and a blocked country adapter does not delete the established ICP matrix outputs.
+
+Data classes remain separated:
+
+- `EXACT_OFFICIAL`;
+- `OFFICIAL_EXACT_DERIVATION`;
+- `EXPERIMENTAL_ALLOCATION`;
+- `UNAVAILABLE`.
+
+Only the first two may enter the exact matrix. The current India adapter parses and reconciles MoSPI Statement 5.1, but keeps India `UNAVAILABLE` until the PFCE institutional boundary is officially confirmed as strict households-only with NPISH excluded.
+
+## 6. Proxy audit
 
 The financing-exposure calculation reconstructs strict HFCE from:
 
@@ -39,7 +64,7 @@ The financing-exposure calculation reconstructs strict HFCE from:
 
 It compares that result with nominal AIC. A separate table is reserved for matched strict-HFCE versus AIC PPP comparisons. The two diagnostics are never conflated.
 
-## 6. Weight namespaces
+## 7. Weight namespaces
 
 - `weights_observed_universe.csv`: internally normalised complete observed subset;
 - `weights_experimental_universe.csv`: separately authorised experimental observations only;
