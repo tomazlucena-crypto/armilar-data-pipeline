@@ -1,0 +1,8 @@
+metric,value,unit
+source_country_dimension_count,207,economies_or_aggregates
+official_participating_economies_mapped,173,economies
+eligible_complete_economies,0,economies
+candidate_weight_cells,0,economy_category_cells
+officially_imputed_aggregate_only,20,economies
+missing_required_records,1109,records
+weight_sum,0,share

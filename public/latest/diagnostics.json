@@ -1,0 +1,134 @@
+{
+  "classification_workbook_validation": {
+    "missing_heading_codes": [],
+    "required_heading_codes": 17,
+    "valid_xlsx": true,
+    "xml_parts_scanned": 18
+  },
+  "generated_at": "2026-06-28T20:22:54Z",
+  "inventory_counts": {
+    "Classification": 17,
+    "Country": 207,
+    "Series": 48,
+    "Time": 7
+  },
+  "inventory_headings_absent": [
+    "1100000",
+    "1102300",
+    "1104000",
+    "1106000",
+    "1109000",
+    "1110000",
+    "1112000"
+  ],
+  "mandatory_matrix_headings_absent": [
+    "1100000",
+    "1104000",
+    "1106000",
+    "1109000",
+    "1110000",
+    "1112000"
+  ],
+  "participant_mapping": {
+    "expected": 176,
+    "mapped": 173,
+    "unresolved": 3
+  },
+  "publication_scope_audit": {
+    "all_strict_requirements_available": false,
+    "forbidden_alternatives_available": [
+      "9060000",
+      "9080000",
+      "9100000",
+      "9110000",
+      "9120000",
+      "9140000"
+    ],
+    "required_hfce_headings_missing": [
+      "1100000",
+      "1104000",
+      "1106000",
+      "1109000",
+      "1110000",
+      "1112000"
+    ]
+  },
+  "runtime": {
+    "github_actions": true,
+    "github_run_id": "28334828980",
+    "github_runner_os": "Linux",
+    "github_sha": "f343a6771152f62d78049ac44a47c485aaee516e",
+    "implementation": "CPython",
+    "machine": "x86_64",
+    "platform": "Linux-6.17.0-1018-azure-x86_64-with-glibc2.39",
+    "python_version": "3.11.15"
+  },
+  "schema_version": "2.0",
+  "selected_measures": {
+    "nominal_expenditure": "CN",
+    "ppp": "PPPGlob",
+    "real_expenditure_ppp": "PP.CD"
+  },
+  "source_90_dimension_roles": {
+    "concept_order": [
+      "Classification",
+      "Country",
+      "Series",
+      "Time"
+    ],
+    "country": "Country",
+    "heading": "Series",
+    "measure": "Classification",
+    "time": "Time",
+    "year_id": "YR2021"
+  },
+  "source_metadata_validation": {
+    "dataavailability": "Y",
+    "id": "90",
+    "lastupdated": "2024-08-04",
+    "metadataavailability": "Y",
+    "name": "ICP 2021",
+    "source_code": "IC2"
+  },
+  "step2_summary": {
+    "blocking_reasons": [
+      "PARTICIPATION_REGISTRY_NOT_FULLY_MAPPED:173/176",
+      "PARTICIPATING_ECONOMIES_INCOMPLETE:0/176",
+      "OFFICIAL_IMPUTATION_REGISTRY_COUNT_MISMATCH:20/19",
+      "OFFICIALLY_IMPUTED_ECONOMIES_HAVE_NO_PUBLIC_12_CATEGORY_ALLOCATION:20",
+      "WEIGHT_SUM_OUTSIDE_TOLERANCE:0",
+      "MANDATORY_HEADINGS_ABSENT_FROM_SOURCE90_INVENTORY:1100000,1104000,1106000,1109000,1110000,1112000",
+      "STRICT_HFCE_PUBLICATION_SCOPE_MISSING_REQUIRED_HEADINGS:1100000,1104000,1106000,1109000,1110000,1112000",
+      "FORBIDDEN_ALTERNATIVES_AVAILABLE_BUT_NOT_USED:9060000,9080000,9100000,9110000,9120000,9140000"
+    ],
+    "candidate_weight_cells": 0,
+    "candidate_weight_sum": "0",
+    "candidate_weights_valid_for_observed_participant_universe": false,
+    "eligible_complete_economies": 0,
+    "forbidden_alternative_headings_available": [
+      "9060000",
+      "9080000",
+      "9100000",
+      "9110000",
+      "9120000",
+      "9140000"
+    ],
+    "global_12_category_matrix_complete": false,
+    "officially_imputed_aggregate_only_economies": 20,
+    "officially_imputed_economies_expected": 19,
+    "participating_economies_expected": 176,
+    "participating_economies_mapped": 173,
+    "pipeline_version": "0.2.0",
+    "reference_year": 2021,
+    "release_allowed": false,
+    "status": "BLOCKED_SOURCE_PUBLICATION_SCOPE",
+    "strict_hfce_required_headings_missing": [
+      "1100000",
+      "1104000",
+      "1106000",
+      "1109000",
+      "1110000",
+      "1112000"
+    ]
+  }
+}
