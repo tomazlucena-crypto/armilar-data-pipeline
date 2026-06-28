@@ -1,10 +1,14 @@
 # Upload instructions
 
-1. Extract the ZIP on your computer.
-2. Open the GitHub repository.
-3. Select **Add file** and then **Upload files**.
-4. Drag every extracted item into the upload area, including `.github`, `src`, `tests`, `config`, `docs`, `schemas`, `README.md`, `pyproject.toml`, `.gitignore` and the other root files.
-5. In the commit box write: `Bootstrap automated data pipeline`.
-6. Select **Commit directly to the main branch** and press **Commit changes**.
-7. Open the **Actions** tab. If GitHub asks whether to enable workflows, enable them.
-8. Select **Fetch Armilar data**, press **Run workflow**, and choose the `main` branch.
+1. Extract the ZIP locally.
+2. In the GitHub repository, upload the contents of the extracted folder, preserving directories.
+3. Replace files with the same names.
+4. Commit directly to `main`.
+5. Open **Actions**, select **Build ICP 2021 Armilar matrix**, then choose **Run workflow**.
+6. After completion, inspect:
+   - `public/latest/manifest.json`
+   - `public/latest/diagnostics.json`
+   - `public/latest/STEP2_REPORT.md`
+   - the `armilar-step2-*` workflow artifact.
+
+Do not copy the extracted parent folder itself into the repository. Upload its contents so that `.github`, `config`, `src` and `tests` remain at repository root.

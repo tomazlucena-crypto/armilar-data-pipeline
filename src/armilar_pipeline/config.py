@@ -2,137 +2,99 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
-
-
-class ConfigError(ValueError):
-    """Raised when the source catalogue is invalid."""
 
 
 @dataclass(frozen=True)
-class Source:
+class Step2Config:
+    path: Path
+    schema_version: str
+    pipeline_version: str
     source_id: str
-    provider: str
-    url: str
-    mode: str
-    required: bool
-    filename: str | None
+    reference_year: int
+    expected_participating_economies: int
+    expected_officially_imputed_economies: int
+    user_agent: str
     timeout_seconds: int
     retries: int
-    max_bytes: int
-    expected_content_types: tuple[str, ...]
-    purpose: str
+    backoff_seconds: float
+    max_response_bytes: int
+    per_page: int
+    weight_decimal_places: int
+    weight_sum_tolerance: Decimal
+    identity_relative_tolerance: Decimal
+    hierarchy_relative_tolerance: Decimal
+    urls: dict[str, str]
+    required_heading_codes: tuple[str, ...]
+    forbidden_scope_prefixes: tuple[str, ...]
+    aggregate_country_name_tokens: tuple[str, ...]
+    imputation_detection_heading_codes: tuple[str, ...]
+    publication_audit_alternative_codes: tuple[str, ...]
 
     @property
-    def hostname(self) -> str:
-        return urlparse(self.url).hostname or ""
+    def repo_root(self) -> Path:
+        return self.path.parent.parent
+
+    @property
+    def headings_path(self) -> Path:
+        return self.path.parent / "icp_headings_to_armilar.csv"
+
+    @property
+    def categories_path(self) -> Path:
+        return self.path.parent / "armilar_categories.csv"
+
+    @property
+    def country_aliases_path(self) -> Path:
+        return self.path.parent / "country_name_aliases.csv"
+
+    @property
+    def publication_scope_rules_path(self) -> Path:
+        return self.path.parent / "publication_scope_rules.csv"
 
 
-@dataclass(frozen=True)
-class PipelineConfig:
-    schema_version: str
-    user_agent: str
-    sources: tuple[Source, ...]
-
-
-def _require(mapping: dict[str, Any], key: str, expected_type: type) -> Any:
-    if key not in mapping:
-        raise ConfigError(f"Missing required field: {key}")
-    value = mapping[key]
-    if not isinstance(value, expected_type):
-        raise ConfigError(f"Field {key!r} must be {expected_type.__name__}")
-    return value
-
-
-def load_config(path: str | Path) -> PipelineConfig:
-    config_path = Path(path)
-    try:
-        payload = json.loads(config_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise ConfigError(f"Cannot read configuration {config_path}: {exc}") from exc
-
-    if not isinstance(payload, dict):
-        raise ConfigError("Configuration root must be an object")
-
-    schema_version = _require(payload, "schema_version", str)
-    user_agent = _require(payload, "user_agent", str)
-    raw_sources = _require(payload, "sources", list)
-
-    sources: list[Source] = []
-    seen_ids: set[str] = set()
-    seen_filenames: set[str] = set()
-
-    for index, raw in enumerate(raw_sources):
-        if not isinstance(raw, dict):
-            raise ConfigError(f"sources[{index}] must be an object")
-
-        source_id = _require(raw, "id", str)
-        if source_id in seen_ids:
-            raise ConfigError(f"Duplicate source id: {source_id}")
-        seen_ids.add(source_id)
-
-        provider = _require(raw, "provider", str)
-        url = _require(raw, "url", str)
-        parsed = urlparse(url)
-        if parsed.scheme != "https" or not parsed.hostname:
-            raise ConfigError(f"Source {source_id} must use an absolute HTTPS URL")
-
-        mode = raw.get("mode", "download")
-        if mode not in {"download", "probe"}:
-            raise ConfigError(f"Source {source_id} has unsupported mode: {mode}")
-
-        required = bool(raw.get("required", False))
-        filename = raw.get("filename")
-        if mode == "download":
-            if not isinstance(filename, str) or not filename.strip():
-                raise ConfigError(f"Download source {source_id} requires filename")
-            path_obj = Path(filename)
-            if path_obj.is_absolute() or ".." in path_obj.parts:
-                raise ConfigError(f"Unsafe filename for {source_id}: {filename}")
-            if filename in seen_filenames:
-                raise ConfigError(f"Duplicate output filename: {filename}")
-            seen_filenames.add(filename)
-        elif filename is not None and not isinstance(filename, str):
-            raise ConfigError(f"filename for {source_id} must be a string or null")
-
-        timeout_seconds = int(raw.get("timeout_seconds", 30))
-        retries = int(raw.get("retries", 3))
-        max_bytes = int(raw.get("max_bytes", 50_000_000))
-        if timeout_seconds < 1 or timeout_seconds > 300:
-            raise ConfigError(f"Invalid timeout for {source_id}")
-        if retries < 0 or retries > 10:
-            raise ConfigError(f"Invalid retries for {source_id}")
-        if max_bytes < 1:
-            raise ConfigError(f"Invalid max_bytes for {source_id}")
-
-        expected = raw.get("expected_content_types", [])
-        if not isinstance(expected, list) or not all(isinstance(x, str) for x in expected):
-            raise ConfigError(f"expected_content_types for {source_id} must be a list of strings")
-
-        purpose = str(raw.get("purpose", ""))
-        sources.append(
-            Source(
-                source_id=source_id,
-                provider=provider,
-                url=url,
-                mode=mode,
-                required=required,
-                filename=filename,
-                timeout_seconds=timeout_seconds,
-                retries=retries,
-                max_bytes=max_bytes,
-                expected_content_types=tuple(expected),
-                purpose=purpose,
-            )
-        )
-
-    if not sources:
-        raise ConfigError("At least one source is required")
-
-    return PipelineConfig(
-        schema_version=schema_version,
-        user_agent=user_agent,
-        sources=tuple(sources),
+def load_config(path: str | Path) -> Step2Config:
+    config_path = Path(path).resolve()
+    raw: dict[str, Any] = json.loads(config_path.read_text(encoding="utf-8"))
+    required = {
+        "schema_version", "pipeline_version", "source_id", "reference_year",
+        "expected_participating_economies", "expected_officially_imputed_economies", "user_agent",
+        "timeout_seconds", "retries", "backoff_seconds", "max_response_bytes", "per_page",
+        "weight_decimal_places", "weight_sum_tolerance", "identity_relative_tolerance",
+        "hierarchy_relative_tolerance", "urls",
+        "required_heading_codes", "forbidden_scope_prefixes", "aggregate_country_name_tokens",
+        "imputation_detection_heading_codes", "publication_audit_alternative_codes",
+    }
+    missing = sorted(required - raw.keys())
+    if missing:
+        raise ValueError(f"Missing configuration keys: {', '.join(missing)}")
+    if str(raw["source_id"]) != "90":
+        raise ValueError("Step 2 is pinned to World Bank source 90 (ICP 2021)")
+    if int(raw["reference_year"]) != 2021:
+        raise ValueError("Research vintage must remain ICP 2021")
+    return Step2Config(
+        path=config_path,
+        schema_version=str(raw["schema_version"]),
+        pipeline_version=str(raw["pipeline_version"]),
+        source_id=str(raw["source_id"]),
+        reference_year=int(raw["reference_year"]),
+        expected_participating_economies=int(raw["expected_participating_economies"]),
+        expected_officially_imputed_economies=int(raw["expected_officially_imputed_economies"]),
+        user_agent=str(raw["user_agent"]),
+        timeout_seconds=int(raw["timeout_seconds"]),
+        retries=int(raw["retries"]),
+        backoff_seconds=float(raw["backoff_seconds"]),
+        max_response_bytes=int(raw["max_response_bytes"]),
+        per_page=int(raw["per_page"]),
+        weight_decimal_places=int(raw["weight_decimal_places"]),
+        weight_sum_tolerance=Decimal(str(raw["weight_sum_tolerance"])),
+        identity_relative_tolerance=Decimal(str(raw["identity_relative_tolerance"])),
+        hierarchy_relative_tolerance=Decimal(str(raw["hierarchy_relative_tolerance"])),
+        urls={str(k): str(v) for k, v in raw["urls"].items()},
+        required_heading_codes=tuple(str(v) for v in raw["required_heading_codes"]),
+        forbidden_scope_prefixes=tuple(str(v) for v in raw["forbidden_scope_prefixes"]),
+        aggregate_country_name_tokens=tuple(str(v).lower() for v in raw["aggregate_country_name_tokens"]),
+        imputation_detection_heading_codes=tuple(str(v) for v in raw["imputation_detection_heading_codes"]),
+        publication_audit_alternative_codes=tuple(str(v) for v in raw["publication_audit_alternative_codes"]),
     )

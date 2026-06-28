@@ -1,0 +1,27 @@
+test_add_query_preserves_existing_parameters (test_acquire.AcquireTests.test_add_query_preserves_existing_parameters) ... ok
+test_crosswalk_is_strict_hfce (test_config.ConfigTests.test_crosswalk_is_strict_hfce) ... ok
+test_normalized_output_contract_contains_required_provenance_fields (test_config.ConfigTests.test_normalized_output_contract_contains_required_provenance_fields) ... ok
+test_pinned_to_icp_2021_source_90 (test_config.ConfigTests.test_pinned_to_icp_2021_source_90) ... ok
+test_publication_scope_rules_never_accept_aic_or_npish_surrogates (test_config.ConfigTests.test_publication_scope_rules_never_accept_aic_or_npish_surrogates) ... ok
+test_source_registry_contains_all_authoritative_routes (test_config.ConfigTests.test_source_registry_contains_all_authoritative_routes) ... ok
+test_complete_participants_and_aggregate_only_imputations_remain_separate (test_matrix_end_to_end.MatrixEndToEndTests.test_complete_participants_and_aggregate_only_imputations_remain_separate) ... ok
+test_duplicate_economy_heading_measure_is_rejected (test_matrix_end_to_end.MatrixEndToEndTests.test_duplicate_economy_heading_measure_is_rejected) ... ok
+test_real_ppp_expenditures_are_not_required_to_be_additive (test_matrix_end_to_end.MatrixEndToEndTests.test_real_ppp_expenditures_are_not_required_to_be_additive) ... ok
+test_numeric_identity_selects_measure_triple (test_measures.MeasureTests.test_numeric_identity_selects_measure_triple) ... ok
+test_semantic_classification (test_measures.MeasureTests.test_semantic_classification) ... ok
+test_extracts_176_unique_economies_with_dual_participation (test_participation.ParticipationTests.test_extracts_176_unique_economies_with_dual_participation) ... ok
+test_parses_preserved_official_participation_section (test_participation.ParticipationTests.test_parses_preserved_official_participation_section) ... ok
+test_current_public_release_aic_surrogates_are_detected_and_rejected (test_publication_scope.PublicationScopeTests.test_current_public_release_aic_surrogates_are_detected_and_rejected) ... ok
+test_emitted_weights_sum_exactly_one (test_weights.WeightTests.test_emitted_weights_sum_exactly_one) ... ok
+test_missing_official_imputation_registry_blocks_global_release (test_weights.WeightTests.test_missing_official_imputation_registry_blocks_global_release) ... ok
+test_advanced_query_follows_discovered_order (test_worldbank.WorldBankTests.test_advanced_query_follows_discovered_order) ... ok
+test_classification_workbook_must_contain_required_codes (test_worldbank.WorldBankTests.test_classification_workbook_must_contain_required_codes) ... ok
+test_extract_concepts_and_variables (test_worldbank.WorldBankTests.test_extract_concepts_and_variables) ... ok
+test_role_discovery_allows_headings_in_classification_dimension (test_worldbank.WorldBankTests.test_role_discovery_allows_headings_in_classification_dimension) ... ok
+test_role_discovery_is_content_based (test_worldbank.WorldBankTests.test_role_discovery_is_content_based) ... ok
+test_validates_exact_icp2021_source_metadata (test_worldbank.WorldBankTests.test_validates_exact_icp2021_source_metadata) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.181s
+
+OK

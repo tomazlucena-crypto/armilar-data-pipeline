@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Normalized ICP 2021 row",
+  "type": "object",
+  "required": [
+    "economy_code",
+    "economy_name",
+    "icp_participation_status",
+    "heading_code",
+    "heading_name",
+    "expenditure_measure",
+    "value",
+    "unit",
+    "source_file",
+    "source_url",
+    "retrieved_at",
+    "source_hash",
+    "quality_flags",
+    "armilar_category",
+    "currency_or_ppp_basis"
+  ],
+  "additionalProperties": true
+}

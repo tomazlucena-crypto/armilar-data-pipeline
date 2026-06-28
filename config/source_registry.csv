@@ -1,0 +1,10 @@
+source_id,source_type,purpose,authority,required,url,expected_content
+WB_SOURCE_90_METADATA,API_JSON,Validate exact database identity,World Bank,true,https://api.worldbank.org/v2/sources/90?format=json,ICP 2021 source descriptor
+WB_SOURCE_90_CONCEPTS,API_JSON,Discover dimensions and order,World Bank,true,https://api.worldbank.org/v2/sources/90/concepts/data?format=json&per_page=1000,Country Classification Series Time concepts
+WB_SOURCE_90_VARIABLES,API_JSON,Discover economy heading measure and time inventories,World Bank,true,https://api.worldbank.org/v2/sources/90/{concept}/data?format=json&per_page=1000,Dimension variables
+WB_SOURCE_90_DATA,API_JSON,Acquire PPP nominal and PPP-based real expenditure by economy and HFCE heading,World Bank,true,https://api.worldbank.org/v2/sources/90/{concept}/{selector}/.../data,2021 multidimensional observations
+ICP_2021_CLASSIFICATION,XLSX,Validate ICP heading hierarchy and strict HFCE branch,World Bank,true,https://thedocs.worldbank.org/en/doc/222d1fbf7964fd7a1b35f8fd244bb893-0050022024/original/ICPClassificationwithNonH-2021.xlsx,Official ICP 2021 classification including non-household headings
+ICP_2021_GOVERNANCE,HTML,Establish official 176 participating economies,World Bank,true,https://www.worldbank.org/en/programs/icp/brief/ICP2021_Governance,Regional participation list
+ICP_2021_DATA_PAGE,HTML,Document published indicators participants and official imputation coverage,World Bank,true,https://www.worldbank.org/en/programs/icp/data,ICP 2021 data release description
+ICP_FAQ,HTML,Document scope of official imputations,World Bank,true,https://www.worldbank.org/en/programs/icp/faq,Imputation methodology and release scope
+ICP_2021_PUBLISHED_TABLE,HTML,Audit the exact 45-heading public release and detect AIC or mixed-scope substitutes,World Bank,true,https://databank.worldbank.org/ICP-2021-Cycle/id/3a11040d,Official 2021 published heading inventory and measures

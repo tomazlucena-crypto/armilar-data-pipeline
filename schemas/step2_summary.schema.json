@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Armilar ICP 2021 Step 2 summary",
+  "type": "object",
+  "required": [
+    "pipeline_version",
+    "reference_year",
+    "candidate_weight_sum",
+    "release_allowed",
+    "status",
+    "blocking_reasons"
+  ],
+  "properties": {
+    "pipeline_version": {"type": "string"},
+    "reference_year": {"const": 2021},
+    "candidate_weight_sum": {"type": "string"},
+    "release_allowed": {"type": "boolean"},
+    "status": {"type": "string"},
+    "blocking_reasons": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

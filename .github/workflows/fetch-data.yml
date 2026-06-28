@@ -1,22 +1,21 @@
-name: Fetch Armilar data
+name: Build ICP 2021 Armilar matrix
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 05 * * *"
+    - cron: "17 05 * * 1"
 
 permissions:
   contents: write
 
 concurrency:
-  group: armilar-data-fetch
+  group: armilar-step2-icp2021
   cancel-in-progress: false
 
 jobs:
-  fetch:
+  build-step2:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-
+    timeout-minutes: 60
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -31,68 +30,110 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache/armilar
-          key: armilar-source-cache-v1-${{ github.run_id }}
+          key: armilar-icp2021-v2-${{ github.run_id }}
           restore-keys: |
-            armilar-source-cache-v1-
+            armilar-icp2021-v2-
 
       - name: Install package
-        run: python -m pip install --upgrade pip && python -m pip install -e .
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
-      - name: Diagnose, fetch and bundle
-        run: python -m armilar_pipeline run-all --config config/sources.json --run-dir run --cache-dir .cache/armilar --output-dir artifacts
+      - name: Acquire ICP 2021 and construct Step 2 outputs
+        run: |
+          python -m armilar_pipeline run-step2 \
+            --config config/step2_icp2021.json \
+            --run-dir run \
+            --cache-dir .cache/armilar \
+            --output-dir artifacts
 
-      - name: Show manifest summary
-        run: python -c "import json; m=json.load(open('run/manifest.json')); print(json.dumps(m['summary'], indent=2)); print('STATUS:', m['operational_status'])"
+      - name: Show Step 2 status
+        run: |
+          python - <<'PY'
+          import json
+          summary = json.load(open('run/outputs/step2_summary.json', encoding='utf-8'))
+          print(json.dumps(summary, indent=2, ensure_ascii=False))
+          PY
 
-      - name: Upload workflow artifact
+      - name: Upload complete acquisition bundle
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: armilar-data-${{ github.run_id }}
+          name: armilar-step2-${{ github.run_id }}
           path: |
             artifacts/*.zip
+            artifacts/latest_run_summary.json
             run/manifest.json
             run/diagnostics.json
             run/SHA256SUMS
-          if-no-files-found: error
-          retention-days: 30
-      - name: Publish machine-readable diagnostics
+            run/STEP2_REPORT.md
+            run/outputs/*.csv
+            run/outputs/*.json
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Publish concise latest diagnostics
+        if: success()
         shell: bash
         run: |
           set -euo pipefail
-
+          rm -rf public/latest
           mkdir -p public/latest
           cp run/manifest.json public/latest/manifest.json
           cp run/diagnostics.json public/latest/diagnostics.json
           cp run/SHA256SUMS public/latest/SHA256SUMS
+          cp run/STEP2_REPORT.md public/latest/STEP2_REPORT.md
+          cp run/outputs/step2_summary.json public/latest/step2_summary.json
+          cp run/outputs/coverage_report.csv public/latest/coverage_report.csv
+          cp run/outputs/missing_data_report.csv public/latest/missing_data_report.csv
+          cp run/outputs/exclusions_report.csv public/latest/exclusions_report.csv
+          cp run/outputs/economy_registry.csv public/latest/economy_registry.csv
+          cp run/outputs/officially_imputed_aggregate_only_economies.csv public/latest/officially_imputed_aggregate_only_economies.csv
+          cp run/outputs/hierarchy_reconciliation.csv public/latest/hierarchy_reconciliation.csv
+          cp run/outputs/weights_candidate_observed_participants.csv public/latest/weights_candidate_observed_participants.csv
+          cp run/outputs/weights_final_normalized.csv public/latest/weights_final_normalized.csv
+          cp run/outputs/weights_by_category.csv public/latest/weights_by_category.csv
+          cp run/outputs/weights_by_economy.csv public/latest/weights_by_economy.csv
+          cp run/outputs/participation_mapping_audit.csv public/latest/participation_mapping_audit.csv
+          cp run/outputs/measure_selection_audit.csv public/latest/measure_selection_audit.csv
+          cp run/outputs/publication_scope_audit.csv public/latest/publication_scope_audit.csv
+          cp run/outputs/source90_concepts.csv public/latest/source90_concepts.csv
+          cp run/outputs/source90_variable_inventory.csv public/latest/source90_variable_inventory.csv
 
+      - name: Commit public latest diagnostics
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add public/latest
-
           if git diff --cached --quiet; then
-            echo "No diagnostic changes to publish."
+            echo "No public diagnostics changed."
           else
-            git commit -m "Update latest pipeline diagnostics [skip ci]"
-            git push origin HEAD:main
+            git commit -m "Publish latest ICP 2021 Step 2 diagnostics"
+            git push
           fi
-      - name: Replace public rolling release
+
+      - name: Replace rolling data release
+        if: success()
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
           gh release delete data-latest --cleanup-tag --yes 2>/dev/null || true
-          BUNDLE=$(find artifacts -maxdepth 1 -name 'armilar_data_*.zip' -print -quit)
+          BUNDLE=$(find artifacts -maxdepth 1 -name 'armilar_step2_icp2021_*.zip' -print -quit)
           gh release create data-latest \
             "$BUNDLE" \
             run/manifest.json \
             run/diagnostics.json \
             run/SHA256SUMS \
-            --target "$GITHUB_SHA" \
-            --title "Latest Armilar data bundle" \
-            --notes "Automated rolling data acquisition release. Inspect manifest.json and diagnostics.json before using any data." \
+            run/STEP2_REPORT.md \
+            --target "$(git rev-parse HEAD)" \
+            --title "Latest Armilar ICP 2021 Step 2 bundle" \
+            --notes "Automated ICP 2021 acquisition and Step 2 matrix audit. Check release_allowed before using weights." \
             --prerelease
