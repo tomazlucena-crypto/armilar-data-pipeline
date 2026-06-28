@@ -10,6 +10,9 @@ from typing import Any
 from .acquire import AcquisitionRecord, fetch_json_pages, fetch_url
 from .config import Step2Config, load_config
 from .hybrid_matrix import HybridMatrixResult, build_hybrid_matrix
+from .gap_priority import build_gap_priority
+from .proxy_audit import build_proxy_audit
+from .source_probe import SourceProbeResult, run_source_probes
 from .measures import audit_selected_measure_identity, select_measures
 from .participation import extract_participating_names, map_participants_to_codes
 from .supplemental import (
@@ -151,12 +154,35 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
         )
         matrix.exclusion_rows.extend(supplemental_exclusions)
         matrix.summary["source90_measure_identity"] = identity_summary
-        _write_outputs(config, run_root, matrix, mapping_audit, measures.diagnostics, identity_rows, roles, concepts, inventories, supplemental_diagnostics, acquisition_failures)
 
-        manifest = _manifest(config, started_at, records, matrix.summary, run_root, acquisition_failures)
+        source_probe = run_source_probes(
+            config,
+            candidates_path=config.source_probe_candidates_path,
+            run_root=run_root,
+            cache_root=cache_root,
+        )
+        records.extend(source_probe.acquisition_records)
+        financing_rows, ppp_comparison_rows, proxy_summary = build_proxy_audit(
+            config, roles=roles, observations=observations, inventories=inventories,
+            measures=measures, matrix=matrix,
+        )
+        gap_priority_rows, gap_priority_summary = build_gap_priority(matrix, source_probe.economy_rows)
+        matrix.summary["step2h0"] = {
+            "source_probe": source_probe.summary,
+            "gap_priority": gap_priority_summary,
+            "proxy_audit": proxy_summary,
+        }
+        _write_outputs(
+            config, run_root, matrix, mapping_audit, measures.diagnostics, identity_rows,
+            roles, concepts, inventories, supplemental_diagnostics, acquisition_failures,
+            source_probe, financing_rows, ppp_comparison_rows, proxy_summary,
+            gap_priority_rows, gap_priority_summary,
+        )
+
+        manifest = _manifest(config, started_at, records, matrix.summary, run_root, acquisition_failures + source_probe.failure_rows)
         write_json(run_root / "manifest.json", manifest)
         diagnostics = {
-            "schema_version": "3.0",
+            "schema_version": "4.0",
             "generated_at": utc_now(),
             "runtime": safe_runtime_info(),
             "source_metadata_validation": source_metadata_validation,
@@ -177,6 +203,10 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
             },
             "supplemental_sources": supplemental_diagnostics,
             "supplemental_acquisition_failures": acquisition_failures,
+            "source_probe": source_probe.summary,
+            "source_probe_failures": source_probe.failure_rows,
+            "proxy_audit": proxy_summary,
+            "gap_priority": gap_priority_summary,
             "step2_summary": matrix.summary,
         }
         write_json(run_root / "diagnostics.json", diagnostics)
@@ -198,7 +228,7 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
         }
     except Exception as exc:
         failure = {
-            "schema_version": "3.0", "status": "FAILED", "generated_at": utc_now(),
+            "schema_version": "4.0", "status": "FAILED", "generated_at": utc_now(),
             "error_type": type(exc).__name__, "error": str(exc), "traceback": traceback.format_exc(),
             "runtime": safe_runtime_info(), "acquisition_failures": acquisition_failures,
         }
@@ -208,7 +238,13 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
         raise
 
 
-def _write_outputs(config: Step2Config, run_root, matrix: HybridMatrixResult, mapping_audit, measure_diagnostics, identity_rows, roles, concepts, inventories, supplemental_diagnostics, acquisition_failures):
+def _write_outputs(
+    config: Step2Config, run_root, matrix: HybridMatrixResult, mapping_audit,
+    measure_diagnostics, identity_rows, roles, concepts, inventories,
+    supplemental_diagnostics, acquisition_failures, source_probe: SourceProbeResult,
+    financing_rows, ppp_comparison_rows, proxy_summary, gap_priority_rows,
+    gap_priority_summary,
+):
     out = run_root / "outputs"
     write_json(out / "step2_summary.json", matrix.summary)
     write_csv(out / "raw_economy_heading_matrix.csv", [
@@ -245,7 +281,7 @@ def _write_outputs(config: Step2Config, run_root, matrix: HybridMatrixResult, ma
     write_csv(out / "exclusions_report.csv", exclusion_fields, matrix.exclusion_rows)
     write_csv(out / "economy_registry.csv", [
         "economy_code", "economy_name", "icp_participation_status", "eligible_complete_12_category_matrix",
-        "included_in_observed_research_weights", "official_imputation_category_detail_available", "participation_status_basis",
+        "included_in_observed_universe_weights", "official_imputation_category_detail_available", "participation_status_basis",
     ], matrix.economy_registry_rows)
     coverage = []
     categories_by_economy: dict[str, set[str]] = {}
@@ -264,9 +300,12 @@ def _write_outputs(config: Step2Config, run_root, matrix: HybridMatrixResult, ma
         "economy_code", "economy_name", "categories_available", "categories_required", "complete", "missing_categories",
     ], coverage)
     weight_fields = category_fields + ["weight", "rounding_residual_applied"]
-    write_csv(out / "weights_research_observed_normalized.csv", weight_fields, matrix.weight_rows)
+    # These weights are normalized only within the set of complete observed economies.
+    # They must never be presented as a complete world matrix.
+    write_csv(out / "weights_observed_universe.csv", weight_fields, matrix.weight_rows)
+    write_csv(out / "weights_experimental_universe.csv", weight_fields, [])
     global_final = matrix.weight_rows if matrix.summary["global_12_category_matrix_complete"] else []
-    write_csv(out / "weights_final_normalized.csv", weight_fields, global_final)
+    write_csv(out / "weights_final.csv", weight_fields, global_final)
     write_csv(out / "weights_by_economy.csv", ["economy_code", "weight"], matrix.economy_weight_rows)
     write_csv(out / "weights_by_category.csv", ["armilar_category", "weight"], matrix.category_weight_rows)
     write_csv(out / "officially_imputed_aggregate_only_economies.csv", [
@@ -283,6 +322,34 @@ def _write_outputs(config: Step2Config, run_root, matrix: HybridMatrixResult, ma
     ], identity_rows)
     write_csv(out / "supplemental_source_diagnostics.csv", sorted({key for row in supplemental_diagnostics for key in row}) if supplemental_diagnostics else ["source_id"], supplemental_diagnostics)
     write_csv(out / "source_acquisition_failures.csv", ["source_id", "error_type", "error"], acquisition_failures)
+    source_probe_candidate_fields = sorted({key for row in source_probe.candidate_rows for key in row}) if source_probe.candidate_rows else ["source_id"]
+    source_probe_economy_fields = sorted({key for row in source_probe.economy_rows for key in row}) if source_probe.economy_rows else ["economy_code"]
+    write_csv(out / "source_probe_candidate_results.csv", source_probe_candidate_fields, source_probe.candidate_rows)
+    write_csv(out / "source_probe_economy_summary.csv", source_probe_economy_fields, source_probe.economy_rows)
+    write_csv(out / "source_probe_failures.csv", ["economy_code", "source_id", "source_url", "error_type", "error"], source_probe.failure_rows)
+    write_json(out / "source_probe_summary.json", source_probe.summary)
+    write_csv(out / "proxy_financing_exposure.csv", [
+        "economy_code", "economy_name", "armilar_12_category_nominal_lcu",
+        "derived_narcotics_nominal_lcu", "net_purchases_abroad_nominal_lcu",
+        "reconstructed_hfce_nominal_lcu", "aic_nominal_lcu", "aic_minus_hfce_lcu",
+        "aic_hfce_financing_gap_ratio", "status", "interpretation",
+    ], financing_rows)
+    write_csv(out / "proxy_ppp_comparison.csv", [
+        "economy_code", "economy_name", "armilar_category", "aic_ppp", "strict_hfce_ppp",
+        "ppp_ratio_hfce_to_aic", "implied_real_expenditure_error_ratio", "status", "evidence_note",
+    ], ppp_comparison_rows)
+    write_json(out / "proxy_validation_summary.json", proxy_summary)
+    gap_priority_fields = [
+        "economic_gap_rank", "source_adjusted_priority_rank", "economy_code", "economy_name",
+        "categories_available", "missing_categories", "direct_categories_available",
+        "direct_real_expenditure_ppp_indicator", "direct_expenditure_share_of_participant_indicator",
+        "cumulative_direct_expenditure_share_of_incomplete_economies", "source_probe_class",
+        "source_probe_best_source_id", "source_probe_retrieval_status",
+        "candidate_success_probability_assumption", "integration_cost_assumption",
+        "development_priority_score", "blocking_reason",
+    ]
+    write_csv(out / "economy_gap_priority.csv", gap_priority_fields, gap_priority_rows)
+    write_json(out / "gap_priority_summary.json", gap_priority_summary)
     write_csv(out / "source90_concepts.csv", ["position", "concept_id", "concept_label"], [
         {"position": index, "concept_id": concept_id, "concept_label": label}
         for index, (concept_id, label) in enumerate(concepts, start=1)
@@ -348,7 +415,7 @@ def _unified_normalized_rows(config: Step2Config, matrix: HybridMatrixResult) ->
 
 def _manifest(config: Step2Config, started_at: str, records: list[AcquisitionRecord], summary, run_root, acquisition_failures):
     return {
-        "schema_version": "3.0", "pipeline_version": config.pipeline_version,
+        "schema_version": "4.0", "pipeline_version": config.pipeline_version,
         "started_at": started_at, "completed_at": utc_now(), "reference_year": config.reference_year,
         "source_files": [record.as_dict(run_root) for record in records],
         "source_acquisition_failures": acquisition_failures,
@@ -372,8 +439,8 @@ def _write_methodology_report(path: Path, summary, supplemental_diagnostics, acq
         f"- Monetary release allowed: `{summary['monetary_release_allowed']}`",
         f"- Participating economies mapped: `{summary['participating_economies_mapped']}` / `{summary['participating_economies_expected']}`",
         f"- Complete participating economies: `{summary['complete_participating_economies']}`",
-        f"- Research weight cells: `{summary['observed_research_weight_cells']}`",
-        f"- Research weight sum: `{summary['observed_research_weight_sum']}`",
+        f"- Observed-universe weight cells: `{summary['observed_universe_weight_cells']}`",
+        f"- Observed-universe weight sum: `{summary['observed_universe_weight_sum']}`",
         f"- Officially imputed aggregate-only economies: `{summary['officially_imputed_aggregate_only_economies']}`",
         "",
         "## Supplemental source diagnostics", "",
@@ -384,6 +451,24 @@ def _write_methodology_report(path: Path, summary, supplemental_diagnostics, acq
         lines.extend(["", "## Acquisition failures", ""])
         for item in acquisition_failures:
             lines.append(f"- `{item['source_id']}`: {item['error_type']}: {item['error']}")
+    step2h0 = summary.get("step2h0", {})
+    if step2h0:
+        probe = step2h0.get("source_probe", {})
+        gap = step2h0.get("gap_priority", {})
+        proxy = step2h0.get("proxy_audit", {})
+        lines.extend([
+            "", "## Step 2H0 feasibility audit", "",
+            f"- Priority economies probed: `{probe.get('economies_probed', 0)}`",
+            f"- A/B candidates accessible in this run: `{probe.get('a_or_b_candidate_economies', 0)}`",
+            f"- C-only economies accessible in this run: `{probe.get('c_only_economies', 0)}`",
+            f"- Unavailable economies in this run: `{probe.get('d_unavailable_economies', 0)}`",
+            f"- Complete-economy coverage in the seven-category priority indicator: `{gap.get('complete_economy_indicator_coverage_ratio', '')}`",
+            f"- Option B evidence status: `{proxy.get('validation_status', '')}`",
+            f"- Direct strict-HFCE versus AIC PPP comparisons: `{proxy.get('direct_hfce_vs_aic_ppp_comparisons', 0)}`",
+            "",
+            "The source probe classifies availability and conceptual suitability; it does not insert any national source into the matrix.",
+            "The priority indicator uses only seven direct ICP categories and is not a world-coverage estimate.",
+        ])
     if summary.get("blocking_reasons"):
         lines.extend(["", "## Remaining global-scope blockers", ""] + [f"- {reason}" for reason in summary["blocking_reasons"]])
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")

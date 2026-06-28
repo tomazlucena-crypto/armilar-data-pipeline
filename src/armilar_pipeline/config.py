@@ -63,6 +63,10 @@ class Step2Config:
     def methodology_policy_path(self) -> Path:
         return self.path.parent / "methodology_policy.json"
 
+    @property
+    def source_probe_candidates_path(self) -> Path:
+        return self.path.parent / "source_probe_candidates.csv"
+
 
 def load_config(path: str | Path) -> Step2Config:
     config_path = Path(path).resolve()

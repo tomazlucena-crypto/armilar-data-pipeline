@@ -19,7 +19,7 @@ class CliTests(unittest.TestCase):
             "run_dir": Path("run"),
             "bundle": Path("artifacts/bundle.zip"),
             "summary": {
-                "observed_research_weight_sum": Decimal("1.000000000000000000000000"),
+                "observed_universe_weight_sum": Decimal("1.000000000000000000000000"),
                 "maximum_relative_error": Decimal("0.000000000000004536498750464798581586907940"),
             },
         }
@@ -29,7 +29,7 @@ class CliTests(unittest.TestCase):
 
         self.assertEqual(exit_code, 0)
         payload = json.loads(stdout.getvalue())
-        self.assertEqual(payload["summary"]["observed_research_weight_sum"], "1.000000000000000000000000")
+        self.assertEqual(payload["summary"]["observed_universe_weight_sum"], "1.000000000000000000000000")
         self.assertEqual(payload["run_dir"], "run")
         self.assertFalse(payload["monetary_release_allowed"])
 
@@ -40,7 +40,7 @@ class CliTests(unittest.TestCase):
             "monetary_release_allowed": False,
             "run_dir": "run",
             "bundle": "artifacts/bundle.zip",
-            "summary": {"observed_research_weight_sum": Decimal("0")},
+            "summary": {"observed_universe_weight_sum": Decimal("0")},
         }
         stdout = io.StringIO()
         with patch("armilar_pipeline.cli.run_step2", return_value=result), patch("sys.stdout", stdout):

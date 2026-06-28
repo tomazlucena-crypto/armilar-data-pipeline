@@ -1,24 +1,24 @@
 # Upload instructions
 
-Use GitHub Desktop for this complete replacement.
+Use GitHub Desktop for the complete v0.4.0 replacement.
 
 1. Extract the ZIP.
 2. Open the local clone of `tomazlucena-crypto/armilar-data-pipeline`.
 3. Delete the repository contents except the hidden `.git` directory.
-4. Copy the contents inside the extracted v0.3.1 folder into the repository root.
+4. Copy the contents inside the extracted `armilar-data-pipeline-v0.4.0` folder into the repository root.
 5. Confirm that `.github`, `config`, `constitution`, `docs`, `schemas`, `src` and `tests` are at root level.
-6. Commit with a message such as `Fix Step 2 CLI publication pipeline v0.3.1`.
+6. Commit with `Implement Step 2H0 source feasibility audit v0.4.0`.
 7. Push to `main`.
 
-The push starts GitHub Actions automatically. Do not manually start a second run unless the automatic run fails to appear.
+The push starts GitHub Actions automatically.
 
 After completion inspect:
 
-- `public/latest/step2_summary.json`
-- `public/latest/STEP2_REPORT.md`
-- `public/latest/coverage_report.csv`
-- `public/latest/weights_research_observed_normalized.csv`
-- `public/latest/weights_final_normalized.csv`
-- the `armilar-step2-*` workflow artifact.
+- `public/latest/source_probe_economy_summary.csv`;
+- `public/latest/source_probe_candidate_results.csv`;
+- `public/latest/economy_gap_priority.csv`;
+- `public/latest/proxy_validation_summary.json`;
+- `public/latest/step2_summary.json`;
+- the `armilar-step2-*` workflow artefact.
 
-Do not treat the research matrix as the worldwide final matrix unless `global_12_category_matrix_complete=true`.
+`weights_observed_universe.csv` is normalised only inside the complete observed subset. `weights_final.csv` remains the sole worldwide final-output file and must remain empty until its gate passes.

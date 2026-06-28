@@ -67,3 +67,9 @@ The hierarchy selects one complete provider per economy. It does not splice cate
 ## Known scope limitation
 
 Current national-accounts releases may include revisions made after the ICP 2021 compilation vintage. The pipeline does not conceal this. Proxy-category rows carry a vintage-mismatch quality flag and preserve exact source provenance.
+
+## Step 2H0 national-source probes
+
+The ten-economy feasibility registry is maintained in `config/source_probe_candidates.csv`. Its purpose is source triage, not matrix construction. See `docs/STEP2H0_SOURCE_AUDIT.md` for the class definitions, preliminary findings and runtime controls.
+
+A downloaded source remains inadmissible when its concept, reference period or classification requires experimental allocation. Runtime accessibility and methodological suitability are reported separately.

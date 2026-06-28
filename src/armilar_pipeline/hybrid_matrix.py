@@ -160,7 +160,7 @@ def build_hybrid_matrix(
             "economy_name": variable.value,
             "icp_participation_status": status,
             "eligible_complete_12_category_matrix": code in complete_set,
-            "included_in_observed_research_weights": code in complete_set,
+            "included_in_observed_universe_weights": code in complete_set,
             "official_imputation_category_detail_available": False if status == "OFFICIALLY_IMPUTED_AGGREGATE_ONLY" else "",
             "participation_status_basis": (
                 "OFFICIAL_ICP_2021_PARTICIPATION_LIST" if status == "PARTICIPATING" else
@@ -194,7 +194,7 @@ def build_hybrid_matrix(
     if research_release_allowed and not global_matrix_complete:
         status = "RESEARCH_MATRIX_AVAILABLE_GLOBAL_SCOPE_INCOMPLETE"
     summary = {
-        "schema_version": "3.0",
+        "schema_version": "4.0",
         "pipeline_version": config.pipeline_version,
         "reference_year": config.reference_year,
         "methodology": "RATIFIED_OPTION_B_STRICT_HFCE_NUMERATOR_WITH_ACTUAL_CONSUMPTION_PPP_PROXY_FOR_FIVE_CATEGORIES",
@@ -205,10 +205,10 @@ def build_hybrid_matrix(
         "complete_participating_economies": len(complete_economies),
         "incomplete_participating_economies": config.expected_participating_economies - len(complete_economies),
         "admissible_observed_category_cells": len(all_category_rows),
-        "observed_research_weight_cells": len(weight_rows),
-        "observed_research_weight_sum": format(weight_sum, "f"),
+        "observed_universe_weight_cells": len(weight_rows),
+        "observed_universe_weight_sum": format(weight_sum, "f"),
         "weight_sum_tolerance": format(config.weight_sum_tolerance, "E"),
-        "observed_research_weights_valid": weights_valid,
+        "observed_universe_weights_valid": weights_valid,
         "research_release_allowed": research_release_allowed,
         "global_12_category_matrix_complete": global_matrix_complete,
         "monetary_release_allowed": False,

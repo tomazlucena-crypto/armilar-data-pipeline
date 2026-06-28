@@ -1,0 +1,100 @@
+from __future__ import annotations
+
+import csv
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from armilar_pipeline.acquire import AcquisitionRecord
+from armilar_pipeline.config import load_config
+from armilar_pipeline.source_probe import load_source_candidates, run_source_probe_only, run_source_probes
+from armilar_pipeline.util import sha256_file
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class SourceProbeTests(unittest.TestCase):
+    def _registry(self, path: Path) -> None:
+        fields = [
+            "economy_code", "economy_name", "source_id", "source_authority", "source_url",
+            "access_method", "reference_period", "national_accounts_or_survey", "institutional_sector",
+            "transaction_code", "classification", "category_coverage", "current_prices_available",
+            "currency", "unit", "npish_excluded", "government_excluded", "imputed_rent_included",
+            "machine_readable", "methodological_candidate_class", "confidence", "integration_cost",
+            "blocking_reason", "expected_content_types", "required_markers", "notes",
+        ]
+        with path.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            writer.writerow({
+                "economy_code": "AAA", "economy_name": "Alpha", "source_id": "AAA_OFFICIAL",
+                "source_authority": "Alpha Statistics", "source_url": "https://example.test/alpha.html",
+                "access_method": "HTML", "reference_period": "2021", "national_accounts_or_survey": "SURVEY",
+                "institutional_sector": "HOUSEHOLDS", "transaction_code": "", "classification": "CUSTOM",
+                "category_coverage": "8_GROUPS", "current_prices_available": "YES", "currency": "LCU",
+                "unit": "LCU", "npish_excluded": "UNKNOWN", "government_excluded": "YES",
+                "imputed_rent_included": "UNKNOWN", "machine_readable": "YES",
+                "methodological_candidate_class": "C_ONLY", "confidence": "HIGH", "integration_cost": "LOW",
+                "blocking_reason": "SURVEY_NOT_S14_P31", "expected_content_types": "text/html",
+                "required_markers": "official consumption|2021", "notes": "fixture",
+            })
+
+    def test_probe_preserves_source_and_classifies_accessible_candidate(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = root / "candidates.csv"
+            self._registry(registry)
+
+            def fake_fetch(config, *, source_id, url, destination, cache_path=None, accept="*/*"):
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_text("<html>Official consumption results for 2021</html>", encoding="utf-8")
+                return AcquisitionRecord(
+                    source_id=source_id, url=url, final_url=url, path=destination, status="fresh",
+                    status_code=200, content_type="text/html; charset=utf-8", bytes=destination.stat().st_size,
+                    sha256=sha256_file(destination), retrieved_at="2026-06-28T00:00:00Z", attempt_errors=(),
+                )
+
+            with patch("armilar_pipeline.source_probe.fetch_url", side_effect=fake_fetch):
+                result = run_source_probes(
+                    config, candidates_path=registry, run_root=root / "run", cache_root=root / "cache"
+                )
+
+            self.assertEqual(result.summary["economies_probed"], 1)
+            self.assertEqual(result.summary["c_only_economies"], 1)
+            self.assertEqual(result.economy_rows[0]["best_runtime_candidate_class"], "C_ONLY")
+            self.assertEqual(result.economy_rows[0]["best_methodological_candidate_class"], "C_ONLY")
+            self.assertEqual(result.candidate_rows[0]["signature_status"], "PASS")
+            self.assertEqual(result.candidate_rows[0]["marker_status"], "PASS")
+
+    def test_duplicate_source_ids_are_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "candidates.csv"
+            self._registry(path)
+            rows = path.read_text(encoding="utf-8").splitlines()
+            path.write_text("\n".join(rows + [rows[-1]]) + "\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "Duplicate source probe source_id"):
+                load_source_candidates(path)
+
+    def test_standalone_probe_program_writes_auditable_outputs(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            # Use a patched config registry path by calling the lower-level probe through a temporary copy.
+            registry = root / "candidates.csv"
+            self._registry(registry)
+            with patch.object(type(config), "source_probe_candidates_path", new_callable=lambda: property(lambda _: registry)):
+                def fake_fetch(config, *, source_id, url, destination, cache_path=None, accept="*/*"):
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    destination.write_text("<html>Official consumption results for 2021</html>", encoding="utf-8")
+                    return AcquisitionRecord(source_id, url, url, destination, "fresh", 200, "text/html", destination.stat().st_size, sha256_file(destination), "2026-06-28T00:00:00Z", ())
+                with patch("armilar_pipeline.source_probe.fetch_url", side_effect=fake_fetch):
+                    summary = run_source_probe_only(config, run_root=root / "run", cache_root=root / "cache")
+            self.assertEqual(summary["economies_probed"], 1)
+            self.assertTrue((root / "run" / "outputs" / "source_probe_summary.json").exists())
+            self.assertTrue((root / "run" / "SHA256SUMS").exists())
+
+
+if __name__ == "__main__":
+    unittest.main()

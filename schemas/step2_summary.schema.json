@@ -5,22 +5,71 @@
   "required": [
     "pipeline_version",
     "reference_year",
-    "observed_research_weight_sum",
+    "observed_universe_weight_sum",
     "research_release_allowed",
     "global_12_category_matrix_complete",
     "monetary_release_allowed",
     "status",
-    "blocking_reasons"
+    "blocking_reasons",
+    "observed_universe_weight_cells",
+    "observed_universe_weights_valid",
+    "step2h0"
   ],
   "properties": {
-    "pipeline_version": {"type": "string"},
-    "reference_year": {"const": 2021},
-    "observed_research_weight_sum": {"type": "string"},
-    "research_release_allowed": {"type": "boolean"},
-    "global_12_category_matrix_complete": {"type": "boolean"},
-    "monetary_release_allowed": {"const": false},
-    "status": {"type": "string"},
-    "blocking_reasons": {"type": "array", "items": {"type": "string"}}
+    "pipeline_version": {
+      "type": "string"
+    },
+    "reference_year": {
+      "const": 2021
+    },
+    "observed_universe_weight_sum": {
+      "type": "string"
+    },
+    "research_release_allowed": {
+      "type": "boolean"
+    },
+    "global_12_category_matrix_complete": {
+      "type": "boolean"
+    },
+    "monetary_release_allowed": {
+      "const": false
+    },
+    "status": {
+      "type": "string"
+    },
+    "blocking_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "observed_universe_weight_cells": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed_universe_weights_valid": {
+      "type": "boolean"
+    },
+    "step2h0": {
+      "type": "object",
+      "required": [
+        "source_probe",
+        "gap_priority",
+        "proxy_audit"
+      ],
+      "properties": {
+        "source_probe": {
+          "type": "object"
+        },
+        "gap_priority": {
+          "type": "object"
+        },
+        "proxy_audit": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
   },
   "additionalProperties": true
 }

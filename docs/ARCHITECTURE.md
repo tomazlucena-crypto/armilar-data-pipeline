@@ -1,76 +1,48 @@
 # Architecture
 
-## 1. Acquisition
+## 1. Independent programmes
 
-Every source is downloaded by GitHub Actions with retries, size limits and a project user-agent. The fresh response is preserved under `run/raw`. A last-known-good cache may be used only after all fresh attempts fail; the manifest labels it `stale_cache`.
+The repository now contains separable programmes sharing one schema and one methodology:
 
-World Bank Source 90 is mandatory. OECD, UNData and Eurostat are independent official supplemental routes. Failure of one supplemental route does not erase the others and is reported in `source_acquisition_failures.csv`.
+- ICP and international-source acquisition;
+- `armilar-source-probe` for national-source feasibility;
+- Option B evidence audit;
+- matrix builder and weight gates.
 
-## 2. Source discovery
+The full workflow runs them together, while the source probe can run independently.
 
-The pipeline discovers Source 90 concept order, variables and the 2021 time identifier from the API. It does not hard-code the multidimensional query order. It validates:
+## 2. Acquisition
 
-- Source ID 90 and ICP 2021 identity;
-- the official classification workbook;
-- presence of every Source 90 heading required by the selected methodology;
-- the official list of 176 participating economies.
+Every source is downloaded with retries, size limits and a project user-agent. Fresh responses are preserved under `run/raw`. A last-known-good cache may be used only after fresh attempts fail and is labelled `stale_cache`.
+
+World Bank Source 90 is mandatory. OECD, UNData and Eurostat are independent supplemental routes. Country probes are diagnostic and cannot block the established matrix.
 
 ## 3. Economic construction
 
-### Direct categories
+Seven categories use direct strict-household ICP cells. CP02 is alcohol plus tobacco, excluding narcotics. Five categories use strict household nominal expenditure divided by an AIC PPP proxy under the ratified research amendment.
 
-For CP01, CP03, CP05, CP07, CP08 and CP11:
+Government and NPISH expenditure never enters the numerator.
 
-`real expenditure = ICP nominal household expenditure / ICP category PPP`
+## 4. Step 2H0 source feasibility
 
-For CP02:
+Candidate sources are declared in `config/source_probe_candidates.csv`. Each is classified conceptually before runtime. GitHub Actions then verifies accessibility and file content.
 
-`real expenditure = alcohol nominal / alcohol PPP + tobacco nominal / tobacco PPP`
+Country-specific adapters will only be written for sources that remain A or B candidates after runtime validation. C sources are retained for a future experimental universe. D sources remain unavailable.
 
-The composite CP02 PPP is retained as `total nominal / total real`. The parent containing narcotics is never used.
+## 5. Proxy audit
 
-### Proxy-PPP categories
+The financing-exposure calculation reconstructs strict HFCE from:
 
-For CP04, CP06, CP09, CP10 and CP12:
+- the twelve Armilar nominal categories;
+- derived narcotics expenditure;
+- net purchases abroad.
 
-`real expenditure = strict household domestic nominal expenditure / ICP actual-consumption PPP proxy`
+It compares that result with nominal AIC. A separate table is reserved for matched strict-HFCE versus AIC PPP comparisons. The two diagnostics are never conflated.
 
-Only the deflator has the broader actual-consumption scope. The numerator is restricted to household domestic consumption.
+## 6. Weight namespaces
 
-## 4. Supplemental provider selection
+- `weights_observed_universe.csv`: internally normalised complete observed subset;
+- `weights_experimental_universe.csv`: separately authorised experimental observations only;
+- `weights_final.csv`: approved worldwide matrix only.
 
-A provider is eligible for an economy only when it supplies all five proxy categories. One provider is selected for the whole economy according to the configured priority. Category-level provider mixing is prohibited.
-
-Alternative official providers are retained in the audit. Divergences are reported and never rescaled away.
-
-## 5. Unit and identity controls
-
-The selected Source 90 measures must satisfy the median identity:
-
-`nominal expenditure / PPP = published PPP-based real expenditure`
-
-Supplemental nominal values are compared with overlapping direct Source 90 categories. Obvious unit-scale mismatches invalidate that source for that economy. No automatic scale correction is applied.
-
-## 6. Economy eligibility
-
-Every admissible category cell is preserved. An economy enters weights only when all twelve categories exist. Incomplete economies are excluded whole, rather than implicitly renormalising their available categories.
-
-The 19 officially imputed non-participants are tagged `OFFICIALLY_IMPUTED_AGGREGATE_ONLY` and excluded because the public ICP release does not provide a twelve-category allocation.
-
-## 7. Weights
-
-For the complete observed-participant universe:
-
-`w(i,c) = real_expenditure(i,c) / sum(real_expenditure)`
-
-Weights are quantised to 24 decimal places. A deterministic residual is applied to the final sorted row so the emitted sum is exactly 1.
-
-## 8. Release layers
-
-- `weights_research_observed_normalized.csv`: complete observed participants only.
-- `weights_final_normalized.csv`: populated only after the full global scope passes.
-- `monetary_release_allowed`: always false in Step 2.
-
-## 9. Provenance
-
-Every normalised row records source file, URL, retrieval timestamp, SHA-256 and quality flags. `manifest.json` lists acquisition metadata. `SHA256SUMS` covers the entire run directory.
+Incomplete economies are excluded whole. The 19 official aggregate-only imputations remain separately reported.

@@ -12,7 +12,7 @@ class ConfigTests(unittest.TestCase):
         config = load_config(ROOT / "config" / "step2_icp2021.json")
         self.assertEqual(config.source_id, "90")
         self.assertEqual(config.reference_year, 2021)
-        self.assertEqual(config.pipeline_version, "0.3.1")
+        self.assertEqual(config.pipeline_version, "0.4.0")
         self.assertEqual(config.aggregate_country_name_tokens, ("benchmark",))
         self.assertIn("NAB", config.aggregate_country_codes)
         self.assertEqual(set(config.proxy_ppp_heading_by_category), {"CP04", "CP06", "CP09", "CP10", "CP12"})
@@ -33,6 +33,19 @@ class ConfigTests(unittest.TestCase):
         text = (ROOT / "config" / "external_economy_codes.csv").read_text()
         self.assertIn("RUS,RUT", text)
         self.assertIn("BES,BON", text)
+
+    def test_step2h0_registry_covers_ten_priority_economies(self):
+        import csv
+        path = ROOT / "config" / "source_probe_candidates.csv"
+        with path.open(encoding="utf-8-sig", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), 11)
+        self.assertEqual(len({row["economy_code"] for row in rows}), 10)
+        self.assertTrue(all(None not in row for row in rows))
+        self.assertEqual(
+            {row["methodological_candidate_class"] for row in rows},
+            {"B_CANDIDATE", "C_ONLY", "D_UNAVAILABLE"},
+        )
 
 
 if __name__ == "__main__":

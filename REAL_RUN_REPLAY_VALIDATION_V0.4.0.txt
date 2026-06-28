@@ -1,0 +1,25 @@
+Armilar v0.4.0 replay validation
+
+Replay basis:
+- ICP Source 90 and OECD/UNData/Eurostat raw files preserved by GitHub Actions run 28336070795.
+- National source-probe files were synthetic signature/marker fixtures used only to validate Step 2H0 plumbing.
+- No live national-source accessibility claim is derived from this replay.
+
+Results:
+- status: RESEARCH_MATRIX_AVAILABLE_GLOBAL_SCOPE_INCOMPLETE
+- participating economies mapped: 176
+- officially imputed aggregate-only economies: 19
+- complete participating economies: 62
+- incomplete participating economies: 114
+- observed-universe cells: 744
+- observed-universe weight sum: 1.000000000000000000000000
+- observed-universe CSV rows: 744
+- experimental-universe CSV rows: 0
+- final CSV rows: 0
+- source-probe economies: 10
+- source-probe configured class distribution exercised: {'A_CANDIDATE': 0, 'B_CANDIDATE': 2, 'C_ONLY': 7, 'D_UNAVAILABLE': 1}
+- proxy financing comparisons accepted: 56
+- direct strict-HFCE/AIC PPP comparisons: 0
+- proxy validation status: INSUFFICIENT_DIRECT_EVIDENCE
+
+Validation: PASS

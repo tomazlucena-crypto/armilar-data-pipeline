@@ -34,9 +34,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache/armilar
-          key: armilar-icp2021-v3-${{ github.run_id }}
+          key: armilar-icp2021-v4-${{ github.run_id }}
           restore-keys: |
-            armilar-icp2021-v3-
+            armilar-icp2021-v4-
             armilar-icp2021-v2-
 
       - name: Install package
@@ -65,7 +65,7 @@ jobs:
           summary = json.load(open("run/outputs/step2_summary.json", encoding="utf-8"))
           print(json.dumps(summary, indent=2, ensure_ascii=False))
           if summary["research_release_allowed"]:
-              with open("run/outputs/weights_research_observed_normalized.csv", encoding="utf-8", newline="") as handle:
+              with open("run/outputs/weights_observed_universe.csv", encoding="utf-8", newline="") as handle:
                   total = sum((Decimal(row["weight"]) for row in csv.DictReader(handle)), Decimal("0"))
               if total != Decimal("1"):
                   raise SystemExit(f"Research weight sum is {total}, expected exactly 1")
@@ -114,8 +114,9 @@ jobs:
             coverage_report.csv \
             missing_data_report.csv \
             exclusions_report.csv \
-            weights_research_observed_normalized.csv \
-            weights_final_normalized.csv \
+            weights_observed_universe.csv \
+            weights_experimental_universe.csv \
+            weights_final.csv \
             weights_by_category.csv \
             weights_by_economy.csv \
             officially_imputed_aggregate_only_economies.csv \
@@ -126,6 +127,15 @@ jobs:
             source_acquisition_failures.csv \
             source90_concepts.csv \
             source90_variable_inventory.csv \
+            source_probe_candidate_results.csv \
+            source_probe_economy_summary.csv \
+            source_probe_failures.csv \
+            source_probe_summary.json \
+            economy_gap_priority.csv \
+            gap_priority_summary.json \
+            proxy_financing_exposure.csv \
+            proxy_ppp_comparison.csv \
+            proxy_validation_summary.json \
             methodology_policy_snapshot.json
           do
             cp "run/outputs/$file" "public/latest/$file"
@@ -163,5 +173,5 @@ jobs:
             run/STEP2_REPORT.md \
             --target "$(git rev-parse HEAD)" \
             --title "Latest Armilar ICP 2021 Step 2 bundle" \
-            --notes "Automated ICP 2021 and official national-accounts acquisition. Use the research matrix only when research_release_allowed=true. weights_final_normalized.csv remains empty until the full global scope passes every gate." \
+            --notes "Automated ICP 2021 and official national-accounts acquisition. Use the research matrix only when research_release_allowed=true. weights_final.csv remains empty until the full global scope passes every gate." \
             --prerelease
