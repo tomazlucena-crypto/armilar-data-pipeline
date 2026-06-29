@@ -18,6 +18,8 @@ from armilar_pipeline.country_adapters import (
     reconcile_india,
     registered_adapters,
     run_country_adapters_only,
+    METHODOLOGICAL_STATES,
+    completion_row,
     step2i_completion_summary,
     validate_mixed_provider_cells,
 )
@@ -129,10 +131,13 @@ class CountryAdapterTests(unittest.TestCase):
             self.assertTrue((root / "run" / "outputs" / "country_adapter_status.csv").exists())
             with (root / "run" / "outputs" / "country_adapter_status.csv").open(encoding="utf-8", newline="") as handle:
                 rows = {row["economy_code"]: row for row in csv.DictReader(handle)}
-            self.assertEqual(rows["IND"]["data_class"], "UNAVAILABLE")
+            self.assertEqual(rows["IND"]["data_class"], "CONCEPT_AMBIGUOUS")
             self.assertEqual(rows["IND"]["status"], "BLOCKED_BY_METHOD_GATE")
             self.assertTrue((root / "run" / "outputs" / "country_cell_status.csv").exists())
             self.assertTrue((root / "run" / "outputs" / "step2i_completion_summary.json").exists())
+            self.assertTrue((root / "run" / "outputs" / "step2i_audit_summary.json").exists())
+            self.assertTrue((root / "run" / "outputs" / "country_source_family_coverage.csv").exists())
+            self.assertTrue((root / "run" / "outputs" / "STEP_2I_AUDIT_REPORT.md").exists())
 
     def test_country_cli_rejects_unknown_command_cleanly(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -142,7 +147,21 @@ class CountryAdapterTests(unittest.TestCase):
     def test_cell_classification_is_per_cell(self) -> None:
         self.assertEqual(classify_cell({"data_class": "EXACT_OFFICIAL", "quality_flags": "NO_ALLOCATION"}), "OFFICIAL_DERIVED_NO_ALLOCATION")
         self.assertEqual(classify_cell({"data_class": "EXPERIMENTAL_ALLOCATION"}), "OFFICIAL_EXPERIMENTAL_ALLOCATION")
-        self.assertEqual(classify_cell({"data_class": "UNAVAILABLE"}), "UNAVAILABLE")
+        self.assertEqual(classify_cell({"data_class": "CONCEPT_AMBIGUOUS"}), "CONCEPT_AMBIGUOUS")
+        self.assertEqual(classify_cell({"data_class": "UNAVAILABLE"}), "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE")
+
+    def test_methodological_states_and_final_unavailability_gate(self) -> None:
+        self.assertIn("NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", METHODOLOGICAL_STATES)
+        self.assertIn("ACCESS_BLOCKED", METHODOLOGICAL_STATES)
+        self.assertIn("UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT", METHODOLOGICAL_STATES)
+        with self.assertRaises(ValueError):
+            completion_row("AAA", "Alpha", "not exhaustive", 1, "UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT")
+
+    def test_workflow_is_pull_request_safe(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "fetch-data.yml").read_text(encoding="utf-8")
+        self.assertIn("pull_request:", workflow)
+        self.assertIn("github.event_name != 'pull_request'", workflow)
+        self.assertIn("github.ref == 'refs/heads/main'", workflow)
 
     def test_mixed_provider_cells_are_admissible_when_concepts_match(self) -> None:
         base = {

@@ -2,6 +2,16 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.6.1: Step 2I corrective audit
+
+Version 0.6.1 corrects the certainty level of v0.6.0. Step 2I is no longer described as diagnostically closed. The correct status is: `Step 2I diagnostic infrastructure complete; source audit ongoing`.
+
+This release adds explicit states for ambiguous concepts, blocked access, non-machine-readable sources and current-probe non-admissibility. It also prevents `UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT` from being used without complete documented source-family coverage.
+
+New outputs are `country_source_family_coverage.csv`, `step2i_audit_summary.json` and `STEP_2I_AUDIT_REPORT.md`. GitHub Actions now validates pull requests while preventing PRs and non-main manual runs from publishing `public/latest`, committing or replacing releases.
+
+No new exact cells are admitted. `weights_final.csv` remains empty, `monetary_release_allowed=false`, `global_12_category_matrix_complete=false`, and Step 2J is not started.
+
 ## Version 0.5.0: Step 2H1 / first Step 2H2 wave
 
 Version 0.5.0 adds a reusable national-adapter layer while preserving the fail-closed economic gates.
@@ -20,7 +30,7 @@ The India parser proves that Statement 5.1 can be reconciled exactly at item lev
 
 Version 0.6.0 completes Step 2I diagnostically for China, India, Russia, Indonesia and Brazil. It adds per-cell decisions for CP04, CP06, CP09, CP10 and CP12, a source-attempt audit, India methodology gate audit, Step 2H exception audit and a Step 2I completion report.
 
-No new exact cells are admitted in this version. Each of the five Step 2I economies remains `UNAVAILABLE` for the five proxy categories because at least one material gate remains unresolved: strict S14/P31DC household scope, NPISH exclusion, exact COICOP purpose classification, current-price unit/currency confirmation, or no-allocation reconciliation.
+No new exact cells are admitted in this version. Each of the five Step 2I economies remains non-admissible for the five proxy categories because at least one material gate remains unresolved: strict S14/P31DC household scope, NPISH exclusion, exact COICOP purpose classification, current-price unit/currency confirmation, or no-allocation reconciliation.
 
 ### Step nomenclature
 
@@ -28,7 +38,8 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 |---|---|---|
 | 0.4.0 | Step 2H | Gap resolver / source probe |
 | 0.5.0 | Step 2I start | National adapter architecture and first audits |
-| 0.6.0 | Step 2I completion | Diagnostic closure for China, India, Russia, Indonesia and Brazil |
+| 0.6.0 | Step 2I infrastructure | Initial diagnostic closure, corrected by v0.6.1 |
+| 0.6.1 | Step 2I corrective audit | Diagnostic infrastructure complete; source audit ongoing |
 
 ## Version 0.4.0: Step 2H0
 
@@ -77,7 +88,7 @@ The preliminary methodological audit identifies:
 - 1 `D_UNAVAILABLE` economy: Nigeria;
 - 0 proven `A_CANDIDATE` economies.
 
-These are candidate classifications. The live GitHub run may downgrade an inaccessible or invalid response to `D_UNAVAILABLE`. It never upgrades a conceptually unsuitable source merely because it downloads successfully.
+These are candidate classifications. The live GitHub run may downgrade an inaccessible or invalid response to a blocked or current-probe non-admissible state. It never upgrades a conceptually unsuitable source merely because it downloads successfully.
 
 ## Option B evidence audit
 
