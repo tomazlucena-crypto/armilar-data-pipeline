@@ -2,6 +2,12 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.6.6: Indonesia source-family audit
+
+Version 0.6.6 replaces the static Indonesia decision with a dedicated `IndonesiaBpsAuditAdapter`. It records BPS official source-family attempts for the GDP-by-expenditure publication, BPS statistics-table family, downloadable national-accounts publication search, Supply and Use Tables, input-output tables, survey/CPI Class C evidence and classification/methodology discovery.
+
+The decision remains `NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE` when the critical BPS source-family chain is acquired and structurally reviewed. The known BPS expenditure publication is rejected because it is grouped rather than a twelve-Armilar-purpose strict S14/P31DC current-price dataset. BPS SUT and input-output evidence remains product/source-family evidence and cannot be transformed into exact COICOP weights through many-to-many allocation. Survey or CPI evidence remains Class C only. No exact cells are added.
+
 ## Version 0.6.5: China source-chain closure
 
 Version 0.6.5 replaces the static China decision with a dedicated `ChinaNbsAuditAdapter`. It acquires six exact official NBS resources independently, preserves raw evidence and hashes, and separates the eight-group household survey, the statistical-yearbook inventory, the 2020 product-based input-output family and the aggregate 2021 GDP verification.
@@ -73,6 +79,7 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 | 0.6.3 | Step 2H0 India evidence closure | Evidence-linked S14/NPISH and calendar-year rejection |
 | 0.6.4 | Step 2H0 Russia evidence closure | Aggregate, SUT-product and survey-purpose concepts separated |
 | 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, 2020 input-output and 2021 GDP aggregate concepts separated |
+| 0.6.6 | Step 2H0 Indonesia source-family audit | BPS grouped, database, SUT, input-output and Class C concepts separated |
 
 ## Version 0.4.0: Step 2H0
 
@@ -224,9 +231,16 @@ The intended acquisition environment is GitHub Actions. A push to `main` starts 
 - `outputs/step2i_economy_summary.csv`
 - `outputs/india_methodology_gate_audit.csv`
 - `outputs/russia_methodology_gate_audit.csv`
+- `outputs/china_methodology_gate_audit.csv`
+- `outputs/indonesia_methodology_gate_audit.csv`
 - `outputs/step2h_exception_audit.csv`
 - `outputs/step2i_completion_summary.json`
+- `outputs/step2i_audit_summary.json`
+- `outputs/INDIA_METHOD_GATE_REPORT.md`
 - `outputs/RUSSIA_METHOD_GATE_REPORT.md`
+- `outputs/CHINA_METHOD_GATE_REPORT.md`
+- `outputs/INDONESIA_METHOD_GATE_REPORT.md`
+- `outputs/STEP_2I_AUDIT_REPORT.md`
 - `outputs/STEP_2I_COMPLETION_REPORT.md`
 - `outputs/weights_observed_universe.csv`
 - `outputs/weights_experimental_universe.csv`

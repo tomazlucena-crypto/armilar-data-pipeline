@@ -56,7 +56,7 @@ CELL_STATUS_FIELDS = [
 ]
 
 SOURCE_ATTEMPT_FIELDS = [
-    "economy_code", "category", "authority", "dataset", "url",
+    "economy_code", "category", "source_family", "authority", "dataset", "url",
     "access_method", "retrieval_status", "status_code", "content_type",
     "file_signature", "byte_size", "reference_period", "institutional_sector",
     "transaction_code", "classification", "current_prices", "currency", "unit",
@@ -88,9 +88,11 @@ SOURCE_FAMILIES = (
     (2, "official_csv_xls_xlsx"),
     (3, "official_statistical_database"),
     (4, "official_supply_and_use_tables"),
-    (5, "official_structured_publications"),
-    (6, "survey_or_cpi_class_c_only"),
-    (7, "exhaustive_unavailability_documentation"),
+    (5, "official_input_output_tables"),
+    (6, "official_structured_publications"),
+    (7, "survey_or_cpi_class_c_only"),
+    (8, "official_classifications_methodology"),
+    (9, "exhaustive_unavailability_documentation"),
 )
 
 COMPLETION_ECONOMY_FIELDS = [
@@ -120,6 +122,13 @@ CHINA_GATE_FIELDS = [
 ]
 
 CHINA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+INDONESIA_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+
+INDONESIA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
 
 STEP2H_EXCEPTION_FIELDS = [
     "economy_code", "economy_name", "armilar_category", "decision",
@@ -158,6 +167,7 @@ class AdapterResult:
     india_gate_rows: list[dict[str, Any]] | None = None
     russia_gate_rows: list[dict[str, Any]] | None = None
     china_gate_rows: list[dict[str, Any]] | None = None
+    indonesia_gate_rows: list[dict[str, Any]] | None = None
     step2h_exception_rows: list[dict[str, Any]] | None = None
 
 
@@ -175,7 +185,7 @@ def registered_adapters() -> dict[str, CountryAdapter]:
         IndiaMospiAdapter(),
         RussiaRosstatAuditAdapter(),
         ChinaNbsAuditAdapter(),
-        Step2IDecisionAdapter("IDN", "Indonesia", "IDN_BPS_OFFICIAL_SOURCE_AUDIT", "Badan Pusat Statistik", "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html", "2021", "HFCE_REGROUPED", "7 groups", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories."),
+        IndonesiaBpsAuditAdapter(),
         Step2IDecisionAdapter("BRA", "Brazil", "BRA_IBGE_OFFICIAL_SOURCE_AUDIT", "Instituto Brasileiro de Geografia e Estatistica", "https://www.ibge.gov.br/estatisticas/economicas/comercio/9052-sistema-de-contas-nacionais-brasil.html", "2021", "SNA_PRODUCT_TABLES", "product tables", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official product tables would require many-to-many product-to-COICOP allocation."),
         AuditOnlyAdapter("EGY", "Egypt", "EGY_CAPMAS_OFFICIAL_SOURCE_AUDIT", "Central Agency for Public Mobilization and Statistics", "https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview", "2021", "HOUSEHOLD_SURVEY", "survey microdata", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official HIECS is a survey source, not national-accounts S14/P31 current-price HFCE."),
         AuditOnlyAdapter("PAK", "Pakistan", "PAK_PBS_OFFICIAL_SOURCE_AUDIT", "Pakistan Bureau of Statistics", "https://www.pbs.gov.pk/national-accounts-2/", "2021-22", "HFCE_AGGREGATE", "aggregate only", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Public national-accounts source does not expose a twelve-category strict household table."),
@@ -265,6 +275,7 @@ def write_country_outputs(out: Path, result: AdapterResult) -> None:
     write_csv(out / "india_methodology_gate_audit.csv", INDIA_GATE_FIELDS, result.india_gate_rows or [])
     write_csv(out / "russia_methodology_gate_audit.csv", RUSSIA_GATE_FIELDS, result.russia_gate_rows or [])
     write_csv(out / "china_methodology_gate_audit.csv", CHINA_GATE_FIELDS, result.china_gate_rows or [])
+    write_csv(out / "indonesia_methodology_gate_audit.csv", INDONESIA_GATE_FIELDS, result.indonesia_gate_rows or [])
     write_csv(out / "step2h_exception_audit.csv", STEP2H_EXCEPTION_FIELDS, result.step2h_exception_rows or step2h_exception_rows())
     write_json(out / "step2i_completion_summary.json", step2i_completion_summary(result))
     write_json(out / "step2i_audit_summary.json", step2i_audit_summary(result))
@@ -273,6 +284,7 @@ def write_country_outputs(out: Path, result: AdapterResult) -> None:
     write_india_method_gate_report(out / "INDIA_METHOD_GATE_REPORT.md", result.india_gate_rows or [])
     write_russia_method_gate_report(out / "RUSSIA_METHOD_GATE_REPORT.md", result.russia_gate_rows or [])
     write_china_method_gate_report(out / "CHINA_METHOD_GATE_REPORT.md", result.china_gate_rows or [])
+    write_indonesia_method_gate_report(out / "INDONESIA_METHOD_GATE_REPORT.md", result.indonesia_gate_rows or [])
 
 
 class IndiaMospiAdapter:
@@ -810,6 +822,185 @@ class ChinaNbsAuditAdapter:
         )
 
 
+class IndonesiaBpsAuditAdapter:
+    economy_code = "IDN"
+    economy_name = "Indonesia"
+    adapter_id = "IDN_BPS_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "Badan Pusat Statistik"
+    reference_period = "2021"
+
+    source_specs = (
+        {
+            "source_id": "IDN_BPS_GDP_EXPENDITURE_2020_2024",
+            "url": "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html",
+            "filename": "gdp_by_expenditure_2020_2024.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "GDP by expenditure publication with household consumption groups",
+            "classification": "HFCE_REGROUPED_PUBLICATION",
+        },
+        {
+            "source_id": "IDN_BPS_STATISTICS_TABLES_EXPENDITURE",
+            "url": "https://www.bps.go.id/en/statistics-table?subject=531",
+            "filename": "statistics_tables_expenditure.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_statistical_database",
+            "concept": "BPS official statistics tables for expenditure-side national accounts",
+            "classification": "BPS_DATABASE_DISCOVERY",
+        },
+        {
+            "source_id": "IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH",
+            "url": "https://www.bps.go.id/en/publication?keyword=gross%20domestic%20product%20expenditure",
+            "filename": "national_accounts_download_search.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_csv_xls_xlsx",
+            "concept": "Official downloadable national-accounts publication search",
+            "classification": "DOWNLOAD_DISCOVERY_ONLY",
+        },
+        {
+            "source_id": "IDN_BPS_SUPPLY_USE_TABLES",
+            "url": "https://www.bps.go.id/en/publication?keyword=supply%20use%20table",
+            "filename": "supply_use_tables_search.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_supply_and_use_tables",
+            "concept": "Official BPS supply and use table publication family",
+            "classification": "SUT_PRODUCT_TABLE_DISCOVERY",
+        },
+        {
+            "source_id": "IDN_BPS_INPUT_OUTPUT_TABLES",
+            "url": "https://www.bps.go.id/en/publication?keyword=input%20output%20table",
+            "filename": "input_output_tables_search.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_input_output_tables",
+            "concept": "Official BPS input-output table publication family",
+            "classification": "INPUT_OUTPUT_PRODUCT_TABLE_DISCOVERY",
+        },
+        {
+            "source_id": "IDN_BPS_SURVEY_OR_CPI_CLASS_C",
+            "url": "https://www.bps.go.id/en/statistics-table?subject=3",
+            "filename": "survey_or_cpi_class_c.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "survey_or_cpi_class_c_only",
+            "concept": "BPS household survey or CPI evidence",
+            "classification": "SURVEY_OR_CPI_CLASS_C_ONLY",
+        },
+        {
+            "source_id": "IDN_BPS_CLASSIFICATION_METHODOLOGY",
+            "url": "https://www.bps.go.id/en/publication?keyword=classification%20coicop",
+            "filename": "classification_methodology_search.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_classifications_methodology",
+            "concept": "Official classification and methodology documents",
+            "classification": "CLASSIFICATION_METHODOLOGY_DISCOVERY",
+        },
+    )
+    core_source_ids = {
+        "IDN_BPS_GDP_EXPENDITURE_2020_2024",
+        "IDN_BPS_STATISTICS_TABLES_EXPENDITURE",
+        "IDN_BPS_SUPPLY_USE_TABLES",
+        "IDN_BPS_INPUT_OUTPUT_TABLES",
+    }
+
+    def acquire_and_parse(self, config: Step2Config, run_root: Path, cache_root: Path) -> AdapterResult:
+        raw_root = run_root / "raw" / "country_adapters" / self.economy_code
+        records: dict[str, AcquisitionRecord] = {}
+        analyses: dict[str, dict[str, Any]] = {}
+        errors: dict[str, Exception] = {}
+        failure_rows: list[dict[str, Any]] = []
+        for spec in self.source_specs:
+            source_id = str(spec["source_id"])
+            destination = raw_root / source_id / str(spec["filename"])
+            try:
+                record = fetch_url(
+                    config,
+                    source_id=source_id,
+                    url=str(spec["url"]),
+                    destination=destination,
+                    cache_path=cache_root / "country_adapters" / self.economy_code / str(spec["filename"]),
+                    accept=str(spec["accept"]),
+                )
+                records[source_id] = record
+                analyses[source_id] = analyse_indonesia_source(source_id, destination, record.content_type or "")
+            except Exception as exc:
+                errors[source_id] = exc
+                failure_rows.append({
+                    "economy_code": self.economy_code,
+                    "adapter_id": self.adapter_id,
+                    "stage": f"acquisition_or_validation:{source_id}",
+                    "error_type": type(exc).__name__,
+                    "error": str(exc),
+                })
+
+        core_blocked = sorted(self.core_source_ids & set(errors))
+        unexpected = sorted(
+            source_id for source_id in self.core_source_ids & set(analyses)
+            if (
+                not analyses[source_id].get("expected_evidence_confirmed", False)
+                or analyses[source_id].get("decision") == "REVIEW_REQUIRED"
+            )
+        )
+        if core_blocked:
+            decision = "ACCESS_BLOCKED"
+            status = "ACCESS_BLOCKED"
+            blocking = (
+                "The current run could not acquire or validate all critical official Indonesian source families: "
+                + ", ".join(core_blocked)
+                + ". A closed source decision is not permitted while these attempts remain blocked."
+            )
+        elif unexpected:
+            decision = "CONCEPT_AMBIGUOUS"
+            status = "SOURCE_CONTENT_REVIEW_REQUIRED"
+            blocking = (
+                "Acquired official Indonesian resources did not match the reviewed structural markers for: "
+                + ", ".join(unexpected)
+                + ". No source is admitted until the changed content is reviewed."
+            )
+        else:
+            decision = "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE"
+            status = "REJECTED_BY_CONFIRMED_SOURCE_GATES"
+            blocking = (
+                "The acquired BPS expenditure publication exposes household consumption through grouped national-accounts categories rather than twelve Armilar purposes; "
+                "BPS statistics-table, downloadable, SUT and input-output families are recorded as official source-family attempts but do not supply an accepted 2021 current-price S14/P31DC twelve-purpose dataset in this probe; "
+                "survey or CPI evidence remains Class C only. No grouped category is split and no product-to-COICOP allocation is used."
+            )
+
+        attempts = indonesia_source_attempt_rows(records, analyses, errors, blocking)
+        gates = indonesia_methodology_gate_rows(records, analyses, errors)
+        validate_indonesia_methodology_gate_rows(gates)
+        return AdapterResult(
+            status_rows=[{
+                "economy_code": self.economy_code,
+                "economy_name": self.economy_name,
+                "adapter_id": self.adapter_id,
+                "status": status,
+                "data_class": decision,
+                "accepted_rows": 0,
+                "failure_count": len(failure_rows),
+                "source_url": str(self.source_specs[0]["url"]),
+                "blocking_reason": blocking,
+            }],
+            evidence_rows=indonesia_evidence_rows(records, analyses, errors, blocking),
+            normalized_rows=[],
+            mapping_rows=indonesia_mapping_audit_rows(analyses),
+            reconciliation_rows=[],
+            failure_rows=failure_rows,
+            acquisition_records=[records[key] for key in sorted(records)],
+            cell_status_rows=step2i_cell_rows(
+                self.economy_code, self.economy_name, self.adapter_id,
+                self.source_authority, self.reference_period, decision, blocking,
+            ),
+            source_attempt_rows=attempts,
+            source_family_rows=source_family_rows(
+                self.economy_code, self.economy_name, attempts, blocking,
+            ),
+            completion_rows=[completion_row(
+                self.economy_code, self.economy_name, blocking,
+                len(self.source_specs), decision,
+            )],
+            indonesia_gate_rows=gates,
+        )
+
+
 class Step2IDecisionAdapter:
     def __init__(
         self, economy_code: str, economy_name: str, adapter_id: str,
@@ -989,7 +1180,7 @@ def _xlsx_rows(path: Path) -> dict[int, dict[str, str]]:
 
 
 def _empty_result() -> AdapterResult:
-    return AdapterResult([], [], [], [], [], [], [], [], [], [], [], [], [], [], [])
+    return AdapterResult([], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [])
 
 
 def _extend(target: AdapterResult, source: AdapterResult) -> None:
@@ -1007,6 +1198,7 @@ def _extend(target: AdapterResult, source: AdapterResult) -> None:
     target.india_gate_rows.extend(source.india_gate_rows or [])
     target.russia_gate_rows.extend(source.russia_gate_rows or [])
     target.china_gate_rows.extend(source.china_gate_rows or [])
+    target.indonesia_gate_rows.extend(source.indonesia_gate_rows or [])
     target.step2h_exception_rows.extend(source.step2h_exception_rows or [])
 
 
@@ -1065,12 +1257,18 @@ def source_family_rows(
     result: list[dict[str, Any]] = []
     attempts_by_family: dict[str, list[dict[str, Any]]] = {family: [] for _, family in SOURCE_FAMILIES}
     for attempt in attempts:
+        explicit_family = str(attempt.get("source_family") or "")
+        if explicit_family in attempts_by_family:
+            attempts_by_family[explicit_family].append(attempt)
+            continue
         dataset = str(attempt.get("dataset") or "").upper()
         classification = str(attempt.get("classification") or "").upper()
         concept = str(attempt.get("classification") or "").upper()
         if "API" in dataset or "SIDRA" in dataset:
             attempts_by_family["official_national_accounts_api"].append(attempt)
-        elif any(token in dataset for token in ("SUPPLY", "USE", "SUT", "TRU", "INPUT")):
+        elif any(token in dataset for token in ("INPUT", "OUTPUT", "IO_")):
+            attempts_by_family["official_input_output_tables"].append(attempt)
+        elif any(token in dataset for token in ("SUPPLY", "USE", "SUT", "TRU")):
             attempts_by_family["official_supply_and_use_tables"].append(attempt)
         elif "DATABASE" in classification or "FEDSTAT" in dataset or "STATBANK" in dataset or "BASE" in dataset:
             attempts_by_family["official_statistical_database"].append(attempt)
@@ -1114,6 +1312,7 @@ def step2i_attempt_template(
     return {
         "economy_code": economy_code,
         "category": category,
+        "source_family": "",
         "authority": authority,
         "dataset": dataset,
         "url": url,
@@ -1413,6 +1612,7 @@ def china_source_attempt_rows(
             source_id, str(spec["url"]), "2021", str(spec["concept"]),
             str(spec["classification"]), rejection_reason,
         )
+        row["source_family"] = str(spec["family"])
         if source_id in errors:
             row.update({
                 "retrieval_status": "ACCESS_BLOCKED",
@@ -1687,6 +1887,313 @@ def validate_china_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
         if by_criterion["twelve_purpose_categories_in_2021_national_accounts"]["status"] != "CONTRADICTED":
             raise ValueError("Exact-source rejection requires the acquired 2021 national-accounts source to lack the purpose dimension")
 
+
+def _normalise_indonesia_text(value: str) -> str:
+    value = html.unescape(value).lower()
+    value = re.sub(r"<[^>]+>", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def analyse_indonesia_source(source_id: str, path: Path, content_type: str = "") -> dict[str, Any]:
+    text = _normalise_indonesia_text(_decode_text_file(path))
+    if source_id == "IDN_BPS_GDP_EXPENDITURE_2020_2024":
+        publication = "gross domestic product of indonesia by expenditure" in text
+        year = "2021" in text and "2020" in text and "2024" in text
+        household = "household consumption" in text or "household final consumption" in text
+        grouped = any(token in text for token in (
+            "7 groups", "seven groups", "health and education", "transport and communication",
+            "restaurants and hotels", "food and beverages other than restaurants",
+        ))
+        purpose = any(token in text for token in ("coicop", "by purpose", "12 categories", "twelve categories"))
+        return {
+            "source_kind": "OFFICIAL_NATIONAL_ACCOUNTS_PUBLICATION",
+            "expected_evidence_confirmed": publication and year and household,
+            "national_publication": publication,
+            "reference_2021": year,
+            "household_consumption": household,
+            "grouped_categories": grouped,
+            "twelve_purpose_categories": purpose and not grouped,
+            "machine_readable": True,
+            "decision": "REJECT_GROUPED_NATIONAL_ACCOUNTS" if publication and year and household else "REVIEW_REQUIRED",
+        }
+    if source_id == "IDN_BPS_STATISTICS_TABLES_EXPENDITURE":
+        bps = "bps" in text or "badan pusat statistik" in text
+        expenditure = "expenditure" in text or "pengeluaran" in text
+        statistics_table = "statistics table" in text or "statistical table" in text or "tabel" in text
+        exact = all(token in text for token in ("coicop", "2021", "household")) and "12" in text
+        return {
+            "source_kind": "OFFICIAL_STATISTICAL_DATABASE",
+            "expected_evidence_confirmed": bps and expenditure and statistics_table,
+            "statistics_table_family": statistics_table,
+            "expenditure_subject": expenditure,
+            "exact_dataset_marker": exact,
+            "machine_readable": True,
+            "decision": "DISCOVERY_DATABASE_ONLY" if bps and expenditure and statistics_table and not exact else "REVIEW_REQUIRED",
+        }
+    if source_id == "IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH":
+        bps = "bps" in text or "badan pusat statistik" in text
+        publication_search = "publication" in text or "publikasi" in text
+        expenditure = "gross domestic product" in text or "expenditure" in text or "pengeluaran" in text
+        return {
+            "source_kind": "OFFICIAL_DOWNLOAD_DISCOVERY",
+            "expected_evidence_confirmed": bps and publication_search and expenditure,
+            "downloadable_family": "download" in text or ".xls" in text or ".xlsx" in text or ".csv" in text,
+            "exact_dataset_marker": False,
+            "machine_readable": True,
+            "decision": "DISCOVERY_DOWNLOAD_ONLY" if bps and publication_search and expenditure else "REVIEW_REQUIRED",
+        }
+    if source_id == "IDN_BPS_SUPPLY_USE_TABLES":
+        bps = "bps" in text or "badan pusat statistik" in text
+        sut = any(token in text for token in ("supply and use", "supply use", "tabel suplai", "tabel penggunaan"))
+        product = any(token in text for token in ("product", "commodity", "produk", "komoditas"))
+        purpose = any(token in text for token in ("coicop", "by purpose", "according to purpose"))
+        return {
+            "source_kind": "OFFICIAL_SUPPLY_USE_SOURCE_FAMILY",
+            "expected_evidence_confirmed": bps and sut,
+            "supply_use_family": sut,
+            "product_classification": product or sut,
+            "purpose_classification": purpose,
+            "machine_readable": True,
+            "decision": "REJECT_SUT_ALLOCATION_REQUIRED" if bps and sut else "REVIEW_REQUIRED",
+        }
+    if source_id == "IDN_BPS_INPUT_OUTPUT_TABLES":
+        bps = "bps" in text or "badan pusat statistik" in text
+        io = "input output" in text or "input-output" in text or "tabel input output" in text
+        product = any(token in text for token in ("product", "commodity", "produk", "komoditas", "industry"))
+        purpose = any(token in text for token in ("coicop", "by purpose", "according to purpose"))
+        return {
+            "source_kind": "OFFICIAL_INPUT_OUTPUT_SOURCE_FAMILY",
+            "expected_evidence_confirmed": bps and io,
+            "input_output_family": io,
+            "product_classification": product or io,
+            "purpose_classification": purpose,
+            "machine_readable": True,
+            "decision": "REJECT_INPUT_OUTPUT_ALLOCATION_REQUIRED" if bps and io else "REVIEW_REQUIRED",
+        }
+    if source_id == "IDN_BPS_SURVEY_OR_CPI_CLASS_C":
+        bps = "bps" in text or "badan pusat statistik" in text
+        survey_or_cpi = any(token in text for token in ("consumer price", "cpi", "survey", "susenas", "household"))
+        return {
+            "source_kind": "OFFICIAL_CLASS_C_SURVEY_OR_CPI",
+            "expected_evidence_confirmed": bps and survey_or_cpi,
+            "survey_or_cpi": survey_or_cpi,
+            "machine_readable": True,
+            "decision": "REJECT_CLASS_C_SURVEY_OR_CPI" if bps and survey_or_cpi else "REVIEW_REQUIRED",
+        }
+    if source_id == "IDN_BPS_CLASSIFICATION_METHODOLOGY":
+        bps = "bps" in text or "badan pusat statistik" in text
+        classification = any(token in text for token in ("coicop", "classification", "klasifikasi", "methodology", "metadata"))
+        return {
+            "source_kind": "OFFICIAL_CLASSIFICATION_METHODOLOGY_DISCOVERY",
+            "expected_evidence_confirmed": bps and classification,
+            "classification_or_methodology": classification,
+            "machine_readable": True,
+            "decision": "DOCUMENTATION_DISCOVERY_ONLY" if bps and classification else "REVIEW_REQUIRED",
+        }
+    raise ValueError(f"Unknown Indonesian source id: {source_id}")
+
+
+def indonesia_source_attempt_rows(
+    records: dict[str, AcquisitionRecord],
+    analyses: dict[str, dict[str, Any]],
+    errors: dict[str, Exception],
+    rejection_reason: str,
+) -> list[dict[str, Any]]:
+    specs = {str(spec["source_id"]): spec for spec in IndonesiaBpsAuditAdapter.source_specs}
+    rows: list[dict[str, Any]] = []
+    for source_id in sorted(specs):
+        spec = specs[source_id]
+        row = step2i_attempt_template(
+            "IDN", "*", IndonesiaBpsAuditAdapter.source_authority,
+            source_id, str(spec["url"]), "2021", str(spec["concept"]),
+            str(spec["classification"]), rejection_reason,
+        )
+        row["source_family"] = str(spec["family"])
+        if source_id in errors:
+            row.update({
+                "retrieval_status": "ACCESS_BLOCKED",
+                "candidate_class": "ACCESS_BLOCKED",
+                "retrieved_at": "ACQUISITION_FAILED_NO_RAW_FILE",
+                "rejection_reason": f"{type(errors[source_id]).__name__}: {errors[source_id]}",
+            })
+        else:
+            record = records[source_id]
+            analysis = analyses[source_id]
+            decision = str(analysis.get("decision") or "REVIEW_REQUIRED")
+            retrieval = {
+                "REJECT_GROUPED_NATIONAL_ACCOUNTS": "ACQUIRED_REJECTED_GROUPED_NATIONAL_ACCOUNTS",
+                "DISCOVERY_DATABASE_ONLY": "ACQUIRED_DISCOVERY_DATABASE_ONLY",
+                "DISCOVERY_DOWNLOAD_ONLY": "ACQUIRED_DISCOVERY_DOWNLOAD_ONLY",
+                "REJECT_SUT_ALLOCATION_REQUIRED": "ACQUIRED_REJECTED_SUT_ALLOCATION_REQUIRED",
+                "REJECT_INPUT_OUTPUT_ALLOCATION_REQUIRED": "ACQUIRED_REJECTED_INPUT_OUTPUT_ALLOCATION_REQUIRED",
+                "REJECT_CLASS_C_SURVEY_OR_CPI": "ACQUIRED_CLASS_C_SURVEY_OR_CPI",
+                "DOCUMENTATION_DISCOVERY_ONLY": "ACQUIRED_DOCUMENTATION_DISCOVERY_ONLY",
+            }.get(decision, "ACQUIRED_REVIEW_REQUIRED")
+            row.update({
+                "retrieval_status": retrieval,
+                "status_code": record.status_code or "",
+                "content_type": record.content_type or "",
+                "file_signature": "HTML_DOCUMENT",
+                "byte_size": record.bytes,
+                "retrieved_at": record.retrieved_at,
+                "sha256": record.sha256,
+                "candidate_class": "CONCEPT_AMBIGUOUS" if decision == "REVIEW_REQUIRED" else "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+            })
+            if source_id == "IDN_BPS_GDP_EXPENDITURE_2020_2024":
+                row.update({
+                    "institutional_sector": "HOUSEHOLD_FINAL_CONSUMPTION_SCOPE_NOT_PROVEN_STRICT_S14",
+                    "transaction_code": "HFCE_BY_EXPENDITURE_GROUPS_NOT_EXACT_P31DC_PURPOSES",
+                    "classification": "GROUPED_EXPENDITURE_PUBLICATION",
+                    "current_prices": "PUBLICATION_FAMILY_INCLUDES_CURRENT_PRICE_TABLES",
+                    "currency": "IDR", "unit": "PUBLICATION_TABLE_UNIT",
+                    "npish_treatment": "NOT_CONFIRMED_EXCLUDED_AT_CATEGORY_LEVEL",
+                    "government_treatment": "GOVERNMENT_FINAL_CONSUMPTION_SEPARATE_IN_GDP_EXPENDITURE",
+                    "imputed_rent_treatment": "NOT_CONFIRMED_AT_ARMILAR_CATEGORY_LEVEL",
+                })
+            elif source_id in {"IDN_BPS_SUPPLY_USE_TABLES", "IDN_BPS_INPUT_OUTPUT_TABLES"}:
+                row.update({
+                    "institutional_sector": "MULTIPLE_FINAL_USE_SECTORS",
+                    "transaction_code": "FINAL_USE_PRODUCT_TABLE_FAMILY",
+                    "classification": "PRODUCT_TABLES_REQUIRING_PURPOSE_BRIDGE",
+                    "current_prices": "NOT_CONFIRMED_AS_EXACT_2021_PURPOSE_TABLE",
+                    "currency": "IDR", "unit": "SOURCE_TABLE_UNIT_NOT_ACCEPTED",
+                    "npish_treatment": "NOT_CONFIRMED_EXCLUDED_AT_PURPOSE_LEVEL",
+                    "government_treatment": "NOT_CONFIRMED_EXCLUDED_AT_PURPOSE_LEVEL",
+                    "imputed_rent_treatment": "NOT_CONFIRMED_AT_PURPOSE_LEVEL",
+                })
+            elif source_id == "IDN_BPS_SURVEY_OR_CPI_CLASS_C":
+                row.update({
+                    "institutional_sector": "HOUSEHOLD_SURVEY_OR_PRICE_INDEX_SCOPE",
+                    "transaction_code": "NOT_NATIONAL_ACCOUNTS_P31DC",
+                    "classification": "SURVEY_OR_CPI_CLASS_C_ONLY",
+                    "current_prices": "NOT_AN_EXACT_CURRENT_PRICE_NA_TABLE",
+                    "currency": "IDR_OR_INDEX", "unit": "SURVEY_VALUE_OR_INDEX",
+                    "npish_treatment": "OUTSIDE_SURVEY_OR_CPI_CONCEPT",
+                    "government_treatment": "OUTSIDE_SURVEY_OR_CPI_CONCEPT",
+                    "imputed_rent_treatment": "NOT_PROVEN_EQUIVALENT_TO_SNA",
+                })
+            else:
+                row.update({
+                    "institutional_sector": "DISCOVERY_OR_DOCUMENTATION_ONLY",
+                    "transaction_code": "NOT_AN_ACCEPTED_EXACT_DATASET",
+                    "current_prices": "NOT_CONFIRMED_AS_EXACT_2021_CURRENT_PRICE_TABLE",
+                    "currency": "NOT_ACCEPTED", "unit": "NOT_ACCEPTED",
+                    "npish_treatment": "NOT_CONFIRMED_EXCLUDED",
+                    "government_treatment": "NOT_CONFIRMED_EXCLUDED",
+                    "imputed_rent_treatment": "NOT_CONFIRMED",
+                })
+        rows.append(row)
+    return expand_attempt_categories(rows)
+
+
+def indonesia_evidence_rows(records: dict[str, AcquisitionRecord], analyses: dict[str, dict[str, Any]], errors: dict[str, Exception], rejection_reason: str) -> list[dict[str, Any]]:
+    specs = {str(spec["source_id"]): spec for spec in IndonesiaBpsAuditAdapter.source_specs}
+    rows: list[dict[str, Any]] = []
+    for source_id in sorted(specs):
+        spec = specs[source_id]
+        status = "ACCESS_BLOCKED" if source_id in errors else str(analyses[source_id].get("decision", "REVIEW_REQUIRED"))
+        rows.append({
+            "economy_code": "IDN", "source_id": source_id,
+            "source_authority": IndonesiaBpsAuditAdapter.source_authority,
+            "source_url": spec["url"], "reference_period": "2021",
+            "concept": spec["concept"], "granularity": spec["classification"],
+            "machine_readable": "unknown" if source_id in errors else str(analyses[source_id].get("machine_readable", "")),
+            "status": status,
+            "rejection_reason": rejection_reason if source_id not in errors else f"{type(errors[source_id]).__name__}: {errors[source_id]}",
+        })
+    return rows
+
+
+def indonesia_mapping_audit_rows(analyses: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    if analyses.get("IDN_BPS_GDP_EXPENDITURE_2020_2024", {}).get("grouped_categories"):
+        rows.append({
+            "economy_code": "IDN", "original_item_code": "BPS_GROUPED_HFCE",
+            "original_item_name": "Grouped household consumption expenditure publication",
+            "armilar_category": "", "mapping_type": "REJECTED_GROUPED_CATEGORY",
+            "status": "FAIL", "reason": "Known BPS grouped publication cannot be split into twelve Armilar categories without allocation.",
+        })
+    if analyses.get("IDN_BPS_SUPPLY_USE_TABLES") or analyses.get("IDN_BPS_INPUT_OUTPUT_TABLES"):
+        rows.append({
+            "economy_code": "IDN", "original_item_code": "BPS_PRODUCT_TABLE_FAMILY",
+            "original_item_name": "Supply-use or input-output product tables",
+            "armilar_category": "", "mapping_type": "REJECTED_PRODUCT_TO_PURPOSE_ALLOCATION",
+            "status": "FAIL", "reason": "Product tables cannot be transformed into exact COICOP/Armilar weights through many-to-many allocation.",
+        })
+    return rows
+
+
+def indonesia_methodology_gate_rows(records: dict[str, AcquisitionRecord] | None = None, analyses: dict[str, dict[str, Any]] | None = None, errors: dict[str, Exception] | None = None) -> list[dict[str, Any]]:
+    records = records or {}
+    analyses = analyses or {}
+    errors = errors or {}
+    specs = {str(item["source_id"]): item for item in IndonesiaBpsAuditAdapter.source_specs}
+
+    def source(source_id: str) -> dict[str, Any]:
+        record = records.get(source_id)
+        return {
+            "source_id": source_id,
+            "source_authority": IndonesiaBpsAuditAdapter.source_authority,
+            "source_url": specs[source_id]["url"],
+            "source_retrieved_at": record.retrieved_at if record else "",
+            "source_sha256": record.sha256 if record else "",
+            "review_mode": "STRUCTURAL_MARKER_REVIEW" if record else "NOT_ACQUIRED_IN_CURRENT_RUN",
+        }
+
+    publication = analyses.get("IDN_BPS_GDP_EXPENDITURE_2020_2024", {})
+    database = analyses.get("IDN_BPS_STATISTICS_TABLES_EXPENDITURE", {})
+    sut = analyses.get("IDN_BPS_SUPPLY_USE_TABLES", {})
+    io = analyses.get("IDN_BPS_INPUT_OUTPUT_TABLES", {})
+    class_c = analyses.get("IDN_BPS_SURVEY_OR_CPI_CLASS_C", {})
+    exact_chain_validated = (
+        publication.get("expected_evidence_confirmed")
+        and database.get("expected_evidence_confirmed")
+        and sut.get("expected_evidence_confirmed")
+        and io.get("expected_evidence_confirmed")
+    )
+    rows = [
+        {"criterion": "official_national_accounts_publication_acquired", "status": "CONFIRMED" if publication.get("expected_evidence_confirmed") else ("NOT_FOUND" if "IDN_BPS_GDP_EXPENDITURE_2020_2024" in errors else "AMBIGUOUS"), "evidence": "BPS GDP by expenditure publication was acquired and contains household consumption context for 2021.", **source("IDN_BPS_GDP_EXPENDITURE_2020_2024")},
+        {"criterion": "twelve_armilar_purpose_categories_available", "status": "CONTRADICTED" if publication.get("grouped_categories") and not publication.get("twelve_purpose_categories") else "AMBIGUOUS", "evidence": "The acquired BPS publication is grouped and cannot supply twelve Armilar purposes without artificial splitting.", **source("IDN_BPS_GDP_EXPENDITURE_2020_2024")},
+        {"criterion": "strict_household_s14_p31dc_confirmed", "status": "AMBIGUOUS", "evidence": "The acquired source family does not prove strict S14/P31DC by Armilar category with NPISH excluded.", **source("IDN_BPS_GDP_EXPENDITURE_2020_2024")},
+        {"criterion": "current_prices_currency_unit_identified", "status": "AMBIGUOUS", "evidence": "The publication family uses Indonesian rupiah table units, but no accepted exact twelve-category current-price dataset is confirmed.", **source("IDN_BPS_GDP_EXPENDITURE_2020_2024")},
+        {"criterion": "official_statistical_database_exact_table_available", "status": "CONTRADICTED" if database.get("expected_evidence_confirmed") and not database.get("exact_dataset_marker") else "AMBIGUOUS", "evidence": "The BPS statistics-table family was acquired as source-family evidence but no exact twelve-purpose dataset marker was confirmed.", **source("IDN_BPS_STATISTICS_TABLES_EXPENDITURE")},
+        {"criterion": "sut_is_exact_purpose_classification", "status": "CONTRADICTED" if sut.get("expected_evidence_confirmed") and not sut.get("purpose_classification") else "AMBIGUOUS", "evidence": "BPS SUT evidence is product/source-family evidence and cannot be used as exact purpose weights without allocation.", **source("IDN_BPS_SUPPLY_USE_TABLES")},
+        {"criterion": "input_output_is_exact_purpose_classification", "status": "CONTRADICTED" if io.get("expected_evidence_confirmed") and not io.get("purpose_classification") else "AMBIGUOUS", "evidence": "BPS input-output evidence is product/source-family evidence and cannot be used as exact purpose weights without allocation.", **source("IDN_BPS_INPUT_OUTPUT_TABLES")},
+        {"criterion": "survey_or_cpi_is_exact_national_accounts", "status": "CONTRADICTED" if class_c.get("expected_evidence_confirmed") else "AMBIGUOUS", "evidence": "Survey/CPI evidence is Class C only and cannot substitute for S14/P31DC national accounts.", **source("IDN_BPS_SURVEY_OR_CPI_CLASS_C")},
+        {"criterion": "exact_armilar_source_available", "status": "CONTRADICTED" if exact_chain_validated else "AMBIGUOUS", "evidence": "No acquired Indonesian source supplies all strict exact gates simultaneously; grouped and product-based sources remain rejected.", **source("IDN_BPS_GDP_EXPENDITURE_2020_2024")},
+    ]
+    validate_indonesia_methodology_gate_rows(rows)
+    return rows
+
+
+def validate_indonesia_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    required = {
+        "official_national_accounts_publication_acquired",
+        "twelve_armilar_purpose_categories_available",
+        "strict_household_s14_p31dc_confirmed",
+        "current_prices_currency_unit_identified",
+        "official_statistical_database_exact_table_available",
+        "sut_is_exact_purpose_classification",
+        "input_output_is_exact_purpose_classification",
+        "survey_or_cpi_is_exact_national_accounts",
+        "exact_armilar_source_available",
+    }
+    by_criterion = {str(row.get("criterion")): row for row in rows}
+    missing = sorted(required - set(by_criterion))
+    if missing:
+        raise ValueError("Indonesia methodology audit is missing criteria: " + ",".join(missing))
+    invalid = sorted({str(row.get("status")) for row in rows} - INDONESIA_GATE_STATUSES)
+    if invalid:
+        raise ValueError("Indonesia methodology audit contains invalid statuses: " + ",".join(invalid))
+    if by_criterion["exact_armilar_source_available"]["status"] == "CONTRADICTED":
+        if by_criterion["twelve_armilar_purpose_categories_available"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires grouped-purpose rejection")
+        if by_criterion["sut_is_exact_purpose_classification"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires SUT purpose incompatibility")
+        if by_criterion["input_output_is_exact_purpose_classification"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires input-output purpose incompatibility")
+
+
 def analyse_russia_source(source_id: str, path: Path, content_type: str = "") -> dict[str, Any]:
     if source_id == "RUT_FEDSTAT_HFCE_31414":
         text = _normalise_russian_text(_decode_text_file(path))
@@ -1781,6 +2288,7 @@ def russia_source_attempt_rows(
             source_id, str(spec["url"]), "2021", str(spec["concept"]),
             str(spec["classification"]), rejection_reason,
         )
+        row["source_family"] = str(spec["family"])
         if source_id in errors:
             row.update({
                 "retrieval_status": "ACCESS_BLOCKED",
@@ -2188,7 +2696,7 @@ def step2i_completion_summary(result: AdapterResult) -> dict[str, Any]:
     ])
     return {
         "schema_version": "1.1",
-        "pipeline_version": "0.6.5",
+        "pipeline_version": "0.6.6",
         "step": "2I",
         "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
         "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
@@ -2241,7 +2749,7 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
     lines = [
         f"# {title}",
         "",
-        "Generated: deterministic v0.6.5 Step 2I report",
+        "Generated: deterministic v0.6.6 Step 2I report",
         "",
         "## Version mapping",
         "",
@@ -2255,6 +2763,7 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
         "| 0.6.3 | Step 2H0 India evidence closure | India documentary rejection and evidence-linked methodology gates |",
         "| 0.6.4 | Step 2H0 Russia evidence closure | Fedstat aggregate, SUT product and HBS purpose concepts separated |",
         "| 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, input-output and GDP aggregate concepts separated |",
+        "| 0.6.6 | Step 2H0 Indonesia evidence audit | BPS grouped, database, SUT, input-output and Class C concepts separated |",
         "",
         "## Status",
         "",
@@ -2300,7 +2809,7 @@ def write_india_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> No
     lines = [
         "# India method gate report",
         "",
-        "Pipeline version: `0.6.5`",
+        "Pipeline version: `0.6.6`",
         "",
         "This report records the strict Armilar admissibility decision for MoSPI PFCE Statement 5.1.",
         "The source remains outside the exact matrix whenever a material criterion is contradicted or unresolved.",
@@ -2330,7 +2839,7 @@ def write_russia_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> N
     lines = [
         "# Russia method gate report",
         "",
-        "Pipeline version: `0.6.5`",
+        "Pipeline version: `0.6.6`",
         "",
         "This report records the strict Armilar admissibility decision for the official Rosstat and Fedstat source chain.",
         "An aggregate national-accounts indicator, product-based SUT data and purpose-classified survey data are kept conceptually separate.",
@@ -2361,7 +2870,7 @@ def write_china_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> No
     lines = [
         "# China method gate report",
         "",
-        "Pipeline version: `0.6.5`",
+        "Pipeline version: `0.6.6`",
         "",
         "This report records the strict Armilar admissibility decision for the official NBS source chain.",
         "Household-survey detail, national-accounts aggregates and input-output product tables remain conceptually separate.",
@@ -2380,6 +2889,35 @@ def write_china_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> No
         "No Chinese source is admitted to the strict exact matrix in this probe.",
         "The eight-group household survey is not national-accounts S14/P31 and combines Armilar categories; the yearbook input-output benchmark is 2020 and product-based; the acquired 2021 national-accounts publication is aggregate.",
         "No survey-share split, product allocation, narcotics estimate or temporal substitution is permitted.",
+    ])
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def write_indonesia_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> None:
+    if rows:
+        validate_indonesia_methodology_gate_rows(rows)
+    lines = [
+        "# Indonesia method gate report",
+        "",
+        "Pipeline version: `0.6.6`",
+        "",
+        "This report records the strict Armilar admissibility decision for the official BPS source chain.",
+        "Grouped national-accounts publications, BPS database discovery pages, product-based SUT/input-output families and Class C survey/CPI evidence remain conceptually separate.",
+        "",
+        "| Criterion | Status | Evidence source | Evidence |",
+        "|---|---|---|---|",
+    ]
+    for row in rows:
+        source = str(row.get("source_id") or "")
+        evidence = str(row.get("evidence") or "").replace("|", "\\|")
+        lines.append(f"| `{row.get('criterion', '')}` | `{row.get('status', '')}` | `{source}` | {evidence} |")
+    if not rows:
+        lines.append("| No gate evidence acquired in this run | `NOT_FOUND` |  |  |")
+    lines.extend([
+        "", "## Decision", "",
+        "No Indonesian source is admitted to the strict exact matrix in this probe.",
+        "The BPS expenditure publication is grouped; BPS SUT and input-output families are product-based or discovery-only in this audit; survey/CPI material is Class C only.",
+        "No grouped-category split, product-to-COICOP allocation, survey-share substitution or silent concept conversion is permitted.",
     ])
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

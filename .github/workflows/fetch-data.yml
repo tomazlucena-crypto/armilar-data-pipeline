@@ -155,6 +155,7 @@ jobs:
             india_methodology_gate_audit.csv \
             russia_methodology_gate_audit.csv \
             china_methodology_gate_audit.csv \
+            indonesia_methodology_gate_audit.csv \
             step2h_exception_audit.csv \
             step2i_completion_summary.json \
             step2i_audit_summary.json \
@@ -163,6 +164,7 @@ jobs:
             INDIA_METHOD_GATE_REPORT.md \
             RUSSIA_METHOD_GATE_REPORT.md \
             CHINA_METHOD_GATE_REPORT.md \
+            INDONESIA_METHOD_GATE_REPORT.md \
             country_source_family_coverage.csv \
             methodology_policy_snapshot.json
           do

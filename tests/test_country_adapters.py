@@ -15,9 +15,13 @@ from armilar_pipeline.country_adapters import (
     IndiaMospiAdapter,
     RussiaRosstatAuditAdapter,
     ChinaNbsAuditAdapter,
+    IndonesiaBpsAuditAdapter,
     analyse_china_source,
     china_methodology_gate_rows,
     validate_china_methodology_gate_rows,
+    analyse_indonesia_source,
+    indonesia_methodology_gate_rows,
+    validate_indonesia_methodology_gate_rows,
     analyse_russia_source,
     russia_methodology_gate_rows,
     validate_russia_methodology_gate_rows,
@@ -291,6 +295,83 @@ def make_china_fetch(files: dict[str, Path], *, blocked: set[str] | None = None)
             source_id, url, url, destination, "fresh", 200, content_type,
             destination.stat().st_size, sha256_file(destination),
             "2026-06-29T13:30:00Z", (),
+        )
+    return fake_fetch
+
+
+def make_indonesia_publication(path: Path, *, valid: bool = True) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    body = (
+        "Gross Domestic Product of Indonesia by Expenditure 2020 2021 2024. "
+        "Household consumption expenditure is published in seven groups, including "
+        "food and beverages other than restaurants, transport and communication, "
+        "health and education, and restaurants and hotels."
+    ) if valid else "BPS updated publication page pending review."
+    path.write_text(f"<html><body>{body}</body></html>", encoding="utf-8")
+
+
+def make_indonesia_database(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("<html><body>BPS statistics table expenditure pengeluaran national accounts table list.</body></html>", encoding="utf-8")
+
+
+def make_indonesia_download(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("<html><body>Badan Pusat Statistik publication gross domestic product expenditure download XLSX CSV.</body></html>", encoding="utf-8")
+
+
+def make_indonesia_sut(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("<html><body>BPS supply and use table tabel suplai penggunaan by product commodity.</body></html>", encoding="utf-8")
+
+
+def make_indonesia_io(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("<html><body>BPS input output table tabel input output by product industry commodity.</body></html>", encoding="utf-8")
+
+
+def make_indonesia_class_c(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("<html><body>Badan Pusat Statistik consumer price CPI survey Susenas household statistics.</body></html>", encoding="utf-8")
+
+
+def make_indonesia_methodology(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("<html><body>BPS COICOP classification methodology metadata klasifikasi.</body></html>", encoding="utf-8")
+
+
+def make_indonesia_sources(root: Path) -> dict[str, Path]:
+    files = {
+        "IDN_BPS_GDP_EXPENDITURE_2020_2024": root / "publication.html",
+        "IDN_BPS_STATISTICS_TABLES_EXPENDITURE": root / "database.html",
+        "IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH": root / "download.html",
+        "IDN_BPS_SUPPLY_USE_TABLES": root / "sut.html",
+        "IDN_BPS_INPUT_OUTPUT_TABLES": root / "io.html",
+        "IDN_BPS_SURVEY_OR_CPI_CLASS_C": root / "class_c.html",
+        "IDN_BPS_CLASSIFICATION_METHODOLOGY": root / "methodology.html",
+    }
+    make_indonesia_publication(files["IDN_BPS_GDP_EXPENDITURE_2020_2024"])
+    make_indonesia_database(files["IDN_BPS_STATISTICS_TABLES_EXPENDITURE"])
+    make_indonesia_download(files["IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH"])
+    make_indonesia_sut(files["IDN_BPS_SUPPLY_USE_TABLES"])
+    make_indonesia_io(files["IDN_BPS_INPUT_OUTPUT_TABLES"])
+    make_indonesia_class_c(files["IDN_BPS_SURVEY_OR_CPI_CLASS_C"])
+    make_indonesia_methodology(files["IDN_BPS_CLASSIFICATION_METHODOLOGY"])
+    return files
+
+
+def make_indonesia_fetch(files: dict[str, Path], *, blocked: set[str] | None = None):
+    blocked = blocked or set()
+    def fake_fetch(config, *, source_id, url, destination, cache_path=None, accept="*/*"):
+        if source_id in blocked:
+            raise OSError(f"blocked:{source_id}")
+        source = files[source_id]
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(source.read_bytes())
+        return AcquisitionRecord(
+            source_id, url, url, destination, "fresh", 200, "text/html",
+            destination.stat().st_size, sha256_file(destination),
+            "2026-06-29T14:00:00Z", (),
         )
     return fake_fetch
 
@@ -654,10 +735,107 @@ class CountryAdapterTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "invalid statuses"):
             validate_china_methodology_gate_rows(rows)
 
+    def test_indonesia_sources_keep_grouped_sut_io_and_class_c_separate(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            files = make_indonesia_sources(Path(tmp))
+            publication = analyse_indonesia_source("IDN_BPS_GDP_EXPENDITURE_2020_2024", files["IDN_BPS_GDP_EXPENDITURE_2020_2024"], "text/html")
+            database = analyse_indonesia_source("IDN_BPS_STATISTICS_TABLES_EXPENDITURE", files["IDN_BPS_STATISTICS_TABLES_EXPENDITURE"], "text/html")
+            sut = analyse_indonesia_source("IDN_BPS_SUPPLY_USE_TABLES", files["IDN_BPS_SUPPLY_USE_TABLES"], "text/html")
+            io = analyse_indonesia_source("IDN_BPS_INPUT_OUTPUT_TABLES", files["IDN_BPS_INPUT_OUTPUT_TABLES"], "text/html")
+            class_c = analyse_indonesia_source("IDN_BPS_SURVEY_OR_CPI_CLASS_C", files["IDN_BPS_SURVEY_OR_CPI_CLASS_C"], "text/html")
+            self.assertTrue(publication["grouped_categories"])
+            self.assertEqual(publication["decision"], "REJECT_GROUPED_NATIONAL_ACCOUNTS")
+            self.assertEqual(database["decision"], "DISCOVERY_DATABASE_ONLY")
+            self.assertTrue(sut["product_classification"])
+            self.assertEqual(sut["decision"], "REJECT_SUT_ALLOCATION_REQUIRED")
+            self.assertTrue(io["product_classification"])
+            self.assertEqual(io["decision"], "REJECT_INPUT_OUTPUT_ALLOCATION_REQUIRED")
+            self.assertEqual(class_c["decision"], "REJECT_CLASS_C_SURVEY_OR_CPI")
+
+    def test_indonesia_full_source_chain_is_rejected_without_exact_cells(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            files = make_indonesia_sources(root)
+            with patch("armilar_pipeline.country_adapters.fetch_url", side_effect=make_indonesia_fetch(files)):
+                summary = run_country_adapters_only(
+                    config, run_root=root / "run", cache_root=root / "cache", economy_codes=["IDN"]
+                )
+            self.assertEqual(summary["accepted_rows"], 0)
+            self.assertEqual(summary["failures"], 0)
+            with (root / "run" / "outputs" / "country_adapter_status.csv").open(encoding="utf-8", newline="") as handle:
+                status = next(csv.DictReader(handle))
+            self.assertEqual(status["status"], "REJECTED_BY_CONFIRMED_SOURCE_GATES")
+            self.assertEqual(status["data_class"], "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE")
+            with (root / "run" / "outputs" / "indonesia_methodology_gate_audit.csv").open(encoding="utf-8", newline="") as handle:
+                gates = {row["criterion"]: row for row in csv.DictReader(handle)}
+            self.assertEqual(gates["twelve_armilar_purpose_categories_available"]["status"], "CONTRADICTED")
+            self.assertEqual(gates["sut_is_exact_purpose_classification"]["status"], "CONTRADICTED")
+            self.assertEqual(gates["input_output_is_exact_purpose_classification"]["status"], "CONTRADICTED")
+            self.assertEqual(gates["survey_or_cpi_is_exact_national_accounts"]["status"], "CONTRADICTED")
+            self.assertEqual(gates["exact_armilar_source_available"]["status"], "CONTRADICTED")
+            self.assertTrue((root / "run" / "outputs" / "INDONESIA_METHOD_GATE_REPORT.md").exists())
+            with (root / "run" / "outputs" / "country_source_attempts.csv").open(encoding="utf-8", newline="") as handle:
+                attempts = list(csv.DictReader(handle))
+            self.assertTrue({row["source_family"] for row in attempts} >= {
+                "official_structured_publications",
+                "official_statistical_database",
+                "official_supply_and_use_tables",
+                "official_input_output_tables",
+                "survey_or_cpi_class_c_only",
+            })
+
+    def test_indonesia_blocked_critical_source_prevents_closed_rejection(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            files = make_indonesia_sources(root)
+            with patch(
+                "armilar_pipeline.country_adapters.fetch_url",
+                side_effect=make_indonesia_fetch(files, blocked={"IDN_BPS_INPUT_OUTPUT_TABLES"}),
+            ):
+                run_country_adapters_only(config, run_root=root / "run", cache_root=root / "cache", economy_codes=["IDN"])
+            with (root / "run" / "outputs" / "country_adapter_status.csv").open(encoding="utf-8", newline="") as handle:
+                status = next(csv.DictReader(handle))
+            self.assertEqual(status["status"], "ACCESS_BLOCKED")
+            self.assertEqual(status["data_class"], "ACCESS_BLOCKED")
+            with (root / "run" / "outputs" / "country_source_attempts.csv").open(encoding="utf-8", newline="") as handle:
+                attempts = list(csv.DictReader(handle))
+            blocked = [row for row in attempts if row["dataset"] == "IDN_BPS_INPUT_OUTPUT_TABLES"]
+            self.assertTrue(blocked)
+            self.assertTrue(all(row["retrieval_status"] == "ACCESS_BLOCKED" for row in blocked))
+            self.assertTrue(all(not row["sha256"] for row in blocked))
+
+    def test_indonesia_changed_critical_content_requires_review(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            files = make_indonesia_sources(root)
+            make_indonesia_publication(files["IDN_BPS_GDP_EXPENDITURE_2020_2024"], valid=False)
+            with patch("armilar_pipeline.country_adapters.fetch_url", side_effect=make_indonesia_fetch(files)):
+                run_country_adapters_only(config, run_root=root / "run", cache_root=root / "cache", economy_codes=["IDN"])
+            with (root / "run" / "outputs" / "country_adapter_status.csv").open(encoding="utf-8", newline="") as handle:
+                status = next(csv.DictReader(handle))
+            self.assertEqual(status["status"], "SOURCE_CONTENT_REVIEW_REQUIRED")
+            self.assertEqual(status["data_class"], "CONCEPT_AMBIGUOUS")
+
+    def test_indonesia_gate_validator_rejects_inconsistent_exact_source_conclusion(self) -> None:
+        rows = indonesia_methodology_gate_rows()
+        rows[0]["status"] = "PROBABLY"
+        with self.assertRaisesRegex(ValueError, "invalid statuses"):
+            validate_indonesia_methodology_gate_rows(rows)
+
     def test_workflow_publishes_china_audit_outputs_only_under_existing_guards(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "fetch-data.yml").read_text(encoding="utf-8")
         self.assertIn("china_methodology_gate_audit.csv", workflow)
         self.assertIn("CHINA_METHOD_GATE_REPORT.md", workflow)
+        self.assertIn("github.event_name != 'pull_request'", workflow)
+        self.assertIn("github.ref == 'refs/heads/main'", workflow)
+
+    def test_workflow_publishes_indonesia_audit_outputs_only_under_existing_guards(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "fetch-data.yml").read_text(encoding="utf-8")
+        self.assertIn("indonesia_methodology_gate_audit.csv", workflow)
+        self.assertIn("INDONESIA_METHOD_GATE_REPORT.md", workflow)
         self.assertIn("github.event_name != 'pull_request'", workflow)
         self.assertIn("github.ref == 'refs/heads/main'", workflow)
 

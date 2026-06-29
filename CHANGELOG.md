@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.6
+
+- Replaced the static Indonesia decision with `IndonesiaBpsAuditAdapter`.
+- Added independent BPS source-family acquisition for the expenditure publication, statistics-table family, downloadable national-accounts publication search, SUT, input-output, survey/CPI and classification/methodology evidence.
+- Added `indonesia_methodology_gate_audit.csv` and `INDONESIA_METHOD_GATE_REPORT.md`.
+- Rejects grouped BPS national-accounts publication evidence without artificial category splitting.
+- Rejects BPS SUT and input-output source families as exact weights because product-to-purpose allocation would be required.
+- Keeps survey/CPI material as Class C only.
+- Preserves `weights_final.csv` as empty and adds zero exact cells.
+
 ## 0.6.5
 
 - Replaced the static China decision with `ChinaNbsAuditAdapter`.
