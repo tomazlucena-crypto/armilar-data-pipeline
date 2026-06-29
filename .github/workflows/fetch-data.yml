@@ -142,6 +142,13 @@ jobs:
             country_mapping_audit.csv \
             country_reconciliation_audit.csv \
             country_adapter_failures.csv \
+            country_cell_status.csv \
+            country_source_attempts.csv \
+            step2i_economy_summary.csv \
+            india_methodology_gate_audit.csv \
+            step2h_exception_audit.csv \
+            step2i_completion_summary.json \
+            STEP_2I_COMPLETION_REPORT.md \
             methodology_policy_snapshot.json
           do
             cp "run/outputs/$file" "public/latest/$file"

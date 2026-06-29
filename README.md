@@ -16,6 +16,20 @@ The release adds:
 
 The India parser proves that Statement 5.1 can be reconciled exactly at item level. It does not enter the exact matrix until the strict households-only S14/P31 boundary and NPISH exclusion are confirmed from an official source. China remains blocked because the official NBS evidence found is an eight-group household survey. Russia remains blocked until a deterministic official Rosstat structured table for 2021 strict household COICOP-HH is acquired.
 
+## Version 0.6.0: Step 2I diagnostic closure
+
+Version 0.6.0 completes Step 2I diagnostically for China, India, Russia, Indonesia and Brazil. It adds per-cell decisions for CP04, CP06, CP09, CP10 and CP12, a source-attempt audit, India methodology gate audit, Step 2H exception audit and a Step 2I completion report.
+
+No new exact cells are admitted in this version. Each of the five Step 2I economies remains `UNAVAILABLE` for the five proxy categories because at least one material gate remains unresolved: strict S14/P31DC household scope, NPISH exclusion, exact COICOP purpose classification, current-price unit/currency confirmation, or no-allocation reconciliation.
+
+### Step nomenclature
+
+| Version | Original step | Repository wording |
+|---|---|---|
+| 0.4.0 | Step 2H | Gap resolver / source probe |
+| 0.5.0 | Step 2I start | National adapter architecture and first audits |
+| 0.6.0 | Step 2I completion | Diagnostic closure for China, India, Russia, Indonesia and Brazil |
+
 ## Version 0.4.0: Step 2H0
 
 Version 0.4.0 adds a feasibility layer before country-specific parsers are developed. It does not fill missing cells or change the ratified economic construction.
@@ -136,6 +150,13 @@ The intended acquisition environment is GitHub Actions. A push to `main` starts 
 - `outputs/country_mapping_audit.csv`
 - `outputs/country_reconciliation_audit.csv`
 - `outputs/country_adapter_failures.csv`
+- `outputs/country_cell_status.csv`
+- `outputs/country_source_attempts.csv`
+- `outputs/step2i_economy_summary.csv`
+- `outputs/india_methodology_gate_audit.csv`
+- `outputs/step2h_exception_audit.csv`
+- `outputs/step2i_completion_summary.json`
+- `outputs/STEP_2I_COMPLETION_REPORT.md`
 - `outputs/weights_observed_universe.csv`
 - `outputs/weights_experimental_universe.csv`
 - `outputs/weights_final.csv`

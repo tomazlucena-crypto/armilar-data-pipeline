@@ -4,6 +4,7 @@ import json
 import shutil
 import traceback
 import zipfile
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -149,6 +150,7 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
             except Exception as exc:
                 acquisition_failures.append({"source_id": source_id, "error_type": type(exc).__name__, "error": str(exc)})
                 supplemental_diagnostics.append({"source_id": source_id, "status": "FAILED", "error_type": type(exc).__name__, "error": str(exc)})
+        supplemental_observations = _relative_supplemental_source_files(supplemental_observations, run_root)
 
         matrix = build_hybrid_matrix(
             config, roles, observations, inventories, measures, participant_codes, supplemental_observations
@@ -415,6 +417,22 @@ def _unified_normalized_rows(config: Step2Config, matrix: HybridMatrixResult) ->
             "quality_flags": row["quality_flags"],
         })
     return sorted(result, key=lambda row: (str(row["economy_code"]), str(row["heading_code"]), str(row["expenditure_measure"]), str(row["source_hash"])))
+
+
+def _relative_supplemental_source_files(rows: list[NominalObservation], run_root: Path) -> list[NominalObservation]:
+    result: list[NominalObservation] = []
+    for row in rows:
+        source_file = row.source_file
+        member = ""
+        if "::" in source_file:
+            source_file, member = source_file.split("::", 1)
+            member = "::" + member
+        try:
+            relative = Path(source_file).resolve().relative_to(run_root).as_posix()
+            result.append(replace(row, source_file=relative + member))
+        except ValueError:
+            result.append(row)
+    return result
 
 
 def _manifest(config: Step2Config, started_at: str, records: list[AcquisitionRecord], summary, run_root, acquisition_failures):
