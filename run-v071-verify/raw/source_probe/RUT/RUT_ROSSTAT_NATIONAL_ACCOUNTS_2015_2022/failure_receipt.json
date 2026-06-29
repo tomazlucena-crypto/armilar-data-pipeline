@@ -1,0 +1,20 @@
+{
+  "attempt_errors": [
+    "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+    "attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+    "attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+    "attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>"
+  ],
+  "content_received": false,
+  "economy_code": "RUT",
+  "error": "Acquisition failed for source_probe_RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+  "error_type": "AcquisitionError",
+  "requested_url": "https://rosstat.gov.ru/storage/mediabank/Nac-sch_2015-2022.pdf",
+  "retrieval_status": "ACCESS_BLOCKED",
+  "retrieved_at": "2026-06-29T19:50:03Z",
+  "schema_version": "1.0",
+  "sha256": "",
+  "source_authority": "Federal State Statistics Service",
+  "source_id": "RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022",
+  "source_title": "National Accounts of Russia in 2015-2022"
+}

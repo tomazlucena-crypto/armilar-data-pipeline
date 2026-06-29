@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 182326,
+  "content_type": "text/html; charset=utf-8",
+  "filename": "BON/BON_CBS_CPI_WEIGHTS/cpi_weights.html",
+  "final_url": "https://www.cbs.nl/en-gb/figures/detail/84046ENG",
+  "retrieved_at": "2026-06-29T20:12:34Z",
+  "sha256": "6de81ab23338432516b3f6e993956a1ad941f9981999486a3e5385d37b7e74e3",
+  "source_id": "BON_CBS_CPI_WEIGHTS",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.cbs.nl/en-gb/figures/detail/84046ENG"
+}

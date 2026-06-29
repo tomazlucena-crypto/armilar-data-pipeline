@@ -2,6 +2,12 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.7.1: evidence-cell staging
+
+Version 0.7.1 adds a canonical `evidence_cells.csv` staging layer between the strict Step 2 matrix and the experimental global-weight builder. The `armilar-global-weights stage-strict` command converts `economy_category_matrix_weight_eligible.csv` into per-cell evidence records with source state, evidence class, transformation method and core/global eligibility.
+
+Strict rows are converted to A/B evidence without changing their real-expenditure values or uncertainty bounds. Experimental allocations are rejected rather than silently promoted, and C/D/E evidence can be marked global-eligible only outside `ARM-WEIGHTS-CORE`.
+
 ## Version 0.7.0: global weight contract layer
 
 Version 0.7.0 keeps the strict observed matrix and national-source audits intact while adding a separate experimental complete-world weight contract. The new `armilar-global-weights` programme builds `ARM-WEIGHTS-GLOBAL` from a complete economy-category grid with per-cell evidence classes A to E, required uncertainty for estimated cells, method provenance and deterministic manifests.
@@ -125,6 +131,7 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 | 0.6.12 | Step 2H0 Viet Nam source-family audit | Aggregate 2021 release and VHLSS concepts separated |
 | 0.6.13 | Step 2H exception audits | CP02, territory-scope and unit/concept exceptions made executable |
 | 0.7.0 | Global weight contract layer | Separate core/global constructions with per-cell evidence classes and uncertainty |
+| 0.7.1 | Evidence-cell staging | Strict A/B conversion and class coverage reports |
 
 ## Version 0.4.0: Step 2H0
 

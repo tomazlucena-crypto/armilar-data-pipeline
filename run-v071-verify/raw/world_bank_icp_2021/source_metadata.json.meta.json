@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 217,
+  "content_type": "application/json;charset=utf-8",
+  "filename": "raw/world_bank_icp_2021/source_metadata.json",
+  "final_url": "https://api.worldbank.org/v2/sources/90?format=json",
+  "retrieved_at": "2026-06-29T19:46:39Z",
+  "sha256": "b9c0de64e469ca0c3754e1722744bc501af42b3653599075729a9d8693b2bc12",
+  "source_id": "world_bank_source_metadata",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://api.worldbank.org/v2/sources/90?format=json"
+}

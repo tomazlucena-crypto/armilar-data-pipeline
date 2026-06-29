@@ -1,0 +1,121 @@
+access_blocked_count,acquired_dataset_count,acquired_discovery_count,acquired_documentation_count,audit_status,best_methodological_candidate_class,best_runtime_candidate_class,candidate_source_ids,configured_candidates,content_validation_failure_count,core_family,economy_code,economy_name,family_evidence_resolved,family_order,real_attempts,source_family,uninvestigated
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BGD,Bangladesh,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BGD,Bangladesh,false,2,0,official_csv_xls_xlsx,true
+2,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,BGD_BBS_NSDS_PORTAL|BGD_BBS_PORTAL,2,0,true,BGD,Bangladesh,false,3,2,official_statistical_database,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BGD,Bangladesh,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BGD,Bangladesh,false,5,0,official_input_output_tables,true
+2,0,0,0,ACCESS_BLOCKED,C_ONLY,D_UNAVAILABLE,BGD_BBS_HIES_2022_FINAL_REPORT_PAGE|BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS,2,0,true,BGD,Bangladesh,false,6,2,official_structured_publications,false
+2,0,0,0,ACCESS_BLOCKED,C_ONLY,D_UNAVAILABLE,BGD_BBS_HIES_2022|BGD_BBS_HIES_DOCUMENTATION,2,0,false,BGD,Bangladesh,false,7,2,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,BGD,Bangladesh,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BLR,Belarus,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BLR,Belarus,false,2,0,official_csv_xls_xlsx,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BLR,Belarus,false,3,0,official_statistical_database,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BLR,Belarus,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BLR,Belarus,false,5,0,official_input_output_tables,true
+0,0,0,1,DOCUMENTATION_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,BLR_BELSTAT_YEARBOOK_2022,1,0,true,BLR,Belarus,true,6,1,official_structured_publications,false
+0,0,0,1,DOCUMENTATION_ONLY,C_ONLY,D_UNAVAILABLE,BLR_BELSTAT_LIVING_STANDARDS,1,0,false,BLR,Belarus,true,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,BLR,Belarus,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BON,Bonaire,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BON,Bonaire,false,2,0,official_csv_xls_xlsx,true
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,D_UNAVAILABLE,D_UNAVAILABLE,BON_CBS_GDP,1,1,true,BON,Bonaire,true,3,1,official_statistical_database,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BON,Bonaire,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BON,Bonaire,false,5,0,official_input_output_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BON,Bonaire,false,6,0,official_structured_publications,true
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,C_ONLY,D_UNAVAILABLE,BON_CBS_CPI_WEIGHTS,1,1,false,BON,Bonaire,true,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,BON,Bonaire,false,8,0,official_classifications_methodology,true
+0,0,1,0,DISCOVERY_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,BRA_IBGE_SIDRA_CNT_TABLES,1,0,true,BRA,Brazil,false,1,1,official_national_accounts_api,false
+0,0,1,0,DISCOVERY_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,BRA_IBGE_DOWNLOADABLE_SCN_TABLES,1,0,true,BRA,Brazil,false,2,1,official_csv_xls_xlsx,false
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,D_UNAVAILABLE,D_UNAVAILABLE,BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS,1,1,true,BRA,Brazil,true,3,1,official_statistical_database,false
+0,0,1,0,DISCOVERY_ONLY,C_ONLY,D_UNAVAILABLE,BRA_IBGE_TABELAS_RECURSOS_USOS,1,0,true,BRA,Brazil,false,4,1,official_supply_and_use_tables,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BRA,Brazil,false,5,0,official_input_output_tables,true
+0,0,1,0,DISCOVERY_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,BRA_IBGE_SISTEMA_CONTAS_NACIONAIS,1,0,true,BRA,Brazil,false,6,1,official_structured_publications,false
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,C_ONLY,D_UNAVAILABLE,BRA_IBGE_POF_IPCA_CLASS_C,1,1,false,BRA,Brazil,true,7,1,survey_or_cpi_class_c_only,false
+1,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,BRA_IBGE_CLASSIFICACOES_METODOLOGIA,1,0,false,BRA,Brazil,false,8,1,official_classifications_methodology,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,CHN,China,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,CHN,China,false,2,0,official_csv_xls_xlsx,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,CHN,China,false,3,0,official_statistical_database,true
+0,0,1,0,DISCOVERY_ONLY,C_ONLY,D_UNAVAILABLE,CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF,1,0,true,CHN,China,false,4,1,official_supply_and_use_tables,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,CHN,China,false,5,0,official_input_output_tables,true
+0,0,1,2,DOCUMENTATION_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,CHN_NBS_2021_GDP_FINAL_VERIFICATION|CHN_NBS_YEARBOOK_2022_HOUSEHOLD_SURVEY_NOTES|CHN_NBS_YEARBOOK_2022_INDEX|CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_NOTES,4,1,true,CHN,China,true,6,4,official_structured_publications,false
+0,0,1,0,DISCOVERY_ONLY,C_ONLY,D_UNAVAILABLE,CHN_NBS_2021_HOUSEHOLD_CONSUMPTION,1,0,false,CHN,China,false,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,CHN,China,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,EGY,Egypt,false,1,0,official_national_accounts_api,true
+0,0,1,0,DISCOVERY_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,EGY_CAPMAS_NATIONAL_ACCOUNTS_EXPORT_CSV,1,0,true,EGY,Egypt,false,2,1,official_csv_xls_xlsx,false
+1,0,1,0,DISCOVERY_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,EGY_CAPMAS_CENTRAL_DATA_CATALOG|EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG,2,0,true,EGY,Egypt,false,3,2,official_statistical_database,false
+0,0,0,1,DOCUMENTATION_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,EGY_CAPMAS_SUT_2017_2018_METHOD,1,0,true,EGY,Egypt,true,4,1,official_supply_and_use_tables,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,EGY,Egypt,false,5,0,official_input_output_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,EGY,Egypt,false,6,0,official_structured_publications,true
+1,0,0,0,ACCESS_BLOCKED,C_ONLY,D_UNAVAILABLE,EGY_CAPMAS_HIECS_2021,1,0,false,EGY,Egypt,false,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,EGY,Egypt,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,IDN,Indonesia,false,1,0,official_national_accounts_api,true
+1,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH,1,0,true,IDN,Indonesia,false,2,1,official_csv_xls_xlsx,false
+1,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,IDN_BPS_STATISTICS_TABLES_EXPENDITURE,1,0,true,IDN,Indonesia,false,3,1,official_statistical_database,false
+1,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,IDN_BPS_SUPPLY_USE_TABLES,1,0,true,IDN,Indonesia,false,4,1,official_supply_and_use_tables,false
+1,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,IDN_BPS_INPUT_OUTPUT_TABLES,1,0,true,IDN,Indonesia,false,5,1,official_input_output_tables,false
+1,0,0,0,ACCESS_BLOCKED,C_ONLY,D_UNAVAILABLE,IDN_BPS_GDP_EXPENDITURE_2020_2024,1,0,true,IDN,Indonesia,false,6,1,official_structured_publications,false
+1,0,0,0,ACCESS_BLOCKED,C_ONLY,D_UNAVAILABLE,IDN_BPS_SURVEY_OR_CPI_CLASS_C,1,0,false,IDN,Indonesia,false,7,1,survey_or_cpi_class_c_only,false
+1,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,IDN_BPS_CLASSIFICATION_METHODOLOGY,1,0,false,IDN,Indonesia,false,8,1,official_classifications_methodology,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,IND,India,false,1,0,official_national_accounts_api,true
+0,1,0,0,DATASET_ACQUIRED,D_UNAVAILABLE,D_UNAVAILABLE,IND_MOSPI_NAS2024_STATEMENT_5_1,1,0,true,IND,India,true,2,1,official_csv_xls_xlsx,false
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,D_UNAVAILABLE,D_UNAVAILABLE,IND_NSC_NATIONAL_ACCOUNTS_PORTAL,1,1,true,IND,India,true,3,1,official_statistical_database,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,IND,India,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,IND,India,false,5,0,official_input_output_tables,true
+0,0,0,2,DOCUMENTATION_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,IND_MOSPI_PFCE_CHAPTER_22|IND_MOSPI_PFCE_COMMITTEE_REPORT,2,0,true,IND,India,true,6,2,official_structured_publications,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,IND,India,false,7,0,survey_or_cpi_class_c_only,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,IND,India,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,KWT,Kuwait,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,KWT,Kuwait,false,2,0,official_csv_xls_xlsx,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,KWT,Kuwait,false,3,0,official_statistical_database,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,KWT,Kuwait,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,D_UNAVAILABLE,D_UNAVAILABLE,KWT_CSB_INPUT_OUTPUT_INVENTORY,1,1,true,KWT,Kuwait,true,5,1,official_input_output_tables,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,KWT,Kuwait,false,6,0,official_structured_publications,true
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,C_ONLY,D_UNAVAILABLE,KWT_CSB_HIES_2019_2021,1,1,false,KWT,Kuwait,true,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,KWT,Kuwait,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,LBR,Liberia,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,LBR,Liberia,false,2,0,official_csv_xls_xlsx,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,LBR,Liberia,false,3,0,official_statistical_database,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,LBR,Liberia,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,LBR,Liberia,false,5,0,official_input_output_tables,true
+0,0,0,1,DOCUMENTATION_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,LBR_LISGIS_GDP_2016_2022,1,0,true,LBR,Liberia,true,6,1,official_structured_publications,false
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,C_ONLY,D_UNAVAILABLE,LBR_LISGIS_HIES_PORTAL,1,1,false,LBR,Liberia,true,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,LBR,Liberia,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,NGA,Nigeria,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,NGA,Nigeria,false,2,0,official_csv_xls_xlsx,true
+0,0,2,0,DISCOVERY_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,NGA_NBS_ELIBRARY|NGA_NBS_ELIBRARY_REPORT_PAGE,2,0,true,NGA,Nigeria,false,3,2,official_statistical_database,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,NGA,Nigeria,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,NGA,Nigeria,false,5,0,official_input_output_tables,true
+0,0,1,0,DISCOVERY_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,NGA_NBS_GDP_EXPENDITURE_2021_PDF,1,0,true,NGA,Nigeria,false,6,1,official_structured_publications,false
+0,1,0,0,DATASET_ACQUIRED,C_ONLY,C_ONLY,NGA_NBS_CONSUMPTION_PATTERN_2019,1,0,false,NGA,Nigeria,true,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,NGA,Nigeria,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,PAK,Pakistan,false,1,0,official_national_accounts_api,true
+0,1,0,0,DATASET_ACQUIRED,D_UNAVAILABLE,D_UNAVAILABLE,PAK_PBS_NATIONAL_ACCOUNTS_XLSX,1,0,true,PAK,Pakistan,true,2,1,official_csv_xls_xlsx,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,PAK,Pakistan,false,3,0,official_statistical_database,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,PAK,Pakistan,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,PAK,Pakistan,false,5,0,official_input_output_tables,true
+0,0,0,1,DOCUMENTATION_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,PAK_PBS_NATIONAL_ACCOUNTS_METHODOLOGY_PDF|PAK_PBS_NATIONAL_ACCOUNTS_PAGE,2,1,true,PAK,Pakistan,true,6,2,official_structured_publications,false
+0,0,1,0,DISCOVERY_ONLY,C_ONLY,D_UNAVAILABLE,PAK_PBS_HIES_2018_19,1,0,false,PAK,Pakistan,false,7,1,survey_or_cpi_class_c_only,false
+0,0,0,1,DOCUMENTATION_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,PAK_PBS_NATIONAL_ACCOUNTS_FAQ,1,0,false,PAK,Pakistan,true,8,1,official_classifications_methodology,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,RUT,Russian Federation,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,RUT,Russian Federation,false,2,0,official_csv_xls_xlsx,true
+1,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,RUT_FEDSTAT_HFCE_31414,1,0,true,RUT,Russian Federation,false,3,1,official_statistical_database,false
+1,0,0,0,ACCESS_BLOCKED,C_ONLY,D_UNAVAILABLE,RUT_ROSSTAT_SUT_2021_XLSX,1,0,true,RUT,Russian Federation,false,4,1,official_supply_and_use_tables,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,RUT,Russian Federation,false,5,0,official_input_output_tables,true
+2,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,RUT_ROSSTAT_KIPC_DH_CLASSIFICATION|RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022,2,0,true,RUT,Russian Federation,false,6,2,official_structured_publications,false
+1,0,0,0,ACCESS_BLOCKED,C_ONLY,D_UNAVAILABLE,RUT_ROSSTAT_HBS_2021,1,0,false,RUT,Russian Federation,false,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,RUT,Russian Federation,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,SAU,Saudi Arabia,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,SAU,Saudi Arabia,false,2,0,official_csv_xls_xlsx,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,SAU,Saudi Arabia,false,3,0,official_statistical_database,true
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,D_UNAVAILABLE,D_UNAVAILABLE,SAU_GASTAT_SUT_IO_2018_2023,1,1,true,SAU,Saudi Arabia,true,4,1,official_supply_and_use_tables,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,SAU,Saudi Arabia,false,5,0,official_input_output_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,SAU,Saudi Arabia,false,6,0,official_structured_publications,true
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,C_ONLY,D_UNAVAILABLE,SAU_GASTAT_HOUSEHOLD_EXPENDITURE_SURVEY,1,1,false,SAU,Saudi Arabia,true,7,1,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,SAU,Saudi Arabia,false,8,0,official_classifications_methodology,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,VNM,Viet Nam,false,1,0,official_national_accounts_api,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,VNM,Viet Nam,false,2,0,official_csv_xls_xlsx,true
+0,0,2,0,DISCOVERY_ONLY,D_UNAVAILABLE,D_UNAVAILABLE,VNM_NSO_PORTAL|VNM_NSO_STATISTICAL_DATA_PORTAL,2,0,true,VNM,Viet Nam,false,3,2,official_statistical_database,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,VNM,Viet Nam,false,4,0,official_supply_and_use_tables,true
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,VNM,Viet Nam,false,5,0,official_input_output_tables,true
+0,1,1,0,DATASET_ACQUIRED,D_UNAVAILABLE,D_UNAVAILABLE,VNM_NSO_HOMEPAGE|VNM_NSO_SOCIO_ECONOMIC_2021,2,0,true,VNM,Viet Nam,true,6,2,official_structured_publications,false
+0,0,1,1,DOCUMENTATION_ONLY,C_ONLY,D_UNAVAILABLE,VNM_NSO_VHLSS_2020|VNM_NSO_VHLSS_2022,2,0,false,VNM,Viet Nam,true,7,2,survey_or_cpi_class_c_only,false
+0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,VNM,Viet Nam,false,8,0,official_classifications_methodology,true

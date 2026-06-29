@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 138883,
+  "content_type": "text/html; charset=UTF-8",
+  "filename": "NGA/NGA_NBS_ELIBRARY_REPORT_PAGE/gdp_expenditure_2021_report_page.html",
+  "final_url": "https://www.nigerianstat.gov.ng/elibrary/read/1241168",
+  "retrieved_at": "2026-06-29T20:05:29Z",
+  "sha256": "3157770c626a24ba192c25d1529f5fefd11ca74a37e14074f493f0b2291ec4f6",
+  "source_id": "NGA_NBS_ELIBRARY_REPORT_PAGE",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.nigerianstat.gov.ng/elibrary/read/1241168"
+}

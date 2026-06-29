@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 137351,
+  "content_type": "text/html; charset=UTF-8",
+  "filename": "NGA/NGA_NBS_CONSUMPTION_PATTERN_2019/consumption_pattern_2019.html",
+  "final_url": "https://www.nigerianstat.gov.ng/elibrary/read/1094",
+  "retrieved_at": "2026-06-29T20:05:33Z",
+  "sha256": "60ae5c8db1046ef7d7b62942106c2f872095915af3b660274c0dbc1b9a4a86b2",
+  "source_id": "NGA_NBS_CONSUMPTION_PATTERN_2019",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.nigerianstat.gov.ng/elibrary/read/1094"
+}

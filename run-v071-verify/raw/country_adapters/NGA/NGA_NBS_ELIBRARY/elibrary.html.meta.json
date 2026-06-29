@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 1944462,
+  "content_type": "text/html; charset=UTF-8",
+  "filename": "NGA/NGA_NBS_ELIBRARY/elibrary.html",
+  "final_url": "https://nigerianstat.gov.ng/elibrary",
+  "retrieved_at": "2026-06-29T20:05:35Z",
+  "sha256": "c93d093bb082911e892599d4fe16e99aaf570a44d70462670151d7f3f9a52d43",
+  "source_id": "NGA_NBS_ELIBRARY",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://nigerianstat.gov.ng/elibrary"
+}

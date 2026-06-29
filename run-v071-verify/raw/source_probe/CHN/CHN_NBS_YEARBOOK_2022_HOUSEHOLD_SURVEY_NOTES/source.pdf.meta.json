@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 282490,
+  "content_type": "application/pdf",
+  "filename": "CHN/CHN_NBS_YEARBOOK_2022_HOUSEHOLD_SURVEY_NOTES/source.pdf",
+  "final_url": "https://www.stats.gov.cn/sj/ndsj/2022/html/zbe06.pdf",
+  "retrieved_at": "2026-06-29T19:48:49Z",
+  "sha256": "45b42e98169c3367ec2a647b4603ac99865278153803c80f874617679a92d446",
+  "source_id": "source_probe_CHN_NBS_YEARBOOK_2022_HOUSEHOLD_SURVEY_NOTES",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.stats.gov.cn/sj/ndsj/2022/html/zbe06.pdf"
+}

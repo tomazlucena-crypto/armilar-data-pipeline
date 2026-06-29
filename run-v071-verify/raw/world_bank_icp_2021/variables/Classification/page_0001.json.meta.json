@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 1451,
+  "content_type": "application/json;charset=utf-8",
+  "filename": "variables/Classification/page_0001.json",
+  "final_url": "https://api.worldbank.org/v2/sources/90/classification/data?format=json&per_page=5000&page=1",
+  "retrieved_at": "2026-06-29T19:46:45Z",
+  "sha256": "889f4788da5a7c7e2800c0ac5f7d625693bc86b21e197139e23a68f7b7967395",
+  "source_id": "world_bank_source90_variables_Classification_page_1",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://api.worldbank.org/v2/sources/90/classification/data?format=json&per_page=5000&page=1"
+}

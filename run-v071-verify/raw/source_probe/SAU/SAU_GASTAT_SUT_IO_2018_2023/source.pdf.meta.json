@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 184400,
+  "content_type": "text/html;charset=UTF-8",
+  "filename": "SAU/SAU_GASTAT_SUT_IO_2018_2023/source.pdf",
+  "final_url": "https://www.stats.gov.sa/en/w/supply-and-use-input-output-tables-2019",
+  "retrieved_at": "2026-06-29T19:51:10Z",
+  "sha256": "76636a8014635402e10ba968523af75a012b43eed99431664804f17c4fa6c056",
+  "source_id": "source_probe_SAU_GASTAT_SUT_IO_2018_2023",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.stats.gov.sa/en/w/supply-and-use-input-output-tables-2019"
+}

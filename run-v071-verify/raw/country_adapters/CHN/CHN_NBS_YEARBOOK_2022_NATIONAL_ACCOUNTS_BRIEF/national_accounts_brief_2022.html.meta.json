@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 8596,
+  "content_type": "text/html",
+  "filename": "CHN/CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF/national_accounts_brief_2022.html",
+  "final_url": "https://www.stats.gov.cn/sj/ndsj/2022/html/sme03.htm",
+  "retrieved_at": "2026-06-29T19:53:34Z",
+  "sha256": "49b051faf47bc4c84d6592b265dd4ee6d3c0baef71528fd944f1f7d3a1558b5f",
+  "source_id": "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.stats.gov.cn/sj/ndsj/2022/html/sme03.htm"
+}

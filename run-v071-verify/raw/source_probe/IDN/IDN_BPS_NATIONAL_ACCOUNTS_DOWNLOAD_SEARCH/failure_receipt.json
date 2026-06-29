@@ -1,0 +1,20 @@
+{
+  "attempt_errors": [
+    "attempt=1:HTTPError:HTTP Error 403: Forbidden",
+    "attempt=2:HTTPError:HTTP Error 403: Forbidden",
+    "attempt=3:HTTPError:HTTP Error 403: Forbidden",
+    "attempt=4:HTTPError:HTTP Error 403: Forbidden"
+  ],
+  "content_received": false,
+  "economy_code": "IDN",
+  "error": "Acquisition failed for source_probe_IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+  "error_type": "AcquisitionError",
+  "requested_url": "https://www.bps.go.id/en/publication?keyword=gross%20domestic%20product%20expenditure",
+  "retrieval_status": "ACCESS_BLOCKED",
+  "retrieved_at": "2026-06-29T19:49:12Z",
+  "schema_version": "1.0",
+  "sha256": "",
+  "source_authority": "Badan Pusat Statistik",
+  "source_id": "IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH",
+  "source_title": "BPS downloadable national-accounts publication search"
+}

@@ -1,0 +1,51 @@
+economy_code,original_item_code,original_item_name,armilar_category,mapping_type,status,reason
+IND,1,Food and non-alcoholic beverages,CP01,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,2.1,Alcoholic beverages,CP02,MANY_TO_ONE_EXACT,PASS,Item belongs wholly to one Armilar category.
+IND,2.2,Tobacco,CP02,MANY_TO_ONE_EXACT,PASS,Item belongs wholly to one Armilar category.
+IND,3,Clothing and footwear,CP03,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,4,"Housing, water, electricity, gas and other fuels",CP04,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,5,"Furnishing, household equipment and routine household maintenance",CP05,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,6,Health,CP06,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,7,Transport,CP07,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,8,Communication,CP08,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,9,Recreation and culture,CP09,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,10,Education,CP10,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,11,Restaurants and hotels,CP11,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,12,Miscellaneous goods and services,CP12,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,2.3,Narcotics,,EXCLUDED,PASS,Narcotics are explicitly excluded by Armilar methodology.
+CHN,FOOD_TOBACCO_LIQUOR,"Food, tobacco and liquor",CP01|CP02,ONE_SURVEY_GROUP_TO_MULTIPLE_ARMILAR_CATEGORIES,REJECTED,CP01 and CP02 cannot be separated without an allocation.
+CHN,EDUCATION_CULTURE_RECREATION,"Education, culture and recreation",CP09|CP10,ONE_SURVEY_GROUP_TO_MULTIPLE_ARMILAR_CATEGORIES,REJECTED,CP09 and CP10 cannot be separated without an allocation.
+CHN,INPUT_OUTPUT_PRODUCTS_2020,NBS 2020 input-output products,,MANY_TO_MANY_PRODUCT_TO_COICOP_REQUIRED,REJECTED,The product table is for 2020 and requires an unapproved product-to-purpose allocation.
+BRA,BRA_IBGE_SIDRA_CNT_TABLES,SIDRA national-accounts table discovery,,NO_EXACT_MAPPING_PERMITTED,REJECTED,SIDRA landing evidence does not pin an exact 2021 household-purpose table.
+BRA,BRA_IBGE_SISTEMA_CONTAS_NACIONAIS,Sistema de Contas Nacionais,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The SCN publication family does not expose a pinned strict S14/P31DC twelve-purpose table in this probe.
+BRA,BRA_IBGE_TABELAS_RECURSOS_USOS,Tabelas de Recursos e Usos,,NO_EXACT_MAPPING_PERMITTED,REJECTED,TRU is product/resource-use evidence; exact COICOP weights would require many-to-many allocation.
+BRA,BRA_IBGE_DOWNLOADABLE_SCN_TABLES,Downloadable SCN tables,,NO_EXACT_MAPPING_PERMITTED,REJECTED,A downloads page is not a pinned exact dataset.
+BRA,BRA_IBGE_CLASSIFICACOES_METODOLOGIA,IBGE classifications and methodology,,NO_EXACT_MAPPING_PERMITTED,REVIEW_REQUIRED,Methodology documentation does not itself supply expenditure values.
+EGY,EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG,CAPMAS National Accounts collection,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The official catalogue inventory lists historical SUT and input-output studies but no 2021 twelve-purpose S14/P31 table.
+EGY,EGY_CAPMAS_NATIONAL_ACCOUNTS_EXPORT_CSV,Machine-readable National Accounts catalogue inventory,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The CSV is an inventory, not expenditure values, and does not identify a 2021 exact-purpose table."
+EGY,EGY_CAPMAS_SUT_2017_2018_METHOD,Supply and Use Tables 2017/2018,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The SUT benchmark is 2017/2018 and organised by products and activities, not a 2021 twelve-purpose table."
+PAK,PAK_PBS_NATIONAL_ACCOUNTS_PAGE,Annual national accounts and expenditure on GDP,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The national-accounts portal confirms aggregate expenditure-GDP series but does not expose HFCE by twelve household purposes.
+PAK,PAK_PBS_NATIONAL_ACCOUNTS_XLSX,Annual national accounts tables,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The workbook supplies aggregate HFCE for fiscal 2021-22, not calendar-2021 expenditure by twelve purposes."
+PAK,PAK_PBS_NATIONAL_ACCOUNTS_FAQ,National accounts scope and demand-side methodology,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The methodology confirms aggregate household final consumption as a GDP component but no purpose-classified table.
+PAK,PAK_PBS_HIES_2018_19,Household Integrated Economic Survey 2018-19,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"HIES provides COICOP household-survey shares for 2018-19, not national-accounts S14/P31 values for 2021."
+PAK,PAK_PBS_NATIONAL_ACCOUNTS_METHODOLOGY_PDF,Backward-series national-accounts methodology,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The methodology documents separate aggregate HFCE and NPISH compilation but is not a purpose-classified 2021 dataset.
+NGA,NGA_NBS_ELIBRARY_REPORT_PAGE,GDP expenditure and income approach report,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The official 2021 expenditure-GDP release reports household consumption only as an aggregate component.
+NGA,NGA_NBS_GDP_EXPENDITURE_2021_PDF,2021 expenditure-GDP report download,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The official PDF preserves the 2021 aggregate expenditure evidence but does not provide a machine-readable twelve-purpose table.
+NGA,NGA_NBS_CONSUMPTION_PATTERN_2019,Consumption Expenditure Pattern in Nigeria 2019,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The 2019 household-consumption study is survey evidence, has the wrong period and does not constitute national-accounts S14/P31 by twelve purposes."
+NGA,NGA_NBS_ELIBRARY,NBS e-library and open-data portal,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The portal is source-discovery evidence and not itself an exact dataset.
+VNM,VNM_NSO_STATISTICAL_DATA_PORTAL,NSO statistical data portal,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The official statistical-data catalogue does not itself provide a pinned 2021 S14/P31 twelve-purpose table.
+VNM,VNM_NSO_SOCIO_ECONOMIC_2021,Socio-economic situation in fourth quarter and 2021,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The 2021 release reports aggregate final-consumption growth, not household expenditure levels by purpose."
+VNM,VNM_NSO_VHLSS_2022,Viet Nam Household Living Standards Survey 2022,,NO_EXACT_MAPPING_PERMITTED,REJECTED,VHLSS 2022 is a household survey with the wrong period and cannot replace national-accounts S14/P31.
+VNM,VNM_NSO_VHLSS_2020,Viet Nam Household Living Standards Survey 2020,,NO_EXACT_MAPPING_PERMITTED,REJECTED,VHLSS 2020 is a household survey and does not match the 2021 national-accounts benchmark.
+VNM,VNM_NSO_HOMEPAGE,NSO institutional homepage,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The homepage is a discovery route, not a dataset."
+BLR,BLR_BELSTAT_YEARBOOK_2022,Statistical Yearbook of the Republic of Belarus 2022,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The yearbook covers 2021 but does not provide an admissible strict-HFCE CP02 cell with narcotics excluded.
+BLR,BLR_BELSTAT_LIVING_STANDARDS,Social Situation and Living Standards household expenditure publication,,NO_EXACT_MAPPING_PERMITTED,REJECTED,Household living-standards expenditure is survey evidence and cannot replace national-accounts S14/P31 purpose weights.
+KWT,KWT_CSB_HIES_2019_2021,Household income and expenditure survey 2019/2021,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The detailed 2021 source is a household survey and cannot supply exact national-accounts CP02 weights.
+KWT,KWT_CSB_INPUT_OUTPUT_INVENTORY,National Accounts Statistics Input and Output Tables inventory,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The listed input-output sources are historical and product-based, not a 2021 purpose-classified CP02 table."
+SAU,SAU_GASTAT_SUT_IO_2018_2023,Supply and Use and Input-Output Tables by Divisions 2018-2023,,NO_EXACT_MAPPING_PERMITTED,REJECTED,Product-division SUT/IO data do not by themselves provide a strict purpose-classified CP02 cell.
+SAU,SAU_GASTAT_HOUSEHOLD_EXPENDITURE_SURVEY,Household Expenditure Survey,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The source is a household survey used for CPI weights, not an exact national-accounts S14/P31 matrix."
+SAU,SAU_GASTAT_ANNUAL_NA_METHOD,Annual National Accounts methodology,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The methodology documents the accounts but is not a 2021 purpose-value dataset.
+BON,BON_CBS_CPI_WEIGHTS,Caribbean Netherlands CPI and weighting coefficients,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The twelve-group weights are CPI expenditure weights, not national-accounts S14/P31 values."
+BON,BON_CBS_GDP,Bonaire gross domestic product,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The GDP table contains macroeconomic aggregates and no twelve-purpose household consumption matrix.
+LBR,LBR_LISGIS_GDP_2016_2022,Liberia GDP Report 2016-2022,,NO_EXACT_MAPPING_PERMITTED,REJECTED,"The report discusses household, government and NPISH final consumption at aggregate level, not strict S14 values by twelve purposes."
+LBR,LBR_LISGIS_HIES_PORTAL,LISGIS Household Income and Expenditure Survey publications,,NO_EXACT_MAPPING_PERMITTED,REJECTED,HIES is survey evidence and cannot resolve the national-accounts unit/concept mismatch as exact weights.

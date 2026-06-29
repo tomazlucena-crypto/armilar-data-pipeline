@@ -1,0 +1,16 @@
+{
+  "attempt_errors": [
+    "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+    "attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>"
+  ],
+  "bytes": 72281,
+  "content_type": "text/html; charset=utf-8",
+  "filename": "BRA/BRA_IBGE_CLASSIFICACOES_METODOLOGIA/classificacoes_metodologia.html",
+  "final_url": "https://www.ibge.gov.br/estatisticas/metodos-e-classificacoes/classificacoes-e-listas-estatisticas.html",
+  "retrieved_at": "2026-06-29T20:03:29Z",
+  "sha256": "3a891b7b609501a39bd286a760d746dc9f2733a9c7f18891f6bc22a73919beea",
+  "source_id": "BRA_IBGE_CLASSIFICACOES_METODOLOGIA",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.ibge.gov.br/estatisticas/metodos-e-classificacoes/classificacoes-e-listas-estatisticas.html"
+}

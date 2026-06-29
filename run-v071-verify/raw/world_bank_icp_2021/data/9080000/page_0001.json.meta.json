@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 1093554,
+  "content_type": "application/json;charset=utf-8",
+  "filename": "data/9080000/page_0001.json",
+  "final_url": "https://api.worldbank.org/v2/sources/90/classification/all/country/all/series/9080000/time/YR2021/data?format=json&per_page=5000&page=1",
+  "retrieved_at": "2026-06-29T19:46:48Z",
+  "sha256": "f7d9e59770035b324e42b9a170fe45570e4ee8a42f75d2b5afd2e816a42105e7",
+  "source_id": "icp2021_heading_9080000_page_1",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://api.worldbank.org/v2/sources/90/classification/all/country/all/series/9080000/time/YR2021/data?format=json&per_page=5000&page=1"
+}

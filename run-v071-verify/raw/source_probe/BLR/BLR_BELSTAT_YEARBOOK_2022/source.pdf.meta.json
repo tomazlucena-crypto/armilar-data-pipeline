@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 2056693,
+  "content_type": "application/pdf",
+  "filename": "BLR/BLR_BELSTAT_YEARBOOK_2022/source.pdf",
+  "final_url": "https://belstat.gov.by/upload/iblock/57e/a76lpm9rtfb8x0l0o2t3wfts61arbk2q.pdf",
+  "retrieved_at": "2026-06-29T19:51:06Z",
+  "sha256": "273191b0dcb369d03d515b27707dd9e96f68b5393e0facc9736118d01534d445",
+  "source_id": "source_probe_BLR_BELSTAT_YEARBOOK_2022",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://belstat.gov.by/upload/iblock/57e/a76lpm9rtfb8x0l0o2t3wfts61arbk2q.pdf"
+}

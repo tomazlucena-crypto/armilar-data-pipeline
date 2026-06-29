@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 929774,
+  "content_type": "application/zip",
+  "filename": "supplemental_nominal_hfce/UNDATA_SNA_TABLE32/undata_sna_table32.zip",
+  "final_url": "https://data.un.org/Handlers/DownloadHandler.ashx?DataFilter=group_code%3A302%3Byear%3A2021&DataMartId=SNA&Format=csv&c=2%2C3%2C4%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13",
+  "retrieved_at": "2026-06-29T19:48:03Z",
+  "sha256": "2d402568f8610df034ecc786e2d447eb4f59714337327661b2fa625f5a8febe4",
+  "source_id": "UNDATA_SNA_TABLE32",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://data.un.org/Handlers/DownloadHandler.ashx?DataFilter=group_code%3A302%3Byear%3A2021&DataMartId=SNA&Format=csv&c=2%2C3%2C4%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13"
+}

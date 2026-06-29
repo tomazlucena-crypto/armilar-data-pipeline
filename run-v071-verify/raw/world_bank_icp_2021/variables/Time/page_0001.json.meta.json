@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 357,
+  "content_type": "application/json;charset=utf-8",
+  "filename": "variables/Time/page_0001.json",
+  "final_url": "https://api.worldbank.org/v2/sources/90/time/data?format=json&per_page=5000&page=1",
+  "retrieved_at": "2026-06-29T19:46:45Z",
+  "sha256": "e6f4e0999aaddb051ffe66d53714c03846562bf4ae4bbf466bb312a2063c4ad9",
+  "source_id": "world_bank_source90_variables_Time_page_1",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://api.worldbank.org/v2/sources/90/time/data?format=json&per_page=5000&page=1"
+}

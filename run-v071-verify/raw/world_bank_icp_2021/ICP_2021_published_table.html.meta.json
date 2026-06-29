@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 757457,
+  "content_type": "text/html; charset=utf-8",
+  "filename": "raw/world_bank_icp_2021/ICP_2021_published_table.html",
+  "final_url": "https://databank.worldbank.org/ICP-2021-Cycle/id/3a11040d",
+  "retrieved_at": "2026-06-29T19:46:45Z",
+  "sha256": "ee83ff229c61a806d052167d626e5b8f7b2607d6ff61bb4b3f28830b043260f4",
+  "source_id": "world_bank_published_table_page",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://databank.worldbank.org/ICP-2021-Cycle/id/3a11040d"
+}

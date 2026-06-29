@@ -1,0 +1,20 @@
+{
+  "attempt_errors": [
+    "attempt=1:HTTPError:HTTP Error 403: Forbidden",
+    "attempt=2:HTTPError:HTTP Error 403: Forbidden",
+    "attempt=3:HTTPError:HTTP Error 403: Forbidden",
+    "attempt=4:HTTPError:HTTP Error 403: Forbidden"
+  ],
+  "content_received": false,
+  "economy_code": "RUT",
+  "error": "Acquisition failed for source_probe_RUT_FEDSTAT_HFCE_31414: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+  "error_type": "AcquisitionError",
+  "requested_url": "https://www.fedstat.ru/indicator/31414",
+  "retrieval_status": "ACCESS_BLOCKED",
+  "retrieved_at": "2026-06-29T19:49:50Z",
+  "schema_version": "1.0",
+  "sha256": "",
+  "source_authority": "Federal State Statistics Service",
+  "source_id": "RUT_FEDSTAT_HFCE_31414",
+  "source_title": "Household final consumption expenditure indicator 31414"
+}

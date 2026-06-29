@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 2403812,
+  "content_type": "application/pdf",
+  "filename": "IND/IND_MOSPI_PFCE_COMMITTEE_REPORT/source.pdf",
+  "final_url": "https://www.mospi.gov.in/sites/default/files/publication_reports/Adhikari_Committee_PFCE_22may15.pdf",
+  "retrieved_at": "2026-06-29T19:49:36Z",
+  "sha256": "dad6e614ab55197a4812613ab4009995d0a1b1b392ccd22e2353e2dec0f13451",
+  "source_id": "source_probe_IND_MOSPI_PFCE_COMMITTEE_REPORT",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.mospi.gov.in/sites/default/files/publication_reports/Adhikari_Committee_PFCE_22may15.pdf"
+}

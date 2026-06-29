@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 68934,
+  "content_type": "text/html;charset=utf-8",
+  "filename": "raw/world_bank_icp_2021/ICP2021_Governance.html",
+  "final_url": "https://www.worldbank.org/en/programs/icp/brief/ICP2021_Governance",
+  "retrieved_at": "2026-06-29T19:46:39Z",
+  "sha256": "b3b8d0347f0e30769cce68ec484479a836599000dbf566088a4995f9ec613d35",
+  "source_id": "world_bank_participation_page",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.worldbank.org/en/programs/icp/brief/ICP2021_Governance"
+}

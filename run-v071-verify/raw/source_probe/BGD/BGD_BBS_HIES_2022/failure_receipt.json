@@ -1,0 +1,20 @@
+{
+  "attempt_errors": [
+    "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+    "attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+    "attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+    "attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>"
+  ],
+  "content_received": false,
+  "economy_code": "BGD",
+  "error": "Acquisition failed for source_probe_BGD_BBS_HIES_2022: attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+  "error_type": "AcquisitionError",
+  "requested_url": "https://nsds.bbs.gov.bd/en/posts/85/Survey%20documentation%20for%20the%20Household%20Income%20and%20Expenditure%20Survey",
+  "retrieval_status": "ACCESS_BLOCKED",
+  "retrieved_at": "2026-06-29T19:49:57Z",
+  "schema_version": "1.0",
+  "sha256": "",
+  "source_authority": "Bangladesh Bureau of Statistics",
+  "source_id": "BGD_BBS_HIES_2022",
+  "source_title": "Household Income and Expenditure Survey 2022 documentation"
+}

@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 160758,
+  "content_type": "text/html; charset=UTF-8",
+  "filename": "LBR/LBR_LISGIS_HIES_PORTAL/lisgis_hies_portal.html",
+  "final_url": "https://lisgis.gov.lr/",
+  "retrieved_at": "2026-06-29T20:12:35Z",
+  "sha256": "88298b26d9cec03e292a478eb3a7db0985a7f946085cc133dda9eac95fb61945",
+  "source_id": "LBR_LISGIS_HIES_PORTAL",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://lisgis.gov.lr/"
+}

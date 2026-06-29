@@ -1,0 +1,280 @@
+concept_id,variable_id,variable_name
+Classification,AICZS,Expenditure component share of AIC (AIC = 100%)
+Classification,CD,"Expenditure, market exchange rate-based (US$, billions)"
+Classification,CD.ZS,"Share of global expenditure, market exchange rate-based (World = 100%)"
+Classification,CN,"Expenditure (local currency units, billions)"
+Classification,EXR,Market exchange rate (US$ = 1)
+Classification,PCAP.CD,"Expenditure per capita, market exchange rate-based (US$)"
+Classification,PCAP.CD.IX.US,"Expenditure per capita index, market exchange rate-based (United States= 100)"
+Classification,PCAP.CD.IX.WL,"Expenditure per capita index, market exchange rate-based (World = 100)"
+Classification,PCAP.PP,"Expenditure per capita, PPP-based (US$)"
+Classification,PCAP.PP.IX.US,"Expenditure per capita index, PPP-based (United States = 100)"
+Classification,PCAP.PP.IX.WL,"Expenditure per capita index, PPP-based (World = 100)"
+Classification,POP,Population
+Classification,PP.CD,"Expenditure, PPP-based (US$, billions)"
+Classification,PP.CD.ZS,"Share of global expenditure, PPP-based (World = 100%)"
+Classification,PPPGlob,Purchasing power parity (PPP) (US$ = 1)
+Classification,PX.WL,Price level index (World = 100)
+Classification,ZS,Expenditure component share of GDP (GDP = 100%)
+Country,ABW,Aruba
+Country,AFG,Afghanistan
+Country,AGO,Angola
+Country,AIA,Anguilla
+Country,ALB,Albania
+Country,AND,Andorra
+Country,ARE,United Arab Emirates
+Country,ARG,Argentina
+Country,ARM,Armenia
+Country,ATG,Antigua and Barbuda
+Country,AUS,Australia
+Country,AUT,Austria
+Country,AZE,Azerbaijan
+Country,BDI,Burundi
+Country,BEL,Belgium
+Country,BEN,Benin
+Country,BFA,Burkina Faso
+Country,BGD,Bangladesh
+Country,BGR,Bulgaria
+Country,BHR,Bahrain
+Country,BHS,"Bahamas, The"
+Country,BIH,Bosnia and Herzegovina
+Country,BLR,Belarus
+Country,BLZ,Belize
+Country,BMU,Bermuda
+Country,BOL,Bolivia
+Country,BON,Bonaire
+Country,BRA,Brazil
+Country,BRB,Barbados
+Country,BRN,Brunei Darussalam
+Country,BTN,Bhutan
+Country,BWA,Botswana
+Country,CAF,Central African Republic
+Country,CAN,Canada
+Country,CHE,Switzerland
+Country,CHL,Chile
+Country,CHN,China
+Country,CIV,Cote d'Ivoire
+Country,CMR,Cameroon
+Country,COD,"Congo, Dem. Rep."
+Country,COG,"Congo, Rep."
+Country,COL,Colombia
+Country,COM,Comoros
+Country,CPV,Cabo Verde
+Country,CRI,Costa Rica
+Country,CUW,Curacao
+Country,CYM,Cayman Islands
+Country,CYP,Cyprus
+Country,CZE,Czechia
+Country,DEU,Germany
+Country,DJI,Djibouti
+Country,DMA,Dominica
+Country,DNK,Denmark
+Country,DOM,Dominican Republic
+Country,DZA,Algeria
+Country,EAB,East Asia & Pacific (Benchmark)
+Country,ECB,Europe & Central Asia (Benchmark)
+Country,ECU,Ecuador
+Country,EGY,"Egypt, Arab Rep."
+Country,ERI,Eritrea
+Country,ESP,Spain
+Country,EST,Estonia
+Country,ETH,Ethiopia
+Country,FIN,Finland
+Country,FJI,Fiji
+Country,FRA,France
+Country,FRO,Faroe Islands
+Country,GAB,Gabon
+Country,GBR,United Kingdom
+Country,GEO,Georgia
+Country,GHA,Ghana
+Country,GIN,Guinea
+Country,GMB,"Gambia, The"
+Country,GNB,Guinea-Bissau
+Country,GNQ,Equatorial Guinea
+Country,GRC,Greece
+Country,GRD,Grenada
+Country,GRL,Greenland
+Country,GTM,Guatemala
+Country,GUY,Guyana
+Country,HIB,High income (Benchmark)
+Country,HKG,"Hong Kong SAR, China"
+Country,HND,Honduras
+Country,HRV,Croatia
+Country,HTI,Haiti
+Country,HUN,Hungary
+Country,IDN,Indonesia
+Country,IND,India
+Country,IRL,Ireland
+Country,IRN,"Iran, Islamic Rep."
+Country,IRQ,Iraq
+Country,ISL,Iceland
+Country,ISR,Israel
+Country,ITA,Italy
+Country,JAM,Jamaica
+Country,JOR,Jordan
+Country,JPN,Japan
+Country,KAZ,Kazakhstan
+Country,KEN,Kenya
+Country,KGZ,Kyrgyz Republic
+Country,KHM,Cambodia
+Country,KNA,St. Kitts and Nevis
+Country,KOR,"Korea, Rep."
+Country,KWT,Kuwait
+Country,LAO,Lao PDR
+Country,LBN,Lebanon
+Country,LBR,Liberia
+Country,LBY,Libya
+Country,LCA,St. Lucia
+Country,LCB,Latin America & Caribbean (Benchmark)
+Country,LIB,Low income (Benchmark)
+Country,LKA,Sri Lanka
+Country,LMB,Lower middle income (Benchmark)
+Country,LSO,Lesotho
+Country,LTU,Lithuania
+Country,LUX,Luxembourg
+Country,LVA,Latvia
+Country,MAC,"Macao SAR, China"
+Country,MAR,Morocco
+Country,MDA,Moldova
+Country,MDG,Madagascar
+Country,MDV,Maldives
+Country,MEB,Middle East & North Africa (Benchmark)
+Country,MEX,Mexico
+Country,MKD,North Macedonia
+Country,MLI,Mali
+Country,MLT,Malta
+Country,MMR,Myanmar
+Country,MNE,Montenegro
+Country,MNG,Mongolia
+Country,MOZ,Mozambique
+Country,MRT,Mauritania
+Country,MSR,Montserrat
+Country,MUS,Mauritius
+Country,MWI,Malawi
+Country,MYS,Malaysia
+Country,NAB,North America (Benchmark)
+Country,NAM,Namibia
+Country,NER,Niger
+Country,NGA,Nigeria
+Country,NIC,Nicaragua
+Country,NLD,Netherlands
+Country,NOR,Norway
+Country,NPL,Nepal
+Country,NZL,New Zealand
+Country,OMN,Oman
+Country,PAK,Pakistan
+Country,PAN,Panama
+Country,PER,Peru
+Country,PHL,Philippines
+Country,POL,Poland
+Country,PRI,Puerto Rico
+Country,PRT,Portugal
+Country,PRY,Paraguay
+Country,PSE,West Bank and Gaza
+Country,QAT,Qatar
+Country,ROU,Romania
+Country,RUT,Russian Federation
+Country,RWA,Rwanda
+Country,SAB,South Asia (Benchmark)
+Country,SAU,Saudi Arabia
+Country,SDN,Sudan
+Country,SEN,Senegal
+Country,SGP,Singapore
+Country,SLE,Sierra Leone
+Country,SLV,El Salvador
+Country,SMR,San Marino
+Country,SOM,Somalia
+Country,SRB,Serbia
+Country,SSB,Sub-Saharan Africa (Benchmark)
+Country,SSD,South Sudan
+Country,STP,Sao Tome and Principe
+Country,SUR,Suriname
+Country,SVK,Slovak Republic
+Country,SVN,Slovenia
+Country,SWE,Sweden
+Country,SWZ,Eswatini
+Country,SXM,Sint Maarten
+Country,SYC,Seychelles
+Country,SYR,Syrian Arab Republic
+Country,TCA,Turks and Caicos Islands
+Country,TCD,Chad
+Country,TGO,Togo
+Country,THA,Thailand
+Country,TJK,Tajikistan
+Country,TKM,Turkmenistan
+Country,TLS,Timor-Leste
+Country,TTO,Trinidad and Tobago
+Country,TUN,Tunisia
+Country,TUR,Turkiye
+Country,TWN,"Taiwan, China"
+Country,TZA,Tanzania
+Country,UGA,Uganda
+Country,UKR,Ukraine
+Country,UMB,Upper middle income (Benchmark)
+Country,URY,Uruguay
+Country,USA,United States
+Country,UZB,Uzbekistan
+Country,VCT,St. Vincent and the Grenadines
+Country,VGB,British Virgin Islands
+Country,VIR,Virgin Islands (U.S.)
+Country,VNM,Viet Nam
+Country,WLD,WORLD (Benchmark)
+Country,XKX,Kosovo
+Country,ZAF,South Africa
+Country,ZMB,Zambia
+Country,ZWE,Zimbabwe
+Series,1000000,1000000:GROSS DOMESTIC PRODUCT
+Series,1101000,1101000:FOOD AND NON-ALCOHOLIC BEVERAGES
+Series,1101100,1101100:FOOD
+Series,1101110,1101110:Bread and cereals
+Series,1101120,1101120:Meat
+Series,1101130,1101130:Fish and seafood
+Series,1101140,"1101140:Milk, cheese and eggs"
+Series,1101150,1101150:Oils and fats
+Series,1101160,1101160:Fruit
+Series,1101170,1101170:Vegetables
+Series,1101180,"1101180:Sugar, jam, honey, chocolate and confectionery"
+Series,1101190,1101190:Food products n.e.c. (Class)
+Series,1101200,1101200:NON-ALCOHOLIC BEVERAGES
+Series,1102000,"1102000:ALCOHOLIC BEVERAGES, TOBACCO AND NARCOTICS"
+Series,1102100,1102100:ALCOHOLIC BEVERAGES
+Series,1102200,1102200:TOBACCO
+Series,1103000,1103000:CLOTHING AND FOOTWEAR
+Series,1105000,"1105000:FURNISHINGS, HOUSEHOLD EQUIPMENT AND ROUTINE HOUSEHOLD MAINTENANCE"
+Series,1107000,1107000:TRANSPORT
+Series,1107100,1107100:PURCHASE OF VEHICLES
+Series,1107300,1107300:TRANSPORT SERVICES
+Series,1108000,1108000:COMMUNICATION
+Series,1111000,1111000:RESTAURANTS AND HOTELS
+Series,1113000,1113000:NET PURCHASES ABROAD
+Series,1300000,1300000:INDIVIDUAL CONSUMPTION EXPENDITURE BY GOVERNMENT
+Series,1400000,1400000:COLLECTIVE CONSUMPTION EXPENDITURE BY GOVERNMENT
+Series,1500000,1500000:GROSS CAPITAL FORMATION
+Series,1501000,1501000:GROSS FIXED CAPITAL FORMATION
+Series,1501100,1501100:MACHINERY AND EQUIPMENT
+Series,1501200,1501200:CONSTRUCTION
+Series,1501300,1501300:OTHER PRODUCTS
+Series,1502000,1502000:CHANGES IN INVENTORIES
+Series,1503000,1503000:ACQUISITIONS LESS DISPOSALS OF VALUABLES (Category)
+Series,1600000,1600000:BALANCE OF EXPORTS AND IMPORTS
+Series,9020000,9020000:ACTUAL INDIVIDUAL CONSUMPTION
+Series,9060000,"9060000:ACTUAL HOUSING, WATER, ELECTRICITY, GAS AND OTHER FUELS"
+Series,9080000,9080000:ACTUAL HEALTH
+Series,9100000,9100000:HOUSEHOLDS AND NPISHS FINAL CONSUMPTION EXPENDITURE
+Series,9110000,9110000:ACTUAL RECREATION AND CULTURE
+Series,9120000,9120000:ACTUAL EDUCATION
+Series,9140000,9140000:ACTUAL MISCELLANEOUS GOODS AND SERVICES
+Series,9250000,9250000:DOMESTIC ABSORPTION
+Series,9260000,"9260000:INDIVIDUAL CONSUMPTION EXPENDITURE BY HOUSEHOLDS, WITHOUT HOUSING"
+Series,9270000,9270000:GENERAL GOVERNMENT FINAL CONSUMPTION EXPENDITURE
+Series,9280000,9280000:TOTAL CONSUMPTION
+Series,SP.EXCHG.RATE.ICP,SP.EXCHG.RATE.ICP:Exchange Rate Value
+Series,SP.POP.TOTL.ICP,SP.POP.TOTL.ICP:Population
+Series,SP.POP.TOTL.ICP.ZS,SP.POP.TOTL.ICP.ZS:Population shares (World=100)
+Time,YR2017,2017
+Time,YR2018,2018
+Time,YR2019,2019
+Time,YR2020,2020
+Time,YR2021,2021
+Time,YR2022,2022
+Time,YR2023,2023

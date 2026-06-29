@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 158565,
+  "content_type": "text/html",
+  "filename": "CHN/CHN_NBS_2021_GDP_FINAL_VERIFICATION/source.html",
+  "final_url": "https://www.stats.gov.cn/english/PressRelease/202212/t20221227_1891279.html",
+  "retrieved_at": "2026-06-29T19:48:43Z",
+  "sha256": "09f351e3e5d64619b97cf89ac58460062e6147a800c511ba31bbdd0a1bc146e7",
+  "source_id": "source_probe_CHN_NBS_2021_GDP_FINAL_VERIFICATION",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.stats.gov.cn/english/PressRelease/202212/t20221227_1891279.html"
+}

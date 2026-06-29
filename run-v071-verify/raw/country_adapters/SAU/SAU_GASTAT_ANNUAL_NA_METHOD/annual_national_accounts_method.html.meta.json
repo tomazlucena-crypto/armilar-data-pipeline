@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 233671,
+  "content_type": "text/html;charset=UTF-8",
+  "filename": "SAU/SAU_GASTAT_ANNUAL_NA_METHOD/annual_national_accounts_method.html",
+  "final_url": "https://www.stats.gov.sa/en/w/methodology-and-quality-report-for-annual-national-accounts",
+  "retrieved_at": "2026-06-29T20:12:33Z",
+  "sha256": "9be1aaaa3431beb44b83978d7a70bfd9f3cda3ab311d74e445268806652f8d59",
+  "source_id": "SAU_GASTAT_ANNUAL_NA_METHOD",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.stats.gov.sa/en/w/methodology-and-quality-report-for-annual-national-accounts"
+}

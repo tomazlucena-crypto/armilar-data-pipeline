@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 235853,
+  "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "filename": "PAK/PAK_PBS_NATIONAL_ACCOUNTS_XLSX/national_accounts_annual_tables.xlsx",
+  "final_url": "https://www.pbs.gov.pk/wp-content/uploads/2020/07/National-Accounts-Annual-Tables-2024-25-Updated-March-2026.xlsx",
+  "retrieved_at": "2026-06-29T20:04:17Z",
+  "sha256": "dd77cb5858080e06a565cee5521593ccfccf9eebd164e040bba3f2cb10e240ef",
+  "source_id": "PAK_PBS_NATIONAL_ACCOUNTS_XLSX",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.pbs.gov.pk/wp-content/uploads/2020/07/National-Accounts-Annual-Tables-2024-25-Updated-March-2026.xlsx"
+}

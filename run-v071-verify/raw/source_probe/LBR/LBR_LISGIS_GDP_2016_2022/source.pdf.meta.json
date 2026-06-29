@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 741589,
+  "content_type": "application/pdf",
+  "filename": "LBR/LBR_LISGIS_GDP_2016_2022/source.pdf",
+  "final_url": "https://lisgis.gov.lr/admin_area/nationalaccount/gdp20162022.pdf",
+  "retrieved_at": "2026-06-29T19:51:39Z",
+  "sha256": "ac736ec3e800f25453021f633f82eb49279f554fe74ddc466d2d506f2c2ada2e",
+  "source_id": "source_probe_LBR_LISGIS_GDP_2016_2022",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://lisgis.gov.lr/admin_area/nationalaccount/gdp20162022.pdf"
+}

@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 38384,
+  "content_type": "text/html; charset=UTF-8",
+  "filename": "EGY/EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG/source.html",
+  "final_url": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/National_Accounts?reset=reset",
+  "retrieved_at": "2026-06-29T19:49:59Z",
+  "sha256": "e0049cc9de4af3397af3fcb83592bddb9ef0513814b87f0236dc769edb35be5d",
+  "source_id": "source_probe_EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/National_Accounts?reset=reset"
+}

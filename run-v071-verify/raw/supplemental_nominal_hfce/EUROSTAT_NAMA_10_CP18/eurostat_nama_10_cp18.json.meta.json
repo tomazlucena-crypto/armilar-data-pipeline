@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 848119,
+  "content_type": "application/json",
+  "filename": "supplemental_nominal_hfce/EUROSTAT_NAMA_10_CP18/eurostat_nama_10_cp18.json",
+  "final_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_cp18?lang=en&time=2021",
+  "retrieved_at": "2026-06-29T19:48:20Z",
+  "sha256": "77fdfbf0870afea87b798854ddc9f70c0503c48d61050fc7ba05163fb8b2e7a9",
+  "source_id": "EUROSTAT_NAMA_10_CP18",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_cp18?lang=en&time=2021"
+}

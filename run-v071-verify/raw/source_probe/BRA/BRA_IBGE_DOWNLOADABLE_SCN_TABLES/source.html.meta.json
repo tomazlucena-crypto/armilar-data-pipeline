@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 133093,
+  "content_type": "text/html; charset=utf-8",
+  "filename": "BRA/BRA_IBGE_DOWNLOADABLE_SCN_TABLES/source.html",
+  "final_url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9052-sistema-de-contas-nacionais-brasil.html?=&t=downloads",
+  "retrieved_at": "2026-06-29T19:48:31Z",
+  "sha256": "08199c08f4029695eac1dc743ee30220f59bdba85fa846b08c3e35cdc8a6ddf3",
+  "source_id": "source_probe_BRA_IBGE_DOWNLOADABLE_SCN_TABLES",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9052-sistema-de-contas-nacionais-brasil.html?=&t=downloads"
+}

@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 395606,
+  "content_type": "text/html; charset=UTF-8",
+  "filename": "PAK/PAK_PBS_NATIONAL_ACCOUNTS_PAGE/national_accounts.html",
+  "final_url": "https://www.pbs.gov.pk/national-accounts-2/",
+  "retrieved_at": "2026-06-29T20:04:06Z",
+  "sha256": "a806cd8cf864d4c38fbf7842c198c43ae09d24c79ba0635ed5a00c8a02fecd23",
+  "source_id": "PAK_PBS_NATIONAL_ACCOUNTS_PAGE",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.pbs.gov.pk/national-accounts-2/"
+}

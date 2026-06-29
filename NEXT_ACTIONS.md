@@ -1,9 +1,9 @@
-# Next actions after v0.7.0
+# Next actions after v0.7.1
 
-1. Integrate the strict matrix outputs into a canonical evidence-cell staging file for v0.7.1.
-2. Convert existing strict official cells into A/B evidence without changing their values or strict outputs.
-3. Allow country audits to emit partial C evidence per category while keeping C evidence out of `ARM-WEIGHTS-CORE`.
-4. Add class/economy/category coverage reports and duplicate-promotion guards.
+1. Implement v0.7.2 baseline methods for C, D and E cells with deterministic donor and fallback rules.
+2. Add masked-cell validation using existing A/B evidence cells.
+3. Connect country-audit partial evidence into `evidence_cells.csv` as C candidates without changing strict outputs.
+4. Add duplicate-promotion guards across strict, country-audit and imputed evidence sources.
 5. Continue live source acquisition reviews for audited countries, but do not let country-by-country exactness block the global contract layer.
 6. Keep `weights_final.csv` empty and `monetary_release_allowed=false` until separate monetary ratification.
 

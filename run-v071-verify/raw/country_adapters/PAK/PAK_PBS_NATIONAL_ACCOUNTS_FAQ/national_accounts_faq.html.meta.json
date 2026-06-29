@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 464364,
+  "content_type": "text/html; charset=UTF-8",
+  "filename": "PAK/PAK_PBS_NATIONAL_ACCOUNTS_FAQ/national_accounts_faq.html",
+  "final_url": "https://www.pbs.gov.pk/docs/national-accounts/",
+  "retrieved_at": "2026-06-29T20:04:20Z",
+  "sha256": "d30f2c43bdb2bda298ba323bc013bc16a1852d14bfccbe0792cd751344ec2766",
+  "source_id": "PAK_PBS_NATIONAL_ACCOUNTS_FAQ",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.pbs.gov.pk/docs/national-accounts/"
+}

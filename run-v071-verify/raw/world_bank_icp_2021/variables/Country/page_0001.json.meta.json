@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 7262,
+  "content_type": "application/json;charset=utf-8",
+  "filename": "variables/Country/page_0001.json",
+  "final_url": "https://api.worldbank.org/v2/sources/90/country/data?format=json&per_page=5000&page=1",
+  "retrieved_at": "2026-06-29T19:46:45Z",
+  "sha256": "22992fa7b1010a7219433132b802dec17d9d75a37777c8517456b50a4bca7d42",
+  "source_id": "world_bank_source90_variables_Country_page_1",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://api.worldbank.org/v2/sources/90/country/data?format=json&per_page=5000&page=1"
+}

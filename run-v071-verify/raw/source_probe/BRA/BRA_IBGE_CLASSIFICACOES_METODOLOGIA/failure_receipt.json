@@ -1,0 +1,20 @@
+{
+  "attempt_errors": [
+    "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+    "attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+    "attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+    "attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>"
+  ],
+  "content_received": false,
+  "economy_code": "BRA",
+  "error": "Acquisition failed for source_probe_BRA_IBGE_CLASSIFICACOES_METODOLOGIA: attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+  "error_type": "AcquisitionError",
+  "requested_url": "https://www.ibge.gov.br/estatisticas/metodos-e-classificacoes/classificacoes-e-listas-estatisticas.html",
+  "retrieval_status": "ACCESS_BLOCKED",
+  "retrieved_at": "2026-06-29T19:50:08Z",
+  "schema_version": "1.0",
+  "sha256": "",
+  "source_authority": "Instituto Brasileiro de Geografia e Estatistica",
+  "source_id": "BRA_IBGE_CLASSIFICACOES_METODOLOGIA",
+  "source_title": "IBGE classifications and methodology"
+}

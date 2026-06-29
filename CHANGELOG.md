@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.1 - Evidence-cell staging
+
+- Adds `armilar_global_weights.staging`.
+- Adds `armilar-global-weights stage-strict`.
+- Converts strict Step 2 matrix rows into canonical evidence cells without changing values.
+- Emits `evidence_cells.csv` and `evidence_class_coverage.csv`.
+- Rejects experimental allocations during strict staging and prevents C/D/E evidence from being core-eligible.
+- Keeps strict outputs and monetary gates unchanged.
+
 ## 0.7.0 - Global weight contract layer
 
 - Adds constitutional Amendment 2 for a separate experimental complete-world construction.

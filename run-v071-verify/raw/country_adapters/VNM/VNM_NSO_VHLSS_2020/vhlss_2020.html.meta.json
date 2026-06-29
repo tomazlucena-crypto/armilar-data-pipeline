@@ -1,0 +1,13 @@
+{
+  "attempt_errors": [],
+  "bytes": 89113,
+  "content_type": "text/html; charset=UTF-8",
+  "filename": "VNM/VNM_NSO_VHLSS_2020/vhlss_2020.html",
+  "final_url": "https://www.nso.gov.vn/en/data-and-statistics/2022/06/results-of-the-viet-nam-household-living-standards-survey-2020/",
+  "retrieved_at": "2026-06-29T20:12:22Z",
+  "sha256": "dc61df357fb3762871e76a46b54059740dbfe84e2738a9935ba3348b459e4f92",
+  "source_id": "VNM_NSO_VHLSS_2020",
+  "status": "fresh",
+  "status_code": 200,
+  "url": "https://www.nso.gov.vn/en/data-and-statistics/2022/06/results-of-the-viet-nam-household-living-standards-survey-2020/"
+}

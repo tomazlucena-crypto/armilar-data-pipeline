@@ -1,0 +1,547 @@
+{
+  "classification_workbook_validation": {
+    "missing_heading_codes": [],
+    "required_heading_codes": 25,
+    "valid_xlsx": true,
+    "xml_parts_scanned": 18
+  },
+  "gap_priority": {
+    "complete_economy_direct_expenditure_indicator_total": "15751116284228.87565458846089",
+    "complete_economy_indicator_coverage_ratio": "0.4971716160380331246617494915",
+    "incomplete_economies_ranked": 114,
+    "indicator_warning": "This priority indicator uses only seven direct ICP categories. It is not a final Armilar weight or a world-coverage estimate.",
+    "participant_direct_expenditure_indicator_total": "31681447162550.66987812623148",
+    "top10_direct_expenditure_share": "0.3826946843860666965182529397",
+    "top20_direct_expenditure_share": "0.4466570769862425192515560891"
+  },
+  "generated_at": "2026-06-29T20:12:36Z",
+  "inventory_counts": {
+    "Classification": 17,
+    "Country": 207,
+    "Series": 48,
+    "Time": 7
+  },
+  "participant_mapping": {
+    "expected": 176,
+    "mapped": 176,
+    "unresolved": 0
+  },
+  "proxy_audit": {
+    "comparison_weighting": "UNWEIGHTED_DIAGNOSTIC",
+    "direct_comparison_categories": 0,
+    "direct_comparison_economies": 0,
+    "direct_hfce_vs_aic_ppp_comparisons": 0,
+    "financing_exposure_comparisons": 56,
+    "financing_exposure_maximum": "0.5012568547382459359238851671",
+    "financing_exposure_median": "0.2132822449134482131088693636",
+    "financing_exposure_minimum": "0.07338687179541832786142176541",
+    "financing_gap_is_proxy_error": false,
+    "methodology": "SEPARATE_AIC_HFCE_FINANCING_EXPOSURE_AND_MATCHED_PPP_PROXY_ERROR_AUDIT",
+    "option_b_monetary_use_allowed": false,
+    "option_b_research_use_allowed": true,
+    "overall_mean_absolute_error_ratio": "",
+    "overall_median_absolute_error_ratio": "",
+    "overall_median_signed_error_ratio": "",
+    "proxy_categories": [
+      "CP04",
+      "CP06",
+      "CP09",
+      "CP10",
+      "CP12"
+    ],
+    "proxy_categories_meeting_minimum": 0,
+    "reason": "Matched strict-HFCE and AIC PPP evidence does not satisfy the minimum total, economy and per-category coverage gates.",
+    "reference_year": 2021,
+    "schema_version": "2.0",
+    "validation_policy": {
+      "minimum_comparisons_per_category": 5,
+      "minimum_direct_comparisons": 50,
+      "minimum_distinct_economies": 10,
+      "validated_median_absolute_error_max": "0.02",
+      "validated_with_limits_median_absolute_error_max": "0.05"
+    },
+    "validation_status": "INSUFFICIENT_DIRECT_EVIDENCE"
+  },
+  "runtime": {
+    "github_actions": false,
+    "github_run_id": null,
+    "github_runner_os": null,
+    "github_sha": null,
+    "implementation": "CPython",
+    "machine": "AMD64",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.14.6"
+  },
+  "schema_version": "4.0",
+  "selected_measures": {
+    "nominal_expenditure": "CN",
+    "ppp": "PPPGlob",
+    "real_expenditure_ppp": "PP.CD"
+  },
+  "source_90_dimension_roles": {
+    "concept_order": [
+      "Classification",
+      "Country",
+      "Series",
+      "Time"
+    ],
+    "country": "Country",
+    "heading": "Series",
+    "measure": "Classification",
+    "time": "Time",
+    "year_id": "YR2021"
+  },
+  "source_metadata_validation": {
+    "dataavailability": "Y",
+    "id": "90",
+    "lastupdated": "2024-08-04",
+    "metadataavailability": "Y",
+    "name": "ICP 2021",
+    "source_code": "IC2"
+  },
+  "source_probe": {
+    "a_or_b_candidate_economies": 0,
+    "c_only_economies": 1,
+    "classification_note": "D_UNAVAILABLE is a provisional source-probe class. Definitive unavailability requires the separate UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT state and documentary proof.",
+    "d_unavailable_economies": 14,
+    "definitive_unavailability_decisions": 0,
+    "economies_probed": 15,
+    "economies_with_complete_core_family_probe": 0,
+    "economy_audit_state_counts": {
+      "ACCESS_BLOCKED": 3,
+      "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 3,
+      "OFFICIAL_EXPERIMENTAL_ALLOCATION": 1,
+      "SOURCE_NOT_MACHINE_READABLE": 8
+    },
+    "economy_class_counts": {
+      "A_CANDIDATE": 0,
+      "B_CANDIDATE": 0,
+      "C_ONLY": 1,
+      "D_UNAVAILABLE": 14
+    },
+    "pipeline_version": "0.7.1",
+    "schema_version": "2.1",
+    "source_candidates_access_blocked": 21,
+    "source_candidates_acquired_as_datasets": 4,
+    "source_candidates_acquired_as_discovery_only": 17,
+    "source_candidates_acquired_as_documentation": 11,
+    "source_candidates_content_validation_failed": 12,
+    "source_candidates_failed": 21,
+    "source_candidates_probed": 65,
+    "source_probe_max_workers": 5,
+    "uninvestigated_core_family_count": 56
+  },
+  "source_probe_failures": [
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1082)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1082)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1082)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1082)>",
+      "economy_code": "BGD",
+      "error": "Acquisition failed for source_probe_BGD_BBS_PORTAL: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1082)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1082)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1082)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1082)>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_PORTAL/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:48:35Z",
+      "source_id": "BGD_BBS_PORTAL",
+      "source_title": "Bangladesh Bureau of Statistics data portal",
+      "source_url": "https://bbs.portal.gov.bd/"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "economy_code": "BGD",
+      "error": "Acquisition failed for source_probe_BGD_BBS_HIES_2022: attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_HIES_2022/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:57Z",
+      "source_id": "BGD_BBS_HIES_2022",
+      "source_title": "Household Income and Expenditure Survey 2022 documentation",
+      "source_url": "https://nsds.bbs.gov.bd/en/posts/85/Survey%20documentation%20for%20the%20Household%20Income%20and%20Expenditure%20Survey"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "economy_code": "BRA",
+      "error": "Acquisition failed for source_probe_BRA_IBGE_CLASSIFICACOES_METODOLOGIA: attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/BRA/BRA_IBGE_CLASSIFICACOES_METODOLOGIA/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:50:08Z",
+      "source_id": "BRA_IBGE_CLASSIFICACOES_METODOLOGIA",
+      "source_title": "IBGE classifications and methodology",
+      "source_url": "https://www.ibge.gov.br/estatisticas/metodos-e-classificacoes/classificacoes-e-listas-estatisticas.html"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>",
+      "economy_code": "EGY",
+      "error": "Acquisition failed for source_probe_EGY_CAPMAS_CENTRAL_DATA_CATALOG: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/EGY/EGY_CAPMAS_CENTRAL_DATA_CATALOG/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:00Z",
+      "source_id": "EGY_CAPMAS_CENTRAL_DATA_CATALOG",
+      "source_title": "CAPMAS Central Data Catalog",
+      "source_url": "https://www.censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/?sort_by=titl&sort_order=desc"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>",
+      "economy_code": "EGY",
+      "error": "Acquisition failed for source_probe_EGY_CAPMAS_HIECS_2021: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.censusinfo.capmas.gov.eg'. (_ssl.c:1082)>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/EGY/EGY_CAPMAS_HIECS_2021/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:03Z",
+      "source_id": "EGY_CAPMAS_HIECS_2021",
+      "source_title": "Household Income, Expenditure and Consumption Survey catalogue entry",
+      "source_url": "https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview"
+    },
+    {
+      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "economy_code": "IDN",
+      "error": "Acquisition failed for source_probe_IDN_BPS_STATISTICS_TABLES_EXPENDITURE: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_STATISTICS_TABLES_EXPENDITURE/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:08Z",
+      "source_id": "IDN_BPS_STATISTICS_TABLES_EXPENDITURE",
+      "source_title": "BPS expenditure statistics table catalogue",
+      "source_url": "https://www.bps.go.id/en/statistics-table?subject=531"
+    },
+    {
+      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "economy_code": "IDN",
+      "error": "Acquisition failed for source_probe_IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:12Z",
+      "source_id": "IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH",
+      "source_title": "BPS downloadable national-accounts publication search",
+      "source_url": "https://www.bps.go.id/en/publication?keyword=gross%20domestic%20product%20expenditure"
+    },
+    {
+      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "economy_code": "IDN",
+      "error": "Acquisition failed for source_probe_IDN_BPS_SUPPLY_USE_TABLES: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_SUPPLY_USE_TABLES/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:15Z",
+      "source_id": "IDN_BPS_SUPPLY_USE_TABLES",
+      "source_title": "BPS Supply and Use Tables publication search",
+      "source_url": "https://www.bps.go.id/en/publication?keyword=supply%20use%20table"
+    },
+    {
+      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "economy_code": "IDN",
+      "error": "Acquisition failed for source_probe_IDN_BPS_INPUT_OUTPUT_TABLES: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_INPUT_OUTPUT_TABLES/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:20Z",
+      "source_id": "IDN_BPS_INPUT_OUTPUT_TABLES",
+      "source_title": "BPS input-output table publication search",
+      "source_url": "https://www.bps.go.id/en/publication?keyword=input%20output%20table"
+    },
+    {
+      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "economy_code": "IDN",
+      "error": "Acquisition failed for source_probe_IDN_BPS_SURVEY_OR_CPI_CLASS_C: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_SURVEY_OR_CPI_CLASS_C/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:25Z",
+      "source_id": "IDN_BPS_SURVEY_OR_CPI_CLASS_C",
+      "source_title": "BPS household survey or CPI family",
+      "source_url": "https://www.bps.go.id/en/statistics-table?subject=3"
+    },
+    {
+      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "economy_code": "IDN",
+      "error": "Acquisition failed for source_probe_IDN_BPS_CLASSIFICATION_METHODOLOGY: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_CLASSIFICATION_METHODOLOGY/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:27Z",
+      "source_id": "IDN_BPS_CLASSIFICATION_METHODOLOGY",
+      "source_title": "BPS COICOP/classification methodology search",
+      "source_url": "https://www.bps.go.id/en/publication?keyword=classification%20coicop"
+    },
+    {
+      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "economy_code": "IDN",
+      "error": "Acquisition failed for source_probe_IDN_BPS_GDP_EXPENDITURE_2020_2024: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_GDP_EXPENDITURE_2020_2024/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:33Z",
+      "source_id": "IDN_BPS_GDP_EXPENDITURE_2020_2024",
+      "source_title": "Gross Domestic Product of Indonesia by Expenditure 2020-2024",
+      "source_url": "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html"
+    },
+    {
+      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "economy_code": "RUT",
+      "error": "Acquisition failed for source_probe_RUT_FEDSTAT_HFCE_31414: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/RUT/RUT_FEDSTAT_HFCE_31414/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:50Z",
+      "source_id": "RUT_FEDSTAT_HFCE_31414",
+      "source_title": "Household final consumption expenditure indicator 31414",
+      "source_url": "https://www.fedstat.ru/indicator/31414"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+      "economy_code": "RUT",
+      "error": "Acquisition failed for source_probe_RUT_ROSSTAT_SUT_2021_XLSX: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_SUT_2021_XLSX/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:50Z",
+      "source_id": "RUT_ROSSTAT_SUT_2021_XLSX",
+      "source_title": "Base input-output and supply-use tables for 2021",
+      "source_url": "https://rosstat.gov.ru/storage/mediabank/Rezultaty_RB_2021.xlsx"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+      "economy_code": "RUT",
+      "error": "Acquisition failed for source_probe_RUT_ROSSTAT_KIPC_DH_CLASSIFICATION: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_KIPC_DH_CLASSIFICATION/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:49:52Z",
+      "source_id": "RUT_ROSSTAT_KIPC_DH_CLASSIFICATION",
+      "source_title": "KIPC-DH classification",
+      "source_url": "https://rosstat.gov.ru/storage/mediabank/KIPC_DX.docx"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+      "economy_code": "RUT",
+      "error": "Acquisition failed for source_probe_RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:50:03Z",
+      "source_id": "RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022",
+      "source_title": "National Accounts of Russia in 2015-2022",
+      "source_url": "https://rosstat.gov.ru/storage/mediabank/Nac-sch_2015-2022.pdf"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+      "economy_code": "RUT",
+      "error": "Acquisition failed for source_probe_RUT_ROSSTAT_HBS_2021: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1082)>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_HBS_2021/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:50:03Z",
+      "source_id": "RUT_ROSSTAT_HBS_2021",
+      "source_title": "Income expenditure and consumption of households in 2021",
+      "source_url": "https://rosstat.gov.ru/bgd/regl/b21_102/"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "economy_code": "BGD",
+      "error": "Acquisition failed for source_probe_BGD_BBS_NSDS_PORTAL: attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_NSDS_PORTAL/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:51:39Z",
+      "source_id": "BGD_BBS_NSDS_PORTAL",
+      "source_title": "BBS national statistical dissemination portal",
+      "source_url": "https://nsds.bbs.gov.bd/"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "economy_code": "BGD",
+      "error": "Acquisition failed for source_probe_BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS: attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:51:39Z",
+      "source_id": "BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS",
+      "source_title": "BBS release calendar for national accounts statistics",
+      "source_url": "https://nsds.bbs.gov.bd/en/release-calendar"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "economy_code": "BGD",
+      "error": "Acquisition failed for source_probe_BGD_BBS_HIES_DOCUMENTATION: attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_HIES_DOCUMENTATION/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:51:40Z",
+      "source_id": "BGD_BBS_HIES_DOCUMENTATION",
+      "source_title": "HIES survey documentation",
+      "source_url": "https://nsds.bbs.gov.bd/en/posts/85/Survey%20documentation%20for%20the%20Household%20Income%20and%20Expenditure%20Survey"
+    },
+    {
+      "attempt_errors": "attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>|attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "economy_code": "BGD",
+      "error": "Acquisition failed for source_probe_BGD_BBS_HIES_2022_FINAL_REPORT_PAGE: attempt=1:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=2:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=3:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>; attempt=4:URLError:<urlopen error [WinError 10060] Uma tentativa de ligação falhou porque o componente ligado não respondeu\r\ncorretamente após um período de tempo, ou a ligação estabelecida falhou\r\nporque o anfitrião ligado não respondeu>",
+      "error_type": "AcquisitionError",
+      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_HIES_2022_FINAL_REPORT_PAGE/failure_receipt.json",
+      "retrieval_status": "ACCESS_BLOCKED",
+      "retrieved_at": "2026-06-29T19:51:44Z",
+      "source_id": "BGD_BBS_HIES_2022_FINAL_REPORT_PAGE",
+      "source_title": "Final Report of HIES 2022",
+      "source_url": "https://nsds.bbs.gov.bd/en/posts/161/Final%20Report%20of%20Household%20Income%20and%20Expenditure%20Survey%20%28HIES%29%202016"
+    }
+  ],
+  "step2_summary": {
+    "admissible_observed_category_cells": 1537,
+    "blocking_reasons": [
+      "PARTICIPATING_ECONOMIES_WITH_INCOMPLETE_12_CATEGORY_DATA:114",
+      "OFFICIALLY_IMPUTED_NONPARTICIPANTS_EXCLUDED_NO_CATEGORY_DETAIL:19"
+    ],
+    "complete_participating_economies": 62,
+    "direct_ppp_categories": [
+      "CP01",
+      "CP02",
+      "CP03",
+      "CP05",
+      "CP07",
+      "CP08",
+      "CP11"
+    ],
+    "global_12_category_matrix_complete": false,
+    "incomplete_participating_economies": 114,
+    "methodology": "RATIFIED_OPTION_B_STRICT_HFCE_NUMERATOR_WITH_ACTUAL_CONSUMPTION_PPP_PROXY_FOR_FIVE_CATEGORIES",
+    "monetary_release_allowed": false,
+    "observed_universe_weight_cells": 744,
+    "observed_universe_weight_sum": "1.000000000000000000000000",
+    "observed_universe_weights_valid": true,
+    "officially_imputed_aggregate_only_economies": 19,
+    "officially_imputed_economies_expected": 19,
+    "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
+    "participating_economies_expected": 176,
+    "participating_economies_mapped": 176,
+    "pipeline_version": "0.7.1",
+    "proxy_ppp_categories": [
+      "CP04",
+      "CP06",
+      "CP09",
+      "CP10",
+      "CP12"
+    ],
+    "reference_year": 2021,
+    "research_release_allowed": true,
+    "schema_version": "4.0",
+    "selected_supplemental_nominal_cells": 802,
+    "source90_measure_identity": {
+      "cells_above_tolerance": 0,
+      "comparisons": 2977,
+      "maximum_relative_error": "0.000000000000004536498750464798581586907940",
+      "median_relative_error": "0.0000000000000006383583144274258761346923188",
+      "median_status": "PASS",
+      "tolerance": "0.005"
+    },
+    "status": "RESEARCH_MATRIX_AVAILABLE_GLOBAL_SCOPE_INCOMPLETE",
+    "step2h0": {
+      "gap_priority": {
+        "complete_economy_direct_expenditure_indicator_total": "15751116284228.87565458846089",
+        "complete_economy_indicator_coverage_ratio": "0.4971716160380331246617494915",
+        "incomplete_economies_ranked": 114,
+        "indicator_warning": "This priority indicator uses only seven direct ICP categories. It is not a final Armilar weight or a world-coverage estimate.",
+        "participant_direct_expenditure_indicator_total": "31681447162550.66987812623148",
+        "top10_direct_expenditure_share": "0.3826946843860666965182529397",
+        "top20_direct_expenditure_share": "0.4466570769862425192515560891"
+      },
+      "proxy_audit": {
+        "comparison_weighting": "UNWEIGHTED_DIAGNOSTIC",
+        "direct_comparison_categories": 0,
+        "direct_comparison_economies": 0,
+        "direct_hfce_vs_aic_ppp_comparisons": 0,
+        "financing_exposure_comparisons": 56,
+        "financing_exposure_maximum": "0.5012568547382459359238851671",
+        "financing_exposure_median": "0.2132822449134482131088693636",
+        "financing_exposure_minimum": "0.07338687179541832786142176541",
+        "financing_gap_is_proxy_error": false,
+        "methodology": "SEPARATE_AIC_HFCE_FINANCING_EXPOSURE_AND_MATCHED_PPP_PROXY_ERROR_AUDIT",
+        "option_b_monetary_use_allowed": false,
+        "option_b_research_use_allowed": true,
+        "overall_mean_absolute_error_ratio": "",
+        "overall_median_absolute_error_ratio": "",
+        "overall_median_signed_error_ratio": "",
+        "proxy_categories": [
+          "CP04",
+          "CP06",
+          "CP09",
+          "CP10",
+          "CP12"
+        ],
+        "proxy_categories_meeting_minimum": 0,
+        "reason": "Matched strict-HFCE and AIC PPP evidence does not satisfy the minimum total, economy and per-category coverage gates.",
+        "reference_year": 2021,
+        "schema_version": "2.0",
+        "validation_policy": {
+          "minimum_comparisons_per_category": 5,
+          "minimum_direct_comparisons": 50,
+          "minimum_distinct_economies": 10,
+          "validated_median_absolute_error_max": "0.02",
+          "validated_with_limits_median_absolute_error_max": "0.05"
+        },
+        "validation_status": "INSUFFICIENT_DIRECT_EVIDENCE"
+      },
+      "source_probe": {
+        "a_or_b_candidate_economies": 0,
+        "c_only_economies": 1,
+        "classification_note": "D_UNAVAILABLE is a provisional source-probe class. Definitive unavailability requires the separate UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT state and documentary proof.",
+        "d_unavailable_economies": 14,
+        "definitive_unavailability_decisions": 0,
+        "economies_probed": 15,
+        "economies_with_complete_core_family_probe": 0,
+        "economy_audit_state_counts": {
+          "ACCESS_BLOCKED": 3,
+          "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 3,
+          "OFFICIAL_EXPERIMENTAL_ALLOCATION": 1,
+          "SOURCE_NOT_MACHINE_READABLE": 8
+        },
+        "economy_class_counts": {
+          "A_CANDIDATE": 0,
+          "B_CANDIDATE": 0,
+          "C_ONLY": 1,
+          "D_UNAVAILABLE": 14
+        },
+        "pipeline_version": "0.7.1",
+        "schema_version": "2.1",
+        "source_candidates_access_blocked": 21,
+        "source_candidates_acquired_as_datasets": 4,
+        "source_candidates_acquired_as_discovery_only": 17,
+        "source_candidates_acquired_as_documentation": 11,
+        "source_candidates_content_validation_failed": 12,
+        "source_candidates_failed": 21,
+        "source_candidates_probed": 65,
+        "source_probe_max_workers": 5,
+        "uninvestigated_core_family_count": 56
+      }
+    },
+    "supplemental_nominal_observations": 1851,
+    "unit_reconciliation_failed_source_economies": 1,
+    "weight_sum_tolerance": "1E-20"
+  },
+  "supplemental_acquisition_failures": [],
+  "supplemental_sources": [
+    {
+      "accepted_rows": 432,
+      "excluded_rows": 8312,
+      "input_rows": 8744,
+      "source_id": "OECD_TABLE5_T501"
+    },
+    {
+      "accepted_rows": 675,
+      "excluded_rows": 12,
+      "input_rows": 100090,
+      "source_id": "UNDATA_SNA_TABLE32"
+    },
+    {
+      "accepted_rows": 384,
+      "excluded_rows": 0,
+      "non_null_cells_scanned": 416,
+      "source_id": "EUROSTAT_NAMA_10_CP18"
+    },
+    {
+      "accepted_rows": 360,
+      "excluded_rows": 8582,
+      "input_rows": 8972,
+      "source_id": "OECD_TABLE5A_T501"
+    }
+  ]
+}
