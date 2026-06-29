@@ -26,8 +26,16 @@
   ],
   "numerator_scope": "STRICT_HOUSEHOLD_HFCE_S14_P31DC_CURRENT_PRICES_2021",
   "officially_imputed_nonparticipants_policy": "IDENTIFY_AND_EXCLUDE_FROM_OBSERVED_RESEARCH_MATRIX_BECAUSE_NO_PUBLIC_12_CATEGORY_ALLOCATION_EXISTS",
-  "policy_version": "1.1",
+  "policy_version": "1.2",
+  "proxy_evidence_rule": "The AIC/HFCE financing gap is reported separately and never used as an estimate of the PPP proxy error. Direct validation requires matched official HFCE and AIC PPPs for the same economy, category and year.",
   "proxy_rule": "strict household nominal expenditure divided by the ICP actual-consumption PPP for the same category",
+  "proxy_validation": {
+    "minimum_comparisons_per_category": 5,
+    "minimum_direct_comparisons": 50,
+    "minimum_distinct_economies": 10,
+    "validated_median_absolute_error_max": "0.02",
+    "validated_with_limits_median_absolute_error_max": "0.05"
+  },
   "ratified_on": "2026-06-28",
   "status": "RATIFIED_FOR_RESEARCH_DEVELOPMENT"
 }

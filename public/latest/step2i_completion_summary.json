@@ -17,15 +17,17 @@
   "experimental_cells": 0,
   "global_12_category_matrix_complete": false,
   "monetary_release_allowed": false,
-  "pipeline_version": "0.6.0",
-  "schema_version": "1.0",
-  "status": "COMPLETE_DIAGNOSTICALLY",
+  "non_admissible_cells": 50,
+  "pipeline_version": "0.6.2",
+  "schema_version": "1.1",
+  "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
+  "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
   "step": "2I",
   "step2h_exceptions": [
     {
       "armilar_category": "CP02",
       "current_status": "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100",
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "BLR",
       "economy_name": "Belarus",
       "reason": "CP02 cannot be reconstructed without both alcohol and tobacco strict HFCE cells or an official narcotics-excluding aggregate.",
@@ -34,7 +36,7 @@
     {
       "armilar_category": "CP02",
       "current_status": "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100",
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "KWT",
       "economy_name": "Kuwait",
       "reason": "No modelled alcohol/tobacco split is allowed.",
@@ -43,7 +45,7 @@
     {
       "armilar_category": "CP02",
       "current_status": "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100",
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "SAU",
       "economy_name": "Saudi Arabia",
       "reason": "No modelled alcohol/tobacco split is allowed.",
@@ -52,7 +54,7 @@
     {
       "armilar_category": "*",
       "current_status": "0/12 categories available",
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "BON",
       "economy_name": "Bonaire",
       "reason": "No public official twelve-category allocation or proxy-numerator source accepted.",
@@ -61,18 +63,19 @@
     {
       "armilar_category": "CP04|CP06|CP09|CP10|CP12",
       "current_status": "SUPPLEMENTAL_NOMINAL_SOURCE_FAILED_UNIT_RECONCILIATION",
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "LBR",
       "economy_name": "Liberia",
       "reason": "Median supplemental-to-Source90 ratio is incompatible; using it would risk a unit or concept error.",
       "resolution_attempted": "UNData supplemental source compared against direct Source 90 categories."
     }
   ],
+  "step2j_started": false,
   "summary_by_economy": {
     "BRA": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "BRA",
       "economy_name": "Brazil",
       "experimental_categories": "",
@@ -83,7 +86,7 @@
     "CHN": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "CHN",
       "economy_name": "China",
       "experimental_categories": "",
@@ -94,7 +97,7 @@
     "IDN": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "IDN",
       "economy_name": "Indonesia",
       "experimental_categories": "",
@@ -105,7 +108,7 @@
     "IND": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "UNAVAILABLE",
+      "decision": "CONCEPT_AMBIGUOUS",
       "economy_code": "IND",
       "economy_name": "India",
       "experimental_categories": "",
@@ -116,7 +119,7 @@
     "RUT": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "UNAVAILABLE",
+      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
       "economy_code": "RUT",
       "economy_name": "Russian Federation",
       "experimental_categories": "",
@@ -125,6 +128,6 @@
       "unavailable_categories": "CP04|CP06|CP09|CP10|CP12"
     }
   },
-  "unavailable_cells": 50,
+  "unavailable_after_exhaustive_audit_cells": 0,
   "weights_final_remains_empty": true
 }

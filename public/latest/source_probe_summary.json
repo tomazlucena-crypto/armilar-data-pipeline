@@ -1,15 +1,32 @@
 {
   "a_or_b_candidate_economies": 1,
-  "c_only_economies": 3,
-  "d_unavailable_economies": 6,
+  "c_only_economies": 2,
+  "classification_note": "D_UNAVAILABLE is a provisional source-probe class. Definitive unavailability requires the separate UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT state and documentary proof.",
+  "d_unavailable_economies": 7,
+  "definitive_unavailability_decisions": 0,
   "economies_probed": 10,
+  "economies_with_complete_core_family_probe": 0,
+  "economy_audit_state_counts": {
+    "ACCESS_BLOCKED": 4,
+    "CONCEPT_AMBIGUOUS": 1,
+    "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 1,
+    "OFFICIAL_EXPERIMENTAL_ALLOCATION": 2,
+    "SOURCE_NOT_MACHINE_READABLE": 2
+  },
   "economy_class_counts": {
     "A_CANDIDATE": 0,
     "B_CANDIDATE": 1,
-    "C_ONLY": 3,
-    "D_UNAVAILABLE": 6
+    "C_ONLY": 2,
+    "D_UNAVAILABLE": 7
   },
-  "source_candidates_accessible": 5,
-  "source_candidates_failed": 5,
-  "source_candidates_probed": 11
+  "pipeline_version": "0.6.2",
+  "schema_version": "2.1",
+  "source_candidates_access_blocked": 16,
+  "source_candidates_acquired_as_datasets": 4,
+  "source_candidates_acquired_as_discovery_only": 7,
+  "source_candidates_content_validation_failed": 2,
+  "source_candidates_failed": 16,
+  "source_candidates_probed": 29,
+  "source_probe_max_workers": 5,
+  "uninvestigated_core_family_count": 28
 }
