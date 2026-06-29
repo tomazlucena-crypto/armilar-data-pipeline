@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.org/schemas/global_weight_release.schema.json",
+  "title": "Armilar global weight release summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "release_id", "policy_version", "economy_count", "cell_count",
+    "complete_grid", "weight_sum", "evidence_weight_shares",
+    "monetary_release_allowed", "manifest_sha256"
+  ],
+  "properties": {
+    "release_id": {"type": "string", "minLength": 1},
+    "policy_version": {"type": "string", "minLength": 1},
+    "economy_count": {"type": "integer", "minimum": 1},
+    "cell_count": {"type": "integer", "minimum": 12},
+    "complete_grid": {"const": true},
+    "weight_sum": {"type": "number", "minimum": 0.999999999, "maximum": 1.000000001},
+    "evidence_weight_shares": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+    "monetary_release_allowed": {"const": false},
+    "manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

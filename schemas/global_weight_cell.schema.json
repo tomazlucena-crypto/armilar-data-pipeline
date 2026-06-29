@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.org/schemas/global_weight_cell.schema.json",
+  "title": "Armilar global weight evidence cell",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "economy_code", "category_code", "real_expenditure_central",
+    "real_expenditure_lower", "real_expenditure_upper", "evidence_class",
+    "method_id", "model_version", "source_ids"
+  ],
+  "properties": {
+    "economy_code": {"type": "string", "pattern": "^[A-Z0-9]{3}$"},
+    "category_code": {"enum": ["CP01", "CP02", "CP03", "CP04", "CP05", "CP06", "CP07", "CP08", "CP09", "CP10", "CP11", "CP12"]},
+    "real_expenditure_central": {"type": "number", "exclusiveMinimum": 0},
+    "real_expenditure_lower": {"type": "number", "exclusiveMinimum": 0},
+    "real_expenditure_upper": {"type": "number", "exclusiveMinimum": 0},
+    "evidence_class": {"enum": ["A_OFFICIAL_EXACT", "B_OFFICIAL_DETERMINISTIC", "C_OWN_ECONOMY_ESTIMATE", "D_DONOR_IMPUTATION", "E_REGIONAL_GLOBAL_FALLBACK"]},
+    "method_id": {"type": "string", "minLength": 1},
+    "model_version": {"type": "string", "minLength": 1},
+    "source_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "donor_economies": {"type": "array", "items": {"type": "string", "pattern": "^[A-Z0-9]{3}$"}, "uniqueItems": true},
+    "validation_mae": {"type": ["number", "null"], "minimum": 0},
+    "validation_bias": {"type": ["number", "null"]},
+    "notes": {"type": "string"}
+  }
+}

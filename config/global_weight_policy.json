@@ -1,0 +1,39 @@
+{
+  "policy_version": "2.0",
+  "status": "RATIFIED_FOR_RESEARCH_DEVELOPMENT",
+  "ratified_on": "2026-06-29",
+  "core_construction": {
+    "id": "ARM-WEIGHTS-CORE",
+    "allowed_evidence_classes": [
+      "A_OFFICIAL_EXACT",
+      "B_OFFICIAL_DETERMINISTIC"
+    ],
+    "world_claim_allowed": false
+  },
+  "global_construction": {
+    "id": "ARM-WEIGHTS-GLOBAL",
+    "required_evidence_classes": [
+      "A_OFFICIAL_EXACT",
+      "B_OFFICIAL_DETERMINISTIC",
+      "C_OWN_ECONOMY_ESTIMATE",
+      "D_DONOR_IMPUTATION",
+      "E_REGIONAL_GLOBAL_FALLBACK"
+    ],
+    "requires_complete_economy_category_grid": true,
+    "requires_uncertainty_for_estimates": true,
+    "world_claim_allowed_only_when_complete": true
+  },
+  "canonical_categories": [
+    "CP01", "CP02", "CP03", "CP04", "CP05", "CP06",
+    "CP07", "CP08", "CP09", "CP10", "CP11", "CP12"
+  ],
+  "forbidden": [
+    "silent_renormalisation_of_missing_economies",
+    "estimated_value_presented_as_official",
+    "manual_result_driven_donor_selection",
+    "missing_method_or_provenance",
+    "retroactive_release_mutation",
+    "monetary_use_without_separate_ratification"
+  ],
+  "monetary_release_allowed": false
+}
