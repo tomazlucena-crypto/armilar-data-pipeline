@@ -1,0 +1,6 @@
+economy_code,economy_name,armilar_category,decision,current_status,resolution_attempted,reason
+BLR,Belarus,CP02,UNAVAILABLE,MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100,Source 90 public cells audited; no official alcohol+tobacco replacement accepted.,CP02 cannot be reconstructed without both alcohol and tobacco strict HFCE cells or an official narcotics-excluding aggregate.
+KWT,Kuwait,CP02,UNAVAILABLE,MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100,Source 90 public cells audited; no official alcohol+tobacco replacement accepted.,No modelled alcohol/tobacco split is allowed.
+SAU,Saudi Arabia,CP02,UNAVAILABLE,MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100,Source 90 public cells audited; no official alcohol+tobacco replacement accepted.,No modelled alcohol/tobacco split is allowed.
+BON,Bonaire,*,UNAVAILABLE,0/12 categories available,Participant registry and Source 90 cells audited.,No public official twelve-category allocation or proxy-numerator source accepted.
+LBR,Liberia,CP04|CP06|CP09|CP10|CP12,UNAVAILABLE,SUPPLEMENTAL_NOMINAL_SOURCE_FAILED_UNIT_RECONCILIATION,UNData supplemental source compared against direct Source 90 categories.,Median supplemental-to-Source90 ratio is incompatible; using it would risk a unit or concept error.
