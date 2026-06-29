@@ -15,12 +15,18 @@ ROOT = Path(__file__).resolve().parents[1]
 class ProgramArchitectureTests(unittest.TestCase):
     def test_package_and_config_versions_match(self) -> None:
         config = json.loads((ROOT / "config" / "step2_icp2021.json").read_text(encoding="utf-8"))
-        self.assertEqual(__version__, "0.6.13")
+        self.assertEqual(__version__, "0.7.0")
         self.assertEqual(config["pipeline_version"], __version__)
 
     def test_four_program_entry_points_are_declared(self) -> None:
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
-        for command in ("armilar-source-probe", "armilar-proxy-audit", "armilar-country", "armilar-matrix"):
+        for command in (
+            "armilar-source-probe",
+            "armilar-proxy-audit",
+            "armilar-country",
+            "armilar-matrix",
+            "armilar-global-weights",
+        ):
             self.assertIn(command, text)
 
     def test_empty_proxy_registry_runs_fail_closed_and_deterministically(self) -> None:

@@ -1,11 +1,11 @@
 economy_code,economy_name,accepted_categories,experimental_categories,unavailable_categories,coverage_added_cells,decision,sources_examined,remaining_blockers
-IND,India,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,2,"Statement 5.1 is PFCE by item. The workbook supports exact item aggregation, but the strict households-only S14/P31 boundary and NPISH exclusion are not confirmed in this source file."
-RUT,Russian Federation,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,3,No deterministic official XLS/XLSX/CSV/SDMX/HTML Rosstat table with 2021 strict household COICOP-HH values has passed the gates.
-CHN,China,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,3,"Official NBS table is a household survey with eight combined groups, not national-accounts S14/P31 with twelve Armilar categories."
-IDN,Indonesia,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,3,Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories.
-BRA,Brazil,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,3,Official product tables would require many-to-many product-to-COICOP allocation.
-EGY,Egypt,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,1,"Official HIECS is a survey source, not national-accounts S14/P31 current-price HFCE."
-PAK,Pakistan,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,1,Public national-accounts source does not expose a twelve-category strict household table.
-NGA,Nigeria,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,1,"Official expenditure-GDP report publishes aggregate household consumption, not twelve categories."
-BGD,Bangladesh,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,1,Official HIES reference year and concept do not satisfy 2021 national-accounts HFCE gates.
-VNM,Viet Nam,,,CP04|CP06|CP09|CP10|CP12,0,UNAVAILABLE,1,"Official VHLSS is 2022 survey evidence only, not exact 2021 S14/P31 HFCE."
+IND,India,,,CP04|CP06|CP09|CP10|CP12,0,NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE,2,MoSPI Statement 5.1 is machine-readable and supports exact category aggregation plus an explicit narcotics exclusion. MoSPI methodology defines PFCE as expenditure of households and NPISH combined and states that the two are not separately available. The table reports fiscal year 2021-22 rather than calendar year 2021. It is therefore not admissible to the strict S14/P31DC Armilar 2021 exact matrix.
+RUT,Russian Federation,,,CP04|CP06|CP09|CP10|CP12,0,ACCESS_BLOCKED,5,"The current run could not acquire or validate all critical official Russian source families: RUT_FEDSTAT_HFCE_31414, RUT_ROSSTAT_HBS_2021, RUT_ROSSTAT_SUT_2021_XLSX. The absence of an admissible exact table cannot be treated as proven while these attempts are blocked."
+CHN,China,,,CP04|CP06|CP09|CP10|CP12,0,CONCEPT_AMBIGUOUS,6,Acquired official Chinese resources did not match the reviewed structural markers for: CHN_NBS_YEARBOOK_2022_INDEX. No source is admitted until the changed content is reviewed.
+IDN,Indonesia,,,CP04|CP06|CP09|CP10|CP12,0,NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE,3,Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories.
+BRA,Brazil,,,CP04|CP06|CP09|CP10|CP12,0,NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE,3,Official product tables would require many-to-many product-to-COICOP allocation.
+EGY,Egypt,,,CP04|CP06|CP09|CP10|CP12,0,NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE,1,"Official HIECS is a survey source, not national-accounts S14/P31 current-price HFCE."
+PAK,Pakistan,,,CP04|CP06|CP09|CP10|CP12,0,NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE,1,Public national-accounts source does not expose a twelve-category strict household table.
+NGA,Nigeria,,,CP04|CP06|CP09|CP10|CP12,0,NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE,1,"Official expenditure-GDP report publishes aggregate household consumption, not twelve categories."
+BGD,Bangladesh,,,CP04|CP06|CP09|CP10|CP12,0,NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE,1,Official HIES reference year and concept do not satisfy 2021 national-accounts HFCE gates.
+VNM,Viet Nam,,,CP04|CP06|CP09|CP10|CP12,0,NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE,1,"Official VHLSS is 2022 survey evidence only, not exact 2021 S14/P31 HFCE."

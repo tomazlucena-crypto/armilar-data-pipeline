@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.0 - Global weight contract layer
+
+- Adds constitutional Amendment 2 for a separate experimental complete-world construction.
+- Adds the isolated `armilar_global_weights` package and `armilar-global-weights` CLI.
+- Adds per-cell evidence classes A to E, complete-grid validation, uncertainty bounds, provenance and donor requirements.
+- Emits separate `weights_core.csv`, `weights_global.csv`, `weights_uncertainty.csv`, `weights_method_audit.csv`, summaries and non-self-referential manifests.
+- Adds JSON schemas, synthetic sample input, release notes and open-source reuse documentation.
+- Keeps strict Step 2 outputs unchanged, `weights_final.csv` empty and `monetary_release_allowed=false`.
+
 ## 0.6.13 - Cumulative second-wave and Step 2H exception audits
 
 - fixed the malformed Brazil classification/methodology registry row that caused the GitHub Actions failure;

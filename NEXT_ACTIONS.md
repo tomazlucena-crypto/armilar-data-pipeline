@@ -1,9 +1,10 @@
-# Next actions after v0.6.13
+# Next actions after v0.7.0
 
-1. Replace the current working-branch contents with the cumulative v0.6.13 package and run GitHub Actions.
-2. Inspect real acquisition receipts for the fifteen audited economies and distinguish network blocking from structural rejection.
-3. Repair only sources whose live content differs from the reviewed markers; do not weaken economic gates to make the workflow green.
-4. Recalculate source-adjusted priority among the remaining incomplete economies and continue with the highest expected return.
-5. Keep `weights_final.csv` empty and monetary release disabled until the worldwide twelve-category matrix passes the constitutional gates.
+1. Integrate the strict matrix outputs into a canonical evidence-cell staging file for v0.7.1.
+2. Convert existing strict official cells into A/B evidence without changing their values or strict outputs.
+3. Allow country audits to emit partial C evidence per category while keeping C evidence out of `ARM-WEIGHTS-CORE`.
+4. Add class/economy/category coverage reports and duplicate-promotion guards.
+5. Continue live source acquisition reviews for audited countries, but do not let country-by-country exactness block the global contract layer.
+6. Keep `weights_final.csv` empty and `monetary_release_allowed=false` until separate monetary ratification.
 
-No experimental allocations are authorised.
+Experimental allocations are authorised only inside `ARM-WEIGHTS-GLOBAL` with explicit uncertainty and provenance; they remain prohibited in strict outputs.

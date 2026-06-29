@@ -1,12 +1,19 @@
 {
+  "comparison_weighting": "UNWEIGHTED_DIAGNOSTIC",
+  "direct_comparison_categories": 0,
+  "direct_comparison_economies": 0,
   "direct_hfce_vs_aic_ppp_comparisons": 0,
   "financing_exposure_comparisons": 56,
   "financing_exposure_maximum": "0.5012568547382459359238851671",
   "financing_exposure_median": "0.2132822449134482131088693636",
   "financing_exposure_minimum": "0.07338687179541832786142176541",
-  "methodology": "AIC_PPP_PROXY_EVIDENCE_AUDIT",
+  "financing_gap_is_proxy_error": false,
+  "methodology": "SEPARATE_AIC_HFCE_FINANCING_EXPOSURE_AND_MATCHED_PPP_PROXY_ERROR_AUDIT",
   "option_b_monetary_use_allowed": false,
   "option_b_research_use_allowed": true,
+  "overall_mean_absolute_error_ratio": "",
+  "overall_median_absolute_error_ratio": "",
+  "overall_median_signed_error_ratio": "",
   "proxy_categories": [
     "CP04",
     "CP06",
@@ -14,8 +21,16 @@
     "CP10",
     "CP12"
   ],
-  "reason": "No public matched strict-HFCE PPP benchmark exists for the five proxy categories in Source 90. Financing exposure is reported separately and is not treated as an error estimate.",
+  "proxy_categories_meeting_minimum": 0,
+  "reason": "Matched strict-HFCE and AIC PPP evidence does not satisfy the minimum total, economy and per-category coverage gates.",
   "reference_year": 2021,
-  "schema_version": "1.0",
+  "schema_version": "2.0",
+  "validation_policy": {
+    "minimum_comparisons_per_category": 5,
+    "minimum_direct_comparisons": 50,
+    "minimum_distinct_economies": 10,
+    "validated_median_absolute_error_max": "0.02",
+    "validated_with_limits_median_absolute_error_max": "0.05"
+  },
   "validation_status": "INSUFFICIENT_DIRECT_EVIDENCE"
 }

@@ -2,6 +2,14 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.7.0: global weight contract layer
+
+Version 0.7.0 keeps the strict observed matrix and national-source audits intact while adding a separate experimental complete-world weight contract. The new `armilar-global-weights` programme builds `ARM-WEIGHTS-GLOBAL` from a complete economy-category grid with per-cell evidence classes A to E, required uncertainty for estimated cells, method provenance and deterministic manifests.
+
+`ARM-WEIGHTS-CORE` remains separate and accepts only official exact cells and official deterministic derivations. Estimated C/D/E cells can enter only the experimental global construction with explicit bounds, method IDs, model versions, source IDs and donors where applicable. They are never promoted to official exact values.
+
+The release also adds Amendment 2, JSON schemas, a synthetic sample input, open-source reuse documentation and build-versus-reuse decisions. `monetary_release_allowed=false` remains unchanged.
+
 ## Version 0.6.13: cumulative second-wave and Step 2H exception audits
 
 Version 0.6.13 is the cumulative staging release intended to replace the failed v0.6.7 pull-request contents. It includes the malformed Brazil registry-row repair, dedicated official-source-family audits for Egypt, Pakistan, Nigeria, Bangladesh and Viet Nam, and executable Step 2H exception audits for Belarus CP02, Kuwait CP02, Saudi Arabia CP02, Bonaire and Liberia.
@@ -116,6 +124,7 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 | 0.6.11 | Step 2H0 Bangladesh source-family audit | Publication inventory and HIES 2022 concepts separated |
 | 0.6.12 | Step 2H0 Viet Nam source-family audit | Aggregate 2021 release and VHLSS concepts separated |
 | 0.6.13 | Step 2H exception audits | CP02, territory-scope and unit/concept exceptions made executable |
+| 0.7.0 | Global weight contract layer | Separate core/global constructions with per-cell evidence classes and uncertainty |
 
 ## Version 0.4.0: Step 2H0
 
