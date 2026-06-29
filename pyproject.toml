@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "armilar-data-pipeline"
-version = "0.6.1"
+version = "0.6.2"
 description = "Auditable acquisition and construction pipeline for the ICP 2021 Armilar weight matrix"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -14,8 +14,10 @@ dependencies = []
 
 [project.scripts]
 armilar-data = "armilar_pipeline.cli:main"
-armilar-source-probe = "armilar_pipeline.source_probe_cli:main"
-armilar-country = "armilar_pipeline.country_cli:main"
+armilar-source-probe = "armilar_source_probe.cli:main"
+armilar-proxy-audit = "armilar_proxy_audit.cli:main"
+armilar-country = "armilar_country_adapters.cli:main"
+armilar-matrix = "armilar_matrix_builder.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from decimal import Decimal
+import csv
+import json
+from decimal import Decimal, InvalidOperation
 from statistics import median
-from typing import Any
+from typing import Any, Iterable
 
 from .config import Step2Config
 from .hybrid_matrix import HybridMatrixResult, PROXY_CATEGORIES, _unit_multiplier
@@ -11,6 +13,13 @@ from .worldbank import DimensionRoles, Observation, Variable
 
 
 AIC_HEADING = "9020000"
+DEFAULT_PROXY_POLICY = {
+    "minimum_direct_comparisons": 50,
+    "minimum_distinct_economies": 10,
+    "minimum_comparisons_per_category": 5,
+    "validated_median_absolute_error_max": "0.02",
+    "validated_with_limits_median_absolute_error_max": "0.05",
+}
 
 
 def build_proxy_audit(
@@ -22,11 +31,12 @@ def build_proxy_audit(
     measures: MeasureSelection,
     matrix: HybridMatrixResult,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
-    """Build the Step 2H0 evidence audit for the ratified AIC-PPP proxy.
+    """Build separate financing-exposure and direct PPP-error evidence.
 
-    The financing-exposure ratio is diagnostic only. It does not estimate the
-    PPP proxy error. The direct PPP comparison remains unavailable where the
-    public ICP release omits the strict HFCE PPP for the five proxy categories.
+    The financing gap is diagnostic only. It never stands in for the PPP error.
+    Direct error observations are admitted only from the explicit official
+    benchmark registry and only where matched HFCE and AIC PPPs exist for the
+    same economy, category and reference year.
     """
     measure_vars = {item.variable_id: item for item in inventories[roles.measure]}
     nominal_multiplier = _unit_multiplier(measure_vars[measures.nominal_id].value)
@@ -103,38 +113,228 @@ def build_proxy_audit(
             "interpretation": "Measures third-party-financed consumption exposure after reconstructing HFCE with narcotics and net purchases abroad; it is not the PPP proxy error.",
         })
 
+    benchmarks = _load_official_benchmarks(config)
     ppp_comparison_rows: list[dict[str, Any]] = []
     for code in complete_codes:
         economy_name = rows_by_country[code][0]["economy_name"]
         for category in sorted(PROXY_CATEGORIES):
             proxy_row = next((row for row in rows_by_country[code] if row["armilar_category"] == category), None)
+            benchmark = benchmarks.get((code, category))
+            aic_ppp = _decimal_or_blank(benchmark.get("aic_ppp", "")) if benchmark else ""
+            if aic_ppp == "" and proxy_row:
+                aic_ppp = Decimal(str(proxy_row["ppp_lcu_per_international_dollar"]))
+            strict_hfce_ppp = _decimal_or_blank(benchmark.get("strict_hfce_ppp", "")) if benchmark else ""
+            comparison = _comparison_values(aic_ppp, strict_hfce_ppp)
+            if comparison is None:
+                status = "NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK"
+                ratio: Decimal | str = ""
+                error: Decimal | str = ""
+            else:
+                ratio, error = comparison
+                status = "DIRECT_OFFICIAL_COMPARISON_AVAILABLE"
             ppp_comparison_rows.append({
                 "economy_code": code,
                 "economy_name": economy_name,
                 "armilar_category": category,
-                "aic_ppp": proxy_row["ppp_lcu_per_international_dollar"] if proxy_row else "",
-                "strict_hfce_ppp": "",
-                "ppp_ratio_hfce_to_aic": "",
-                "implied_real_expenditure_error_ratio": "",
-                "status": "NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK",
-                "evidence_note": "The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.",
+                "aic_ppp": aic_ppp,
+                "strict_hfce_ppp": strict_hfce_ppp,
+                "ppp_ratio_hfce_to_aic": ratio,
+                "implied_real_expenditure_error_ratio": error,
+                "status": status,
+                "source_authority": benchmark.get("source_authority", "") if benchmark else "",
+                "source_url": benchmark.get("source_url", "") if benchmark else "",
+                "reference_year": benchmark.get("reference_year", "") if benchmark else "",
+                "classification": benchmark.get("classification", "") if benchmark else "",
+                "evidence_note": (
+                    benchmark.get("notes", "Matched official benchmark supplied in the explicit registry.")
+                    if benchmark else
+                    "No matched official strict-HFCE and AIC PPP observation is registered for this economy/category."
+                ),
             })
 
+    category_errors, economy_errors, direct_summary = build_proxy_error_summaries(
+        ppp_comparison_rows, policy=_load_proxy_policy(config)
+    )
     ordered = sorted(financing_ratios)
     financing_median = Decimal(str(median(ordered))) if ordered else None
     summary: dict[str, Any] = {
-        "schema_version": "1.0",
+        "schema_version": "2.0",
         "reference_year": config.reference_year,
-        "methodology": "AIC_PPP_PROXY_EVIDENCE_AUDIT",
+        "methodology": "SEPARATE_AIC_HFCE_FINANCING_EXPOSURE_AND_MATCHED_PPP_PROXY_ERROR_AUDIT",
         "financing_exposure_comparisons": len(financing_ratios),
         "financing_exposure_median": financing_median if financing_median is not None else "",
         "financing_exposure_minimum": min(financing_ratios) if financing_ratios else "",
         "financing_exposure_maximum": max(financing_ratios) if financing_ratios else "",
-        "direct_hfce_vs_aic_ppp_comparisons": 0,
         "proxy_categories": sorted(PROXY_CATEGORIES),
-        "validation_status": "INSUFFICIENT_DIRECT_EVIDENCE",
         "option_b_monetary_use_allowed": False,
         "option_b_research_use_allowed": True,
-        "reason": "No public matched strict-HFCE PPP benchmark exists for the five proxy categories in Source 90. Financing exposure is reported separately and is not treated as an error estimate.",
+        "financing_gap_is_proxy_error": False,
+        **direct_summary,
+        "reason": direct_summary["reason"],
+        # Included so callers that still use the three-value API can emit the
+        # additional files without recalculating from raw data.
+        "error_by_category_rows": category_errors,
+        "error_by_economy_rows": economy_errors,
     }
     return financing_rows, ppp_comparison_rows, summary
+
+
+
+def normalize_proxy_comparison_rows(comparison_rows: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Validate and calculate matched HFCE/AIC PPP comparison rows."""
+    output: list[dict[str, Any]] = []
+    for raw in comparison_rows:
+        row = dict(raw)
+        aic = _decimal_or_blank(row.get("aic_ppp", ""))
+        hfce = _decimal_or_blank(row.get("strict_hfce_ppp", ""))
+        values = _comparison_values(aic, hfce)
+        row["aic_ppp"] = aic
+        row["strict_hfce_ppp"] = hfce
+        if values is None:
+            row["ppp_ratio_hfce_to_aic"] = ""
+            row["implied_real_expenditure_error_ratio"] = ""
+            row["status"] = row.get("status") or "NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK"
+        else:
+            ratio, error = values
+            row["ppp_ratio_hfce_to_aic"] = ratio
+            row["implied_real_expenditure_error_ratio"] = error
+            row["status"] = "DIRECT_OFFICIAL_COMPARISON_AVAILABLE"
+        output.append(row)
+    return output
+
+def build_proxy_error_summaries(
+    comparison_rows: Iterable[dict[str, Any]],
+    *,
+    policy: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
+    effective = {**DEFAULT_PROXY_POLICY, **(policy or {})}
+    valid: list[dict[str, Any]] = []
+    for row in normalize_proxy_comparison_rows(comparison_rows):
+        error = row.get("implied_real_expenditure_error_ratio", "")
+        if not isinstance(error, Decimal):
+            continue
+        valid.append({**row, "absolute_error_ratio": abs(error)})
+
+    category_rows = _group_error_rows(valid, "armilar_category")
+    economy_rows = _group_error_rows(valid, "economy_code", include_name=True)
+    categories_with_minimum = sum(
+        1 for row in category_rows
+        if int(row["direct_comparison_count"]) >= int(effective["minimum_comparisons_per_category"])
+    )
+    economies = {str(row.get("economy_code", "")) for row in valid}
+    abs_errors = [Decimal(str(row["absolute_error_ratio"])) for row in valid]
+    signed_errors = [Decimal(str(row["implied_real_expenditure_error_ratio"])) for row in valid]
+    median_abs = _median_decimal(abs_errors) if abs_errors else ""
+    median_signed = _median_decimal(signed_errors) if signed_errors else ""
+    mean_abs = (sum(abs_errors, Decimal("0")) / Decimal(len(abs_errors))) if abs_errors else ""
+    minimum_evidence = (
+        len(valid) >= int(effective["minimum_direct_comparisons"])
+        and len(economies) >= int(effective["minimum_distinct_economies"])
+        and categories_with_minimum == len(PROXY_CATEGORIES)
+    )
+    if not minimum_evidence:
+        validation_status = "INSUFFICIENT_DIRECT_EVIDENCE"
+        reason = (
+            "Matched strict-HFCE and AIC PPP evidence does not satisfy the minimum total, economy and per-category coverage gates."
+        )
+    elif Decimal(str(median_abs)) <= Decimal(str(effective["validated_median_absolute_error_max"])):
+        validation_status = "PROXY_VALIDATED"
+        reason = "Matched direct evidence satisfies coverage gates and the median absolute PPP proxy error is within the validation threshold."
+    elif Decimal(str(median_abs)) <= Decimal(str(effective["validated_with_limits_median_absolute_error_max"])):
+        validation_status = "PROXY_VALIDATED_WITH_LIMITS"
+        reason = "Matched direct evidence satisfies coverage gates but the median absolute error requires explicit use limits."
+    else:
+        validation_status = "PROXY_REJECTED"
+        reason = "Matched direct evidence satisfies coverage gates and exceeds the rejection threshold."
+
+    summary = {
+        "direct_hfce_vs_aic_ppp_comparisons": len(valid),
+        "direct_comparison_economies": len(economies),
+        "direct_comparison_categories": len({str(row.get("armilar_category", "")) for row in valid}),
+        "proxy_categories_meeting_minimum": categories_with_minimum,
+        "overall_median_signed_error_ratio": median_signed,
+        "overall_median_absolute_error_ratio": median_abs,
+        "overall_mean_absolute_error_ratio": mean_abs,
+        "validation_status": validation_status,
+        "validation_policy": effective,
+        "comparison_weighting": "UNWEIGHTED_DIAGNOSTIC",
+        "reason": reason,
+    }
+    return category_rows, economy_rows, summary
+
+
+def _group_error_rows(rows: list[dict[str, Any]], key: str, *, include_name: bool = False) -> list[dict[str, Any]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for row in rows:
+        grouped.setdefault(str(row.get(key, "")), []).append(row)
+    output: list[dict[str, Any]] = []
+    for value, members in sorted(grouped.items()):
+        signed = [Decimal(str(row["implied_real_expenditure_error_ratio"])) for row in members]
+        absolute = [abs(item) for item in signed]
+        result: dict[str, Any] = {
+            key: value,
+            "direct_comparison_count": len(members),
+            "economy_count": len({str(row.get("economy_code", "")) for row in members}),
+            "category_count": len({str(row.get("armilar_category", "")) for row in members}),
+            "mean_signed_error_ratio": sum(signed, Decimal("0")) / Decimal(len(signed)),
+            "median_signed_error_ratio": _median_decimal(signed),
+            "mean_absolute_error_ratio": sum(absolute, Decimal("0")) / Decimal(len(absolute)),
+            "median_absolute_error_ratio": _median_decimal(absolute),
+            "maximum_absolute_error_ratio": max(absolute),
+            "status": "DIRECT_EVIDENCE_SUMMARY",
+        }
+        if include_name:
+            result["economy_name"] = str(members[0].get("economy_name", ""))
+        output.append(result)
+    return output
+
+
+def _load_official_benchmarks(config: Step2Config) -> dict[tuple[str, str], dict[str, str]]:
+    path = config.proxy_ppp_benchmarks_path
+    if not path.exists():
+        return {}
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    output: dict[tuple[str, str], dict[str, str]] = {}
+    for row in rows:
+        code = (row.get("economy_code") or "").strip().upper()
+        category = (row.get("armilar_category") or "").strip().upper()
+        if not code or category not in PROXY_CATEGORIES:
+            continue
+        if str(row.get("reference_year", "")).strip() not in {"", str(config.reference_year)}:
+            continue
+        if (row.get("source_authority") or "").strip() == "":
+            continue
+        output[(code, category)] = {key: (value or "").strip() for key, value in row.items()}
+    return output
+
+
+def _load_proxy_policy(config: Step2Config) -> dict[str, Any]:
+    try:
+        payload = json.loads(config.methodology_policy_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return dict(DEFAULT_PROXY_POLICY)
+    configured = payload.get("proxy_validation", {})
+    return {**DEFAULT_PROXY_POLICY, **configured}
+
+
+def _comparison_values(aic_ppp: Decimal | str, strict_hfce_ppp: Decimal | str) -> tuple[Decimal, Decimal] | None:
+    if not isinstance(aic_ppp, Decimal) or not isinstance(strict_hfce_ppp, Decimal):
+        return None
+    if aic_ppp <= 0 or strict_hfce_ppp <= 0:
+        return None
+    ratio = strict_hfce_ppp / aic_ppp
+    return ratio, ratio - Decimal("1")
+
+
+def _decimal_or_blank(value: Any) -> Decimal | str:
+    if value in {None, ""}:
+        return ""
+    try:
+        return Decimal(str(value))
+    except (InvalidOperation, ValueError):
+        return ""
+
+
+def _median_decimal(values: list[Decimal]) -> Decimal:
+    return Decimal(str(median(sorted(values))))

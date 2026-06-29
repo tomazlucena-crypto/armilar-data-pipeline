@@ -19,6 +19,7 @@ class Step2Config:
     user_agent: str
     timeout_seconds: int
     retries: int
+    source_probe_max_workers: int
     backoff_seconds: float
     max_response_bytes: int
     per_page: int
@@ -67,6 +68,10 @@ class Step2Config:
     def source_probe_candidates_path(self) -> Path:
         return self.path.parent / "source_probe_candidates.csv"
 
+    @property
+    def proxy_ppp_benchmarks_path(self) -> Path:
+        return self.path.parent / "proxy_ppp_benchmarks.csv"
+
 
 def load_config(path: str | Path) -> Step2Config:
     config_path = Path(path).resolve()
@@ -107,6 +112,7 @@ def load_config(path: str | Path) -> Step2Config:
         user_agent=str(raw["user_agent"]),
         timeout_seconds=int(raw["timeout_seconds"]),
         retries=int(raw["retries"]),
+        source_probe_max_workers=max(1, int(raw.get("source_probe_max_workers", 5))),
         backoff_seconds=float(raw["backoff_seconds"]),
         max_response_bytes=int(raw["max_response_bytes"]),
         per_page=int(raw["per_page"]),

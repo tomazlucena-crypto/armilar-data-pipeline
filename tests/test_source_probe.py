@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from armilar_pipeline.acquire import AcquisitionRecord
+from armilar_pipeline.acquire import AcquisitionError, AcquisitionRecord
 from armilar_pipeline.config import load_config
 from armilar_pipeline.source_probe import load_source_candidates, run_source_probe_only, run_source_probes
 from armilar_pipeline.util import sha256_file
@@ -68,6 +68,18 @@ class SourceProbeTests(unittest.TestCase):
             self.assertEqual(result.candidate_rows[0]["signature_status"], "PASS")
             self.assertEqual(result.candidate_rows[0]["marker_status"], "PASS")
 
+    def test_economy_filter_rejects_unknown_code_before_network_access(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = root / "candidates.csv"
+            self._registry(registry)
+            with self.assertRaisesRegex(ValueError, "Unknown source-probe economy codes"):
+                run_source_probes(
+                    config, candidates_path=registry, run_root=root / "run",
+                    cache_root=root / "cache", economy_codes=["ZZZ"],
+                )
+
     def test_duplicate_source_ids_are_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "candidates.csv"
@@ -126,6 +138,100 @@ class SourceProbeTests(unittest.TestCase):
             self.assertEqual(summary["economies_probed"], 1)
             self.assertTrue((root / "run" / "outputs" / "source_probe_summary.json").exists())
             self.assertTrue((root / "run" / "SHA256SUMS").exists())
+
+
+    def test_landing_page_is_rejected_as_dataset_even_when_accessible(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = root / "candidates.csv"
+            self._registry(registry)
+            with registry.open(encoding="utf-8", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            fields = list(rows[0]) + ["source_family", "family_order", "resource_type", "evidence_role", "methodological_state"]
+            rows[0].update({
+                "source_family": "official_statistical_database",
+                "family_order": "3",
+                "resource_type": "LANDING_PAGE",
+                "evidence_role": "DISCOVERY",
+                "methodological_state": "EXACT_OFFICIAL",
+                "methodological_candidate_class": "A_CANDIDATE",
+            })
+            with registry.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=fields)
+                writer.writeheader()
+                writer.writerows(rows)
+
+            def fake_fetch(config, *, source_id, url, destination, cache_path=None, accept="*/*"):
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_text("<html>Official consumption results for 2021</html>", encoding="utf-8")
+                return AcquisitionRecord(source_id, url, url, destination, "fresh", 200, "text/html", destination.stat().st_size, sha256_file(destination), "2026-06-28T00:00:00Z", ())
+
+            with patch("armilar_pipeline.source_probe.fetch_url", side_effect=fake_fetch):
+                result = run_source_probes(config, candidates_path=registry, run_root=root / "run", cache_root=root / "cache")
+            row = result.candidate_rows[0]
+            self.assertEqual(row["retrieval_status"], "ACQUIRED_DISCOVERY_EVIDENCE")
+            self.assertTrue(row["homepage_rejected_as_dataset"])
+            self.assertEqual(row["runtime_candidate_class"], "D_UNAVAILABLE")
+            self.assertEqual(result.economy_rows[0]["audit_state"], "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE")
+
+    def test_network_failure_preserves_receipt_and_is_access_blocked(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = root / "candidates.csv"
+            self._registry(registry)
+            error = AcquisitionError(
+                source_id="source_probe_AAA_OFFICIAL",
+                url="https://example.test/alpha.html",
+                attempt_errors=("URLError:DNS failure", "URLError:DNS failure"),
+                retrieved_at="2026-06-29T10:00:00Z",
+            )
+            with patch("armilar_pipeline.source_probe.fetch_url", side_effect=error):
+                result = run_source_probes(config, candidates_path=registry, run_root=root / "run", cache_root=root / "cache")
+            row = result.candidate_rows[0]
+            self.assertEqual(row["runtime_methodological_state"], "ACCESS_BLOCKED")
+            self.assertEqual(result.economy_rows[0]["audit_state"], "ACCESS_BLOCKED")
+            receipt = root / "run" / row["failure_receipt"]
+            self.assertTrue(receipt.exists())
+            self.assertIn("DNS failure", receipt.read_text(encoding="utf-8"))
+            self.assertEqual(row["source_hash"], "")
+
+    def test_uninvestigated_families_prevent_exhaustive_unavailability(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = root / "candidates.csv"
+            self._registry(registry)
+            with registry.open(encoding="utf-8", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            fields = list(rows[0]) + ["source_family", "family_order", "resource_type", "evidence_role", "methodological_state"]
+            rows[0].update({
+                "source_family": "official_structured_publications",
+                "family_order": "5",
+                "resource_type": "LANDING_PAGE",
+                "evidence_role": "DISCOVERY",
+                "methodological_state": "UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT",
+                "methodological_candidate_class": "D_UNAVAILABLE",
+            })
+            with registry.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=fields)
+                writer.writeheader()
+                writer.writerows(rows)
+
+            def fake_fetch(config, *, source_id, url, destination, cache_path=None, accept="*/*"):
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_text("<html>Official consumption results for 2021</html>", encoding="utf-8")
+                return AcquisitionRecord(source_id, url, url, destination, "fresh", 200, "text/html", destination.stat().st_size, sha256_file(destination), "2026-06-28T00:00:00Z", ())
+
+            with patch("armilar_pipeline.source_probe.fetch_url", side_effect=fake_fetch):
+                result = run_source_probes(config, candidates_path=registry, run_root=root / "run", cache_root=root / "cache")
+            economy = result.economy_rows[0]
+            self.assertFalse(economy["core_family_probe_complete"])
+            self.assertFalse(economy["definitive_unavailability_allowed"])
+            self.assertEqual(economy["audit_state"], "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE")
+            uninvestigated = [row for row in result.family_rows if row["core_family"] and row["audit_status"] == "NOT_INVESTIGATED"]
+            self.assertGreaterEqual(len(uninvestigated), 1)
 
 
 if __name__ == "__main__":

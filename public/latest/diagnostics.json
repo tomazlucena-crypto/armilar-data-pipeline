@@ -14,7 +14,7 @@
     "top10_direct_expenditure_share": "0.3826946843860666965182529397",
     "top20_direct_expenditure_share": "0.4466570769862425192515560891"
   },
-  "generated_at": "2026-06-29T12:08:41Z",
+  "generated_at": "2026-06-29T10:42:25Z",
   "inventory_counts": {
     "Classification": 17,
     "Country": 207,
@@ -49,9 +49,9 @@
   },
   "runtime": {
     "github_actions": true,
-    "github_run_id": "28369652047",
+    "github_run_id": "28365219828",
     "github_runner_os": "Linux",
-    "github_sha": "53acc10b74aa6bcabca6dce0357bd476faace881",
+    "github_sha": "c0a7b416ed85bbedc98fe8e5329a8f9dea349bb9",
     "implementation": "CPython",
     "machine": "x86_64",
     "platform": "Linux-6.17.0-1018-azure-x86_64-with-glibc2.39",
@@ -164,7 +164,7 @@
     "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
     "participating_economies_expected": 176,
     "participating_economies_mapped": 176,
-    "pipeline_version": "0.6.1",
+    "pipeline_version": "0.6.0",
     "proxy_ppp_categories": [
       "CP04",
       "CP06",

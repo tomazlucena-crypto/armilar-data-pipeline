@@ -1,75 +1,27 @@
 # Source audit
 
-## World Bank ICP 2021 Source 90
+## Established international sources
 
-Role:
+World Bank ICP 2021 Source 90 provides the global PPP link, direct published HFCE headings, participation controls and aggregate-imputation evidence. OECD Table 5 T501, UNData SNA Table 3.2, Eurostat `nama_10_cp18` and OECD Table 5A T501 provide strict-household nominal expenditure under explicit concept and classification gates.
 
-- global PPP link;
-- direct published HFCE headings;
-- official participation and aggregate-imputation controls;
-- nominal and PPP-based real expenditure checks.
+The international-source hierarchy selects one complete provider per economy. It does not splice incompatible concepts.
 
-The global public release contains 45 headings. It directly supports seven Armilar categories after CP02 is decomposed into alcohol and tobacco. It supplies actual-consumption PPPs for the five categories covered by ratified Option B.
+## National-source triage
 
-It does not publicly supply a twelve-category allocation for the officially imputed non-participating economies.
+The ten-economy registry in `config/source_probe_candidates.csv` is a feasibility inventory. It names actual official resources and classifies their evidence role. Homepages and catalogue pages are discovery-only. A download remains inadmissible when its concept, period or classification requires allocation.
 
-## OECD Table 5 T501
+The source probe preserves real acquisition receipts and emits full family coverage. It does not infer that an unavailable network path means the data do not exist.
 
-Role:
+## Option B evidence
 
-- strict household sector S14;
-- domestic HFCE transaction P31DC;
-- current prices;
-- national currency;
-- COICOP 1999 twelve-division structure.
+`proxy_financing_exposure.csv` reports the nominal AIC/HFCE financing gap. It measures third-party financing exposure.
 
-This is the preferred nominal source where a complete five-proxy-category set exists.
+`proxy_ppp_comparison.csv` contains only matched official AIC and strict-HFCE PPP observations for the same economy, category and year. The corresponding error is:
 
-## UNData SNA Table 3.2
+`PPP_HFCE / PPP_AIC - 1`
 
-Role:
-
-- official country national accounts;
-- individual consumption expenditure of households;
-- domestic-market twelve-division structure;
-- current national-currency values.
-
-The parser accepts either the standard ZIP/CSV download or a plain CSV response. Country-name variants are mapped explicitly. Non-household subgroups and non-2021 rows are rejected.
-
-## Eurostat `nama_10_cp18`
-
-Role:
-
-- household domestic HFCE;
-- current prices in national currency;
-- COICOP 2018.
-
-The Armilar CP12 bridge is CP12 plus CP13. The two components must both be present. No incomplete bridge is accepted.
-
-## OECD Table 5A T501
-
-Role:
-
-- COICOP 2018 fallback;
-- same household, domestic, current-price and national-currency restrictions.
-
-The same CP12 plus CP13 bridge applies.
-
-## Source hierarchy
-
-1. OECD Table 5 T501
-2. UNData SNA Table 3.2
-3. Eurostat `nama_10_cp18`
-4. OECD Table 5A T501
-
-The hierarchy selects one complete provider per economy. It does not splice categories from multiple providers.
+`proxy_error_by_category.csv` and `proxy_error_by_economy.csv` summarise only those direct pairs. Without enough direct pairs, the status remains `INSUFFICIENT_DIRECT_EVIDENCE` regardless of the financing-gap sample size.
 
 ## Known scope limitation
 
-Current national-accounts releases may include revisions made after the ICP 2021 compilation vintage. The pipeline does not conceal this. Proxy-category rows carry a vintage-mismatch quality flag and preserve exact source provenance.
-
-## Step 2H0 national-source probes
-
-The ten-economy feasibility registry is maintained in `config/source_probe_candidates.csv`. Its purpose is source triage, not matrix construction. See `docs/STEP2H0_SOURCE_AUDIT.md` for the class definitions, preliminary findings and runtime controls.
-
-A downloaded source remains inadmissible when its concept, reference period or classification requires experimental allocation. Runtime accessibility and methodological suitability are reported separately.
+Current national-accounts releases may contain revisions made after the ICP 2021 compilation vintage. The pipeline preserves the exact source vintage and quality flags rather than hiding this mismatch.

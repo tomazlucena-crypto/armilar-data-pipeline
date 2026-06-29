@@ -2,6 +2,21 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.6.2: Step 2H0 source-triage hardening
+
+Version 0.6.2 separates discovery evidence from acquired datasets and expands the official-source registry across the ten priority incomplete economies. An accessible homepage or publication page can locate a source family, but it can no longer qualify as a dataset or preserve an A/B runtime class. Network failures are recorded as `ACCESS_BLOCKED`, with failure receipts, rather than being treated as proof of unavailability.
+
+The repository now exposes four independent programmes sharing one methodology and schema:
+
+- `armilar-source-probe`;
+- `armilar-proxy-audit`;
+- `armilar-country`;
+- `armilar-matrix`.
+
+The proxy audit emits separate diagnostics for `aic_hfce_financing_gap` and `aic_ppp_proxy_error`. Direct proxy validation requires matched official HFCE and AIC PPP values for the same economy, category and year. The benchmark registry is empty until such evidence is acquired, so the result remains `INSUFFICIENT_DIRECT_EVIDENCE`.
+
+No new exact cells are admitted. The observed-universe coverage is unchanged, `weights_final.csv` remains empty, `monetary_release_allowed=false`, and Step 2J country parsers have not started.
+
 ## Version 0.6.1: Step 2I corrective audit
 
 Version 0.6.1 corrects the certainty level of v0.6.0. Step 2I is no longer described as diagnostically closed. The correct status is: `Step 2I diagnostic infrastructure complete; source audit ongoing`.
@@ -40,6 +55,7 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 | 0.5.0 | Step 2I start | National adapter architecture and first audits |
 | 0.6.0 | Step 2I infrastructure | Initial diagnostic closure, corrected by v0.6.1 |
 | 0.6.1 | Step 2I corrective audit | Diagnostic infrastructure complete; source audit ongoing |
+| 0.6.2 | Step 2H0 hardening alongside Step 2I audit | Dataset/discovery separation and direct proxy-error audit |
 
 ## Version 0.4.0: Step 2H0
 
@@ -81,12 +97,7 @@ The configured first wave covers:
 
 The registry in `config/source_probe_candidates.csv` records authority, URL, reference period, conceptual scope, category coverage, expected file type, validation markers, preliminary class and blocking reason. GitHub Actions then verifies actual accessibility, response type, file signature and content markers. Every raw response is preserved and hashed.
 
-The preliminary methodological audit identifies:
-
-- 2 `B_CANDIDATE` economies: India and Russia;
-- 7 `C_ONLY` economies: China, Indonesia, Brazil, Egypt, Pakistan, Bangladesh and Viet Nam;
-- 1 `D_UNAVAILABLE` economy: Nigeria;
-- 0 proven `A_CANDIDATE` economies.
+The declared registry identifies two `B_CANDIDATE` economies, India and Russia, and eight `C_ONLY` economies. There are no proven `A_CANDIDATE` economies. These are hypotheses attached to specific official evidence. Runtime acquisition may downgrade them, and discovery pages never count as datasets.
 
 These are candidate classifications. The live GitHub run may downgrade an inaccessible or invalid response to a blocked or current-probe non-admissible state. It never upgrades a conceptually unsuitable source merely because it downloads successfully.
 
@@ -133,6 +144,33 @@ armilar-source-probe \
   --cache-dir .cache/armilar
 ```
 
+Limit a diagnostic run without changing the registry:
+
+```bash
+armilar-source-probe --economy CHN --economy IND \
+  --config config/step2_icp2021.json \
+  --run-dir run-source-probe \
+  --cache-dir .cache/armilar
+```
+
+Run the proxy audit independently:
+
+```bash
+armilar-proxy-audit \
+  --comparison-file config/proxy_ppp_benchmarks.csv \
+  --output-dir run-proxy-audit/outputs
+```
+
+Run the matrix builder independently:
+
+```bash
+armilar-matrix \
+  --config config/step2_icp2021.json \
+  --run-dir run \
+  --cache-dir .cache/armilar \
+  --output-dir artifacts
+```
+
 Run national adapters independently:
 
 ```bash
@@ -148,12 +186,15 @@ The intended acquisition environment is GitHub Actions. A push to `main` starts 
 
 - `outputs/source_probe_candidate_results.csv`
 - `outputs/source_probe_economy_summary.csv`
+- `outputs/source_probe_family_coverage.csv`
 - `outputs/source_probe_failures.csv`
 - `outputs/source_probe_summary.json`
 - `outputs/economy_gap_priority.csv`
 - `outputs/gap_priority_summary.json`
 - `outputs/proxy_financing_exposure.csv`
 - `outputs/proxy_ppp_comparison.csv`
+- `outputs/proxy_error_by_category.csv`
+- `outputs/proxy_error_by_economy.csv`
 - `outputs/proxy_validation_summary.json`
 - `outputs/country_adapter_status.csv`
 - `outputs/country_source_evidence.csv`

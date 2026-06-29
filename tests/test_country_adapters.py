@@ -157,6 +157,13 @@ class CountryAdapterTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             completion_row("AAA", "Alpha", "not exhaustive", 1, "UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT")
 
+    def test_india_methodology_audit_keeps_calendar_compatibility_ambiguous(self) -> None:
+        from armilar_pipeline.country_adapters import india_methodology_gate_rows
+        rows = {row["criterion"]: row for row in india_methodology_gate_rows()}
+        self.assertEqual(rows["reference_period_2021_22_available"]["status"], "CONFIRMED")
+        self.assertEqual(rows["compatible_with_armilar_calendar_2021"]["status"], "AMBIGUOUS")
+        self.assertIn(rows["excludes_NPISH"]["status"], {"NOT_FOUND", "AMBIGUOUS"})
+
     def test_workflow_is_pull_request_safe(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "fetch-data.yml").read_text(encoding="utf-8")
         self.assertIn("pull_request:", workflow)

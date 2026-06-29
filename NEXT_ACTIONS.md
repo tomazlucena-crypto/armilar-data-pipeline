@@ -1,11 +1,12 @@
 # Next actions
 
-1. Do not start Step 2J until the v0.6.1 corrective audit has been reviewed and the Step 2I current-probe states are accepted as provisional, reproducible gates.
-2. India: obtain an official MoSPI methodological source confirming whether Statement 5.1 PFCE is strict households-only S14/P31DC with NPISH excluded. This remains the highest expected coverage gain, but the cell state must stay `CONCEPT_AMBIGUOUS` until confirmed.
-3. Russia: locate an official Rosstat XLS/XLSX/CSV/SDMX/HTML 2021 household consumption by purpose table. Do not use OCR.
-4. Eurostat PPP detail: acquire a directly comparable official PPP dataset with both `PPP_HFCE` and `PPP_AIC` for the same category/economy pairs, or keep `INSUFFICIENT_DIRECT_EVIDENCE`.
-5. China: continue only through official NBS national-accounts tables; the eight-group household survey remains excluded from exact weights.
-6. Indonesia and Brazil: search for exact official COICOP-HH national-accounts tables before considering any product or regrouped source.
-7. Pakistan, Nigeria, Bangladesh and Viet Nam: revisit in Step 2J because current public official sources are aggregate or survey-only.
-
-8. Re-run the full pipeline in GitHub Actions or another environment with DNS/network access; this sandbox could not acquire World Bank source metadata because DNS resolution failed.
+1. Let the v0.6.1 GitHub workflow finish and use its raw receipts to review the v0.6.2 source registry. Do not copy runtime results into source declarations by hand.
+2. Run `armilar-source-probe` for all ten priority economies. Resolve exact dataset queries only for source families currently marked `NOT_INVESTIGATED`, `DISCOVERY_ONLY` or `ACCESS_BLOCKED`.
+3. India: settle the strict S14/P31DC and NPISH boundary for Statement 5.1 from official MoSPI documentation. Keep every India cell `CONCEPT_AMBIGUOUS` until the boundary is confirmed.
+4. Russia: obtain a deterministic Rosstat API, XLS/XLSX, CSV or database query for 2021 household consumption by purpose. A BRICS publication or a Rosstat landing page is discovery evidence only.
+5. China: search official NBS national-accounts, supply-and-use and input-output tables. The eight-group household survey remains Class C and cannot be allocated into twelve exact categories.
+6. Indonesia and Brazil: locate exact national 2021 household-purpose tables. Regrouped expenditure components and product-to-purpose many-to-many bridges remain experimental.
+7. Egypt, Pakistan, Nigeria, Bangladesh and Viet Nam: complete the same source-family triage. This is still Step 2H0 triage, not Step 2J adapter development.
+8. Populate `config/proxy_ppp_benchmarks.csv` only with matched official AIC and strict-HFCE PPP pairs for the same economy, Armilar category and reference year. Financing gaps cannot fill this registry.
+9. Keep `INSUFFICIENT_DIRECT_EVIDENCE` until the minimum total, economy and per-category direct-comparison gates pass.
+10. Re-run the full pipeline in GitHub Actions or another environment with network access. The local sandbox cannot establish DNS access to the official sources.

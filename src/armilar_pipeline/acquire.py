@@ -14,6 +14,17 @@ from .config import Step2Config
 from .util import atomic_write_bytes, sha256_bytes, utc_now, write_json
 
 
+class AcquisitionError(RuntimeError):
+    """Structured acquisition failure preserving every technical attempt."""
+
+    def __init__(self, *, source_id: str, url: str, attempt_errors: tuple[str, ...], retrieved_at: str):
+        self.source_id = source_id
+        self.url = url
+        self.attempt_errors = attempt_errors
+        self.retrieved_at = retrieved_at
+        super().__init__(f"Acquisition failed for {source_id}: {'; '.join(attempt_errors)}")
+
+
 @dataclass(frozen=True)
 class AcquisitionRecord:
     source_id: str
@@ -113,7 +124,12 @@ def fetch_url(
         )
         write_json(destination.with_suffix(destination.suffix + ".meta.json"), record.as_dict(destination.parent.parent.parent))
         return record
-    raise RuntimeError(f"Acquisition failed for {source_id}: {'; '.join(errors)}")
+    raise AcquisitionError(
+        source_id=source_id,
+        url=url,
+        attempt_errors=tuple(errors),
+        retrieved_at=utc_now(),
+    )
 
 
 def fetch_json_pages(

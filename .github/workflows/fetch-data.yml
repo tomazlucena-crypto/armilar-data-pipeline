@@ -132,12 +132,15 @@ jobs:
             source90_variable_inventory.csv \
             source_probe_candidate_results.csv \
             source_probe_economy_summary.csv \
+            source_probe_family_coverage.csv \
             source_probe_failures.csv \
             source_probe_summary.json \
             economy_gap_priority.csv \
             gap_priority_summary.json \
             proxy_financing_exposure.csv \
             proxy_ppp_comparison.csv \
+            proxy_error_by_category.csv \
+            proxy_error_by_economy.csv \
             proxy_validation_summary.json \
             country_adapter_status.csv \
             country_source_evidence.csv \

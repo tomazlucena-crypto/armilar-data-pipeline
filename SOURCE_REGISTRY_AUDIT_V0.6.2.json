@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0",
+  "pipeline_version": "0.6.2",
+  "audit_type": "STATIC_REGISTRY_AUDIT_NO_RUNTIME_ACQUISITION",
+  "candidate_resources": 29,
+  "economies": 10,
+  "declared_best_class_counts": {
+    "C_ONLY": 8,
+    "B_CANDIDATE": 2
+  },
+  "proven_a_candidates": 0,
+  "exact_cells_added": 0,
+  "step2j_started": false,
+  "economy_rows": [
+    {
+      "economy_code": "BGD",
+      "economy_name": "Bangladesh",
+      "best_declared_class": "C_ONLY",
+      "best_declared_source_id": "BGD_BBS_HIES_2022",
+      "candidate_resources": 2,
+      "configured_core_families": [
+        "official_statistical_database"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_csv_xls_xlsx",
+        "official_supply_and_use_tables",
+        "official_structured_publications"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "BRA",
+      "economy_name": "Brazil",
+      "best_declared_class": "C_ONLY",
+      "best_declared_source_id": "BRA_IBGE_SNA_RESOURCE_USE_TABLES",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_statistical_database",
+        "official_structured_publications",
+        "official_supply_and_use_tables"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_csv_xls_xlsx"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "CHN",
+      "economy_name": "China",
+      "best_declared_class": "C_ONLY",
+      "best_declared_source_id": "CHN_NBS_2021_HOUSEHOLD_CONSUMPTION",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_statistical_database",
+        "official_structured_publications"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_csv_xls_xlsx",
+        "official_supply_and_use_tables"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "EGY",
+      "economy_name": "Egypt",
+      "best_declared_class": "C_ONLY",
+      "best_declared_source_id": "EGY_CAPMAS_HIECS_2021",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_statistical_database",
+        "official_supply_and_use_tables"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_csv_xls_xlsx",
+        "official_structured_publications"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "IDN",
+      "economy_name": "Indonesia",
+      "best_declared_class": "C_ONLY",
+      "best_declared_source_id": "IDN_BPS_GDP_EXPENDITURE_2020_2024",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_statistical_database",
+        "official_structured_publications",
+        "official_supply_and_use_tables"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_csv_xls_xlsx"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "IND",
+      "economy_name": "India",
+      "best_declared_class": "B_CANDIDATE",
+      "best_declared_source_id": "IND_MOSPI_NAS2024_STATEMENT_5_1",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_csv_xls_xlsx",
+        "official_statistical_database",
+        "official_structured_publications"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_supply_and_use_tables"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "NGA",
+      "economy_name": "Nigeria",
+      "best_declared_class": "C_ONLY",
+      "best_declared_source_id": "NGA_NBS_CONSUMPTION_PATTERN_2019",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_statistical_database",
+        "official_structured_publications"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_csv_xls_xlsx",
+        "official_supply_and_use_tables"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "PAK",
+      "economy_name": "Pakistan",
+      "best_declared_class": "C_ONLY",
+      "best_declared_source_id": "PAK_PBS_HIES_2018_19",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_csv_xls_xlsx",
+        "official_structured_publications"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_statistical_database",
+        "official_supply_and_use_tables"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "RUT",
+      "economy_name": "Russian Federation",
+      "best_declared_class": "B_CANDIDATE",
+      "best_declared_source_id": "RUT_ROSSTAT_BRICS_HOUSEHOLD_PURPOSE",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_statistical_database",
+        "official_structured_publications"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_csv_xls_xlsx",
+        "official_supply_and_use_tables"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    },
+    {
+      "economy_code": "VNM",
+      "economy_name": "Viet Nam",
+      "best_declared_class": "C_ONLY",
+      "best_declared_source_id": "VNM_NSO_VHLSS_2022",
+      "candidate_resources": 3,
+      "configured_core_families": [
+        "official_statistical_database",
+        "official_structured_publications"
+      ],
+      "unconfigured_core_families": [
+        "official_national_accounts_api",
+        "official_csv_xls_xlsx",
+        "official_supply_and_use_tables"
+      ],
+      "runtime_status": "NOT_RUN_IN_STATIC_REGISTRY_AUDIT"
+    }
+  ]
+}

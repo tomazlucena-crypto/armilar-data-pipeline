@@ -753,7 +753,8 @@ def india_methodology_gate_rows() -> list[dict[str, Any]]:
         {"criterion": "excludes_government_consumption", "status": "CONFIRMED", "evidence": "Source title is private final consumption expenditure, not government final consumption expenditure.", "source_id": source_id},
         {"criterion": "includes_imputed_rent", "status": "CONFIRMED", "evidence": "Housing group includes gross rentals for housing.", "source_id": source_id},
         {"criterion": "current_prices", "status": "CONFIRMED", "evidence": "Workbook has explicit current-price block.", "source_id": source_id},
-        {"criterion": "reference_period_2021_22_accepted", "status": "CONFIRMED", "evidence": "Workbook exposes fiscal year 2021-22 and adapter preserves it without calendar conversion.", "source_id": source_id},
+        {"criterion": "reference_period_2021_22_available", "status": "CONFIRMED", "evidence": "Workbook exposes fiscal year 2021-22 and the adapter preserves it without calendar conversion.", "source_id": source_id},
+        {"criterion": "compatible_with_armilar_calendar_2021", "status": "AMBIGUOUS", "evidence": "Fiscal year 2021-22 is not identical to calendar year 2021; no silent conversion or interpolation is permitted.", "source_id": source_id},
     ]
 
 
@@ -776,7 +777,7 @@ def step2i_completion_summary(result: AdapterResult) -> dict[str, Any]:
     ])
     return {
         "schema_version": "1.1",
-        "pipeline_version": "0.6.1",
+        "pipeline_version": "0.6.2",
         "step": "2I",
         "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
         "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
@@ -829,7 +830,7 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
     lines = [
         f"# {title}",
         "",
-        "Generated: deterministic v0.6.1 Step 2I report",
+        "Generated: deterministic v0.6.2 Step 2I report",
         "",
         "## Version mapping",
         "",
@@ -839,6 +840,7 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
         "| 0.5.0 | Step 2I start | National adapter architecture and first audits |",
         "| 0.6.0 | Step 2I infrastructure | Initial diagnostic closure, now treated as over-certain |",
         "| 0.6.1 | Step 2I corrective audit | Diagnostic infrastructure complete; source audit ongoing |",
+        "| 0.6.2 | Step 2H0 hardening | Dataset/discovery separation and direct PPP proxy audit |",
         "",
         "## Status",
         "",

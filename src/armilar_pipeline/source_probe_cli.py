@@ -15,12 +15,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--config", default="config/step2_icp2021.json")
     parser.add_argument("--run-dir", default="run-source-probe")
     parser.add_argument("--cache-dir", default=".cache/armilar")
+    parser.add_argument("--economy", action="append", default=[], help="Limit the probe to one economy code; repeat for multiple economies")
     args = parser.parse_args(argv)
     try:
         summary = run_source_probe_only(
             load_config(args.config),
             run_root=Path(args.run_dir).resolve(),
             cache_root=Path(args.cache_dir).resolve(),
+            economy_codes=args.economy,
         )
     except Exception as exc:
         print(f"ERROR: {type(exc).__name__}: {exc}", file=sys.stderr)

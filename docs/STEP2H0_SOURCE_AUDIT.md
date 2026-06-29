@@ -2,56 +2,49 @@
 
 ## Purpose
 
-The audit asks a narrow question before any country parser is written:
+The audit determines whether an official source can plausibly yield 2021 household final consumption expenditure by the twelve Armilar categories without modelled allocation.
 
-> Does an official, accessible source exist that can plausibly yield calendar-2021 household final consumption expenditure by the twelve Armilar categories without allocating by population, GDP or income?
+A successful HTTP response is insufficient. The resource must be an actual dataset and must satisfy the economic concept, period, classification, price, currency and institutional-sector gates.
 
-A successful download is insufficient. The source must also satisfy the conceptual and classification gates.
+## Candidate classes
 
-## Classes
+- `A_CANDIDATE`: an exact official S14/P31 dataset appears available;
+- `B_CANDIDATE`: an exact official derivation may be possible without estimated shares;
+- `C_ONLY`: the source requires survey shares, temporal interpolation, grouped-category allocation or another experimental transformation;
+- `D_UNAVAILABLE`: provisional probe class only. It does not prove definitive unavailability.
 
-- `A_CANDIDATE`: exact official S14/P31 data by the required categories appears available.
-- `B_CANDIDATE`: an exact official derivation may be possible through item aggregation or an explicit classification bridge, without estimated shares.
-- `C_ONLY`: the source is official but requires survey shares, temporal interpolation, grouped-category allocation or another experimental transformation.
-- `D_UNAVAILABLE`: no adequate public source has been located or the source fails runtime validation.
+## Methodological states
 
-## Initial registry
+- `EXACT_OFFICIAL`
+- `OFFICIAL_DERIVED_NO_ALLOCATION`
+- `OFFICIAL_EXPERIMENTAL_ALLOCATION`
+- `NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE`
+- `ACCESS_BLOCKED`
+- `SOURCE_NOT_MACHINE_READABLE`
+- `CONCEPT_AMBIGUOUS`
+- `UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT`
 
-| Economy | Preliminary class | Official source | Principal blocker |
-|---|---|---|---|
-| China | C only | National Bureau of Statistics household-consumption release | Eight survey groups; food combines tobacco and alcohol; education combines culture and recreation |
-| India | B candidate | MOSPI National Accounts Statistics, Statement 5.1 | Fiscal-year reference and exact item-to-Armilar bridge require validation |
-| Russia | B candidate | Rosstat BRICS household consumption by purpose table | Exact cells and structured Rosstat export still require extraction |
-| Indonesia | C only | BPS GDP by expenditure | Twelve COICOP divisions are regrouped into seven categories |
-| Brazil | C only | IBGE System of National Accounts | Product tables require a many-to-many purpose allocation unless an exact bridge is found |
-| Egypt | C only | CAPMAS HIECS 2021 | Household survey rather than S14/P31; imputed-rent treatment requires validation |
-| Pakistan | C only | PBS HIES fallback | Survey is not 2021 and is not S14/P31; national accounts page has no confirmed twelve-category table |
-| Nigeria | D unavailable | NBS expenditure-GDP report | Aggregate household consumption only |
-| Bangladesh | C only | BBS HIES 2022 | Wrong reference year and survey concept |
-| Viet Nam | C only | NSO VHLSS 2022 | Wrong reference year and survey concept |
+The final state is allowed only when all five core official-source families have documentary attempts and none remains blocked or uninvestigated.
 
-The CSV registry is authoritative for machine execution. The runtime result may be weaker than the preliminary class when the response cannot be validated.
+## Registry scope
 
-## Runtime controls
+`config/source_probe_candidates.csv` contains 29 concrete official resources across ten economies. Two economies have a declared B candidate, India and Russia. The remaining eight have Class C evidence at best. There is no proven A candidate.
 
-For every candidate the programme preserves:
+These declarations are hypotheses tied to named resources. Runtime acquisition may downgrade them. A landing page can locate a database but can never count as the database result.
 
-- requested and final URL;
-- retrieval status and HTTP status;
-- content type and byte count;
-- file signature result;
-- required content-marker result;
-- SHA-256 hash;
-- retrieval timestamp;
-- raw source file;
-- blocking reason.
+## Family coverage
 
-No probe result is imported into weights.
+`source_probe_family_coverage.csv` emits one row per economy and family, including zero-candidate families. It distinguishes:
 
-## Priority rule
+- `DATASET_ACQUIRED`;
+- `DISCOVERY_ONLY`;
+- `SOURCE_NOT_MACHINE_READABLE`;
+- `ACCESS_BLOCKED`;
+- `ATTEMPTED_NO_ADMISSIBLE_DATASET`;
+- `NOT_INVESTIGATED`.
 
-The development order is based on:
+## Evidence controls
 
-`direct ICP expenditure share × assumed class success probability ÷ integration-cost divisor`
+Each acquired candidate records the requested and final URL, timestamp, HTTP status, content type, bytes, signature, markers, file path and SHA-256. Each failed candidate records the attempt errors in a JSON receipt. No hash is emitted without content.
 
-The seven-category direct-expenditure share is an engineering priority indicator. It does not estimate final Armilar coverage.
+No source-probe row enters the weight matrix.

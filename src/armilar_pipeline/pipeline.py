@@ -171,6 +171,8 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
             config, roles=roles, observations=observations, inventories=inventories,
             measures=measures, matrix=matrix,
         )
+        proxy_error_category_rows = proxy_summary.pop("error_by_category_rows", [])
+        proxy_error_economy_rows = proxy_summary.pop("error_by_economy_rows", [])
         gap_priority_rows, gap_priority_summary = build_gap_priority(matrix, source_probe.economy_rows)
         matrix.summary["step2h0"] = {
             "source_probe": source_probe.summary,
@@ -181,7 +183,8 @@ def run_step2(config_path: str | Path, run_dir: str | Path, cache_dir: str | Pat
             config, run_root, matrix, mapping_audit, measures.diagnostics, identity_rows,
             roles, concepts, inventories, supplemental_diagnostics, acquisition_failures,
             source_probe, financing_rows, ppp_comparison_rows, proxy_summary,
-            gap_priority_rows, gap_priority_summary, country_adapters,
+            proxy_error_category_rows, proxy_error_economy_rows, gap_priority_rows,
+            gap_priority_summary, country_adapters,
         )
 
         manifest = _manifest(config, started_at, records, matrix.summary, run_root, acquisition_failures + source_probe.failure_rows)
@@ -247,8 +250,8 @@ def _write_outputs(
     config: Step2Config, run_root, matrix: HybridMatrixResult, mapping_audit,
     measure_diagnostics, identity_rows, roles, concepts, inventories,
     supplemental_diagnostics, acquisition_failures, source_probe: SourceProbeResult,
-    financing_rows, ppp_comparison_rows, proxy_summary, gap_priority_rows,
-    gap_priority_summary, country_adapters,
+    financing_rows, ppp_comparison_rows, proxy_summary, proxy_error_category_rows,
+    proxy_error_economy_rows, gap_priority_rows, gap_priority_summary, country_adapters,
 ):
     out = run_root / "outputs"
     write_json(out / "step2_summary.json", matrix.summary)
@@ -331,7 +334,10 @@ def _write_outputs(
     source_probe_economy_fields = sorted({key for row in source_probe.economy_rows for key in row}) if source_probe.economy_rows else ["economy_code"]
     write_csv(out / "source_probe_candidate_results.csv", source_probe_candidate_fields, source_probe.candidate_rows)
     write_csv(out / "source_probe_economy_summary.csv", source_probe_economy_fields, source_probe.economy_rows)
-    write_csv(out / "source_probe_failures.csv", ["economy_code", "source_id", "source_url", "error_type", "error"], source_probe.failure_rows)
+    source_probe_family_fields = sorted({key for row in source_probe.family_rows for key in row}) if source_probe.family_rows else ["economy_code", "source_family"]
+    source_probe_failure_fields = sorted({key for row in source_probe.failure_rows for key in row}) if source_probe.failure_rows else ["economy_code", "source_id", "source_url", "retrieval_status", "retrieved_at", "error_type", "error", "attempt_errors", "failure_receipt"]
+    write_csv(out / "source_probe_family_coverage.csv", source_probe_family_fields, source_probe.family_rows)
+    write_csv(out / "source_probe_failures.csv", source_probe_failure_fields, source_probe.failure_rows)
     write_json(out / "source_probe_summary.json", source_probe.summary)
     write_csv(out / "proxy_financing_exposure.csv", [
         "economy_code", "economy_name", "armilar_12_category_nominal_lcu",
@@ -341,8 +347,19 @@ def _write_outputs(
     ], financing_rows)
     write_csv(out / "proxy_ppp_comparison.csv", [
         "economy_code", "economy_name", "armilar_category", "aic_ppp", "strict_hfce_ppp",
-        "ppp_ratio_hfce_to_aic", "implied_real_expenditure_error_ratio", "status", "evidence_note",
+        "ppp_ratio_hfce_to_aic", "implied_real_expenditure_error_ratio", "status",
+        "source_authority", "source_url", "reference_year", "classification", "evidence_note",
     ], ppp_comparison_rows)
+    write_csv(out / "proxy_error_by_category.csv", [
+        "armilar_category", "direct_comparison_count", "economy_count", "category_count",
+        "mean_signed_error_ratio", "median_signed_error_ratio", "mean_absolute_error_ratio",
+        "median_absolute_error_ratio", "maximum_absolute_error_ratio", "status",
+    ], proxy_error_category_rows)
+    write_csv(out / "proxy_error_by_economy.csv", [
+        "economy_code", "economy_name", "direct_comparison_count", "economy_count", "category_count",
+        "mean_signed_error_ratio", "median_signed_error_ratio", "mean_absolute_error_ratio",
+        "median_absolute_error_ratio", "maximum_absolute_error_ratio", "status",
+    ], proxy_error_economy_rows)
     write_json(out / "proxy_validation_summary.json", proxy_summary)
     gap_priority_fields = [
         "economic_gap_rank", "source_adjusted_priority_rank", "economy_code", "economy_name",
