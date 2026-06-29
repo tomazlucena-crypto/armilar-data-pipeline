@@ -247,6 +247,7 @@ def run_source_probes(
         "source_probe_max_workers": max_workers,
         "source_candidates_acquired_as_datasets": sum(1 for row in candidate_rows if row["retrieval_status"] == "ACQUIRED_DATASET"),
         "source_candidates_acquired_as_discovery_only": sum(1 for row in candidate_rows if row["retrieval_status"] == "ACQUIRED_DISCOVERY_EVIDENCE"),
+        "source_candidates_acquired_as_documentation": sum(1 for row in candidate_rows if row["retrieval_status"] == "ACQUIRED_DOCUMENTATION_EVIDENCE"),
         "source_candidates_access_blocked": sum(1 for row in candidate_rows if row["retrieval_status"] == "ACCESS_BLOCKED"),
         "source_candidates_content_validation_failed": sum(1 for row in candidate_rows if row["retrieval_status"] == "CONTENT_VALIDATION_FAILED"),
         "source_candidates_failed": len(failure_rows),
@@ -298,6 +299,12 @@ def _probe_candidate(
             runtime_state = candidate.methodological_state
             evidence_status = "QUALIFYING_DATASET"
             runtime_reason = candidate.blocking_reason
+        elif accessible and candidate.evidence_role == "DOCUMENTATION":
+            retrieval_status = "ACQUIRED_DOCUMENTATION_EVIDENCE"
+            runtime_class = "D_UNAVAILABLE"
+            runtime_state = candidate.methodological_state
+            evidence_status = "DOCUMENTATION_ONLY"
+            runtime_reason = candidate.blocking_reason or "OFFICIAL_DOCUMENTATION_DOES_NOT_CONSTITUTE_A_DATASET"
         elif accessible:
             retrieval_status = "ACQUIRED_DISCOVERY_EVIDENCE"
             runtime_class = "D_UNAVAILABLE"
@@ -456,6 +463,8 @@ def _source_family_coverage(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 audit_status = "NOT_INVESTIGATED"
             elif "ACQUIRED_DATASET" in statuses:
                 audit_status = "DATASET_ACQUIRED"
+            elif "ACQUIRED_DOCUMENTATION_EVIDENCE" in statuses:
+                audit_status = "DOCUMENTATION_ONLY"
             elif "ACQUIRED_DISCOVERY_EVIDENCE" in statuses:
                 audit_status = "DISCOVERY_ONLY"
             elif "CONTENT_VALIDATION_FAILED" in statuses:
@@ -484,12 +493,13 @@ def _source_family_coverage(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "real_attempts": len(candidates),
                 "acquired_dataset_count": sum(1 for row in candidates if row.get("retrieval_status") == "ACQUIRED_DATASET"),
                 "acquired_discovery_count": sum(1 for row in candidates if row.get("retrieval_status") == "ACQUIRED_DISCOVERY_EVIDENCE"),
+                "acquired_documentation_count": sum(1 for row in candidates if row.get("retrieval_status") == "ACQUIRED_DOCUMENTATION_EVIDENCE"),
                 "access_blocked_count": sum(1 for row in candidates if row.get("retrieval_status") == "ACCESS_BLOCKED"),
                 "content_validation_failure_count": sum(1 for row in candidates if row.get("retrieval_status") == "CONTENT_VALIDATION_FAILED"),
                 "best_methodological_candidate_class": methodological[0] if methodological else "",
                 "best_runtime_candidate_class": runtime[0] if runtime else "",
                 "audit_status": audit_status,
-                "family_evidence_resolved": audit_status in {"DATASET_ACQUIRED", "SOURCE_NOT_MACHINE_READABLE", "ATTEMPTED_NO_ADMISSIBLE_DATASET"},
+                "family_evidence_resolved": audit_status in {"DATASET_ACQUIRED", "DOCUMENTATION_ONLY", "SOURCE_NOT_MACHINE_READABLE", "ATTEMPTED_NO_ADMISSIBLE_DATASET"},
                 "uninvestigated": not candidates,
                 "candidate_source_ids": "|".join(sorted(str(row["source_id"]) for row in candidates)),
             })
@@ -562,6 +572,7 @@ def _economy_summary(rows: list[dict[str, Any]], family_rows: list[dict[str, Any
             "blocking_reason": best["runtime_blocking_reason"],
             "acquired_dataset_count": sum(1 for item in candidates if item["retrieval_status"] == "ACQUIRED_DATASET"),
             "accessible_discovery_count": sum(1 for item in candidates if item["retrieval_status"] == "ACQUIRED_DISCOVERY_EVIDENCE"),
+            "documentation_evidence_count": sum(1 for item in candidates if item["retrieval_status"] == "ACQUIRED_DOCUMENTATION_EVIDENCE"),
             "access_blocked_count": sum(1 for item in candidates if item["retrieval_status"] == "ACCESS_BLOCKED"),
             "candidate_count": len(candidates),
         })

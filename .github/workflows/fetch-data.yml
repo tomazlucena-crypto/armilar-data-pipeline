@@ -90,6 +90,7 @@ jobs:
             run/STEP2_REPORT.md
             run/outputs/*.csv
             run/outputs/*.json
+            run/outputs/*.md
           if-no-files-found: warn
           retention-days: 90
 
@@ -152,11 +153,16 @@ jobs:
             country_source_attempts.csv \
             step2i_economy_summary.csv \
             india_methodology_gate_audit.csv \
+            russia_methodology_gate_audit.csv \
+            china_methodology_gate_audit.csv \
             step2h_exception_audit.csv \
             step2i_completion_summary.json \
             step2i_audit_summary.json \
             STEP_2I_COMPLETION_REPORT.md \
             STEP_2I_AUDIT_REPORT.md \
+            INDIA_METHOD_GATE_REPORT.md \
+            RUSSIA_METHOD_GATE_REPORT.md \
+            CHINA_METHOD_GATE_REPORT.md \
             country_source_family_coverage.csv \
             methodology_policy_snapshot.json
           do

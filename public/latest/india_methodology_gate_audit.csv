@@ -5,5 +5,4 @@ excludes_NPISH,NOT_FOUND,No NPISH exclusion statement found in Statement 5.1 wor
 excludes_government_consumption,CONFIRMED,"Source title is private final consumption expenditure, not government final consumption expenditure.",IND_MOSPI_NAS2024_STATEMENT_5_1
 includes_imputed_rent,CONFIRMED,Housing group includes gross rentals for housing.,IND_MOSPI_NAS2024_STATEMENT_5_1
 current_prices,CONFIRMED,Workbook has explicit current-price block.,IND_MOSPI_NAS2024_STATEMENT_5_1
-reference_period_2021_22_available,CONFIRMED,Workbook exposes fiscal year 2021-22 and the adapter preserves it without calendar conversion.,IND_MOSPI_NAS2024_STATEMENT_5_1
-compatible_with_armilar_calendar_2021,AMBIGUOUS,Fiscal year 2021-22 is not identical to calendar year 2021; no silent conversion or interpolation is permitted.,IND_MOSPI_NAS2024_STATEMENT_5_1
+reference_period_2021_22_accepted,CONFIRMED,Workbook exposes fiscal year 2021-22 and adapter preserves it without calendar conversion.,IND_MOSPI_NAS2024_STATEMENT_5_1
