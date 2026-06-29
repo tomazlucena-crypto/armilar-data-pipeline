@@ -1,5 +1,47 @@
 # Changelog
 
+## 0.6.13 - Cumulative second-wave and Step 2H exception audits
+
+- fixed the malformed Brazil classification/methodology registry row that caused the GitHub Actions failure;
+- strengthened registry validation so missing CSV values fail explicitly;
+- added dedicated official-source-family adapters for Pakistan, Nigeria, Bangladesh and Viet Nam;
+- added executable exception adapters for Belarus CP02, Kuwait CP02, Saudi Arabia CP02, Bonaire and Liberia;
+- expanded the source registry from ten to fifteen economies and to 65 official resources or source-family entries;
+- added blocked-access, content-change, deterministic-output and zero-exact-row tests for the new audits;
+- admitted zero exact cells and preserved all global and monetary gates as closed.
+
+## 0.6.12 - Viet Nam source-family audit
+
+- separated the aggregate 2021 final-consumption release from VHLSS 2020 and 2022 household-survey evidence;
+- rejected survey detail as exact national-accounts weights and added zero exact rows.
+
+## 0.6.11 - Bangladesh source-family audit
+
+- separated BBS national-accounts publication inventories from HIES 2022 household-survey evidence;
+- rejected wrong-period and non-SNA detail without interpolation.
+
+## 0.6.10 - Nigeria source-family audit
+
+- separated the official 2021 GDP-expenditure report from the 2019 consumption-pattern survey;
+- rejected aggregate and wrong-period survey sources from exact weights.
+
+## 0.6.9 - Pakistan source-family audit
+
+- separated annual aggregate national accounts from HIES survey detail;
+- rejected fiscal 2021-22 as a silent substitute for calendar 2021;
+- preserved NPISH and government boundaries at aggregate level without allocation.
+
+## 0.6.8 - Egypt source-family audit and registry repair
+
+- repaired the malformed `BRA_IBGE_CLASSIFICACOES_METODOLOGIA` CSV row;
+- strengthened CSV schema tests to detect missing values;
+- added dedicated Indonesia and Brazil source-family adapter outputs to the cumulative package;
+- replaced the static Egypt decision with a CAPMAS source-family adapter;
+- added CAPMAS National Accounts catalogue and CSV inventory resources;
+- separated historical product-based SUT evidence from HIECS 2021 survey evidence;
+- added Egypt gate CSV/report, failure-mode tests and deterministic fixture tests;
+- admitted zero exact cells and kept all monetary gates closed.
+
 ## 0.6.7
 
 - Replaced the static Brazil decision with `BrazilIbgeAuditAdapter`.

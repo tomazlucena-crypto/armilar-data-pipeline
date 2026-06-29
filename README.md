@@ -2,6 +2,29 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.6.13: cumulative second-wave and Step 2H exception audits
+
+Version 0.6.13 is the cumulative staging release intended to replace the failed v0.6.7 pull-request contents. It includes the malformed Brazil registry-row repair, dedicated official-source-family audits for Egypt, Pakistan, Nigeria, Bangladesh and Viet Nam, and executable Step 2H exception audits for Belarus CP02, Kuwait CP02, Saudi Arabia CP02, Bonaire and Liberia.
+
+All new country adapters preserve real acquisition receipts and hashes, distinguish `ACCESS_BLOCKED` from source non-admissibility, require renewed review when structural markers change, and emit zero exact rows when a source fails a material Armilar gate. Survey and CPI detail remains Class C, product-based SUT/input-output evidence is not converted into exact purpose weights, and wrong-period evidence is not silently interpolated.
+
+The source registry now covers fifteen economies and sixty-five concrete official resources or source-family entries. `weights_final.csv` remains header-only, `global_12_category_matrix_complete=false`, `monetary_release_allowed=false`, and direct AIC/HFCE PPP validation remains `INSUFFICIENT_DIRECT_EVIDENCE`.
+
+## Versions 0.6.9 to 0.6.12: second-wave country audits
+
+- **0.6.9 Pakistan:** separates aggregate fiscal-year national accounts from HIES survey detail and rejects fiscal 2021-22 as calendar 2021.
+- **0.6.10 Nigeria:** separates the 2021 aggregate expenditure-GDP report from the 2019 household consumption survey.
+- **0.6.11 Bangladesh:** separates the national-accounts publication inventory from HIES 2022 survey evidence.
+- **0.6.12 Viet Nam:** separates the aggregate 2021 final-consumption release from VHLSS 2020/2022 survey publications.
+
+## Version 0.6.8: Egypt source-family audit and registry repair
+
+Version 0.6.8 repairs the malformed Brazil classification/methodology registry row that caused the v0.6.7 pull-request workflow to fail. The CSV schema test now also rejects missing values, not only surplus fields.
+
+Egypt now uses a dedicated `EgyptCapmasAuditAdapter`. It acquires the CAPMAS National Accounts catalogue, the machine-readable catalogue CSV export, the 2017/2018 Supply and Use Tables study description and HIECS 2021 separately. The catalogue evidence identifies historical SUT and input-output studies, the relevant SUT benchmark is 2017/2018 and product/activity based, and HIECS 2021 is a sample survey rather than national-accounts S14/P31. No exact cells are added.
+
+Network failures remain `ACCESS_BLOCKED`; changed structural markers require review. `weights_final.csv` remains empty, `global_12_category_matrix_complete=false` and `monetary_release_allowed=false`.
+
 ## Version 0.6.7: Brazil source-family audit
 
 Version 0.6.7 replaces the static Brazil decision with a dedicated `BrazilIbgeAuditAdapter`. It records IBGE official source-family attempts for SIDRA national-accounts table discovery, Sistema de Contas Nacionais, Contas Economicas Integradas, Tabelas de Recursos e Usos, downloadable SCN tables, POF/IPCA Class C evidence and classification/methodology discovery.
@@ -87,6 +110,12 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 | 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, 2020 input-output and 2021 GDP aggregate concepts separated |
 | 0.6.6 | Step 2H0 Indonesia source-family audit | BPS grouped, database, SUT, input-output and Class C concepts separated |
 | 0.6.7 | Step 2H0 Brazil source-family audit | IBGE SIDRA, SCN, CEI, TRU and Class C concepts separated |
+| 0.6.8 | Step 2H0 Egypt source-family audit | CAPMAS catalogue, historical SUT and HIECS concepts separated |
+| 0.6.9 | Step 2H0 Pakistan source-family audit | Fiscal-year aggregate accounts and HIES survey concepts separated |
+| 0.6.10 | Step 2H0 Nigeria source-family audit | 2021 aggregate GDP-expenditure and 2019 survey concepts separated |
+| 0.6.11 | Step 2H0 Bangladesh source-family audit | Publication inventory and HIES 2022 concepts separated |
+| 0.6.12 | Step 2H0 Viet Nam source-family audit | Aggregate 2021 release and VHLSS concepts separated |
+| 0.6.13 | Step 2H exception audits | CP02, territory-scope and unit/concept exceptions made executable |
 
 ## Version 0.4.0: Step 2H0
 

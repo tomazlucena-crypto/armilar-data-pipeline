@@ -1,311 +1,311 @@
-economy_code,economy_name,armilar_category,aic_ppp,strict_hfce_ppp,ppp_ratio_hfce_to_aic,implied_real_expenditure_error_ratio,status,source_authority,source_url,reference_year,classification,evidence_note
-AUS,Australia,CP04,1.59718894958496,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUS,Australia,CP06,1.24232876300812,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUS,Australia,CP09,1.53612518310547,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUS,Australia,CP10,1.08198630809784,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUS,Australia,CP12,1.45557022094727,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUT,Austria,CP04,0.627700567245483,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUT,Austria,CP06,0.596131861209869,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUT,Austria,CP09,0.934314906597137,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUT,Austria,CP10,0.644749104976654,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AUT,Austria,CP12,0.725675761699677,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AZE,Azerbaijan,CP04,0.173609301447868,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AZE,Azerbaijan,CP06,0.172087430953979,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AZE,Azerbaijan,CP09,0.667758584022522,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AZE,Azerbaijan,CP10,0.166453212499619,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-AZE,Azerbaijan,CP12,0.455160081386566,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BEL,Belgium,CP04,0.698713302612305,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BEL,Belgium,CP06,0.503821909427643,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BEL,Belgium,CP09,0.853239059448242,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BEL,Belgium,CP10,0.593839585781097,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BEL,Belgium,CP12,0.703204751014709,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BFA,Burkina Faso,CP04,79.8030090332031,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BFA,Burkina Faso,CP06,137.02099609375,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BFA,Burkina Faso,CP09,268.667694091797,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BFA,Burkina Faso,CP10,99.1882019042969,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BFA,Burkina Faso,CP12,196.333435058594,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BGR,Bulgaria,CP04,0.403514444828033,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BGR,Bulgaria,CP06,0.30509677529335,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BGR,Bulgaria,CP09,1.06729912757874,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BGR,Bulgaria,CP10,0.350814193487167,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BGR,Bulgaria,CP12,0.674267709255219,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BIH,Bosnia and Herzegovina,CP04,0.299989014863968,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BIH,Bosnia and Herzegovina,CP06,0.396893829107285,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BIH,Bosnia and Herzegovina,CP09,1.02251219749451,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BIH,Bosnia and Herzegovina,CP10,0.223570868372917,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BIH,Bosnia and Herzegovina,CP12,0.682731986045837,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BMU,Bermuda,CP04,1.28688168525696,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BMU,Bermuda,CP06,1.21123611927032,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BMU,Bermuda,CP09,1.60844004154205,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BMU,Bermuda,CP10,0.828981876373291,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BMU,Bermuda,CP12,1.07547783851624,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BTN,Bhutan,CP04,6.84416961669922,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BTN,Bhutan,CP06,7.70220041275024,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BTN,Bhutan,CP09,26.7247486114502,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BTN,Bhutan,CP10,7.06003093719482,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-BTN,Bhutan,CP12,19.9676933288574,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CAN,Canada,CP04,1.17560052871704,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CAN,Canada,CP06,0.907441437244415,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CAN,Canada,CP09,1.27114689350128,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CAN,Canada,CP10,0.902541518211365,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CAN,Canada,CP12,1.17491900920868,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHE,Switzerland,CP04,1.22048449516296,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHE,Switzerland,CP06,0.990264534950256,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHE,Switzerland,CP09,1.29868912696838,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHE,Switzerland,CP10,1.11777067184448,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHE,Switzerland,CP12,1.22098290920258,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHL,Chile,CP04,336.850677490234,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHL,Chile,CP06,251.499496459961,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHL,Chile,CP09,641.442993164063,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHL,Chile,CP10,129.014633178711,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CHL,Chile,CP12,428.058654785156,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-COL,Colombia,CP04,1009.05627441406,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-COL,Colombia,CP06,648.649597167969,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-COL,Colombia,CP09,2248.88305664063,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-COL,Colombia,CP10,297.426147460938,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-COL,Colombia,CP12,1487.05065917969,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CRI,Costa Rica,CP04,194.837921142578,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CRI,Costa Rica,CP06,385.109832763672,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CRI,Costa Rica,CP09,487.998718261719,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CRI,Costa Rica,CP10,165.492248535156,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CRI,Costa Rica,CP12,370.698577880859,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYM,Cayman Islands,CP04,1.02004861831665,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYM,Cayman Islands,CP06,0.813175797462463,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYM,Cayman Islands,CP09,1.30095732212067,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYM,Cayman Islands,CP10,0.844342768192291,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYM,Cayman Islands,CP12,0.88510674238205,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYP,Cyprus,CP04,0.435338616371155,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYP,Cyprus,CP06,0.447778731584549,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYP,Cyprus,CP09,0.74698269367218,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYP,Cyprus,CP10,0.521227419376373,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CYP,Cyprus,CP12,0.577809631824493,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CZE,Czechia,CP04,10.942253112793,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CZE,Czechia,CP06,5.15228033065796,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CZE,Czechia,CP09,15.3428192138672,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CZE,Czechia,CP10,7.03675031661987,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-CZE,Czechia,CP12,11.1948947906494,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DEU,Germany,CP04,0.665469825267792,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DEU,Germany,CP06,0.477932453155518,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DEU,Germany,CP09,0.862876951694489,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DEU,Germany,CP10,0.49609050154686,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DEU,Germany,CP12,0.663031220436096,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DNK,Denmark,CP04,7.55441617965698,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DNK,Denmark,CP06,4.52095031738281,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DNK,Denmark,CP09,8.59902191162109,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DNK,Denmark,CP10,4.48778438568115,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-DNK,Denmark,CP12,6.67298936843872,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ESP,Spain,CP04,0.584992706775665,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ESP,Spain,CP06,0.499446123838425,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ESP,Spain,CP09,0.771232783794403,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ESP,Spain,CP10,0.348932147026062,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ESP,Spain,CP12,0.618334531784058,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-EST,Estonia,CP04,0.468239217996597,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-EST,Estonia,CP06,0.322539001703262,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-EST,Estonia,CP09,0.76005345582962,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-EST,Estonia,CP10,0.285411536693573,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-EST,Estonia,CP12,0.561331868171692,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FIN,Finland,CP04,0.77851802110672,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FIN,Finland,CP06,0.64069676399231,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FIN,Finland,CP09,1.02549409866333,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FIN,Finland,CP10,0.470032244920731,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FIN,Finland,CP12,0.845330357551575,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FRA,France,CP04,0.682225704193115,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FRA,France,CP06,0.417772859334946,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FRA,France,CP09,0.874692916870117,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FRA,France,CP10,0.391034752130508,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-FRA,France,CP12,0.666755795478821,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GBR,United Kingdom,CP04,0.814835846424103,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GBR,United Kingdom,CP06,0.566888689994812,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GBR,United Kingdom,CP09,0.792670071125031,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GBR,United Kingdom,CP10,0.486968964338303,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GBR,United Kingdom,CP12,0.665493965148926,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GRC,Greece,CP04,0.399997055530548,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GRC,Greece,CP06,0.359082967042923,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GRC,Greece,CP09,0.718967378139496,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GRC,Greece,CP10,0.222300752997398,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GRC,Greece,CP12,0.537452042102814,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GTM,Guatemala,CP04,2.48328304290771,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GTM,Guatemala,CP06,2.17720293998718,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GTM,Guatemala,CP09,4.22634506225586,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GTM,Guatemala,CP10,1.52128183841705,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-GTM,Guatemala,CP12,3.24474668502808,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HKG,"Hong Kong SAR, China",CP04,4.92067766189575,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HKG,"Hong Kong SAR, China",CP06,5.12673425674438,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HKG,"Hong Kong SAR, China",CP09,5.63103055953979,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HKG,"Hong Kong SAR, China",CP10,4.87928104400635,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HKG,"Hong Kong SAR, China",CP12,5.41954803466797,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HND,Honduras,CP04,6.25337743759155,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HND,Honduras,CP06,7.63810253143311,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HND,Honduras,CP09,12.4060106277466,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HND,Honduras,CP10,4.98415231704712,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HND,Honduras,CP12,11.5584354400635,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HRV,Croatia,CP04,0.254097282886505,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HRV,Croatia,CP06,0.224557399749756,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HRV,Croatia,CP09,0.644643604755402,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HRV,Croatia,CP10,0.205085933208466,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HRV,Croatia,CP12,0.435696721076965,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HUN,Hungary,CP04,115.703300476074,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HUN,Hungary,CP06,65.4413986206055,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HUN,Hungary,CP09,192.121292114258,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HUN,Hungary,CP10,81.2163467407227,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-HUN,Hungary,CP12,136.155654907227,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRL,Ireland,CP04,1.10109972953796,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRL,Ireland,CP06,0.76914519071579,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRL,Ireland,CP09,0.973210990428925,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRL,Ireland,CP10,0.485119074583054,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRL,Ireland,CP12,0.903054296970367,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRQ,Iraq,CP04,250.109298706055,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRQ,Iraq,CP06,337.562469482422,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRQ,Iraq,CP09,947.213195800781,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRQ,Iraq,CP10,297.8134765625,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-IRQ,Iraq,CP12,698.975280761719,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISL,Iceland,CP04,129.961303710938,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISL,Iceland,CP06,132.001434326172,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISL,Iceland,CP09,184.685470581055,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISL,Iceland,CP10,118.929214477539,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISL,Iceland,CP12,157.026107788086,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISR,Israel,CP04,4.04509210586548,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISR,Israel,CP06,3.16579937934875,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISR,Israel,CP09,4.40588283538818,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISR,Israel,CP10,2.02310943603516,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ISR,Israel,CP12,3.83350205421448,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ITA,Italy,CP04,0.562225997447968,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ITA,Italy,CP06,0.513964653015137,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ITA,Italy,CP09,0.805903673171997,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ITA,Italy,CP10,0.368633210659027,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ITA,Italy,CP12,0.647600293159485,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-JPN,Japan,CP04,90.7316970825195,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-JPN,Japan,CP06,51.2901840209961,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-JPN,Japan,CP09,135.549713134766,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-JPN,Japan,CP10,59.3221969604492,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-JPN,Japan,CP12,93.7958602905273,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KEN,Kenya,CP04,20.1704692840576,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KEN,Kenya,CP06,25.4670753479004,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KEN,Kenya,CP09,49.0279273986816,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KEN,Kenya,CP10,21.8007507324219,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KEN,Kenya,CP12,36.0336837768555,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KGZ,Kyrgyz Republic,CP04,7.17939424514771,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KGZ,Kyrgyz Republic,CP06,7.22231483459473,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KGZ,Kyrgyz Republic,CP09,34.7145919799805,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KGZ,Kyrgyz Republic,CP10,5.71500205993652,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KGZ,Kyrgyz Republic,CP12,22.5386428833008,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KOR,"Korea, Rep.",CP04,579.147888183594,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KOR,"Korea, Rep.",CP06,444.204864501953,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KOR,"Korea, Rep.",CP09,1098.30432128906,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KOR,"Korea, Rep.",CP10,713.536743164063,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-KOR,"Korea, Rep.",CP12,804.444030761719,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LTU,Lithuania,CP04,0.27004075050354,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LTU,Lithuania,CP06,0.229113474488258,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LTU,Lithuania,CP09,0.634456336498261,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LTU,Lithuania,CP10,0.23054213821888,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LTU,Lithuania,CP12,0.443689495325089,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LUX,Luxembourg,CP04,1.0739678144455,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LUX,Luxembourg,CP06,0.716853976249695,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LUX,Luxembourg,CP09,0.982162475585938,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LUX,Luxembourg,CP10,1.40273857116699,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LUX,Luxembourg,CP12,0.930019915103912,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LVA,Latvia,CP04,0.368786543607712,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LVA,Latvia,CP06,0.28418156504631,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LVA,Latvia,CP09,0.723851025104523,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LVA,Latvia,CP10,0.233248099684715,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-LVA,Latvia,CP12,0.498657405376434,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MEX,Mexico,CP04,7.73221254348755,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MEX,Mexico,CP06,8.08911609649658,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MEX,Mexico,CP09,14.0723476409912,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MEX,Mexico,CP10,1.64548540115356,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MEX,Mexico,CP12,10.3910760879517,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MLT,Malta,CP04,0.344822704792023,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MLT,Malta,CP06,0.375361323356628,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MLT,Malta,CP09,0.751137137413025,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MLT,Malta,CP10,0.514893174171448,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MLT,Malta,CP12,0.549024224281311,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNE,Montenegro,CP04,0.195357531309128,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNE,Montenegro,CP06,0.144938573241234,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNE,Montenegro,CP09,0.575434505939484,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNE,Montenegro,CP10,0.109967902302742,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNE,Montenegro,CP12,0.348378926515579,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNG,Mongolia,CP04,647.946655273438,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNG,Mongolia,CP06,310.560028076172,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNG,Mongolia,CP09,1264.00646972656,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNG,Mongolia,CP10,279.350128173828,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MNG,Mongolia,CP12,900.395324707031,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MSR,Montserrat,CP04,0.804316937923431,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MSR,Montserrat,CP06,1.08343541622162,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MSR,Montserrat,CP09,1.62401223182678,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MSR,Montserrat,CP10,0.646021664142609,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MSR,Montserrat,CP12,1.67046630382538,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MYS,Malaysia,CP04,0.664990663528442,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MYS,Malaysia,CP06,0.872016668319702,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MYS,Malaysia,CP09,2.05447936058044,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MYS,Malaysia,CP10,1.26512682437897,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-MYS,Malaysia,CP12,1.52440392971039,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NLD,Netherlands,CP04,0.767803311347961,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NLD,Netherlands,CP06,0.612836420536041,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NLD,Netherlands,CP09,0.882752597332001,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NLD,Netherlands,CP10,0.518784999847412,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NLD,Netherlands,CP12,0.785447239875793,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NOR,Norway,CP04,7.15395736694336,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NOR,Norway,CP06,8.43325519561768,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NOR,Norway,CP09,12.7297220230103,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NOR,Norway,CP10,7.9120626449585,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NOR,Norway,CP12,10.5269088745117,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NZL,New Zealand,CP04,1.91971063613892,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NZL,New Zealand,CP06,0.766690611839294,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NZL,New Zealand,CP09,1.58259332180023,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NZL,New Zealand,CP10,0.734289407730103,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-NZL,New Zealand,CP12,1.32555222511292,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PHL,Philippines,CP04,13.2897214889526,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PHL,Philippines,CP06,11.72838306427,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PHL,Philippines,CP09,24.6310501098633,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PHL,Philippines,CP10,8.22232151031494,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PHL,Philippines,CP12,19.7766418457031,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-POL,Poland,CP04,0.991511225700378,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-POL,Poland,CP06,0.859777271747589,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-POL,Poland,CP09,2.45460963249207,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-POL,Poland,CP10,0.88505232334137,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-POL,Poland,CP12,1.63086688518524,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PRT,Portugal,CP04,0.459179133176804,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PRT,Portugal,CP06,0.377578437328339,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PRT,Portugal,CP09,0.759751439094543,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PRT,Portugal,CP10,0.292511999607086,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-PRT,Portugal,CP12,0.562182784080505,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ROU,Romania,CP04,1.27576220035553,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ROU,Romania,CP06,0.561812341213226,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ROU,Romania,CP09,2.58590984344482,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ROU,Romania,CP10,0.634563684463501,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-ROU,Romania,CP12,1.45996832847595,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SRB,Serbia,CP04,24.7333927154541,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SRB,Serbia,CP06,19.5294456481934,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SRB,Serbia,CP09,62.0151481628418,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SRB,Serbia,CP10,10.6763858795166,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SRB,Serbia,CP12,41.6348266601563,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVK,Slovak Republic,CP04,0.465018182992935,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVK,Slovak Republic,CP06,0.235935658216476,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVK,Slovak Republic,CP09,0.688957870006561,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVK,Slovak Republic,CP10,0.217199072241783,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVK,Slovak Republic,CP12,0.483918517827988,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVN,Slovenia,CP04,0.425666987895966,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVN,Slovenia,CP06,0.389303356409073,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVN,Slovenia,CP09,0.772349178791046,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVN,Slovenia,CP10,0.364867061376572,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SVN,Slovenia,CP12,0.564210772514343,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWE,Sweden,CP04,7.37566137313843,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWE,Sweden,CP06,7.12711143493652,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWE,Sweden,CP09,10.9556159973145,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWE,Sweden,CP10,7.09370136260986,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWE,Sweden,CP12,8.85036468505859,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWZ,Eswatini,CP04,3.84863924980164,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWZ,Eswatini,CP06,4.22839832305908,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWZ,Eswatini,CP09,5.76330471038818,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWZ,Eswatini,CP10,4.29314136505127,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-SWZ,Eswatini,CP12,4.49343061447144,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-TUR,Turkiye,CP04,1.27063143253326,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-TUR,Turkiye,CP06,1.09811007976532,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-TUR,Turkiye,CP09,3.99058198928833,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-TUR,Turkiye,CP10,0.378586381673813,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-TUR,Turkiye,CP12,2.35480880737305,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-USA,United States,CP04,1,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-USA,United States,CP06,1,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-USA,United States,CP09,1,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-USA,United States,CP10,1,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
-USA,United States,CP12,1,,,,NO_MATCHED_OFFICIAL_HFCE_AIC_PPP_BENCHMARK,,,,,No matched official strict-HFCE and AIC PPP observation is registered for this economy/category.
+economy_code,economy_name,armilar_category,aic_ppp,strict_hfce_ppp,ppp_ratio_hfce_to_aic,implied_real_expenditure_error_ratio,status,evidence_note
+AUS,Australia,CP04,1.59718894958496,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUS,Australia,CP06,1.24232876300812,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUS,Australia,CP09,1.53612518310547,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUS,Australia,CP10,1.08198630809784,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUS,Australia,CP12,1.45557022094727,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUT,Austria,CP04,0.627700567245483,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUT,Austria,CP06,0.596131861209869,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUT,Austria,CP09,0.934314906597137,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUT,Austria,CP10,0.644749104976654,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AUT,Austria,CP12,0.725675761699677,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AZE,Azerbaijan,CP04,0.173609301447868,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AZE,Azerbaijan,CP06,0.172087430953979,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AZE,Azerbaijan,CP09,0.667758584022522,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AZE,Azerbaijan,CP10,0.166453212499619,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+AZE,Azerbaijan,CP12,0.455160081386566,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BEL,Belgium,CP04,0.698713302612305,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BEL,Belgium,CP06,0.503821909427643,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BEL,Belgium,CP09,0.853239059448242,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BEL,Belgium,CP10,0.593839585781097,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BEL,Belgium,CP12,0.703204751014709,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BFA,Burkina Faso,CP04,79.8030090332031,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BFA,Burkina Faso,CP06,137.02099609375,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BFA,Burkina Faso,CP09,268.667694091797,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BFA,Burkina Faso,CP10,99.1882019042969,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BFA,Burkina Faso,CP12,196.333435058594,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BGR,Bulgaria,CP04,0.403514444828033,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BGR,Bulgaria,CP06,0.30509677529335,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BGR,Bulgaria,CP09,1.06729912757874,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BGR,Bulgaria,CP10,0.350814193487167,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BGR,Bulgaria,CP12,0.674267709255219,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BIH,Bosnia and Herzegovina,CP04,0.299989014863968,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BIH,Bosnia and Herzegovina,CP06,0.396893829107285,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BIH,Bosnia and Herzegovina,CP09,1.02251219749451,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BIH,Bosnia and Herzegovina,CP10,0.223570868372917,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BIH,Bosnia and Herzegovina,CP12,0.682731986045837,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BMU,Bermuda,CP04,1.28688168525696,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BMU,Bermuda,CP06,1.21123611927032,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BMU,Bermuda,CP09,1.60844004154205,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BMU,Bermuda,CP10,0.828981876373291,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BMU,Bermuda,CP12,1.07547783851624,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BTN,Bhutan,CP04,6.84416961669922,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BTN,Bhutan,CP06,7.70220041275024,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BTN,Bhutan,CP09,26.7247486114502,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BTN,Bhutan,CP10,7.06003093719482,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+BTN,Bhutan,CP12,19.9676933288574,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CAN,Canada,CP04,1.17560052871704,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CAN,Canada,CP06,0.907441437244415,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CAN,Canada,CP09,1.27114689350128,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CAN,Canada,CP10,0.902541518211365,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CAN,Canada,CP12,1.17491900920868,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHE,Switzerland,CP04,1.22048449516296,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHE,Switzerland,CP06,0.990264534950256,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHE,Switzerland,CP09,1.29868912696838,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHE,Switzerland,CP10,1.11777067184448,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHE,Switzerland,CP12,1.22098290920258,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHL,Chile,CP04,336.850677490234,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHL,Chile,CP06,251.499496459961,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHL,Chile,CP09,641.442993164063,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHL,Chile,CP10,129.014633178711,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CHL,Chile,CP12,428.058654785156,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+COL,Colombia,CP04,1009.05627441406,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+COL,Colombia,CP06,648.649597167969,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+COL,Colombia,CP09,2248.88305664063,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+COL,Colombia,CP10,297.426147460938,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+COL,Colombia,CP12,1487.05065917969,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CRI,Costa Rica,CP04,194.837921142578,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CRI,Costa Rica,CP06,385.109832763672,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CRI,Costa Rica,CP09,487.998718261719,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CRI,Costa Rica,CP10,165.492248535156,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CRI,Costa Rica,CP12,370.698577880859,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYM,Cayman Islands,CP04,1.02004861831665,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYM,Cayman Islands,CP06,0.813175797462463,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYM,Cayman Islands,CP09,1.30095732212067,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYM,Cayman Islands,CP10,0.844342768192291,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYM,Cayman Islands,CP12,0.88510674238205,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYP,Cyprus,CP04,0.435338616371155,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYP,Cyprus,CP06,0.447778731584549,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYP,Cyprus,CP09,0.74698269367218,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYP,Cyprus,CP10,0.521227419376373,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CYP,Cyprus,CP12,0.577809631824493,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CZE,Czechia,CP04,10.942253112793,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CZE,Czechia,CP06,5.15228033065796,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CZE,Czechia,CP09,15.3428192138672,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CZE,Czechia,CP10,7.03675031661987,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+CZE,Czechia,CP12,11.1948947906494,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DEU,Germany,CP04,0.665469825267792,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DEU,Germany,CP06,0.477932453155518,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DEU,Germany,CP09,0.862876951694489,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DEU,Germany,CP10,0.49609050154686,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DEU,Germany,CP12,0.663031220436096,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DNK,Denmark,CP04,7.55441617965698,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DNK,Denmark,CP06,4.52095031738281,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DNK,Denmark,CP09,8.59902191162109,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DNK,Denmark,CP10,4.48778438568115,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+DNK,Denmark,CP12,6.67298936843872,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ESP,Spain,CP04,0.584992706775665,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ESP,Spain,CP06,0.499446123838425,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ESP,Spain,CP09,0.771232783794403,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ESP,Spain,CP10,0.348932147026062,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ESP,Spain,CP12,0.618334531784058,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+EST,Estonia,CP04,0.468239217996597,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+EST,Estonia,CP06,0.322539001703262,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+EST,Estonia,CP09,0.76005345582962,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+EST,Estonia,CP10,0.285411536693573,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+EST,Estonia,CP12,0.561331868171692,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FIN,Finland,CP04,0.77851802110672,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FIN,Finland,CP06,0.64069676399231,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FIN,Finland,CP09,1.02549409866333,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FIN,Finland,CP10,0.470032244920731,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FIN,Finland,CP12,0.845330357551575,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FRA,France,CP04,0.682225704193115,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FRA,France,CP06,0.417772859334946,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FRA,France,CP09,0.874692916870117,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FRA,France,CP10,0.391034752130508,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+FRA,France,CP12,0.666755795478821,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GBR,United Kingdom,CP04,0.814835846424103,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GBR,United Kingdom,CP06,0.566888689994812,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GBR,United Kingdom,CP09,0.792670071125031,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GBR,United Kingdom,CP10,0.486968964338303,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GBR,United Kingdom,CP12,0.665493965148926,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GRC,Greece,CP04,0.399997055530548,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GRC,Greece,CP06,0.359082967042923,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GRC,Greece,CP09,0.718967378139496,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GRC,Greece,CP10,0.222300752997398,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GRC,Greece,CP12,0.537452042102814,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GTM,Guatemala,CP04,2.48328304290771,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GTM,Guatemala,CP06,2.17720293998718,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GTM,Guatemala,CP09,4.22634506225586,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GTM,Guatemala,CP10,1.52128183841705,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+GTM,Guatemala,CP12,3.24474668502808,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HKG,"Hong Kong SAR, China",CP04,4.92067766189575,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HKG,"Hong Kong SAR, China",CP06,5.12673425674438,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HKG,"Hong Kong SAR, China",CP09,5.63103055953979,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HKG,"Hong Kong SAR, China",CP10,4.87928104400635,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HKG,"Hong Kong SAR, China",CP12,5.41954803466797,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HND,Honduras,CP04,6.25337743759155,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HND,Honduras,CP06,7.63810253143311,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HND,Honduras,CP09,12.4060106277466,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HND,Honduras,CP10,4.98415231704712,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HND,Honduras,CP12,11.5584354400635,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HRV,Croatia,CP04,0.254097282886505,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HRV,Croatia,CP06,0.224557399749756,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HRV,Croatia,CP09,0.644643604755402,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HRV,Croatia,CP10,0.205085933208466,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HRV,Croatia,CP12,0.435696721076965,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HUN,Hungary,CP04,115.703300476074,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HUN,Hungary,CP06,65.4413986206055,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HUN,Hungary,CP09,192.121292114258,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HUN,Hungary,CP10,81.2163467407227,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+HUN,Hungary,CP12,136.155654907227,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRL,Ireland,CP04,1.10109972953796,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRL,Ireland,CP06,0.76914519071579,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRL,Ireland,CP09,0.973210990428925,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRL,Ireland,CP10,0.485119074583054,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRL,Ireland,CP12,0.903054296970367,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRQ,Iraq,CP04,250.109298706055,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRQ,Iraq,CP06,337.562469482422,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRQ,Iraq,CP09,947.213195800781,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRQ,Iraq,CP10,297.8134765625,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+IRQ,Iraq,CP12,698.975280761719,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISL,Iceland,CP04,129.961303710938,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISL,Iceland,CP06,132.001434326172,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISL,Iceland,CP09,184.685470581055,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISL,Iceland,CP10,118.929214477539,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISL,Iceland,CP12,157.026107788086,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISR,Israel,CP04,4.04509210586548,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISR,Israel,CP06,3.16579937934875,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISR,Israel,CP09,4.40588283538818,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISR,Israel,CP10,2.02310943603516,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ISR,Israel,CP12,3.83350205421448,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ITA,Italy,CP04,0.562225997447968,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ITA,Italy,CP06,0.513964653015137,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ITA,Italy,CP09,0.805903673171997,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ITA,Italy,CP10,0.368633210659027,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ITA,Italy,CP12,0.647600293159485,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+JPN,Japan,CP04,90.7316970825195,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+JPN,Japan,CP06,51.2901840209961,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+JPN,Japan,CP09,135.549713134766,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+JPN,Japan,CP10,59.3221969604492,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+JPN,Japan,CP12,93.7958602905273,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KEN,Kenya,CP04,20.1704692840576,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KEN,Kenya,CP06,25.4670753479004,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KEN,Kenya,CP09,49.0279273986816,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KEN,Kenya,CP10,21.8007507324219,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KEN,Kenya,CP12,36.0336837768555,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KGZ,Kyrgyz Republic,CP04,7.17939424514771,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KGZ,Kyrgyz Republic,CP06,7.22231483459473,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KGZ,Kyrgyz Republic,CP09,34.7145919799805,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KGZ,Kyrgyz Republic,CP10,5.71500205993652,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KGZ,Kyrgyz Republic,CP12,22.5386428833008,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KOR,"Korea, Rep.",CP04,579.147888183594,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KOR,"Korea, Rep.",CP06,444.204864501953,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KOR,"Korea, Rep.",CP09,1098.30432128906,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KOR,"Korea, Rep.",CP10,713.536743164063,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+KOR,"Korea, Rep.",CP12,804.444030761719,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LTU,Lithuania,CP04,0.27004075050354,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LTU,Lithuania,CP06,0.229113474488258,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LTU,Lithuania,CP09,0.634456336498261,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LTU,Lithuania,CP10,0.23054213821888,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LTU,Lithuania,CP12,0.443689495325089,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LUX,Luxembourg,CP04,1.0739678144455,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LUX,Luxembourg,CP06,0.716853976249695,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LUX,Luxembourg,CP09,0.982162475585938,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LUX,Luxembourg,CP10,1.40273857116699,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LUX,Luxembourg,CP12,0.930019915103912,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LVA,Latvia,CP04,0.368786543607712,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LVA,Latvia,CP06,0.28418156504631,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LVA,Latvia,CP09,0.723851025104523,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LVA,Latvia,CP10,0.233248099684715,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+LVA,Latvia,CP12,0.498657405376434,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MEX,Mexico,CP04,7.73221254348755,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MEX,Mexico,CP06,8.08911609649658,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MEX,Mexico,CP09,14.0723476409912,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MEX,Mexico,CP10,1.64548540115356,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MEX,Mexico,CP12,10.3910760879517,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MLT,Malta,CP04,0.344822704792023,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MLT,Malta,CP06,0.375361323356628,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MLT,Malta,CP09,0.751137137413025,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MLT,Malta,CP10,0.514893174171448,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MLT,Malta,CP12,0.549024224281311,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNE,Montenegro,CP04,0.195357531309128,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNE,Montenegro,CP06,0.144938573241234,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNE,Montenegro,CP09,0.575434505939484,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNE,Montenegro,CP10,0.109967902302742,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNE,Montenegro,CP12,0.348378926515579,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNG,Mongolia,CP04,647.946655273438,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNG,Mongolia,CP06,310.560028076172,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNG,Mongolia,CP09,1264.00646972656,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNG,Mongolia,CP10,279.350128173828,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MNG,Mongolia,CP12,900.395324707031,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MSR,Montserrat,CP04,0.804316937923431,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MSR,Montserrat,CP06,1.08343541622162,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MSR,Montserrat,CP09,1.62401223182678,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MSR,Montserrat,CP10,0.646021664142609,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MSR,Montserrat,CP12,1.67046630382538,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MYS,Malaysia,CP04,0.664990663528442,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MYS,Malaysia,CP06,0.872016668319702,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MYS,Malaysia,CP09,2.05447936058044,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MYS,Malaysia,CP10,1.26512682437897,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+MYS,Malaysia,CP12,1.52440392971039,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NLD,Netherlands,CP04,0.767803311347961,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NLD,Netherlands,CP06,0.612836420536041,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NLD,Netherlands,CP09,0.882752597332001,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NLD,Netherlands,CP10,0.518784999847412,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NLD,Netherlands,CP12,0.785447239875793,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NOR,Norway,CP04,7.15395736694336,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NOR,Norway,CP06,8.43325519561768,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NOR,Norway,CP09,12.7297220230103,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NOR,Norway,CP10,7.9120626449585,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NOR,Norway,CP12,10.5269088745117,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NZL,New Zealand,CP04,1.91971063613892,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NZL,New Zealand,CP06,0.766690611839294,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NZL,New Zealand,CP09,1.58259332180023,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NZL,New Zealand,CP10,0.734289407730103,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+NZL,New Zealand,CP12,1.32555222511292,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PHL,Philippines,CP04,13.2897214889526,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PHL,Philippines,CP06,11.72838306427,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PHL,Philippines,CP09,24.6310501098633,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PHL,Philippines,CP10,8.22232151031494,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PHL,Philippines,CP12,19.7766418457031,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+POL,Poland,CP04,0.991511225700378,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+POL,Poland,CP06,0.859777271747589,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+POL,Poland,CP09,2.45460963249207,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+POL,Poland,CP10,0.88505232334137,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+POL,Poland,CP12,1.63086688518524,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PRT,Portugal,CP04,0.459179133176804,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PRT,Portugal,CP06,0.377578437328339,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PRT,Portugal,CP09,0.759751439094543,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PRT,Portugal,CP10,0.292511999607086,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+PRT,Portugal,CP12,0.562182784080505,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ROU,Romania,CP04,1.27576220035553,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ROU,Romania,CP06,0.561812341213226,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ROU,Romania,CP09,2.58590984344482,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ROU,Romania,CP10,0.634563684463501,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+ROU,Romania,CP12,1.45996832847595,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SRB,Serbia,CP04,24.7333927154541,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SRB,Serbia,CP06,19.5294456481934,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SRB,Serbia,CP09,62.0151481628418,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SRB,Serbia,CP10,10.6763858795166,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SRB,Serbia,CP12,41.6348266601563,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVK,Slovak Republic,CP04,0.465018182992935,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVK,Slovak Republic,CP06,0.235935658216476,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVK,Slovak Republic,CP09,0.688957870006561,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVK,Slovak Republic,CP10,0.217199072241783,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVK,Slovak Republic,CP12,0.483918517827988,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVN,Slovenia,CP04,0.425666987895966,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVN,Slovenia,CP06,0.389303356409073,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVN,Slovenia,CP09,0.772349178791046,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVN,Slovenia,CP10,0.364867061376572,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SVN,Slovenia,CP12,0.564210772514343,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWE,Sweden,CP04,7.37566137313843,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWE,Sweden,CP06,7.12711143493652,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWE,Sweden,CP09,10.9556159973145,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWE,Sweden,CP10,7.09370136260986,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWE,Sweden,CP12,8.85036468505859,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWZ,Eswatini,CP04,3.84863924980164,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWZ,Eswatini,CP06,4.22839832305908,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWZ,Eswatini,CP09,5.76330471038818,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWZ,Eswatini,CP10,4.29314136505127,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+SWZ,Eswatini,CP12,4.49343061447144,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+TUR,Turkiye,CP04,1.27063143253326,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+TUR,Turkiye,CP06,1.09811007976532,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+TUR,Turkiye,CP09,3.99058198928833,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+TUR,Turkiye,CP10,0.378586381673813,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+TUR,Turkiye,CP12,2.35480880737305,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+USA,United States,CP04,1,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+USA,United States,CP06,1,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+USA,United States,CP09,1,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+USA,United States,CP10,1,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.
+USA,United States,CP12,1,,,,NO_PUBLIC_STRICT_HFCE_PPP_BENCHMARK,The public ICP 2021 global release does not publish the matching strict HFCE PPP for this category.

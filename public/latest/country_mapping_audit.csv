@@ -13,6 +13,3 @@ IND,10,Education,CP10,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar categor
 IND,11,Restaurants and hotels,CP11,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
 IND,12,Miscellaneous goods and services,CP12,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
 IND,2.3,Narcotics,,EXCLUDED,PASS,Narcotics are explicitly excluded by Armilar methodology.
-CHN,FOOD_TOBACCO_LIQUOR,"Food, tobacco and liquor",CP01|CP02,ONE_SURVEY_GROUP_TO_MULTIPLE_ARMILAR_CATEGORIES,REJECTED,CP01 and CP02 cannot be separated without an allocation.
-CHN,EDUCATION_CULTURE_RECREATION,"Education, culture and recreation",CP09|CP10,ONE_SURVEY_GROUP_TO_MULTIPLE_ARMILAR_CATEGORIES,REJECTED,CP09 and CP10 cannot be separated without an allocation.
-CHN,INPUT_OUTPUT_PRODUCTS_2020,NBS 2020 input-output products,,MANY_TO_MANY_PRODUCT_TO_COICOP_REQUIRED,REJECTED,The product table is for 2020 and requires an unapproved product-to-purpose allocation.

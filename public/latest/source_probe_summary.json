@@ -1,32 +1,15 @@
 {
-  "a_or_b_candidate_economies": 0,
-  "c_only_economies": 1,
-  "classification_note": "D_UNAVAILABLE is a provisional source-probe class. Definitive unavailability requires the separate UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT state and documentary proof.",
-  "d_unavailable_economies": 9,
-  "definitive_unavailability_decisions": 0,
+  "a_or_b_candidate_economies": 1,
+  "c_only_economies": 3,
+  "d_unavailable_economies": 6,
   "economies_probed": 10,
-  "economies_with_complete_core_family_probe": 0,
-  "economy_audit_state_counts": {
-    "ACCESS_BLOCKED": 4,
-    "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 3,
-    "OFFICIAL_EXPERIMENTAL_ALLOCATION": 1,
-    "SOURCE_NOT_MACHINE_READABLE": 2
-  },
   "economy_class_counts": {
     "A_CANDIDATE": 0,
-    "B_CANDIDATE": 0,
-    "C_ONLY": 1,
-    "D_UNAVAILABLE": 9
+    "B_CANDIDATE": 1,
+    "C_ONLY": 3,
+    "D_UNAVAILABLE": 6
   },
-  "pipeline_version": "0.6.5",
-  "schema_version": "2.1",
-  "source_candidates_access_blocked": 16,
-  "source_candidates_acquired_as_datasets": 3,
-  "source_candidates_acquired_as_discovery_only": 9,
-  "source_candidates_acquired_as_documentation": 5,
-  "source_candidates_content_validation_failed": 2,
-  "source_candidates_failed": 16,
-  "source_candidates_probed": 35,
-  "source_probe_max_workers": 5,
-  "uninvestigated_core_family_count": 27
+  "source_candidates_accessible": 5,
+  "source_candidates_failed": 5,
+  "source_candidates_probed": 11
 }
