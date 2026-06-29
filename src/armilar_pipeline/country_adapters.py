@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import html
+import re
 import shutil
 import zipfile
 import xml.etree.ElementTree as ET
@@ -97,7 +99,27 @@ COMPLETION_ECONOMY_FIELDS = [
     "decision", "sources_examined", "remaining_blockers",
 ]
 
-INDIA_GATE_FIELDS = ["criterion", "status", "evidence", "source_id"]
+INDIA_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "evidence_location", "source_retrieved_at", "source_sha256",
+    "review_mode",
+]
+
+INDIA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+RUSSIA_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+
+RUSSIA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+CHINA_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+
+CHINA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
 
 STEP2H_EXCEPTION_FIELDS = [
     "economy_code", "economy_name", "armilar_category", "decision",
@@ -105,10 +127,6 @@ STEP2H_EXCEPTION_FIELDS = [
 ]
 
 STEP2I_EXTRA_ATTEMPTS = {
-    "RUT": [
-        ("Federal State Statistics Service", "ROSSTAT_NATIONAL_ACCOUNTS_SECTION", "https://rosstat.gov.ru/statistics/accounts", "2021", "national accounts database/publications", "SOURCE_FAMILY_SEARCH", "National accounts section does not provide an accepted deterministic 2021 S14/P31DC COICOP-HH table in the adapter inputs."),
-        ("Federal State Statistics Service", "FEDSTAT_OFFICIAL_STATISTICAL_DATABASE", "https://fedstat.ru/", "2021", "official statistical database", "SOURCE_FAMILY_SEARCH", "No accepted Fedstat indicator with exact 2021 household final consumption by Armilar category has been integrated."),
-    ],
     "CHN": [
         ("National Bureau of Statistics of China", "NBS_DATA_PORTAL", "https://data.stats.gov.cn/english/easyquery.htm?cn=C01", "2021", "national data portal", "SOURCE_FAMILY_SEARCH", "No exact S14/P31DC twelve-category household-purpose table was identified in adapter inputs."),
         ("National Bureau of Statistics of China", "CHINA_STATISTICAL_YEARBOOK_2022", "https://www.stats.gov.cn/sj/ndsj/2022/indexeh.htm", "2021", "statistical yearbook", "SOURCE_FAMILY_SEARCH", "Yearbook family does not provide an accepted exact twelve-category national-accounts HFCE table in adapter inputs."),
@@ -138,6 +156,8 @@ class AdapterResult:
     source_family_rows: list[dict[str, Any]] | None = None
     completion_rows: list[dict[str, Any]] | None = None
     india_gate_rows: list[dict[str, Any]] | None = None
+    russia_gate_rows: list[dict[str, Any]] | None = None
+    china_gate_rows: list[dict[str, Any]] | None = None
     step2h_exception_rows: list[dict[str, Any]] | None = None
 
 
@@ -153,22 +173,8 @@ class CountryAdapter(Protocol):
 def registered_adapters() -> dict[str, CountryAdapter]:
     adapters: list[CountryAdapter] = [
         IndiaMospiAdapter(),
-        Step2IDecisionAdapter(
-            "RUT", "Russian Federation", "RUT_ROSSTAT_OFFICIAL_SOURCE_AUDIT",
-            "Federal State Statistics Service",
-            "https://eng.rosstat.gov.ru/storage/mediabank/BRICS_Joint_Statistical_Publication_2025.pdf",
-            "2021", "HFCE_BY_PURPOSE_OR_COICOP_HH", "structured source not located",
-            "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
-            "No deterministic official XLS/XLSX/CSV/SDMX/HTML Rosstat table with 2021 strict household COICOP-HH values has passed the gates.",
-        ),
-        Step2IDecisionAdapter(
-            "CHN", "China", "CHN_NBS_OFFICIAL_SOURCE_AUDIT",
-            "National Bureau of Statistics of China",
-            "https://www.stats.gov.cn/english/PressRelease/202201/t20220118_1826649.html",
-            "2021", "HOUSEHOLD_SURVEY_EIGHT_GROUPS", "8 groups",
-            "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
-            "Official NBS table is a household survey with eight combined groups, not national-accounts S14/P31 with twelve Armilar categories.",
-        ),
+        RussiaRosstatAuditAdapter(),
+        ChinaNbsAuditAdapter(),
         Step2IDecisionAdapter("IDN", "Indonesia", "IDN_BPS_OFFICIAL_SOURCE_AUDIT", "Badan Pusat Statistik", "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html", "2021", "HFCE_REGROUPED", "7 groups", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories."),
         Step2IDecisionAdapter("BRA", "Brazil", "BRA_IBGE_OFFICIAL_SOURCE_AUDIT", "Instituto Brasileiro de Geografia e Estatistica", "https://www.ibge.gov.br/estatisticas/economicas/comercio/9052-sistema-de-contas-nacionais-brasil.html", "2021", "SNA_PRODUCT_TABLES", "product tables", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official product tables would require many-to-many product-to-COICOP allocation."),
         AuditOnlyAdapter("EGY", "Egypt", "EGY_CAPMAS_OFFICIAL_SOURCE_AUDIT", "Central Agency for Public Mobilization and Statistics", "https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview", "2021", "HOUSEHOLD_SURVEY", "survey microdata", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official HIECS is a survey source, not national-accounts S14/P31 current-price HFCE."),
@@ -257,11 +263,16 @@ def write_country_outputs(out: Path, result: AdapterResult) -> None:
     write_csv(out / "country_source_family_coverage.csv", SOURCE_FAMILY_FIELDS, result.source_family_rows or [])
     write_csv(out / "step2i_economy_summary.csv", COMPLETION_ECONOMY_FIELDS, result.completion_rows or [])
     write_csv(out / "india_methodology_gate_audit.csv", INDIA_GATE_FIELDS, result.india_gate_rows or [])
+    write_csv(out / "russia_methodology_gate_audit.csv", RUSSIA_GATE_FIELDS, result.russia_gate_rows or [])
+    write_csv(out / "china_methodology_gate_audit.csv", CHINA_GATE_FIELDS, result.china_gate_rows or [])
     write_csv(out / "step2h_exception_audit.csv", STEP2H_EXCEPTION_FIELDS, result.step2h_exception_rows or step2h_exception_rows())
     write_json(out / "step2i_completion_summary.json", step2i_completion_summary(result))
     write_json(out / "step2i_audit_summary.json", step2i_audit_summary(result))
     write_step2i_report(out / "STEP_2I_COMPLETION_REPORT.md", result)
     write_step2i_audit_report(out / "STEP_2I_AUDIT_REPORT.md", result)
+    write_india_method_gate_report(out / "INDIA_METHOD_GATE_REPORT.md", result.india_gate_rows or [])
+    write_russia_method_gate_report(out / "RUSSIA_METHOD_GATE_REPORT.md", result.russia_gate_rows or [])
+    write_china_method_gate_report(out / "CHINA_METHOD_GATE_REPORT.md", result.china_gate_rows or [])
 
 
 class IndiaMospiAdapter:
@@ -270,22 +281,31 @@ class IndiaMospiAdapter:
     adapter_id = "IND_MOSPI_NAS2024_STATEMENT_5_1"
     source_authority = "Ministry of Statistics and Programme Implementation"
     source_url = "https://www.mospi.gov.in/sites/default/files/reports_and_publication/statistical_publication/National_Accounts/NAS2024/5.1.xlsx"
+    methodology_source_id = "IND_MOSPI_PFCE_CHAPTER_22"
+    methodology_url = "https://mospi.gov.in/sites/default/files/reports_and_publication/statistical_manual/Chapter%2022.pdf"
+    methodology_location = "Chapter 22, paragraphs 22.1-22.3"
+    reviewed_methodology_sha256 = "8439d936cea6a451ed0f60c964feaf3c3635ec62c398cc952f1e0ec148f6da62"
     reference_period = "2021-22"
 
     def acquire_and_parse(self, config: Step2Config, run_root: Path, cache_root: Path) -> AdapterResult:
-        raw = run_root / "raw" / "country_adapters" / self.economy_code / self.adapter_id / "5.1.xlsx"
+        raw_root = run_root / "raw" / "country_adapters" / self.economy_code
+        workbook_path = raw_root / self.adapter_id / "5.1.xlsx"
+        methodology_path = raw_root / self.methodology_source_id / "chapter22_pfce.pdf"
         try:
-            record = fetch_url(
+            workbook_record = fetch_url(
                 config,
                 source_id=self.adapter_id,
                 url=self.source_url,
-                destination=raw,
+                destination=workbook_path,
                 cache_path=cache_root / "country_adapters" / self.economy_code / "5.1.xlsx",
                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*;q=0.1",
             )
         except Exception as exc:
             blocking = f"Official MoSPI workbook acquisition failed in this run: {type(exc).__name__}: {exc}"
-            attempts = india_access_blocked_attempt_rows(blocking)
+            attempts = india_access_blocked_attempt_rows(
+                blocking, source_id=self.adapter_id, source_url=self.source_url,
+                dataset="IND_MOSPI_NAS2024_STATEMENT_5_1",
+            )
             return AdapterResult(
                 status_rows=[{
                     "economy_code": self.economy_code, "economy_name": self.economy_name,
@@ -303,7 +323,7 @@ class IndiaMospiAdapter:
                 normalized_rows=[], mapping_rows=[], reconciliation_rows=[],
                 failure_rows=[{
                     "economy_code": self.economy_code, "adapter_id": self.adapter_id,
-                    "stage": "acquisition", "error_type": type(exc).__name__, "error": str(exc),
+                    "stage": "workbook_acquisition", "error_type": type(exc).__name__, "error": str(exc),
                 }],
                 acquisition_records=[],
                 cell_status_rows=step2i_cell_rows(
@@ -315,48 +335,478 @@ class IndiaMospiAdapter:
                 completion_rows=[completion_row(self.economy_code, self.economy_name, blocking, 1, "ACCESS_BLOCKED")],
                 india_gate_rows=india_methodology_gate_rows(),
             )
-        parsed = parse_india_statement_5_1(raw)
-        rows, mapping = build_india_rows(parsed, record, run_root)
+
+        try:
+            methodology_record = fetch_url(
+                config,
+                source_id=self.methodology_source_id,
+                url=self.methodology_url,
+                destination=methodology_path,
+                cache_path=cache_root / "country_adapters" / self.economy_code / "chapter22_pfce.pdf",
+                accept="application/pdf,*/*;q=0.1",
+            )
+        except Exception as exc:
+            blocking = f"Official MoSPI methodology acquisition failed in this run: {type(exc).__name__}: {exc}"
+            attempts = india_source_attempt_rows(workbook_record, None, blocking)
+            return AdapterResult(
+                status_rows=[{
+                    "economy_code": self.economy_code, "economy_name": self.economy_name,
+                    "adapter_id": self.adapter_id, "status": "ACCESS_BLOCKED",
+                    "data_class": "ACCESS_BLOCKED", "accepted_rows": 0,
+                    "failure_count": 1, "source_url": self.source_url, "blocking_reason": blocking,
+                }],
+                evidence_rows=[{
+                    "economy_code": self.economy_code, "source_id": self.adapter_id,
+                    "source_authority": self.source_authority, "source_url": self.source_url,
+                    "reference_period": self.reference_period, "concept": "PFCE classified by item",
+                    "granularity": "12 Armilar groups plus narcotics split", "machine_readable": "true",
+                    "status": "DOCUMENTATION_ACCESS_BLOCKED", "rejection_reason": blocking,
+                }],
+                normalized_rows=[], mapping_rows=[], reconciliation_rows=[],
+                failure_rows=[{
+                    "economy_code": self.economy_code, "adapter_id": self.adapter_id,
+                    "stage": "methodology_acquisition", "error_type": type(exc).__name__, "error": str(exc),
+                }],
+                acquisition_records=[workbook_record],
+                cell_status_rows=step2i_cell_rows(
+                    self.economy_code, self.economy_name, self.adapter_id, self.source_authority,
+                    self.reference_period, "ACCESS_BLOCKED", blocking,
+                ),
+                source_attempt_rows=attempts,
+                source_family_rows=source_family_rows(self.economy_code, self.economy_name, attempts, blocking),
+                completion_rows=[completion_row(self.economy_code, self.economy_name, blocking, 2, "ACCESS_BLOCKED")],
+                india_gate_rows=india_methodology_gate_rows(workbook_record=workbook_record),
+            )
+
+        if methodology_record.sha256 != self.reviewed_methodology_sha256:
+            blocking = (
+                "The acquired MoSPI methodology file has not been reviewed for this exact SHA-256. "
+                "Its conceptual conclusions cannot be reused silently; manual review is required."
+            )
+            attempts = india_source_attempt_rows(
+                workbook_record, methodology_record, blocking, methodology_reviewed=False,
+            )
+            gate_rows = india_methodology_gate_rows(
+                workbook_record=workbook_record, methodology_record=methodology_record,
+                methodology_reviewed=False,
+            )
+            return AdapterResult(
+                status_rows=[{
+                    "economy_code": self.economy_code, "economy_name": self.economy_name,
+                    "adapter_id": self.adapter_id, "status": "METHODOLOGY_REVIEW_REQUIRED",
+                    "data_class": "CONCEPT_AMBIGUOUS", "accepted_rows": 0,
+                    "failure_count": 0, "source_url": self.methodology_url,
+                    "blocking_reason": blocking,
+                }],
+                evidence_rows=[{
+                    "economy_code": self.economy_code, "source_id": self.methodology_source_id,
+                    "source_authority": self.source_authority, "source_url": self.methodology_url,
+                    "reference_period": "METHODOLOGY", "concept": "PFCE institutional-sector boundary",
+                    "granularity": self.methodology_location, "machine_readable": "documentary_evidence",
+                    "status": "ACQUIRED_REVIEW_REQUIRED", "rejection_reason": blocking,
+                }],
+                normalized_rows=[], mapping_rows=[], reconciliation_rows=[], failure_rows=[],
+                acquisition_records=[workbook_record, methodology_record],
+                cell_status_rows=step2i_cell_rows(
+                    self.economy_code, self.economy_name, self.adapter_id, self.source_authority,
+                    self.reference_period, "CONCEPT_AMBIGUOUS", blocking,
+                ),
+                source_attempt_rows=attempts,
+                source_family_rows=source_family_rows(self.economy_code, self.economy_name, attempts, blocking),
+                completion_rows=[completion_row(
+                    self.economy_code, self.economy_name, blocking, 2, "CONCEPT_AMBIGUOUS",
+                )],
+                india_gate_rows=gate_rows,
+            )
+
+        parsed = parse_india_statement_5_1(workbook_path)
+        _candidate_rows, mapping = build_india_rows(parsed, workbook_record, run_root)
         reconciliation = reconcile_india(parsed)
-        boundary_confirmed = False
-        gate_rows = india_methodology_gate_rows()
-        blocking = (
-            "Statement 5.1 is PFCE by item. The workbook supports exact item aggregation, "
-            "but the strict households-only S14/P31 boundary and NPISH exclusion are not confirmed in this source file."
+        gate_rows = india_methodology_gate_rows(
+            workbook_record=workbook_record, methodology_record=methodology_record,
         )
-        if not boundary_confirmed:
-            for row in rows:
-                row["data_class"] = "CONCEPT_AMBIGUOUS"
-                row["quality_flags"] = "PFCE_PRIVATE_BOUNDARY_NOT_STRICT_HOUSEHOLDS_CONFIRMED"
-        status = "BLOCKED_BY_METHOD_GATE" if not boundary_confirmed else "ACCEPTED"
+        validate_india_methodology_gate_rows(gate_rows)
+        blocking = (
+            "MoSPI Statement 5.1 is machine-readable and supports exact category aggregation plus "
+            "an explicit narcotics exclusion. MoSPI methodology defines PFCE as expenditure of "
+            "households and NPISH combined and states that the two are not separately available. "
+            "The table reports fiscal year 2021-22 rather than calendar year 2021. It is therefore "
+            "not admissible to the strict S14/P31DC Armilar 2021 exact matrix."
+        )
+        attempts = india_source_attempt_rows(workbook_record, methodology_record, blocking)
         return AdapterResult(
             status_rows=[{
                 "economy_code": self.economy_code, "economy_name": self.economy_name,
-                "adapter_id": self.adapter_id, "status": status,
-                "data_class": "CONCEPT_AMBIGUOUS" if not boundary_confirmed else "OFFICIAL_EXACT_DERIVATION",
-                "accepted_rows": 0 if not boundary_confirmed else len(rows),
-                "failure_count": 0, "source_url": self.source_url, "blocking_reason": blocking if not boundary_confirmed else "",
+                "adapter_id": self.adapter_id, "status": "REJECTED_BY_CONFIRMED_METHOD_GATE",
+                "data_class": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+                "accepted_rows": 0, "failure_count": 0, "source_url": self.source_url,
+                "blocking_reason": blocking,
             }],
-            evidence_rows=[{
-                "economy_code": self.economy_code, "source_id": self.adapter_id,
-                "source_authority": self.source_authority, "source_url": self.source_url,
-                "reference_period": self.reference_period, "concept": "PFCE classified by item",
-                "granularity": "12 Armilar groups plus narcotics split", "machine_readable": "true",
-                "status": status, "rejection_reason": blocking if not boundary_confirmed else "",
-            }],
-            normalized_rows=[] if not boundary_confirmed else rows,
+            evidence_rows=[
+                {
+                    "economy_code": self.economy_code, "source_id": self.adapter_id,
+                    "source_authority": self.source_authority, "source_url": self.source_url,
+                    "reference_period": self.reference_period, "concept": "PFCE classified by item",
+                    "granularity": "12 Armilar groups plus narcotics split", "machine_readable": "true",
+                    "status": "ACQUIRED_BUT_REJECTED", "rejection_reason": blocking,
+                },
+                {
+                    "economy_code": self.economy_code, "source_id": self.methodology_source_id,
+                    "source_authority": self.source_authority, "source_url": self.methodology_url,
+                    "reference_period": "METHODOLOGY", "concept": "PFCE institutional-sector boundary",
+                    "granularity": self.methodology_location, "machine_readable": "documentary_evidence",
+                    "status": "ACQUIRED_DOCUMENTATION", "rejection_reason": blocking,
+                },
+            ],
+            normalized_rows=[],
             mapping_rows=mapping,
             reconciliation_rows=[reconciliation],
             failure_rows=[],
-            acquisition_records=[record],
+            acquisition_records=[workbook_record, methodology_record],
             cell_status_rows=step2i_cell_rows(
                 self.economy_code, self.economy_name, self.adapter_id, self.source_authority,
-                self.reference_period, "CONCEPT_AMBIGUOUS", blocking,
+                self.reference_period, "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", blocking,
             ),
-            source_attempt_rows=india_source_attempt_rows(record, blocking),
-            source_family_rows=source_family_rows(self.economy_code, self.economy_name, india_source_attempt_rows(record, blocking), blocking),
-            completion_rows=[completion_row(self.economy_code, self.economy_name, blocking, 2, "CONCEPT_AMBIGUOUS")],
+            source_attempt_rows=attempts,
+            source_family_rows=source_family_rows(self.economy_code, self.economy_name, attempts, blocking),
+            completion_rows=[completion_row(
+                self.economy_code, self.economy_name, blocking, 2,
+                "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+            )],
             india_gate_rows=gate_rows,
+        )
+
+
+class RussiaRosstatAuditAdapter:
+    economy_code = "RUT"
+    economy_name = "Russian Federation"
+    adapter_id = "RUT_ROSSTAT_FEDSTAT_SOURCE_AUDIT"
+    source_authority = "Federal State Statistics Service"
+    reference_period = "2021"
+
+    source_specs = (
+        {
+            "source_id": "RUT_FEDSTAT_HFCE_31414",
+            "url": "https://www.fedstat.ru/indicator/31414",
+            "filename": "fedstat_indicator_31414.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_statistical_database",
+            "concept": "Household final consumption expenditure aggregate",
+            "classification": "FEDSTAT_INDICATOR_AGGREGATE",
+        },
+        {
+            "source_id": "RUT_ROSSTAT_SUT_2021_XLSX",
+            "url": "https://rosstat.gov.ru/storage/mediabank/Rezultaty_RB_2021.xlsx",
+            "filename": "Rezultaty_RB_2021.xlsx",
+            "accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*;q=0.1",
+            "family": "official_supply_and_use_tables",
+            "concept": "2021 supply and use tables",
+            "classification": "SUT_PRODUCT_CLASSIFICATION",
+        },
+        {
+            "source_id": "RUT_ROSSTAT_HBS_2021",
+            "url": "https://rosstat.gov.ru/bgd/regl/b21_102/",
+            "filename": "household_income_expenditure_2021.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "survey_or_cpi_class_c_only",
+            "concept": "Household budget survey expenditure by purpose",
+            "classification": "KIPC_DH_HOUSEHOLD_SURVEY",
+        },
+        {
+            "source_id": "RUT_ROSSTAT_KIPC_DH_CLASSIFICATION",
+            "url": "https://rosstat.gov.ru/storage/mediabank/KIPC_DX.docx",
+            "filename": "KIPC_DX.docx",
+            "accept": "application/vnd.openxmlformats-officedocument.wordprocessingml.document,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "KIPC-DH classification documentation",
+            "classification": "CLASSIFICATION_ONLY",
+        },
+        {
+            "source_id": "RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022",
+            "url": "https://rosstat.gov.ru/storage/mediabank/Nac-sch_2015-2022.pdf",
+            "filename": "Nac-sch_2015-2022.pdf",
+            "accept": "application/pdf,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "National Accounts of Russia 2015-2022",
+            "classification": "OFFICIAL_NATIONAL_ACCOUNTS_PUBLICATION",
+        },
+    )
+    core_source_ids = {
+        "RUT_FEDSTAT_HFCE_31414",
+        "RUT_ROSSTAT_SUT_2021_XLSX",
+        "RUT_ROSSTAT_HBS_2021",
+    }
+
+    def acquire_and_parse(self, config: Step2Config, run_root: Path, cache_root: Path) -> AdapterResult:
+        raw_root = run_root / "raw" / "country_adapters" / self.economy_code
+        records: dict[str, AcquisitionRecord] = {}
+        analyses: dict[str, dict[str, Any]] = {}
+        errors: dict[str, Exception] = {}
+        failure_rows: list[dict[str, Any]] = []
+        for spec in self.source_specs:
+            source_id = str(spec["source_id"])
+            destination = raw_root / source_id / str(spec["filename"])
+            try:
+                record = fetch_url(
+                    config,
+                    source_id=source_id,
+                    url=str(spec["url"]),
+                    destination=destination,
+                    cache_path=cache_root / "country_adapters" / self.economy_code / str(spec["filename"]),
+                    accept=str(spec["accept"]),
+                )
+                records[source_id] = record
+                analyses[source_id] = analyse_russia_source(source_id, destination, record.content_type or "")
+            except Exception as exc:
+                errors[source_id] = exc
+                failure_rows.append({
+                    "economy_code": self.economy_code,
+                    "adapter_id": self.adapter_id,
+                    "stage": f"acquisition_or_validation:{source_id}",
+                    "error_type": type(exc).__name__,
+                    "error": str(exc),
+                })
+
+        core_blocked = sorted(self.core_source_ids & set(errors))
+        unexpected = sorted(
+            source_id for source_id in self.core_source_ids & set(analyses)
+            if (
+                not analyses[source_id].get("expected_evidence_confirmed", False)
+                or analyses[source_id].get("decision") == "REVIEW_REQUIRED"
+            )
+        )
+        if core_blocked:
+            decision = "ACCESS_BLOCKED"
+            status = "ACCESS_BLOCKED"
+            blocking = (
+                "The current run could not acquire or validate all critical official Russian source families: "
+                + ", ".join(core_blocked)
+                + ". The absence of an admissible exact table cannot be treated as proven while these attempts are blocked."
+            )
+        elif unexpected:
+            decision = "CONCEPT_AMBIGUOUS"
+            status = "SOURCE_CONTENT_REVIEW_REQUIRED"
+            blocking = (
+                "Acquired official Russian resources did not match the reviewed structural markers for: "
+                + ", ".join(unexpected)
+                + ". No source is admitted until the changed content is reviewed."
+            )
+        else:
+            decision = "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE"
+            status = "REJECTED_BY_CONFIRMED_SOURCE_GATES"
+            blocking = (
+                "Fedstat indicator 31414 provides aggregate household final consumption expenditure and current prices but no purpose dimension; "
+                "the 2021 Rosstat supply-use workbook is product-based and requires a product-to-COICOP allocation, with household/NPISH scope not proven at the required category level; "
+                "the KIPC-DH purpose detail is a household-budget survey and remains Class C. No exact 2021 current-price S14/P31DC twelve-purpose source passed the gates."
+            )
+
+        attempts = russia_source_attempt_rows(records, analyses, errors, blocking)
+        gates = russia_methodology_gate_rows(records, analyses, errors)
+        validate_russia_methodology_gate_rows(gates)
+        evidence_rows = russia_evidence_rows(records, analyses, errors, blocking)
+        source_url = str(self.source_specs[0]["url"])
+        return AdapterResult(
+            status_rows=[{
+                "economy_code": self.economy_code,
+                "economy_name": self.economy_name,
+                "adapter_id": self.adapter_id,
+                "status": status,
+                "data_class": decision,
+                "accepted_rows": 0,
+                "failure_count": len(failure_rows),
+                "source_url": source_url,
+                "blocking_reason": blocking,
+            }],
+            evidence_rows=evidence_rows,
+            normalized_rows=[],
+            mapping_rows=russia_mapping_audit_rows(analyses),
+            reconciliation_rows=[],
+            failure_rows=failure_rows,
+            acquisition_records=[records[key] for key in sorted(records)],
+            cell_status_rows=step2i_cell_rows(
+                self.economy_code, self.economy_name, self.adapter_id,
+                self.source_authority, self.reference_period, decision, blocking,
+            ),
+            source_attempt_rows=attempts,
+            source_family_rows=source_family_rows(
+                self.economy_code, self.economy_name, attempts, blocking,
+            ),
+            completion_rows=[completion_row(
+                self.economy_code, self.economy_name, blocking,
+                len(self.source_specs), decision,
+            )],
+            russia_gate_rows=gates,
+        )
+
+
+class ChinaNbsAuditAdapter:
+    economy_code = "CHN"
+    economy_name = "China"
+    adapter_id = "CHN_NBS_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "National Bureau of Statistics of China"
+    reference_period = "2021"
+
+    source_specs = (
+        {
+            "source_id": "CHN_NBS_2021_HOUSEHOLD_CONSUMPTION",
+            "url": "https://www.stats.gov.cn/english/PressRelease/202201/t20220118_1826649.html",
+            "filename": "household_consumption_2021.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "survey_or_cpi_class_c_only",
+            "concept": "Household survey consumption expenditure in eight groups",
+            "classification": "HOUSEHOLD_SURVEY_EIGHT_GROUPS",
+        },
+        {
+            "source_id": "CHN_NBS_YEARBOOK_2022_INDEX",
+            "url": "https://www.stats.gov.cn/sj/ndsj/2022/indexeh.htm",
+            "filename": "china_statistical_yearbook_2022.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "Official 2022 yearbook table inventory",
+            "classification": "YEARBOOK_TABLE_INVENTORY",
+        },
+        {
+            "source_id": "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF",
+            "url": "https://www.stats.gov.cn/sj/ndsj/2022/html/sme03.htm",
+            "filename": "national_accounts_brief_2022.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_supply_and_use_tables",
+            "concept": "National accounts and 2020 input-output explanatory notes",
+            "classification": "INPUT_OUTPUT_PRODUCT_TABLES_2020",
+        },
+        {
+            "source_id": "CHN_NBS_2021_GDP_FINAL_VERIFICATION",
+            "url": "https://www.stats.gov.cn/english/PressRelease/202212/t20221227_1891279.html",
+            "filename": "gdp_final_verification_2021.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_national_accounts_api",
+            "concept": "Final verification of 2021 GDP at current prices",
+            "classification": "GDP_AGGREGATE_PUBLICATION",
+        },
+        {
+            "source_id": "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_NOTES",
+            "url": "https://www.stats.gov.cn/sj/ndsj/2022/html/zbe03.pdf",
+            "filename": "national_accounts_notes.pdf",
+            "accept": "application/pdf,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "National accounts explanatory notes",
+            "classification": "METHODOLOGY_DOCUMENTATION",
+        },
+        {
+            "source_id": "CHN_NBS_YEARBOOK_2022_HOUSEHOLD_SURVEY_NOTES",
+            "url": "https://www.stats.gov.cn/sj/ndsj/2022/html/zbe06.pdf",
+            "filename": "household_survey_notes.pdf",
+            "accept": "application/pdf,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "Household survey explanatory notes",
+            "classification": "SURVEY_METHODOLOGY_DOCUMENTATION",
+        },
+    )
+    core_source_ids = {
+        "CHN_NBS_2021_HOUSEHOLD_CONSUMPTION",
+        "CHN_NBS_YEARBOOK_2022_INDEX",
+        "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF",
+        "CHN_NBS_2021_GDP_FINAL_VERIFICATION",
+    }
+
+    def acquire_and_parse(self, config: Step2Config, run_root: Path, cache_root: Path) -> AdapterResult:
+        raw_root = run_root / "raw" / "country_adapters" / self.economy_code
+        records: dict[str, AcquisitionRecord] = {}
+        analyses: dict[str, dict[str, Any]] = {}
+        errors: dict[str, Exception] = {}
+        failure_rows: list[dict[str, Any]] = []
+        for spec in self.source_specs:
+            source_id = str(spec["source_id"])
+            destination = raw_root / source_id / str(spec["filename"])
+            try:
+                record = fetch_url(
+                    config,
+                    source_id=source_id,
+                    url=str(spec["url"]),
+                    destination=destination,
+                    cache_path=cache_root / "country_adapters" / self.economy_code / str(spec["filename"]),
+                    accept=str(spec["accept"]),
+                )
+                records[source_id] = record
+                analyses[source_id] = analyse_china_source(source_id, destination, record.content_type or "")
+            except Exception as exc:
+                errors[source_id] = exc
+                failure_rows.append({
+                    "economy_code": self.economy_code,
+                    "adapter_id": self.adapter_id,
+                    "stage": f"acquisition_or_validation:{source_id}",
+                    "error_type": type(exc).__name__,
+                    "error": str(exc),
+                })
+
+        core_blocked = sorted(self.core_source_ids & set(errors))
+        unexpected = sorted(
+            source_id for source_id in self.core_source_ids & set(analyses)
+            if (
+                not analyses[source_id].get("expected_evidence_confirmed", False)
+                or analyses[source_id].get("decision") == "REVIEW_REQUIRED"
+            )
+        )
+        if core_blocked:
+            decision = "ACCESS_BLOCKED"
+            status = "ACCESS_BLOCKED"
+            blocking = (
+                "The current run could not acquire or validate all critical official Chinese source families: "
+                + ", ".join(core_blocked)
+                + ". A closed source decision is not permitted while these attempts remain blocked."
+            )
+        elif unexpected:
+            decision = "CONCEPT_AMBIGUOUS"
+            status = "SOURCE_CONTENT_REVIEW_REQUIRED"
+            blocking = (
+                "Acquired official Chinese resources did not match the reviewed structural markers for: "
+                + ", ".join(unexpected)
+                + ". No source is admitted until the changed content is reviewed."
+            )
+        else:
+            decision = "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE"
+            status = "REJECTED_BY_CONFIRMED_SOURCE_GATES"
+            blocking = (
+                "The 2021 NBS household-consumption release is a sample survey with eight combined groups; "
+                "the 2022 statistical yearbook inventories household-consumption and input-output tables but its input-output benchmark is 2020; "
+                "the national-accounts brief describes product-based input-output tables; and the final 2021 GDP verification is aggregate. "
+                "No acquired source supplies 2021 current-price S14/P31 household consumption by the twelve Armilar purposes without allocation."
+            )
+
+        attempts = china_source_attempt_rows(records, analyses, errors, blocking)
+        gates = china_methodology_gate_rows(records, analyses, errors)
+        validate_china_methodology_gate_rows(gates)
+        return AdapterResult(
+            status_rows=[{
+                "economy_code": self.economy_code,
+                "economy_name": self.economy_name,
+                "adapter_id": self.adapter_id,
+                "status": status,
+                "data_class": decision,
+                "accepted_rows": 0,
+                "failure_count": len(failure_rows),
+                "source_url": str(self.source_specs[0]["url"]),
+                "blocking_reason": blocking,
+            }],
+            evidence_rows=china_evidence_rows(records, analyses, errors, blocking),
+            normalized_rows=[],
+            mapping_rows=china_mapping_audit_rows(analyses),
+            reconciliation_rows=[],
+            failure_rows=failure_rows,
+            acquisition_records=[records[key] for key in sorted(records)],
+            cell_status_rows=step2i_cell_rows(
+                self.economy_code, self.economy_name, self.adapter_id,
+                self.source_authority, self.reference_period, decision, blocking,
+            ),
+            source_attempt_rows=attempts,
+            source_family_rows=source_family_rows(
+                self.economy_code, self.economy_name, attempts, blocking,
+            ),
+            completion_rows=[completion_row(
+                self.economy_code, self.economy_name, blocking,
+                len(self.source_specs), decision,
+            )],
+            china_gate_rows=gates,
         )
 
 
@@ -539,7 +989,7 @@ def _xlsx_rows(path: Path) -> dict[int, dict[str, str]]:
 
 
 def _empty_result() -> AdapterResult:
-    return AdapterResult([], [], [], [], [], [], [], [], [], [], [], [], [])
+    return AdapterResult([], [], [], [], [], [], [], [], [], [], [], [], [], [], [])
 
 
 def _extend(target: AdapterResult, source: AdapterResult) -> None:
@@ -555,6 +1005,8 @@ def _extend(target: AdapterResult, source: AdapterResult) -> None:
     target.source_family_rows.extend(source.source_family_rows or [])
     target.completion_rows.extend(source.completion_rows or [])
     target.india_gate_rows.extend(source.india_gate_rows or [])
+    target.russia_gate_rows.extend(source.russia_gate_rows or [])
+    target.china_gate_rows.extend(source.china_gate_rows or [])
     target.step2h_exception_rows.extend(source.step2h_exception_rows or [])
 
 
@@ -616,14 +1068,14 @@ def source_family_rows(
         dataset = str(attempt.get("dataset") or "").upper()
         classification = str(attempt.get("classification") or "").upper()
         concept = str(attempt.get("classification") or "").upper()
-        if "API" in dataset or "SIDRA" in dataset or "DATABASE" in dataset:
+        if "API" in dataset or "SIDRA" in dataset:
             attempts_by_family["official_national_accounts_api"].append(attempt)
+        elif any(token in dataset for token in ("SUPPLY", "USE", "SUT", "TRU", "INPUT")):
+            attempts_by_family["official_supply_and_use_tables"].append(attempt)
+        elif "DATABASE" in classification or "FEDSTAT" in dataset or "STATBANK" in dataset or "BASE" in dataset:
+            attempts_by_family["official_statistical_database"].append(attempt)
         elif any(token in dataset for token in ("XLS", "XLSX", "CSV", "STATEMENT")):
             attempts_by_family["official_csv_xls_xlsx"].append(attempt)
-        elif "DATABASE" in classification or "STATBANK" in dataset or "BASE" in dataset:
-            attempts_by_family["official_statistical_database"].append(attempt)
-        elif "SUPPLY" in dataset or "USE" in dataset or "TRU" in dataset or "INPUT" in dataset:
-            attempts_by_family["official_supply_and_use_tables"].append(attempt)
         elif "SURVEY" in classification or "CPI" in classification or "HBS" in classification:
             attempts_by_family["survey_or_cpi_class_c_only"].append(attempt)
         else:
@@ -688,40 +1140,108 @@ def step2i_attempt_template(
     }
 
 
-def india_source_attempt_rows(record: AcquisitionRecord, rejection_reason: str) -> list[dict[str, Any]]:
-    row = step2i_attempt_template(
+def india_source_attempt_rows(
+    workbook_record: AcquisitionRecord,
+    methodology_record: AcquisitionRecord | None,
+    rejection_reason: str,
+    *,
+    methodology_reviewed: bool = True,
+) -> list[dict[str, Any]]:
+    workbook = step2i_attempt_template(
         "IND", "*", "Ministry of Statistics and Programme Implementation",
-        "IND_MOSPI_NAS2024_STATEMENT_5_1", record.url, "2021-22",
+        "IND_MOSPI_NAS2024_STATEMENT_5_1", workbook_record.url, "2021-22",
         "PFCE classified by item", "MOSPI_NAS_ITEM", rejection_reason,
     )
-    row.update({
-        "retrieval_status": record.status,
-        "status_code": record.status_code or "",
-        "content_type": record.content_type or "",
+    workbook.update({
+        "retrieval_status": workbook_record.status,
+        "status_code": workbook_record.status_code or "",
+        "content_type": workbook_record.content_type or "",
         "file_signature": "XLSX_ZIP_CONTAINER",
-        "byte_size": record.bytes,
+        "byte_size": workbook_record.bytes,
+        "institutional_sector": "HOUSEHOLDS_AND_NPISH_COMBINED",
+        "transaction_code": "PFCE_P31_COMBINED_S14_S15",
         "current_prices": "CONFIRMED",
         "currency": "INR",
         "unit": "crore",
-        "imputed_rent_treatment": "PRESENT_AS_HOUSING_RENT_COMPONENT_BUT_BOUNDARY_NOT_FULLY_CONFIRMED",
+        "npish_treatment": "CONFIRMED_INCLUDED_AND_NOT_SEPARABLE",
+        "government_treatment": "CONFIRMED_EXCLUDED_FROM_PFCE",
+        "imputed_rent_treatment": "CONFIRMED_INCLUDED",
         "candidate_class": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
-        "retrieved_at": "SEE_MANIFEST_FOR_RAW_RETRIEVAL_TIME",
-        "sha256": record.sha256,
+        "retrieved_at": workbook_record.retrieved_at,
+        "sha256": workbook_record.sha256,
     })
-    method = step2i_attempt_template(
-        "IND", "*", "Ministry of Statistics and Programme Implementation",
-        "IND_MOSPI_METHOD_BOUNDARY_SEARCH", "https://www.mospi.gov.in/",
-        "2021-22", "NAS PFCE methodology", "METHODOLOGY_SEARCH", rejection_reason,
-    )
-    method["retrieval_status"] = "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE"
-    return expand_attempt_categories([row, method])
+    if not methodology_reviewed:
+        workbook.update({
+            "institutional_sector": "UNCONFIRMED_STRICT_S14",
+            "transaction_code": "PFCE_SCOPE_REVIEW_REQUIRED",
+            "npish_treatment": "REVIEW_REQUIRED",
+            "government_treatment": "REVIEW_REQUIRED",
+            "imputed_rent_treatment": "REVIEW_REQUIRED",
+            "candidate_class": "CONCEPT_AMBIGUOUS",
+        })
+    if methodology_record is None:
+        methodology = step2i_attempt_template(
+            "IND", "*", "Ministry of Statistics and Programme Implementation",
+            IndiaMospiAdapter.methodology_source_id, IndiaMospiAdapter.methodology_url,
+            "METHODOLOGY", "PFCE institutional-sector boundary", "OFFICIAL_METHODOLOGY",
+            rejection_reason,
+        )
+        methodology.update({
+            "retrieval_status": "ACCESS_BLOCKED",
+            "candidate_class": "ACCESS_BLOCKED",
+            "retrieved_at": "ACQUISITION_FAILED_NO_RAW_FILE",
+        })
+    else:
+        methodology = step2i_attempt_template(
+            "IND", "*", "Ministry of Statistics and Programme Implementation",
+            IndiaMospiAdapter.methodology_source_id, methodology_record.url,
+            "METHODOLOGY", "PFCE institutional-sector boundary", "OFFICIAL_METHODOLOGY",
+            rejection_reason,
+        )
+        methodology.update({
+            "retrieval_status": methodology_record.status,
+            "status_code": methodology_record.status_code or "",
+            "content_type": methodology_record.content_type or "",
+            "file_signature": "PDF_SIGNATURE",
+            "byte_size": methodology_record.bytes,
+            "institutional_sector": "HOUSEHOLDS_AND_NPISH_COMBINED",
+            "transaction_code": "PFCE_P31_COMBINED_S14_S15",
+            "current_prices": "CONCEPT_APPLIES_TO_CURRENT_AND_CONSTANT_PRICE_SERIES",
+            "currency": "NOT_APPLICABLE",
+            "unit": "NOT_APPLICABLE",
+            "npish_treatment": "CONFIRMED_INCLUDED_AND_NOT_SEPARABLE",
+            "government_treatment": "CONFIRMED_EXCLUDED_FROM_PFCE",
+            "imputed_rent_treatment": "CONFIRMED_INCLUDED",
+            "candidate_class": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+            "retrieved_at": methodology_record.retrieved_at,
+            "sha256": methodology_record.sha256,
+        })
+        if not methodology_reviewed:
+            methodology.update({
+                "retrieval_status": "ACQUIRED_REVIEW_REQUIRED",
+                "institutional_sector": "UNREVIEWED_DOCUMENT_VERSION",
+                "transaction_code": "PFCE_SCOPE_REVIEW_REQUIRED",
+                "npish_treatment": "REVIEW_REQUIRED",
+                "government_treatment": "REVIEW_REQUIRED",
+                "imputed_rent_treatment": "REVIEW_REQUIRED",
+                "candidate_class": "CONCEPT_AMBIGUOUS",
+            })
+    return expand_attempt_categories([workbook, methodology])
 
 
-def india_access_blocked_attempt_rows(rejection_reason: str) -> list[dict[str, Any]]:
+def india_access_blocked_attempt_rows(
+    rejection_reason: str,
+    *,
+    source_id: str,
+    source_url: str,
+    dataset: str,
+) -> list[dict[str, Any]]:
     row = step2i_attempt_template(
         "IND", "*", "Ministry of Statistics and Programme Implementation",
-        "IND_MOSPI_NAS2024_STATEMENT_5_1", IndiaMospiAdapter.source_url, "2021-22",
-        "PFCE classified by item", "MOSPI_NAS_ITEM", rejection_reason,
+        dataset, source_url, "2021-22",
+        "PFCE classified by item" if source_id == IndiaMospiAdapter.adapter_id else "PFCE methodology",
+        "MOSPI_NAS_ITEM" if source_id == IndiaMospiAdapter.adapter_id else "OFFICIAL_METHODOLOGY",
+        rejection_reason,
     )
     row.update({
         "retrieval_status": "ACCESS_BLOCKED",
@@ -744,18 +1264,909 @@ def expand_attempt_categories(rows: list[dict[str, Any]]) -> list[dict[str, Any]
     return expanded
 
 
-def india_methodology_gate_rows() -> list[dict[str, Any]]:
-    source_id = "IND_MOSPI_NAS2024_STATEMENT_5_1"
-    return [
-        {"criterion": "represents_households_S14", "status": "AMBIGUOUS", "evidence": "Statement uses PFCE/private final consumption expenditure; workbook does not state strict S14-only boundary.", "source_id": source_id},
-        {"criterion": "corresponds_to_P31_HFCE", "status": "AMBIGUOUS", "evidence": "PFCE is a national-accounts consumption concept but transaction code P31DC/HFCE is not explicit in the workbook.", "source_id": source_id},
-        {"criterion": "excludes_NPISH", "status": "NOT_FOUND", "evidence": "No NPISH exclusion statement found in Statement 5.1 workbook.", "source_id": source_id},
-        {"criterion": "excludes_government_consumption", "status": "CONFIRMED", "evidence": "Source title is private final consumption expenditure, not government final consumption expenditure.", "source_id": source_id},
-        {"criterion": "includes_imputed_rent", "status": "CONFIRMED", "evidence": "Housing group includes gross rentals for housing.", "source_id": source_id},
-        {"criterion": "current_prices", "status": "CONFIRMED", "evidence": "Workbook has explicit current-price block.", "source_id": source_id},
-        {"criterion": "reference_period_2021_22_available", "status": "CONFIRMED", "evidence": "Workbook exposes fiscal year 2021-22 and the adapter preserves it without calendar conversion.", "source_id": source_id},
-        {"criterion": "compatible_with_armilar_calendar_2021", "status": "AMBIGUOUS", "evidence": "Fiscal year 2021-22 is not identical to calendar year 2021; no silent conversion or interpolation is permitted.", "source_id": source_id},
+
+def _decode_text_file(path: Path) -> str:
+    payload = path.read_bytes()
+    for encoding in ("utf-8", "utf-8-sig", "gb18030", "gb2312", "cp1251", "latin-1"):
+        try:
+            return payload.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return payload.decode("utf-8", errors="replace")
+
+
+def _office_xml_text(path: Path) -> str:
+    if not zipfile.is_zipfile(path):
+        raise ValueError(f"Office file is not a valid ZIP container: {path.name}")
+    chunks: list[str] = []
+    with zipfile.ZipFile(path) as archive:
+        for name in sorted(archive.namelist()):
+            if not name.endswith(".xml"):
+                continue
+            try:
+                root = ET.fromstring(archive.read(name))
+            except ET.ParseError:
+                continue
+            chunks.extend(part.strip() for part in root.itertext() if part and part.strip())
+    return " ".join(chunks)
+
+
+def _normalise_russian_text(value: str) -> str:
+    value = html.unescape(value).lower().replace("ё", "е")
+    return re.sub(r"\s+", " ", value).strip()
+
+
+
+def _normalise_china_text(value: str) -> str:
+    value = html.unescape(value).lower()
+    value = re.sub(r"<[^>]+>", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def analyse_china_source(source_id: str, path: Path, content_type: str = "") -> dict[str, Any]:
+    if source_id in {
+        "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_NOTES",
+        "CHN_NBS_YEARBOOK_2022_HOUSEHOLD_SURVEY_NOTES",
+    }:
+        valid_pdf = path.read_bytes()[:5] == b"%PDF-"
+        return {
+            "source_kind": "OFFICIAL_PUBLICATION_PDF",
+            "expected_evidence_confirmed": valid_pdf,
+            "valid_pdf_signature": valid_pdf,
+            "machine_readable": False,
+            "decision": "SOURCE_NOT_MACHINE_READABLE" if valid_pdf else "REVIEW_REQUIRED",
+        }
+
+    text = _normalise_china_text(_decode_text_file(path))
+    if source_id == "CHN_NBS_2021_HOUSEHOLD_CONSUMPTION":
+        categories = (
+            "food, tobacco and liquor", "clothing", "residence",
+            "household facilities, articles and services",
+            "transportation and telecommunication",
+            "education, culture and recreation",
+            "health care and medical services",
+            "miscellaneous goods and services",
+        )
+        survey = any(token in text for token in (
+            "sampling survey", "survey households", "household income and expenditure and living conditions survey",
+        ))
+        eight_groups = all(token in text for token in categories)
+        year = "2021" in text
+        return {
+            "source_kind": "OFFICIAL_HOUSEHOLD_SURVEY",
+            "expected_evidence_confirmed": survey and eight_groups and year,
+            "household_survey": survey,
+            "eight_group_classification": eight_groups,
+            "reference_2021": year,
+            "combined_food_tobacco_alcohol": "food, tobacco and liquor" in text,
+            "combined_education_culture_recreation": "education, culture and recreation" in text,
+            "machine_readable": True,
+            "decision": "REJECT_CLASS_C_EIGHT_GROUP_SURVEY" if survey and eight_groups and year else "REVIEW_REQUIRED",
+        }
+    if source_id == "CHN_NBS_YEARBOOK_2022_INDEX":
+        yearbook = "china statistical yearbook 2022" in text or "中国统计年鉴-2022" in text
+        household_table = "3-13 household consumption expenditure" in text or "居民消费支出" in text
+        io_2020 = (
+            "3-21 intermediate use part of 2020 input-output table" in text
+            or "3-22 final use part of 2020 input-output table" in text
+            or ("2020" in text and "input-output table" in text)
+            or ("2020" in text and "投入产出表" in text)
+        )
+        return {
+            "source_kind": "OFFICIAL_YEARBOOK_INDEX",
+            "expected_evidence_confirmed": yearbook and household_table and io_2020,
+            "yearbook_2022": yearbook,
+            "household_consumption_table_inventory": household_table,
+            "input_output_reference_2020": io_2020,
+            "machine_readable": True,
+            "decision": "DISCOVERY_INVENTORY_ONLY" if yearbook and household_table and io_2020 else "REVIEW_REQUIRED",
+        }
+    if source_id == "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF":
+        io = "input-output table" in text or "投入产出表" in text
+        year_2020 = "2020" in text
+        product = any(token in text for token in (
+            "products", "goods and services", "product classification", "产品", "货物和服务",
+        ))
+        competitive = any(token in text for token in (
+            "competitive input-output", "non-competitive input-output", "竞争型", "非竞争型",
+        ))
+        return {
+            "source_kind": "OFFICIAL_INPUT_OUTPUT_METHODOLOGY",
+            "expected_evidence_confirmed": io and year_2020 and (product or competitive),
+            "input_output_table": io,
+            "reference_2020": year_2020,
+            "product_classification": product or competitive,
+            "purpose_classification": any(token in text for token in ("coicop", "by purpose", "按目的")),
+            "machine_readable": True,
+            "decision": "REJECT_WRONG_YEAR_PRODUCT_IO" if io and year_2020 and (product or competitive) else "REVIEW_REQUIRED",
+        }
+    if source_id == "CHN_NBS_2021_GDP_FINAL_VERIFICATION":
+        final_verification = "final verification of gdp in 2021" in text
+        current_price = "current price" in text
+        expenditure = "expenditure approach" in text or "final consumption expenditure" in text
+        purpose = any(token in text for token in ("coicop", "household consumption by purpose", "12 categories"))
+        return {
+            "source_kind": "OFFICIAL_NATIONAL_ACCOUNTS_PUBLICATION",
+            "expected_evidence_confirmed": final_verification and current_price and expenditure,
+            "reference_2021": final_verification,
+            "current_prices": current_price,
+            "expenditure_approach": expenditure,
+            "purpose_dimension": purpose,
+            "machine_readable": True,
+            "decision": "REJECT_AGGREGATE_ONLY" if final_verification and current_price and expenditure and not purpose else "REVIEW_REQUIRED",
+        }
+    raise ValueError(f"Unknown Chinese source id: {source_id}")
+
+
+def china_source_attempt_rows(
+    records: dict[str, AcquisitionRecord],
+    analyses: dict[str, dict[str, Any]],
+    errors: dict[str, Exception],
+    rejection_reason: str,
+) -> list[dict[str, Any]]:
+    specs = {str(spec["source_id"]): spec for spec in ChinaNbsAuditAdapter.source_specs}
+    rows: list[dict[str, Any]] = []
+    for source_id in sorted(specs):
+        spec = specs[source_id]
+        row = step2i_attempt_template(
+            "CHN", "*", ChinaNbsAuditAdapter.source_authority,
+            source_id, str(spec["url"]), "2021", str(spec["concept"]),
+            str(spec["classification"]), rejection_reason,
+        )
+        if source_id in errors:
+            row.update({
+                "retrieval_status": "ACCESS_BLOCKED",
+                "candidate_class": "ACCESS_BLOCKED",
+                "retrieved_at": "ACQUISITION_FAILED_NO_RAW_FILE",
+                "rejection_reason": f"{type(errors[source_id]).__name__}: {errors[source_id]}",
+            })
+        else:
+            record = records[source_id]
+            analysis = analyses[source_id]
+            suffix = Path(str(spec["filename"])).suffix.lower()
+            signature = {".pdf": "PDF_SIGNATURE", ".html": "HTML_DOCUMENT"}.get(suffix, "BINARY_CONTENT")
+            decision = str(analysis.get("decision") or "REVIEW_REQUIRED")
+            retrieval = {
+                "REJECT_CLASS_C_EIGHT_GROUP_SURVEY": "ACQUIRED_CLASS_C_SURVEY",
+                "DISCOVERY_INVENTORY_ONLY": "ACQUIRED_DISCOVERY_INVENTORY",
+                "REJECT_WRONG_YEAR_PRODUCT_IO": "ACQUIRED_REJECTED_WRONG_YEAR_PRODUCT_IO",
+                "REJECT_AGGREGATE_ONLY": "ACQUIRED_AGGREGATE_ONLY",
+                "SOURCE_NOT_MACHINE_READABLE": "ACQUIRED_NOT_MACHINE_READABLE",
+            }.get(decision, "ACQUIRED_REVIEW_REQUIRED")
+            row.update({
+                "retrieval_status": retrieval,
+                "status_code": record.status_code or "",
+                "content_type": record.content_type or "",
+                "file_signature": signature,
+                "byte_size": record.bytes,
+                "retrieved_at": record.retrieved_at,
+                "sha256": record.sha256,
+                "candidate_class": "CONCEPT_AMBIGUOUS" if decision == "REVIEW_REQUIRED" else "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+            })
+            if source_id == "CHN_NBS_2021_HOUSEHOLD_CONSUMPTION":
+                row.update({
+                    "institutional_sector": "HOUSEHOLD_SURVEY_RESPONDENTS",
+                    "transaction_code": "SURVEY_CONSUMPTION_EXPENDITURE_NOT_P31DC",
+                    "classification": "EIGHT_GROUP_SURVEY_CLASSIFICATION",
+                    "current_prices": "NOMINAL_PER_CAPITA_SURVEY_EXPENDITURE",
+                    "currency": "CNY", "unit": "yuan_per_capita",
+                    "npish_treatment": "OUTSIDE_SURVEY_CONCEPT",
+                    "government_treatment": "OUTSIDE_SURVEY_CONCEPT",
+                    "imputed_rent_treatment": "SURVEY_NOT_PROVEN_EQUIVALENT_TO_SNA",
+                })
+            elif source_id == "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF":
+                row.update({
+                    "institutional_sector": "MULTIPLE_FINAL_USE_SECTORS",
+                    "transaction_code": "INPUT_OUTPUT_FINAL_USE",
+                    "classification": "PRODUCT_TABLES_NOT_PURPOSES",
+                    "current_prices": "OFFICIAL_INPUT_OUTPUT_TABLE_FAMILY",
+                    "currency": "CNY", "unit": "YEARBOOK_TABLE_UNIT",
+                    "npish_treatment": "NOT_CONFIRMED_AT_PURPOSE_LEVEL",
+                    "government_treatment": "SEPARATE_FINAL_USE_EXPECTED_NOT_PURPOSE_GATE",
+                    "imputed_rent_treatment": "NOT_CONFIRMED_AT_PURPOSE_LEVEL",
+                })
+            elif source_id == "CHN_NBS_2021_GDP_FINAL_VERIFICATION":
+                row.update({
+                    "institutional_sector": "TOTAL_ECONOMY_AGGREGATES",
+                    "transaction_code": "GDP_EXPENDITURE_APPROACH_AGGREGATE",
+                    "classification": "NO_HOUSEHOLD_PURPOSE_DIMENSION",
+                    "current_prices": "CONFIRMED", "currency": "CNY", "unit": "100_million_yuan",
+                    "npish_treatment": "NOT_EXPOSED_AT_PURPOSE_LEVEL",
+                    "government_treatment": "NOT_EXPOSED_AT_PURPOSE_LEVEL",
+                    "imputed_rent_treatment": "NOT_EXPOSED_AT_PURPOSE_LEVEL",
+                })
+            else:
+                row.update({
+                    "institutional_sector": "DOCUMENTATION_OR_INVENTORY_ONLY",
+                    "transaction_code": "NOT_AN_EXACT_DATASET",
+                    "current_prices": "NOT_APPLICABLE_OR_NOT_PROVEN",
+                    "currency": "NOT_APPLICABLE", "unit": "NOT_APPLICABLE",
+                    "npish_treatment": "NOT_PROVEN_AT_CATEGORY_LEVEL",
+                    "government_treatment": "NOT_PROVEN_AT_CATEGORY_LEVEL",
+                    "imputed_rent_treatment": "DOCUMENTATION_ONLY",
+                })
+        rows.append(row)
+    return expand_attempt_categories(rows)
+
+
+def china_evidence_rows(
+    records: dict[str, AcquisitionRecord],
+    analyses: dict[str, dict[str, Any]],
+    errors: dict[str, Exception],
+    rejection_reason: str,
+) -> list[dict[str, Any]]:
+    specs = {str(spec["source_id"]): spec for spec in ChinaNbsAuditAdapter.source_specs}
+    rows: list[dict[str, Any]] = []
+    for source_id in sorted(specs):
+        spec = specs[source_id]
+        if source_id in errors:
+            status = "ACCESS_BLOCKED"
+            machine = "unknown_this_run"
+            reason = f"{type(errors[source_id]).__name__}: {errors[source_id]}"
+        else:
+            decision = str(analyses[source_id].get("decision") or "REVIEW_REQUIRED")
+            status = "ACQUIRED_BUT_REJECTED" if decision.startswith("REJECT_") else decision
+            machine = str(bool(analyses[source_id].get("machine_readable"))).lower()
+            reason = rejection_reason
+        rows.append({
+            "economy_code": "CHN",
+            "source_id": source_id,
+            "source_authority": ChinaNbsAuditAdapter.source_authority,
+            "source_url": str(spec["url"]),
+            "reference_period": "2021",
+            "concept": str(spec["concept"]),
+            "granularity": str(spec["classification"]),
+            "machine_readable": machine,
+            "status": status,
+            "rejection_reason": reason,
+        })
+    return rows
+
+
+def china_mapping_audit_rows(analyses: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    survey = analyses.get("CHN_NBS_2021_HOUSEHOLD_CONSUMPTION", {})
+    if survey.get("eight_group_classification"):
+        rows.extend([
+            {
+                "economy_code": "CHN", "original_item_code": "FOOD_TOBACCO_LIQUOR",
+                "original_item_name": "Food, tobacco and liquor", "armilar_category": "CP01|CP02",
+                "mapping_type": "ONE_SURVEY_GROUP_TO_MULTIPLE_ARMILAR_CATEGORIES",
+                "status": "REJECTED", "reason": "CP01 and CP02 cannot be separated without an allocation.",
+            },
+            {
+                "economy_code": "CHN", "original_item_code": "EDUCATION_CULTURE_RECREATION",
+                "original_item_name": "Education, culture and recreation", "armilar_category": "CP09|CP10",
+                "mapping_type": "ONE_SURVEY_GROUP_TO_MULTIPLE_ARMILAR_CATEGORIES",
+                "status": "REJECTED", "reason": "CP09 and CP10 cannot be separated without an allocation.",
+            },
+        ])
+    io = analyses.get("CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF", {})
+    if io.get("product_classification"):
+        rows.append({
+            "economy_code": "CHN", "original_item_code": "INPUT_OUTPUT_PRODUCTS_2020",
+            "original_item_name": "NBS 2020 input-output products", "armilar_category": "",
+            "mapping_type": "MANY_TO_MANY_PRODUCT_TO_COICOP_REQUIRED",
+            "status": "REJECTED", "reason": "The product table is for 2020 and requires an unapproved product-to-purpose allocation.",
+        })
+    return rows
+
+
+def china_methodology_gate_rows(
+    records: dict[str, AcquisitionRecord] | None = None,
+    analyses: dict[str, dict[str, Any]] | None = None,
+    errors: dict[str, Exception] | None = None,
+) -> list[dict[str, Any]]:
+    records = records or {}
+    analyses = analyses or {}
+    errors = errors or {}
+
+    def source(source_id: str, review_mode: str) -> dict[str, Any]:
+        spec = next(spec for spec in ChinaNbsAuditAdapter.source_specs if spec["source_id"] == source_id)
+        record = records.get(source_id)
+        return {
+            "source_id": source_id,
+            "source_authority": ChinaNbsAuditAdapter.source_authority,
+            "source_url": str(spec["url"]),
+            "source_retrieved_at": record.retrieved_at if record else "",
+            "source_sha256": record.sha256 if record else "",
+            "review_mode": review_mode,
+        }
+
+    survey_id = "CHN_NBS_2021_HOUSEHOLD_CONSUMPTION"
+    index_id = "CHN_NBS_YEARBOOK_2022_INDEX"
+    io_id = "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF"
+    gdp_id = "CHN_NBS_2021_GDP_FINAL_VERIFICATION"
+    survey = analyses.get(survey_id, {})
+    index = analyses.get(index_id, {})
+    io = analyses.get(io_id, {})
+    gdp = analyses.get(gdp_id, {})
+
+    def blocked(source_id: str) -> bool:
+        return source_id in errors
+
+    rows = [
+        {
+            "criterion": "official_2021_household_survey_available",
+            "status": "CONFIRMED" if survey.get("household_survey") and survey.get("reference_2021") else ("NOT_FOUND" if blocked(survey_id) else "AMBIGUOUS"),
+            "evidence": "The NBS release reports 2021 household consumption from a national household sample survey." if survey.get("household_survey") else "The 2021 survey source was not structurally confirmed in this run.",
+            **source(survey_id, "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "survey_has_twelve_armilar_categories",
+            "status": "CONTRADICTED" if survey.get("eight_group_classification") else ("NOT_FOUND" if blocked(survey_id) else "AMBIGUOUS"),
+            "evidence": "The survey publishes eight groups, combining food with tobacco and alcohol and combining education with culture and recreation." if survey.get("eight_group_classification") else "The survey classification was not structurally confirmed.",
+            **source(survey_id, "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "survey_is_national_accounts_s14_p31",
+            "status": "CONTRADICTED" if survey.get("household_survey") else ("NOT_FOUND" if blocked(survey_id) else "AMBIGUOUS"),
+            "evidence": "The values are collected through a household income and expenditure survey and cannot be substituted for national-accounts S14/P31 expenditure." if survey.get("household_survey") else "The survey concept was not structurally confirmed.",
+            **source(survey_id, "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "yearbook_relevant_table_families_identified",
+            "status": "CONFIRMED" if index.get("household_consumption_table_inventory") and index.get("input_output_reference_2020") else ("NOT_FOUND" if blocked(index_id) else "AMBIGUOUS"),
+            "evidence": "The 2022 yearbook inventory lists a household-consumption table and 2020 input-output tables." if index.get("household_consumption_table_inventory") else "The yearbook table inventory was not structurally confirmed.",
+            **source(index_id, "STRUCTURED_YEARBOOK_INDEX_VALIDATION"),
+        },
+        {
+            "criterion": "input_output_reference_year_matches_2021",
+            "status": "CONTRADICTED" if io.get("reference_2020") else ("NOT_FOUND" if blocked(io_id) else "AMBIGUOUS"),
+            "evidence": "The input-output benchmark described in the 2022 yearbook is 2020, not 2021." if io.get("reference_2020") else "The input-output reference year was not confirmed.",
+            **source(io_id, "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "input_output_is_exact_purpose_classification",
+            "status": "CONTRADICTED" if io.get("product_classification") and not io.get("purpose_classification") else ("NOT_FOUND" if blocked(io_id) else "AMBIGUOUS"),
+            "evidence": "The input-output source is product-oriented and does not expose a COICOP purpose dimension; conversion would require allocation." if io.get("product_classification") and not io.get("purpose_classification") else "The input-output classification was not conclusively confirmed.",
+            **source(io_id, "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "current_price_2021_national_accounts_aggregate_available",
+            "status": "CONFIRMED" if gdp.get("reference_2021") and gdp.get("current_prices") else ("NOT_FOUND" if blocked(gdp_id) else "AMBIGUOUS"),
+            "evidence": "The final 2021 GDP verification publishes official current-price national-accounts aggregates." if gdp.get("reference_2021") and gdp.get("current_prices") else "The current-price 2021 national-accounts aggregate was not structurally confirmed.",
+            **source(gdp_id, "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "twelve_purpose_categories_in_2021_national_accounts",
+            "status": "CONTRADICTED" if gdp.get("reference_2021") and not gdp.get("purpose_dimension") and index.get("input_output_reference_2020") else ("NOT_FOUND" if blocked(gdp_id) or blocked(index_id) else "AMBIGUOUS"),
+            "evidence": "The acquired 2021 national-accounts publication is aggregate and the yearbook purpose-relevant alternatives do not provide a 2021 twelve-purpose S14 table." if gdp.get("reference_2021") and not gdp.get("purpose_dimension") and index.get("input_output_reference_2020") else "A 2021 twelve-purpose national-accounts table was not conclusively assessed in this run.",
+            **source(gdp_id, "CROSS_SOURCE_METHOD_GATE"),
+        },
+        {
+            "criterion": "narcotics_excludable_without_allocation",
+            "status": "CONTRADICTED" if survey.get("combined_food_tobacco_alcohol") else ("NOT_FOUND" if blocked(survey_id) else "AMBIGUOUS"),
+            "evidence": "The survey combines food, tobacco and alcohol, so CP02 and narcotics cannot be isolated without an allocation." if survey.get("combined_food_tobacco_alcohol") else "Narcotics separability was not confirmed.",
+            **source(survey_id, "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "exact_armilar_source_available",
+            "status": (
+                "CONTRADICTED" if (
+                    survey.get("decision") == "REJECT_CLASS_C_EIGHT_GROUP_SURVEY"
+                    and index.get("decision") == "DISCOVERY_INVENTORY_ONLY"
+                    and io.get("decision") == "REJECT_WRONG_YEAR_PRODUCT_IO"
+                    and gdp.get("decision") == "REJECT_AGGREGATE_ONLY"
+                ) else "NOT_FOUND" if any(source_id in errors for source_id in ChinaNbsAuditAdapter.core_source_ids)
+                else "AMBIGUOUS"
+            ),
+            "evidence": "The confirmed survey, yearbook, input-output and national-accounts resources each fail at least one exact-matrix gate; none supplies 2021 current-price S14/P31 by twelve purposes without allocation." if (survey.get("decision") == "REJECT_CLASS_C_EIGHT_GROUP_SURVEY" and index.get("decision") == "DISCOVERY_INVENTORY_ONLY" and io.get("decision") == "REJECT_WRONG_YEAR_PRODUCT_IO" and gdp.get("decision") == "REJECT_AGGREGATE_ONLY") else "The complete critical Chinese source chain was not validated in this run.",
+            **source(gdp_id, "CROSS_SOURCE_METHOD_GATE"),
+        },
     ]
+    validate_china_methodology_gate_rows(rows)
+    return rows
+
+
+def validate_china_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    required = {
+        "official_2021_household_survey_available",
+        "survey_has_twelve_armilar_categories",
+        "survey_is_national_accounts_s14_p31",
+        "yearbook_relevant_table_families_identified",
+        "input_output_reference_year_matches_2021",
+        "input_output_is_exact_purpose_classification",
+        "current_price_2021_national_accounts_aggregate_available",
+        "twelve_purpose_categories_in_2021_national_accounts",
+        "narcotics_excludable_without_allocation",
+        "exact_armilar_source_available",
+    }
+    by_criterion = {str(row.get("criterion")): row for row in rows}
+    missing = sorted(required - set(by_criterion))
+    if missing:
+        raise ValueError("China methodology audit is missing criteria: " + ",".join(missing))
+    invalid = sorted({str(row.get("status")) for row in rows} - CHINA_GATE_STATUSES)
+    if invalid:
+        raise ValueError("China methodology audit contains invalid statuses: " + ",".join(invalid))
+    if by_criterion["exact_armilar_source_available"]["status"] == "CONTRADICTED":
+        if by_criterion["survey_is_national_accounts_s14_p31"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires the survey concept to be rejected")
+        if by_criterion["input_output_reference_year_matches_2021"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires the input-output reference-year mismatch to be confirmed")
+        if by_criterion["twelve_purpose_categories_in_2021_national_accounts"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires the acquired 2021 national-accounts source to lack the purpose dimension")
+
+def analyse_russia_source(source_id: str, path: Path, content_type: str = "") -> dict[str, Any]:
+    if source_id == "RUT_FEDSTAT_HFCE_31414":
+        text = _normalise_russian_text(_decode_text_file(path))
+        aggregate = "расходы на конечное потребление домашних хозяйств" in text
+        current_prices = "текущие цены" in text
+        year = "2021" in text
+        purpose_dimension = any(token in text for token in ("кипц-дх", "coicop", "по целям", "purpose"))
+        return {
+            "source_kind": "OFFICIAL_DATABASE_INDICATOR",
+            "expected_evidence_confirmed": aggregate and current_prices and year,
+            "aggregate_hfce": aggregate,
+            "current_prices": current_prices,
+            "reference_2021": year,
+            "purpose_dimension": purpose_dimension,
+            "machine_readable": True,
+            "decision": "REJECT_AGGREGATE_ONLY" if aggregate and not purpose_dimension else "REVIEW_REQUIRED",
+        }
+    if source_id == "RUT_ROSSTAT_SUT_2021_XLSX":
+        text = _normalise_russian_text(_office_xml_text(path))
+        year = "2021" in text
+        sut = any(token in text for token in ("таблиц ресурсов и использования", "таблицы ресурсов и использования", "ресурсы и использование", "supply and use"))
+        product = any(token in text for token in ("окпд", "продукт", "товаров и услуг"))
+        combined = any(token in text for token in (
+            "домашних хозяйств и некоммерческих организаций",
+            "домашние хозяйства и нкоодх",
+            "households and npish",
+        ))
+        purpose = any(token in text for token in ("кипц-дх", "coicop", "по целям"))
+        return {
+            "source_kind": "OFFICIAL_SUPPLY_USE_WORKBOOK",
+            "expected_evidence_confirmed": year and sut and product,
+            "reference_2021": year,
+            "supply_use_table": sut,
+            "product_classification": product,
+            "households_npish_combined_marker": combined,
+            "purpose_classification": purpose,
+            "machine_readable": True,
+            "decision": "REJECT_ALLOCATION_REQUIRED" if year and sut and product and not purpose else "REVIEW_REQUIRED",
+        }
+    if source_id == "RUT_ROSSTAT_HBS_2021":
+        text = _normalise_russian_text(_decode_text_file(path))
+        hbs = any(token in text for token in (
+            "доходы, расходы и потребление домашних хозяйств",
+            "обследован", "бюджет", "household budget",
+        ))
+        purpose = any(token in text for token in ("кипц-дх", "классификатор индивидуального потребления", "coicop"))
+        year = "2021" in text
+        return {
+            "source_kind": "OFFICIAL_HOUSEHOLD_SURVEY",
+            "expected_evidence_confirmed": hbs and purpose and year,
+            "household_survey": hbs,
+            "purpose_classification": purpose,
+            "reference_2021": year,
+            "machine_readable": True,
+            "decision": "REJECT_CLASS_C_SURVEY" if hbs and purpose and year else "REVIEW_REQUIRED",
+        }
+    if source_id == "RUT_ROSSTAT_KIPC_DH_CLASSIFICATION":
+        text = _normalise_russian_text(_office_xml_text(path))
+        classification = any(token in text for token in ("кипц-дх", "классификатор индивидуального потребления"))
+        return {
+            "source_kind": "OFFICIAL_CLASSIFICATION_DOCUMENT",
+            "expected_evidence_confirmed": classification,
+            "classification_document": classification,
+            "machine_readable": True,
+            "decision": "DOCUMENTATION_ONLY" if classification else "REVIEW_REQUIRED",
+        }
+    if source_id == "RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022":
+        signature = path.read_bytes()[:5]
+        valid_pdf = signature == b"%PDF-"
+        return {
+            "source_kind": "OFFICIAL_PUBLICATION_PDF",
+            "expected_evidence_confirmed": valid_pdf,
+            "valid_pdf_signature": valid_pdf,
+            "machine_readable": False,
+            "decision": "SOURCE_NOT_MACHINE_READABLE" if valid_pdf else "REVIEW_REQUIRED",
+        }
+    raise ValueError(f"Unknown Russian source id: {source_id}")
+
+
+def russia_source_attempt_rows(
+    records: dict[str, AcquisitionRecord],
+    analyses: dict[str, dict[str, Any]],
+    errors: dict[str, Exception],
+    rejection_reason: str,
+) -> list[dict[str, Any]]:
+    specs = {str(spec["source_id"]): spec for spec in RussiaRosstatAuditAdapter.source_specs}
+    rows: list[dict[str, Any]] = []
+    for source_id in sorted(specs):
+        spec = specs[source_id]
+        row = step2i_attempt_template(
+            "RUT", "*", RussiaRosstatAuditAdapter.source_authority,
+            source_id, str(spec["url"]), "2021", str(spec["concept"]),
+            str(spec["classification"]), rejection_reason,
+        )
+        if source_id in errors:
+            row.update({
+                "retrieval_status": "ACCESS_BLOCKED",
+                "candidate_class": "ACCESS_BLOCKED",
+                "retrieved_at": "ACQUISITION_FAILED_NO_RAW_FILE",
+                "rejection_reason": f"{type(errors[source_id]).__name__}: {errors[source_id]}",
+            })
+        else:
+            record = records[source_id]
+            analysis = analyses[source_id]
+            signature = {
+                ".xlsx": "XLSX_ZIP_CONTAINER",
+                ".docx": "DOCX_ZIP_CONTAINER",
+                ".pdf": "PDF_SIGNATURE",
+                ".html": "HTML_DOCUMENT",
+            }.get(Path(str(spec["filename"])).suffix.lower(), "BINARY_CONTENT")
+            decision = str(analysis.get("decision") or "REVIEW_REQUIRED")
+            retrieval = {
+                "REJECT_AGGREGATE_ONLY": "ACQUIRED_AGGREGATE_ONLY",
+                "REJECT_ALLOCATION_REQUIRED": "ACQUIRED_REJECTED_ALLOCATION_REQUIRED",
+                "REJECT_CLASS_C_SURVEY": "ACQUIRED_CLASS_C_SURVEY",
+                "DOCUMENTATION_ONLY": "ACQUIRED_DOCUMENTATION_ONLY",
+                "SOURCE_NOT_MACHINE_READABLE": "ACQUIRED_NOT_MACHINE_READABLE",
+            }.get(decision, "ACQUIRED_REVIEW_REQUIRED")
+            row.update({
+                "retrieval_status": retrieval,
+                "status_code": record.status_code or "",
+                "content_type": record.content_type or "",
+                "file_signature": signature,
+                "byte_size": record.bytes,
+                "retrieved_at": record.retrieved_at,
+                "sha256": record.sha256,
+                "candidate_class": (
+                    "CONCEPT_AMBIGUOUS" if decision == "REVIEW_REQUIRED"
+                    else "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE"
+                ),
+            })
+            if source_id == "RUT_FEDSTAT_HFCE_31414":
+                row.update({
+                    "institutional_sector": "HOUSEHOLDS_S14_AGGREGATE",
+                    "transaction_code": "P31DC_AGGREGATE",
+                    "classification": "NO_PURPOSE_DIMENSION",
+                    "current_prices": "CONFIRMED" if analysis.get("current_prices") else "NOT_CONFIRMED",
+                    "currency": "RUB",
+                    "unit": "OFFICIAL_INDICATOR_UNIT_REQUIRES_RUNTIME_METADATA",
+                    "npish_treatment": "AGGREGATE_HOUSEHOLD_INDICATOR",
+                    "government_treatment": "EXCLUDED_FROM_HOUSEHOLD_AGGREGATE",
+                    "imputed_rent_treatment": "NOT_CONFIRMED_AT_CATEGORY_LEVEL",
+                })
+            elif source_id == "RUT_ROSSTAT_SUT_2021_XLSX":
+                row.update({
+                    "institutional_sector": "HOUSEHOLDS_SCOPE_NOT_PROVEN_AT_PURPOSE_LEVEL",
+                    "transaction_code": "FINAL_CONSUMPTION_IN_SUT",
+                    "classification": "PRODUCT_CLASSIFICATION_REQUIRES_BRIDGE",
+                    "current_prices": "OFFICIAL_SUT_CURRENT_PRICE_TABLE_FAMILY",
+                    "currency": "RUB",
+                    "unit": "WORKBOOK_METADATA_REQUIRED",
+                    "npish_treatment": (
+                        "COMBINED_MARKER_FOUND" if analysis.get("households_npish_combined_marker")
+                        else "NOT_CONFIRMED_EXCLUDED"
+                    ),
+                    "government_treatment": "SEPARATE_USE_COLUMNS_EXPECTED_NOT_CATEGORY_GATE",
+                    "imputed_rent_treatment": "NOT_CONFIRMED_AT_CATEGORY_LEVEL",
+                })
+            elif source_id == "RUT_ROSSTAT_HBS_2021":
+                row.update({
+                    "institutional_sector": "HOUSEHOLD_SURVEY_RESPONDENTS",
+                    "transaction_code": "SURVEY_CONSUMER_EXPENDITURE_NOT_P31DC",
+                    "classification": "KIPC_DH_SURVEY",
+                    "current_prices": "SURVEY_EXPENDITURE_VALUES_OR_SHARES",
+                    "currency": "RUB",
+                    "unit": "SURVEY_PUBLICATION_UNIT",
+                    "npish_treatment": "OUTSIDE_SURVEY_CONCEPT",
+                    "government_treatment": "OUTSIDE_SURVEY_CONCEPT",
+                    "imputed_rent_treatment": "NOT_PROVEN_EQUIVALENT_TO_SNA",
+                })
+            else:
+                row.update({
+                    "institutional_sector": "DOCUMENTATION_ONLY",
+                    "transaction_code": "NOT_A_DATASET",
+                    "current_prices": "NOT_APPLICABLE",
+                    "currency": "NOT_APPLICABLE",
+                    "unit": "NOT_APPLICABLE",
+                    "npish_treatment": "DOCUMENTATION_ONLY",
+                    "government_treatment": "DOCUMENTATION_ONLY",
+                    "imputed_rent_treatment": "DOCUMENTATION_ONLY",
+                })
+        rows.append(row)
+    return expand_attempt_categories(rows)
+
+
+def russia_evidence_rows(
+    records: dict[str, AcquisitionRecord],
+    analyses: dict[str, dict[str, Any]],
+    errors: dict[str, Exception],
+    rejection_reason: str,
+) -> list[dict[str, Any]]:
+    specs = {str(spec["source_id"]): spec for spec in RussiaRosstatAuditAdapter.source_specs}
+    rows: list[dict[str, Any]] = []
+    for source_id in sorted(specs):
+        spec = specs[source_id]
+        if source_id in errors:
+            status = "ACCESS_BLOCKED"
+            machine = "unknown_this_run"
+            reason = f"{type(errors[source_id]).__name__}: {errors[source_id]}"
+        else:
+            decision = str(analyses[source_id].get("decision") or "REVIEW_REQUIRED")
+            status = "ACQUIRED_BUT_REJECTED" if decision.startswith("REJECT_") else decision
+            machine = str(bool(analyses[source_id].get("machine_readable"))).lower()
+            reason = rejection_reason
+        rows.append({
+            "economy_code": "RUT",
+            "source_id": source_id,
+            "source_authority": RussiaRosstatAuditAdapter.source_authority,
+            "source_url": str(spec["url"]),
+            "reference_period": "2021",
+            "concept": str(spec["concept"]),
+            "granularity": str(spec["classification"]),
+            "machine_readable": machine,
+            "status": status,
+            "rejection_reason": reason,
+        })
+    return rows
+
+
+def russia_mapping_audit_rows(analyses: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    if analyses.get("RUT_ROSSTAT_SUT_2021_XLSX", {}).get("product_classification"):
+        rows.append({
+            "economy_code": "RUT",
+            "original_item_code": "SUT_PRODUCTS",
+            "original_item_name": "Rosstat 2021 supply-use products",
+            "armilar_category": "",
+            "mapping_type": "MANY_TO_MANY_PRODUCT_TO_COICOP_REQUIRED",
+            "status": "REJECTED",
+            "reason": "Exact Armilar weights cannot be created through an unapproved product-to-purpose allocation.",
+        })
+    if analyses.get("RUT_ROSSTAT_HBS_2021", {}).get("purpose_classification"):
+        rows.append({
+            "economy_code": "RUT",
+            "original_item_code": "KIPC_DH",
+            "original_item_name": "Household survey expenditure by purpose",
+            "armilar_category": "CP01-CP12",
+            "mapping_type": "CLASSIFICATION_COMPATIBLE_CONCEPT_INCOMPATIBLE",
+            "status": "REJECTED",
+            "reason": "Purpose classification does not convert a household survey into S14/P31DC national-accounts expenditure.",
+        })
+    return rows
+
+
+def russia_methodology_gate_rows(
+    records: dict[str, AcquisitionRecord] | None = None,
+    analyses: dict[str, dict[str, Any]] | None = None,
+    errors: dict[str, Exception] | None = None,
+) -> list[dict[str, Any]]:
+    records = records or {}
+    analyses = analyses or {}
+    errors = errors or {}
+
+    def source(source_id: str, review_mode: str) -> dict[str, Any]:
+        spec = next(spec for spec in RussiaRosstatAuditAdapter.source_specs if spec["source_id"] == source_id)
+        record = records.get(source_id)
+        return {
+            "source_id": source_id,
+            "source_authority": RussiaRosstatAuditAdapter.source_authority,
+            "source_url": str(spec["url"]),
+            "source_retrieved_at": record.retrieved_at if record else "",
+            "source_sha256": record.sha256 if record else "",
+            "review_mode": review_mode,
+        }
+
+    fedstat = analyses.get("RUT_FEDSTAT_HFCE_31414", {})
+    sut = analyses.get("RUT_ROSSTAT_SUT_2021_XLSX", {})
+    hbs = analyses.get("RUT_ROSSTAT_HBS_2021", {})
+    fedstat_blocked = "RUT_FEDSTAT_HFCE_31414" in errors
+    sut_blocked = "RUT_ROSSTAT_SUT_2021_XLSX" in errors
+    hbs_blocked = "RUT_ROSSTAT_HBS_2021" in errors
+
+    rows = [
+        {
+            "criterion": "aggregate_household_hfce_available",
+            "status": "CONFIRMED" if fedstat.get("aggregate_hfce") else ("NOT_FOUND" if fedstat_blocked else "AMBIGUOUS"),
+            "evidence": "Fedstat indicator 31414 identifies household final consumption expenditure at aggregate level." if fedstat.get("aggregate_hfce") else "The aggregate Fedstat source was not acquired and structurally confirmed in this run.",
+            **source("RUT_FEDSTAT_HFCE_31414", "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "current_prices_2021_available_at_aggregate",
+            "status": "CONFIRMED" if fedstat.get("current_prices") and fedstat.get("reference_2021") else ("NOT_FOUND" if fedstat_blocked else "AMBIGUOUS"),
+            "evidence": "The Fedstat indicator exposes current prices and 2021 among its official dimensions." if fedstat.get("current_prices") and fedstat.get("reference_2021") else "Current-price 2021 aggregate evidence was not structurally confirmed in this run.",
+            **source("RUT_FEDSTAT_HFCE_31414", "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "twelve_purpose_categories_in_national_accounts",
+            "status": "CONTRADICTED" if fedstat.get("aggregate_hfce") and not fedstat.get("purpose_dimension") else ("NOT_FOUND" if fedstat_blocked else "AMBIGUOUS"),
+            "evidence": "Fedstat indicator 31414 has aggregate, price-type, territory and period dimensions but no KIPC-DH/COICOP purpose dimension." if fedstat.get("aggregate_hfce") and not fedstat.get("purpose_dimension") else "The existence of a twelve-purpose national-accounts dimension was not confirmed.",
+            **source("RUT_FEDSTAT_HFCE_31414", "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "sut_is_exact_purpose_classification",
+            "status": "CONTRADICTED" if sut.get("product_classification") and not sut.get("purpose_classification") else ("NOT_FOUND" if sut_blocked else "AMBIGUOUS"),
+            "evidence": "The 2021 SUT workbook is structured by products; converting it to COICOP purposes would require an allocation bridge." if sut.get("product_classification") and not sut.get("purpose_classification") else "The SUT classification could not be conclusively assessed in this run.",
+            **source("RUT_ROSSTAT_SUT_2021_XLSX", "STRUCTURED_XLSX_TEXT_INVENTORY"),
+        },
+        {
+            "criterion": "npish_excluded_at_required_category_level",
+            "status": "CONTRADICTED" if sut.get("households_npish_combined_marker") else ("NOT_FOUND" if sut_blocked else "AMBIGUOUS"),
+            "evidence": "The SUT text inventory contains a combined households-and-NPISH final-consumption marker, so strict S14 exclusion is not proven at category level." if sut.get("households_npish_combined_marker") else "No category-level NPISH exclusion was confirmed.",
+            **source("RUT_ROSSTAT_SUT_2021_XLSX", "STRUCTURED_XLSX_TEXT_INVENTORY"),
+        },
+        {
+            "criterion": "purpose_detail_available_in_household_survey",
+            "status": "CONFIRMED" if hbs.get("household_survey") and hbs.get("purpose_classification") else ("NOT_FOUND" if hbs_blocked else "AMBIGUOUS"),
+            "evidence": "Rosstat household-budget results expose purpose detail using KIPC-DH." if hbs.get("household_survey") and hbs.get("purpose_classification") else "KIPC-DH survey detail was not structurally confirmed in this run.",
+            **source("RUT_ROSSTAT_HBS_2021", "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "household_survey_is_national_accounts_p31dc",
+            "status": "CONTRADICTED" if hbs.get("household_survey") else ("NOT_FOUND" if hbs_blocked else "AMBIGUOUS"),
+            "evidence": "The KIPC-DH publication is household-survey evidence and cannot substitute for national-accounts S14/P31DC values." if hbs.get("household_survey") else "The survey concept was not structurally confirmed in this run.",
+            **source("RUT_ROSSTAT_HBS_2021", "STRUCTURED_HTML_MARKER_VALIDATION"),
+        },
+        {
+            "criterion": "exact_armilar_source_available",
+            "status": (
+                "CONTRADICTED" if (
+                    fedstat.get("decision") == "REJECT_AGGREGATE_ONLY"
+                    and sut.get("decision") == "REJECT_ALLOCATION_REQUIRED"
+                    and hbs.get("decision") == "REJECT_CLASS_C_SURVEY"
+                )
+                else "NOT_FOUND" if any(source_id in errors for source_id in RussiaRosstatAuditAdapter.core_source_ids)
+                else "AMBIGUOUS"
+            ),
+            "evidence": "The confirmed aggregate, SUT and survey sources each fail a distinct exact-matrix gate; none supplies 2021 current-price S14/P31DC by twelve purposes without allocation." if (fedstat.get("decision") == "REJECT_AGGREGATE_ONLY" and sut.get("decision") == "REJECT_ALLOCATION_REQUIRED" and hbs.get("decision") == "REJECT_CLASS_C_SURVEY") else "The complete critical source chain was not validated in this run.",
+            **source("RUT_FEDSTAT_HFCE_31414", "CROSS_SOURCE_METHOD_GATE"),
+        },
+    ]
+    validate_russia_methodology_gate_rows(rows)
+    return rows
+
+
+def validate_russia_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    required = {
+        "aggregate_household_hfce_available",
+        "current_prices_2021_available_at_aggregate",
+        "twelve_purpose_categories_in_national_accounts",
+        "sut_is_exact_purpose_classification",
+        "npish_excluded_at_required_category_level",
+        "purpose_detail_available_in_household_survey",
+        "household_survey_is_national_accounts_p31dc",
+        "exact_armilar_source_available",
+    }
+    by_criterion = {str(row.get("criterion")): row for row in rows}
+    missing = sorted(required - set(by_criterion))
+    if missing:
+        raise ValueError("Russia methodology audit is missing criteria: " + ",".join(missing))
+    invalid = sorted({str(row.get("status")) for row in rows} - RUSSIA_GATE_STATUSES)
+    if invalid:
+        raise ValueError("Russia methodology audit contains invalid statuses: " + ",".join(invalid))
+    if by_criterion["exact_armilar_source_available"]["status"] == "CONTRADICTED":
+        if by_criterion["twelve_purpose_categories_in_national_accounts"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires confirmed absence of a purpose dimension in the aggregate source")
+        if by_criterion["household_survey_is_national_accounts_p31dc"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires the survey concept to be rejected")
+
+def india_methodology_gate_rows(
+    *,
+    workbook_record: AcquisitionRecord | None = None,
+    methodology_record: AcquisitionRecord | None = None,
+    methodology_reviewed: bool = True,
+) -> list[dict[str, Any]]:
+    workbook_source = {
+        "source_id": IndiaMospiAdapter.adapter_id,
+        "source_authority": IndiaMospiAdapter.source_authority,
+        "source_url": IndiaMospiAdapter.source_url,
+        "evidence_location": "Statement 5.1 header and current-price 2021-22 column",
+        "source_retrieved_at": workbook_record.retrieved_at if workbook_record else "",
+        "source_sha256": workbook_record.sha256 if workbook_record else "",
+        "review_mode": "STRUCTURED_WORKBOOK_VALIDATION",
+    }
+    methodology_source = {
+        "source_id": IndiaMospiAdapter.methodology_source_id,
+        "source_authority": IndiaMospiAdapter.source_authority,
+        "source_url": IndiaMospiAdapter.methodology_url,
+        "evidence_location": IndiaMospiAdapter.methodology_location,
+        "source_retrieved_at": methodology_record.retrieved_at if methodology_record else "",
+        "source_sha256": methodology_record.sha256 if methodology_record else "",
+        "review_mode": "MANUAL_OFFICIAL_DOCUMENT_REVIEW" if methodology_reviewed else "HASH_CHANGE_REVIEW_REQUIRED",
+    }
+    methodology_available = methodology_record is not None and methodology_reviewed
+    rows = [
+        {
+            "criterion": "represents_households_S14",
+            "status": "CONTRADICTED" if methodology_available else "AMBIGUOUS",
+            "evidence": (
+                "MoSPI defines PFCE as expenditure of resident households and NPISH and says the two are estimated together and are not available separately."
+                if methodology_available else
+                "The workbook alone does not prove a strict S14-only boundary."
+            ),
+            **(methodology_source if methodology_available else workbook_source),
+        },
+        {
+            "criterion": "corresponds_to_P31_HFCE",
+            "status": "CONTRADICTED" if methodology_available else "AMBIGUOUS",
+            "evidence": (
+                "The source is a P31-type final-consumption measure for households and NPISH combined, not strict household S14 HFCE/P31DC."
+                if methodology_available else
+                "The workbook title establishes PFCE but does not prove strict S14/P31DC compatibility."
+            ),
+            **(methodology_source if methodology_available else workbook_source),
+        },
+        {
+            "criterion": "excludes_NPISH",
+            "status": "CONTRADICTED" if methodology_available else "NOT_FOUND",
+            "evidence": (
+                "Official methodology explicitly includes NPISH and states that household and NPISH final consumption are not separately available."
+                if methodology_available else
+                "No NPISH exclusion statement is present in the workbook."
+            ),
+            **(methodology_source if methodology_available else workbook_source),
+        },
+        {
+            "criterion": "excludes_government_consumption",
+            "status": "CONFIRMED" if methodology_available else "AMBIGUOUS",
+            "evidence": (
+                "The commodity-flow method deducts consumption on government account and other final uses outside households and NPISH."
+                if methodology_available else
+                "The workbook is labelled private final consumption but the detailed method was not acquired in this run."
+            ),
+            **(methodology_source if methodology_available else workbook_source),
+        },
+        {
+            "criterion": "includes_imputed_rent",
+            "status": "CONFIRMED",
+            "evidence": (
+                "Official methodology includes imputed gross rent of owner-occupied dwellings."
+                if methodology_available else
+                "The workbook contains gross rentals for housing, including the housing rent component."
+            ),
+            **(methodology_source if methodology_available else workbook_source),
+        },
+        {
+            "criterion": "narcotics_separable",
+            "status": "CONFIRMED",
+            "evidence": "Statement 5.1 exposes alcohol, tobacco and narcotics as separate item codes 2.1, 2.2 and 2.3.",
+            **workbook_source,
+        },
+        {
+            "criterion": "current_prices",
+            "status": "CONFIRMED",
+            "evidence": "The workbook has an explicit current-price block in INR crore.",
+            **workbook_source,
+        },
+        {
+            "criterion": "reference_period_2021_22_available",
+            "status": "CONFIRMED",
+            "evidence": "The workbook exposes fiscal year 2021-22 and the adapter preserves that label.",
+            **workbook_source,
+        },
+        {
+            "criterion": "compatible_with_armilar_calendar_2021",
+            "status": "CONTRADICTED",
+            "evidence": "Fiscal year 2021-22 is not calendar year 2021; no interpolation or silent temporal conversion is permitted.",
+            **workbook_source,
+        },
+    ]
+    validate_india_methodology_gate_rows(rows)
+    return rows
+
+
+def validate_india_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    required = {
+        "represents_households_S14", "corresponds_to_P31_HFCE", "excludes_NPISH",
+        "excludes_government_consumption", "includes_imputed_rent", "narcotics_separable",
+        "current_prices", "reference_period_2021_22_available",
+        "compatible_with_armilar_calendar_2021",
+    }
+    by_criterion = {str(row.get("criterion")): row for row in rows}
+    missing = sorted(required - set(by_criterion))
+    if missing:
+        raise ValueError("India methodology audit is missing criteria: " + ",".join(missing))
+    invalid = sorted({str(row.get("status")) for row in rows} - INDIA_GATE_STATUSES)
+    if invalid:
+        raise ValueError("India methodology audit contains invalid statuses: " + ",".join(invalid))
+    if by_criterion["excludes_NPISH"]["status"] == "CONTRADICTED":
+        if by_criterion["represents_households_S14"]["status"] != "CONTRADICTED":
+            raise ValueError("NPISH inclusion must contradict the strict S14 criterion")
 
 
 def step2h_exception_rows() -> list[dict[str, Any]]:
@@ -777,7 +2188,7 @@ def step2i_completion_summary(result: AdapterResult) -> dict[str, Any]:
     ])
     return {
         "schema_version": "1.1",
-        "pipeline_version": "0.6.2",
+        "pipeline_version": "0.6.5",
         "step": "2I",
         "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
         "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
@@ -830,7 +2241,7 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
     lines = [
         f"# {title}",
         "",
-        "Generated: deterministic v0.6.2 Step 2I report",
+        "Generated: deterministic v0.6.5 Step 2I report",
         "",
         "## Version mapping",
         "",
@@ -841,6 +2252,9 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
         "| 0.6.0 | Step 2I infrastructure | Initial diagnostic closure, now treated as over-certain |",
         "| 0.6.1 | Step 2I corrective audit | Diagnostic infrastructure complete; source audit ongoing |",
         "| 0.6.2 | Step 2H0 hardening | Dataset/discovery separation and direct PPP proxy audit |",
+        "| 0.6.3 | Step 2H0 India evidence closure | India documentary rejection and evidence-linked methodology gates |",
+        "| 0.6.4 | Step 2H0 Russia evidence closure | Fedstat aggregate, SUT product and HBS purpose concepts separated |",
+        "| 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, input-output and GDP aggregate concepts separated |",
         "",
         "## Status",
         "",
@@ -878,6 +2292,96 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
         lines.append(f"- {row['economy_code']} {row['armilar_category']}: `{row['decision']}` - {row['reason']}")
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
+
+
+def write_india_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> None:
+    if rows:
+        validate_india_methodology_gate_rows(rows)
+    lines = [
+        "# India method gate report",
+        "",
+        "Pipeline version: `0.6.5`",
+        "",
+        "This report records the strict Armilar admissibility decision for MoSPI PFCE Statement 5.1.",
+        "The source remains outside the exact matrix whenever a material criterion is contradicted or unresolved.",
+        "",
+        "| Criterion | Status | Evidence source | Evidence |",
+        "|---|---|---|---|",
+    ]
+    for row in rows:
+        source = str(row.get("source_id") or "")
+        evidence = str(row.get("evidence") or "").replace("|", "\\|")
+        lines.append(f"| `{row.get('criterion', '')}` | `{row.get('status', '')}` | `{source}` | {evidence} |")
+    if not rows:
+        lines.append("| No gate evidence acquired in this run | `NOT_FOUND` |  |  |")
+    lines.extend([
+        "",
+        "## Decision",
+        "",
+        "MoSPI PFCE cannot enter the strict exact matrix because the official methodology combines resident households and NPISH, while Statement 5.1 reports fiscal 2021-22 rather than calendar 2021.",
+        "No NPISH allocation or calendar-year interpolation is permitted.",
+    ])
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def write_russia_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> None:
+    if rows:
+        validate_russia_methodology_gate_rows(rows)
+    lines = [
+        "# Russia method gate report",
+        "",
+        "Pipeline version: `0.6.5`",
+        "",
+        "This report records the strict Armilar admissibility decision for the official Rosstat and Fedstat source chain.",
+        "An aggregate national-accounts indicator, product-based SUT data and purpose-classified survey data are kept conceptually separate.",
+        "",
+        "| Criterion | Status | Evidence source | Evidence |",
+        "|---|---|---|---|",
+    ]
+    for row in rows:
+        source = str(row.get("source_id") or "")
+        evidence = str(row.get("evidence") or "").replace("|", "\\|")
+        lines.append(f"| `{row.get('criterion', '')}` | `{row.get('status', '')}` | `{source}` | {evidence} |")
+    if not rows:
+        lines.append("| No gate evidence acquired in this run | `NOT_FOUND` |  |  |")
+    lines.extend([
+        "",
+        "## Decision",
+        "",
+        "No Russian source is admitted to the strict exact matrix in this probe.",
+        "Fedstat indicator 31414 is aggregate-only, the 2021 SUT workbook requires a product-to-purpose allocation, and KIPC-DH purpose detail comes from a household survey rather than S14/P31DC national accounts.",
+        "No product allocation, survey-share substitution or NPISH assumption is permitted.",
+    ])
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def write_china_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> None:
+    if rows:
+        validate_china_methodology_gate_rows(rows)
+    lines = [
+        "# China method gate report",
+        "",
+        "Pipeline version: `0.6.5`",
+        "",
+        "This report records the strict Armilar admissibility decision for the official NBS source chain.",
+        "Household-survey detail, national-accounts aggregates and input-output product tables remain conceptually separate.",
+        "",
+        "| Criterion | Status | Evidence source | Evidence |",
+        "|---|---|---|---|",
+    ]
+    for row in rows:
+        source = str(row.get("source_id") or "")
+        evidence = str(row.get("evidence") or "").replace("|", "\\|")
+        lines.append(f"| `{row.get('criterion', '')}` | `{row.get('status', '')}` | `{source}` | {evidence} |")
+    if not rows:
+        lines.append("| No gate evidence acquired in this run | `NOT_FOUND` |  |  |")
+    lines.extend([
+        "", "## Decision", "",
+        "No Chinese source is admitted to the strict exact matrix in this probe.",
+        "The eight-group household survey is not national-accounts S14/P31 and combines Armilar categories; the yearbook input-output benchmark is 2020 and product-based; the acquired 2021 national-accounts publication is aggregate.",
+        "No survey-share split, product allocation, narcotics estimate or temporal substitution is permitted.",
+    ])
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 def classify_cell(row: dict[str, Any]) -> str:
     data_class = str(row.get("data_class") or "")

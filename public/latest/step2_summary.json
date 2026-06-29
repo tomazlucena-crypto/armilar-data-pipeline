@@ -26,7 +26,7 @@
   "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
   "participating_economies_expected": 176,
   "participating_economies_mapped": 176,
-  "pipeline_version": "0.6.2",
+  "pipeline_version": "0.6.0",
   "proxy_ppp_categories": [
     "CP04",
     "CP06",
@@ -58,21 +58,14 @@
       "top20_direct_expenditure_share": "0.4466570769862425192515560891"
     },
     "proxy_audit": {
-      "comparison_weighting": "UNWEIGHTED_DIAGNOSTIC",
-      "direct_comparison_categories": 0,
-      "direct_comparison_economies": 0,
       "direct_hfce_vs_aic_ppp_comparisons": 0,
       "financing_exposure_comparisons": 56,
       "financing_exposure_maximum": "0.5012568547382459359238851671",
       "financing_exposure_median": "0.2132822449134482131088693636",
       "financing_exposure_minimum": "0.07338687179541832786142176541",
-      "financing_gap_is_proxy_error": false,
-      "methodology": "SEPARATE_AIC_HFCE_FINANCING_EXPOSURE_AND_MATCHED_PPP_PROXY_ERROR_AUDIT",
+      "methodology": "AIC_PPP_PROXY_EVIDENCE_AUDIT",
       "option_b_monetary_use_allowed": false,
       "option_b_research_use_allowed": true,
-      "overall_mean_absolute_error_ratio": "",
-      "overall_median_absolute_error_ratio": "",
-      "overall_median_signed_error_ratio": "",
       "proxy_categories": [
         "CP04",
         "CP06",
@@ -80,50 +73,25 @@
         "CP10",
         "CP12"
       ],
-      "proxy_categories_meeting_minimum": 0,
-      "reason": "Matched strict-HFCE and AIC PPP evidence does not satisfy the minimum total, economy and per-category coverage gates.",
+      "reason": "No public matched strict-HFCE PPP benchmark exists for the five proxy categories in Source 90. Financing exposure is reported separately and is not treated as an error estimate.",
       "reference_year": 2021,
-      "schema_version": "2.0",
-      "validation_policy": {
-        "minimum_comparisons_per_category": 5,
-        "minimum_direct_comparisons": 50,
-        "minimum_distinct_economies": 10,
-        "validated_median_absolute_error_max": "0.02",
-        "validated_with_limits_median_absolute_error_max": "0.05"
-      },
+      "schema_version": "1.0",
       "validation_status": "INSUFFICIENT_DIRECT_EVIDENCE"
     },
     "source_probe": {
       "a_or_b_candidate_economies": 1,
-      "c_only_economies": 2,
-      "classification_note": "D_UNAVAILABLE is a provisional source-probe class. Definitive unavailability requires the separate UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT state and documentary proof.",
-      "d_unavailable_economies": 7,
-      "definitive_unavailability_decisions": 0,
+      "c_only_economies": 3,
+      "d_unavailable_economies": 6,
       "economies_probed": 10,
-      "economies_with_complete_core_family_probe": 0,
-      "economy_audit_state_counts": {
-        "ACCESS_BLOCKED": 4,
-        "CONCEPT_AMBIGUOUS": 1,
-        "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 1,
-        "OFFICIAL_EXPERIMENTAL_ALLOCATION": 2,
-        "SOURCE_NOT_MACHINE_READABLE": 2
-      },
       "economy_class_counts": {
         "A_CANDIDATE": 0,
         "B_CANDIDATE": 1,
-        "C_ONLY": 2,
-        "D_UNAVAILABLE": 7
+        "C_ONLY": 3,
+        "D_UNAVAILABLE": 6
       },
-      "pipeline_version": "0.6.2",
-      "schema_version": "2.1",
-      "source_candidates_access_blocked": 16,
-      "source_candidates_acquired_as_datasets": 4,
-      "source_candidates_acquired_as_discovery_only": 7,
-      "source_candidates_content_validation_failed": 2,
-      "source_candidates_failed": 16,
-      "source_candidates_probed": 29,
-      "source_probe_max_workers": 5,
-      "uninvestigated_core_family_count": 28
+      "source_candidates_accessible": 5,
+      "source_candidates_failed": 5,
+      "source_candidates_probed": 11
     }
   },
   "supplemental_nominal_observations": 1851,

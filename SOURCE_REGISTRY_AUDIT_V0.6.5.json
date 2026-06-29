@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0",
+  "pipeline_version": "0.6.5",
+  "registry_candidates": 35,
+  "economies": 10,
+  "candidate_class_counts": {
+    "C_ONLY": 12,
+    "D_UNAVAILABLE": 23
+  },
+  "economy_summary": [
+    {
+      "economy_code": "BGD",
+      "economy_name": "Bangladesh",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 2,
+      "source_ids": [
+        "BGD_BBS_PORTAL",
+        "BGD_BBS_HIES_2022"
+      ]
+    },
+    {
+      "economy_code": "BRA",
+      "economy_name": "Brazil",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 3,
+      "source_ids": [
+        "BRA_IBGE_SIDRA_NATIONAL_ACCOUNTS",
+        "BRA_IBGE_INPUT_OUTPUT_MATRIX",
+        "BRA_IBGE_SNA_RESOURCE_USE_TABLES"
+      ]
+    },
+    {
+      "economy_code": "CHN",
+      "economy_name": "China",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 6,
+      "source_ids": [
+        "CHN_NBS_2021_HOUSEHOLD_CONSUMPTION",
+        "CHN_NBS_YEARBOOK_2022_INDEX",
+        "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF",
+        "CHN_NBS_2021_GDP_FINAL_VERIFICATION",
+        "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_NOTES",
+        "CHN_NBS_YEARBOOK_2022_HOUSEHOLD_SURVEY_NOTES"
+      ]
+    },
+    {
+      "economy_code": "EGY",
+      "economy_name": "Egypt",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 3,
+      "source_ids": [
+        "EGY_CAPMAS_CENTRAL_DATA_CATALOG",
+        "EGY_CAPMAS_SUT_2017_2018_METHOD",
+        "EGY_CAPMAS_HIECS_2021"
+      ]
+    },
+    {
+      "economy_code": "IDN",
+      "economy_name": "Indonesia",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 3,
+      "source_ids": [
+        "IDN_BPS_STATISTICS_TABLES_EXPENDITURE",
+        "IDN_BPS_NATIONAL_ACCOUNTS_HOME",
+        "IDN_BPS_GDP_EXPENDITURE_2020_2024"
+      ]
+    },
+    {
+      "economy_code": "IND",
+      "economy_name": "India",
+      "best_declared_class": "D_UNAVAILABLE",
+      "candidate_count": 4,
+      "source_ids": [
+        "IND_MOSPI_NAS2024_STATEMENT_5_1",
+        "IND_NSC_NATIONAL_ACCOUNTS_PORTAL",
+        "IND_MOSPI_PFCE_CHAPTER_22",
+        "IND_MOSPI_PFCE_COMMITTEE_REPORT"
+      ]
+    },
+    {
+      "economy_code": "NGA",
+      "economy_name": "Nigeria",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 3,
+      "source_ids": [
+        "NGA_NBS_ELIBRARY_REPORT_PAGE",
+        "NGA_NBS_GDP_EXPENDITURE_2021_PDF",
+        "NGA_NBS_CONSUMPTION_PATTERN_2019"
+      ]
+    },
+    {
+      "economy_code": "PAK",
+      "economy_name": "Pakistan",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 3,
+      "source_ids": [
+        "PAK_PBS_NATIONAL_ACCOUNTS_XLSX",
+        "PAK_PBS_NATIONAL_ACCOUNTS_PAGE",
+        "PAK_PBS_HIES_2018_19"
+      ]
+    },
+    {
+      "economy_code": "RUT",
+      "economy_name": "Russian Federation",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 5,
+      "source_ids": [
+        "RUT_FEDSTAT_HFCE_31414",
+        "RUT_ROSSTAT_SUT_2021_XLSX",
+        "RUT_ROSSTAT_KIPC_DH_CLASSIFICATION",
+        "RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022",
+        "RUT_ROSSTAT_HBS_2021"
+      ]
+    },
+    {
+      "economy_code": "VNM",
+      "economy_name": "Viet Nam",
+      "best_declared_class": "C_ONLY",
+      "candidate_count": 3,
+      "source_ids": [
+        "VNM_NSO_PORTAL",
+        "VNM_NSO_SOCIO_ECONOMIC_2021",
+        "VNM_NSO_VHLSS_2022"
+      ]
+    }
+  ],
+  "interpretation": "Declared classes are source-registry hypotheses, not runtime acquisition results. India, Russia and China have completed conceptual audits and have no admissible exact source in the current probe."
+}

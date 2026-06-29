@@ -175,6 +175,47 @@ class SourceProbeTests(unittest.TestCase):
             self.assertEqual(row["runtime_candidate_class"], "D_UNAVAILABLE")
             self.assertEqual(result.economy_rows[0]["audit_state"], "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE")
 
+    def test_official_documentation_is_preserved_without_becoming_a_dataset(self) -> None:
+        config = load_config(ROOT / "config" / "step2_icp2021.json")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            registry = root / "candidates.csv"
+            self._registry(registry)
+            with registry.open(encoding="utf-8", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            fields = list(rows[0]) + ["source_family", "family_order", "resource_type", "evidence_role", "methodological_state"]
+            rows[0].update({
+                "source_url": "https://example.test/method.pdf",
+                "source_family": "official_structured_publications",
+                "family_order": "5",
+                "resource_type": "PUBLICATION_FILE",
+                "evidence_role": "DOCUMENTATION",
+                "methodological_state": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+                "methodological_candidate_class": "D_UNAVAILABLE",
+                "expected_content_types": "application/pdf",
+                "required_markers": "",
+            })
+            with registry.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=fields)
+                writer.writeheader()
+                writer.writerows(rows)
+
+            def fake_fetch(config, *, source_id, url, destination, cache_path=None, accept="*/*"):
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes(b"%PDF-1.4\n%%EOF\n")
+                return AcquisitionRecord(source_id, url, url, destination, "fresh", 200, "application/pdf", destination.stat().st_size, sha256_file(destination), "2026-06-29T00:00:00Z", ())
+
+            with patch("armilar_pipeline.source_probe.fetch_url", side_effect=fake_fetch):
+                result = run_source_probes(config, candidates_path=registry, run_root=root / "run", cache_root=root / "cache")
+            row = result.candidate_rows[0]
+            self.assertEqual(row["retrieval_status"], "ACQUIRED_DOCUMENTATION_EVIDENCE")
+            self.assertEqual(row["dataset_evidence_status"], "DOCUMENTATION_ONLY")
+            self.assertEqual(row["runtime_candidate_class"], "D_UNAVAILABLE")
+            self.assertEqual(result.summary["source_candidates_acquired_as_documentation"], 1)
+            family = next(item for item in result.family_rows if item["source_family"] == "official_structured_publications")
+            self.assertEqual(family["audit_status"], "DOCUMENTATION_ONLY")
+            self.assertTrue(family["family_evidence_resolved"])
+
     def test_network_failure_preserves_receipt_and_is_access_blocked(self) -> None:
         config = load_config(ROOT / "config" / "step2_icp2021.json")
         with tempfile.TemporaryDirectory() as tmp:

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "pipeline_version": "0.6.3",
+  "audit_scope": "INDIA_STRICT_EXACT_METHOD_GATE",
+  "sources": [
+    {
+      "source_id": "IND_MOSPI_NAS2024_STATEMENT_5_1",
+      "url": "https://www.mospi.gov.in/sites/default/files/reports_and_publication/statistical_publication/National_Accounts/NAS2024/5.1.xlsx",
+      "local_validation_filename": "india_nas2024_5_1.xlsx",
+      "bytes": 77568,
+      "sha256": "651c981f4d65697a3c03750ae3a62e21f197d039b4fc68061b334ecdb84eb729"
+    },
+    {
+      "source_id": "IND_MOSPI_PFCE_CHAPTER_22",
+      "url": "https://mospi.gov.in/sites/default/files/reports_and_publication/statistical_manual/Chapter%2022.pdf",
+      "local_validation_filename": "india_mospi_chapter22_pfce.pdf",
+      "bytes": 270951,
+      "sha256": "8439d936cea6a451ed0f60c964feaf3c3635ec62c398cc952f1e0ec148f6da62"
+    }
+  ],
+  "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+  "exact_cells_added": 0,
+  "reason": "PFCE combines resident households and NPISH and reports fiscal 2021-22 rather than calendar 2021."
+}

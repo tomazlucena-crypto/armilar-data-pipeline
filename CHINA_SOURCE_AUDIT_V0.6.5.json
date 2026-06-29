@@ -1,0 +1,20 @@
+{
+  "critical_sources": [
+    "CHN_NBS_2021_HOUSEHOLD_CONSUMPTION",
+    "CHN_NBS_YEARBOOK_2022_INDEX",
+    "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_BRIEF",
+    "CHN_NBS_2021_GDP_FINAL_VERIFICATION"
+  ],
+  "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+  "economy_code": "CHN",
+  "exact_cells_added": 0,
+  "global_12_category_matrix_complete": false,
+  "monetary_release_allowed": false,
+  "non_core_documentation": [
+    "CHN_NBS_YEARBOOK_2022_NATIONAL_ACCOUNTS_NOTES",
+    "CHN_NBS_YEARBOOK_2022_HOUSEHOLD_SURVEY_NOTES"
+  ],
+  "pipeline_version": "0.6.5",
+  "schema_version": "1.0",
+  "step2j_started": false
+}

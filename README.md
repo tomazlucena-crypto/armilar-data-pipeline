@@ -2,6 +2,20 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.6.5: China source-chain closure
+
+Version 0.6.5 replaces the static China decision with a dedicated `ChinaNbsAuditAdapter`. It acquires six exact official NBS resources independently, preserves raw evidence and hashes, and separates the eight-group household survey, the statistical-yearbook inventory, the 2020 product-based input-output family and the aggregate 2021 GDP verification.
+
+The current decision is `NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE` only when all four critical sources are acquired and their reviewed structural markers are confirmed. Network failures produce `ACCESS_BLOCKED`; changed source content produces `CONCEPT_AMBIGUOUS`. No exact cells are added.
+
+## Version 0.6.3: India evidence closure
+
+Version 0.6.3 converts the India method gate from an unresolved hypothesis into an evidence-linked rejection for the strict exact matrix. The adapter acquires both MoSPI Statement 5.1 and the official PFCE methodology, preserves each raw file and hash, reconciles the item table, and then fails closed.
+
+The official methodology defines PFCE as final consumption of resident households and NPISH estimated together and states that the two components are not available separately. Statement 5.1 is also reported for fiscal 2021-22 rather than calendar 2021. The source therefore remains useful research evidence but cannot supply strict S14/P31DC calendar-2021 weights without prohibited NPISH allocation and temporal interpolation.
+
+A new `INDIA_METHOD_GATE_REPORT.md` exposes every criterion, status, evidence source, retrieval timestamp and SHA-256 hash. Official methodology PDFs are now classified as documentary evidence, not as datasets and not merely as machine-unreadable files.
+
 ## Version 0.6.2: Step 2H0 source-triage hardening
 
 Version 0.6.2 separates discovery evidence from acquired datasets and expands the official-source registry across the ten priority incomplete economies. An accessible homepage or publication page can locate a source family, but it can no longer qualify as a dataset or preserve an A/B runtime class. Network failures are recorded as `ACCESS_BLOCKED`, with failure receipts, rather than being treated as proof of unavailability.
@@ -39,7 +53,7 @@ The release adds:
 4. audit-only adapters for Russia, China, Indonesia, Brazil, Egypt, Pakistan, Nigeria, Bangladesh and Viet Nam;
 5. stronger source-probe validation for corrupted XLSX downloads.
 
-The India parser proves that Statement 5.1 can be reconciled exactly at item level. It does not enter the exact matrix until the strict households-only S14/P31 boundary and NPISH exclusion are confirmed from an official source. China remains blocked because the official NBS evidence found is an eight-group household survey. Russia remains blocked until a deterministic official Rosstat structured table for 2021 strict household COICOP-HH is acquired.
+The India parser proves that Statement 5.1 can be reconciled exactly at item level. Official MoSPI methodology now confirms that PFCE combines households and NPISH and that the components are not separately available, so the source is rejected from the strict S14 exact matrix. China remains blocked because the official NBS evidence found is an eight-group household survey. Russia remains blocked until a deterministic official Rosstat structured table for 2021 strict household COICOP-HH is acquired.
 
 ## Version 0.6.0: Step 2I diagnostic closure
 
@@ -56,6 +70,9 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 | 0.6.0 | Step 2I infrastructure | Initial diagnostic closure, corrected by v0.6.1 |
 | 0.6.1 | Step 2I corrective audit | Diagnostic infrastructure complete; source audit ongoing |
 | 0.6.2 | Step 2H0 hardening alongside Step 2I audit | Dataset/discovery separation and direct proxy-error audit |
+| 0.6.3 | Step 2H0 India evidence closure | Evidence-linked S14/NPISH and calendar-year rejection |
+| 0.6.4 | Step 2H0 Russia evidence closure | Aggregate, SUT-product and survey-purpose concepts separated |
+| 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, 2020 input-output and 2021 GDP aggregate concepts separated |
 
 ## Version 0.4.0: Step 2H0
 
@@ -97,7 +114,7 @@ The configured first wave covers:
 
 The registry in `config/source_probe_candidates.csv` records authority, URL, reference period, conceptual scope, category coverage, expected file type, validation markers, preliminary class and blocking reason. GitHub Actions then verifies actual accessibility, response type, file signature and content markers. Every raw response is preserved and hashed.
 
-The declared registry identifies two `B_CANDIDATE` economies, India and Russia, and eight `C_ONLY` economies. There are no proven `A_CANDIDATE` economies. These are hypotheses attached to specific official evidence. Runtime acquisition may downgrade them, and discovery pages never count as datasets.
+The declared registry no longer treats India or Russia as B candidates. The Russian exact-source audit shows that the available official resources are aggregate, product-based, documentary, or survey-based. There are currently no `A_CANDIDATE` or `B_CANDIDATE` resources in the ten-economy registry. Runtime acquisition may still downgrade access or require review, and discovery pages never count as datasets.
 
 These are candidate classifications. The live GitHub run may downgrade an inaccessible or invalid response to a blocked or current-probe non-admissible state. It never upgrades a conceptually unsuitable source merely because it downloads successfully.
 
@@ -206,8 +223,10 @@ The intended acquisition environment is GitHub Actions. A push to `main` starts 
 - `outputs/country_source_attempts.csv`
 - `outputs/step2i_economy_summary.csv`
 - `outputs/india_methodology_gate_audit.csv`
+- `outputs/russia_methodology_gate_audit.csv`
 - `outputs/step2h_exception_audit.csv`
 - `outputs/step2i_completion_summary.json`
+- `outputs/RUSSIA_METHOD_GATE_REPORT.md`
 - `outputs/STEP_2I_COMPLETION_REPORT.md`
 - `outputs/weights_observed_universe.csv`
 - `outputs/weights_experimental_universe.csv`
