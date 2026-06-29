@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.7.3 - Conditional global research release
+
+- Adds a fail-closed release gate for the completed research evidence grid.
+- Evaluates validation sample size, MAPE, interval coverage and estimated evidence shares.
+- Builds `ARM-WEIGHTS-GLOBAL` only when every research gate passes.
+- Keeps `weights_final.csv` absent and `monetary_release_allowed=false`.
+
+## 0.7.2 - Imputation baselines and validation
+
+- Adds deterministic C, D and E research baselines.
+- Adds own-economy constrained allocation, profile-based donor selection and regional/global fallback.
+- Adds leave-one-out validation and attaches available validation metrics to estimated cells.
+- Does not publish global or monetary weights.
+
 ## 0.7.1 - Evidence-cell staging
 
 - Adds `armilar_global_weights.staging`.

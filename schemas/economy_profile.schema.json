@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Armilar economy profile row",
+  "type": "object",
+  "required": ["economy_code", "region_code", "income_group", "total_real_expenditure"],
+  "properties": {
+    "economy_code": {"type": "string", "pattern": "^[A-Z0-9]{3}$"},
+    "region_code": {"type": "string", "minLength": 1},
+    "income_group": {"type": "string", "minLength": 1},
+    "total_real_expenditure": {"type": "number", "exclusiveMinimum": 0}
+  },
+  "additionalProperties": {"type": ["number", "string", "null"]}
+}

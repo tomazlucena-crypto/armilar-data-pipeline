@@ -10,18 +10,36 @@ from typing import Iterable
 from .builder import BuildError, _float_text
 from .models import EvidenceClass, WeightCell
 
-
 EVIDENCE_CELL_FIELDS = [
-    "economy_code", "economy_name", "category_code",
-    "real_expenditure_central", "real_expenditure_lower", "real_expenditure_upper",
-    "evidence_class", "method_id", "model_version", "source_ids", "donor_economies",
-    "source_state", "transformation_method", "core_eligible", "global_eligible",
-    "validation_mae", "validation_bias", "notes",
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "real_expenditure_central",
+    "real_expenditure_lower",
+    "real_expenditure_upper",
+    "evidence_class",
+    "method_id",
+    "model_version",
+    "source_ids",
+    "donor_economies",
+    "source_state",
+    "transformation_method",
+    "core_eligible",
+    "global_eligible",
+    "validation_mae",
+    "validation_bias",
+    "notes",
 ]
 
 COVERAGE_FIELDS = [
-    "scope", "economy_code", "category_code", "evidence_class",
-    "cell_count", "central_expenditure", "core_eligible_cells", "global_eligible_cells",
+    "scope",
+    "economy_code",
+    "category_code",
+    "evidence_class",
+    "cell_count",
+    "central_expenditure",
+    "core_eligible_cells",
+    "global_eligible_cells",
 ]
 
 
@@ -68,20 +86,27 @@ class EvidenceCell:
         }
 
 
-def strict_matrix_row_to_evidence_cell(row: dict[str, str], *, model_version: str = "strict-staging-v0.7.1") -> EvidenceCell:
+def strict_matrix_row_to_evidence_cell(
+    row: dict[str, str], *, model_version: str = "strict-staging-v0.7.1"
+) -> EvidenceCell:
     category = str(row.get("armilar_category") or row.get("category_code") or "").strip().upper()
     value = _required_positive_float(row, "real_expenditure_ppp")
     quality_flags = set(str(row.get("quality_flags") or "").split("|"))
     derivation = str(row.get("derivation") or "").strip()
-    source_ids = tuple(sorted({
-        value for value in (
-            str(row.get("numerator_source_id") or "").strip(),
-            str(row.get("ppp_source_heading") or "").strip(),
-        ) if value
-    }))
+    source_ids = tuple(
+        sorted(
+            {
+                value
+                for value in (
+                    str(row.get("numerator_source_id") or "").strip(),
+                    str(row.get("ppp_source_heading") or "").strip(),
+                )
+                if value
+            }
+        )
+    )
     if not source_ids:
         raise BuildError("strict row is missing source identifiers")
-
     if "EXPERIMENTAL_ALLOCATION" in quality_flags:
         raise BuildError("experimental allocations cannot be staged as strict A/B evidence")
     if derivation == "DIRECT_SOURCE90_HFCE":
@@ -92,7 +117,6 @@ def strict_matrix_row_to_evidence_cell(row: dict[str, str], *, model_version: st
         evidence = EvidenceClass.B_OFFICIAL_DETERMINISTIC
         method_id = "strict-official-deterministic"
         transformation = derivation or "OFFICIAL_DETERMINISTIC"
-
     cell = WeightCell(
         economy_code=str(row.get("economy_code") or "").strip().upper(),
         category_code=category,
@@ -125,7 +149,10 @@ def load_strict_matrix(path: Path, *, model_version: str = "strict-staging-v0.7.
 
 def write_evidence_cells(cells: Iterable[EvidenceCell], output_dir: Path) -> list[dict[str, str]]:
     output_dir.mkdir(parents=True, exist_ok=True)
-    rows = [cell.as_row() for cell in sorted(cells, key=lambda item: (item.weight_cell.economy_code, item.weight_cell.category_code))]
+    rows = [
+        cell.as_row()
+        for cell in sorted(cells, key=lambda item: (item.weight_cell.economy_code, item.weight_cell.category_code))
+    ]
     with (output_dir / "evidence_cells.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=EVIDENCE_CELL_FIELDS, lineterminator="\n")
         writer.writeheader()
@@ -157,16 +184,18 @@ def evidence_coverage_rows(rows: Iterable[dict[str, str]]) -> list[dict[str, str
             bucket["global"] = int(bucket["global"]) + (1 if row["global_eligible"] == "true" else 0)
     output: list[dict[str, str]] = []
     for (scope, economy, category, evidence), values in sorted(grouped.items()):
-        output.append({
-            "scope": scope,
-            "economy_code": economy,
-            "category_code": category,
-            "evidence_class": evidence,
-            "cell_count": str(values["cell_count"]),
-            "central_expenditure": format(Decimal(values["central_expenditure"]), "f"),
-            "core_eligible_cells": str(values["core"]),
-            "global_eligible_cells": str(values["global"]),
-        })
+        output.append(
+            {
+                "scope": scope,
+                "economy_code": economy,
+                "category_code": category,
+                "evidence_class": evidence,
+                "cell_count": str(values["cell_count"]),
+                "central_expenditure": format(Decimal(values["central_expenditure"]), "f"),
+                "core_eligible_cells": str(values["core"]),
+                "global_eligible_cells": str(values["global"]),
+            }
+        )
     return output
 
 

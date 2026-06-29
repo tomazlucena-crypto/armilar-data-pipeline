@@ -1,9 +1,9 @@
 {
   "schema_version": "4.0",
-  "pipeline_version": "0.7.1",
+  "pipeline_version": "0.7.3",
   "source_id": "90",
   "reference_year": 2021,
-  "user_agent": "ArmilarDataPipeline/0.7.1 (+https://github.com/tomazlucena-crypto/armilar-data-pipeline)",
+  "user_agent": "ArmilarDataPipeline/0.7.3 (+https://github.com/tomazlucena-crypto/armilar-data-pipeline)",
   "timeout_seconds": 120,
   "retries": 4,
   "source_probe_max_workers": 5,
@@ -35,33 +35,10 @@
     "undata_sna_table32": "https://data.un.org/Handlers/DownloadHandler.ashx?DataFilter=group_code%3A302%3Byear%3A2021&DataMartId=SNA&Format=csv&c=2%2C3%2C4%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13"
   },
   "required_heading_codes": [
-    "1000000",
-    "9020000",
-    "9100000",
-    "1101000",
-    "1102000",
-    "1102100",
-    "1102200",
-    "1103000",
-    "1105000",
-    "1107000",
-    "1108000",
-    "1111000",
-    "1113000",
-    "9060000",
-    "9080000",
-    "9110000",
-    "9120000",
-    "9140000"
+    "1000000", "9020000", "9100000", "1101000", "1102000", "1102100", "1102200", "1103000", "1105000", "1107000", "1108000", "1111000", "1113000", "9060000", "9080000", "9110000", "9120000", "9140000"
   ],
-  "aggregate_country_name_tokens": [
-    "benchmark"
-  ],
-  "imputation_detection_heading_codes": [
-    "1000000",
-    "9020000",
-    "9100000"
-  ],
+  "aggregate_country_name_tokens": ["benchmark"],
+  "imputation_detection_heading_codes": ["1000000", "9020000", "9100000"],
   "direct_ppp_heading_by_category": {
     "CP01": "1101000",
     "CP02": "1102100+1102200",
@@ -85,44 +62,9 @@
     "OECD_TABLE5A_T501"
   ],
   "classification_required_heading_codes": [
-    "1000000",
-    "9020000",
-    "9100000",
-    "9060000",
-    "9080000",
-    "9110000",
-    "9120000",
-    "9140000",
-    "1100000",
-    "1101000",
-    "1102000",
-    "1102100",
-    "1102200",
-    "1102300",
-    "1103000",
-    "1104000",
-    "1105000",
-    "1106000",
-    "1107000",
-    "1108000",
-    "1109000",
-    "1110000",
-    "1111000",
-    "1112000",
-    "1113000"
+    "1000000", "9020000", "9100000", "9060000", "9080000", "9110000", "9120000", "9140000", "1100000", "1101000", "1102000", "1102100", "1102200", "1102300", "1103000", "1104000", "1105000", "1106000", "1107000", "1108000", "1109000", "1110000", "1111000", "1112000", "1113000"
   ],
   "aggregate_country_codes": [
-    "EAB",
-    "ECB",
-    "HIB",
-    "LCB",
-    "LIB",
-    "LMB",
-    "MEB",
-    "NAB",
-    "SAB",
-    "SSB",
-    "UMB",
-    "WLD"
+    "EAB", "ECB", "HIB", "LCB", "LIB", "LMB", "MEB", "NAB", "SAB", "SSB", "UMB", "WLD"
   ]
 }

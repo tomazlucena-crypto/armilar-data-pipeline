@@ -2,6 +2,14 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.7.3: conditional global research release
+
+Version 0.7.3 adds a fail-closed gate between the completed research evidence grid and publication of `ARM-WEIGHTS-GLOBAL`. It evaluates validation coverage, MAPE, interval coverage, estimated expenditure share, Class E fallback share and per-cell validation metadata. A research release is created only when every configured gate passes. `weights_final.csv` remains untouched and `monetary_release_allowed=false` cannot be overridden.
+
+## Version 0.7.2: baseline imputation and validation
+
+Version 0.7.2 adds deterministic C, D and E research baselines, own-economy aggregate allocation, profile-based donor selection, regional/global fallback and leave-one-out validation. Outputs remain research-only until the v0.7.3 gate passes.
+
 ## Version 0.7.1: evidence-cell staging
 
 Version 0.7.1 adds a canonical `evidence_cells.csv` staging layer between the strict Step 2 matrix and the experimental global-weight builder. The `armilar-global-weights stage-strict` command converts `economy_category_matrix_weight_eligible.csv` into per-cell evidence records with source state, evidence class, transformation method and core/global eligibility.

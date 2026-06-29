@@ -1,0 +1,5 @@
+economy_code,region_code,income_group,total_real_expenditure,log_gdp_per_capita,urbanisation
+AAA,R1,HIGH,780,10.1,80
+BBB,R1,HIGH,1560,10.4,75
+CCC,R2,MIDDLE,1170,9.1,60
+TGT,R1,HIGH,1000,10.2,77
