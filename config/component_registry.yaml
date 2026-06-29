@@ -1,0 +1,76 @@
+registry_version: "1.0"
+reviewed_on: "2026-06-29"
+default_rule: "Evaluate maintained open-source components before writing material custom infrastructure."
+components:
+  - capability: sdmx_client
+    candidate: sdmx1
+    upstream: khaeru/sdmx
+    license: Apache-2.0
+    decision: ADOPT_PILOT
+    phase: price_source_registry
+    reason: mature SDMX 2.1 and 3.0 client; broad statistical-agency use case
+    replacement_target: custom_sdmx_http_and_parsing
+  - capability: sdmx_metadata_toolbox
+    candidate: pysdmx
+    upstream: bis-med-it/pysdmx
+    license: Apache-2.0
+    decision: EVALUATE
+    phase: price_source_registry
+    reason: actively maintained BIS Open Tech project; useful challenger for SDMX metadata and validation
+    replacement_target: none_until_spike
+  - capability: provider_fetcher_reference
+    candidate: DBnomics_fetchers
+    upstream: DBnomics fetcher repositories
+    license: REVIEW_PER_FETCHER
+    decision: ADAPT_REFERENCE_ONLY
+    phase: national_source_adapters
+    reason: reuse acquisition knowledge while retaining official-source receipts and reviewing each fetcher licence
+    replacement_target: duplicated_provider_discovery_work
+  - capability: analytical_storage
+    candidate: DuckDB_and_Parquet
+    upstream: duckdb/duckdb
+    license: MIT
+    decision: DEFER
+    phase: monthly_index
+    reason: appropriate when historical price panels exceed simple CSV operation; unnecessary for the v0.7 contract layer
+    replacement_target: large_scale_csv_joins
+  - capability: tabular_validation
+    candidate: Pandera
+    upstream: unionai-oss/pandera
+    license: MIT
+    decision: DEFER
+    phase: monthly_index
+    reason: adopt after the tabular contracts stabilise; JSON Schema and standard-library checks remain sufficient in v0.7
+    replacement_target: repetitive_dataframe_validation
+  - capability: property_based_testing
+    candidate: Hypothesis
+    upstream: HypothesisWorks/hypothesis
+    license: MPL-2.0
+    decision: ADOPT_NEXT
+    phase: global_weight_imputation
+    reason: suitable for invariants, malformed grids, normalisation and uncertainty edge cases
+    replacement_target: hand_written_edge_case_matrix
+  - capability: public_api
+    candidate: FastAPI
+    upstream: fastapi/fastapi
+    license: MIT
+    decision: DEFER
+    phase: public_operation
+    reason: no API before a validated monthly series exists
+    replacement_target: custom_http_server
+  - capability: orchestration
+    candidate: Prefect
+    upstream: PrefectHQ/prefect
+    license: Apache-2.0
+    decision: DEFER
+    phase: public_operation
+    reason: workflow orchestration becomes useful after multiple production connectors exist
+    replacement_target: custom_retry_and_scheduler
+  - capability: model_registry
+    candidate: MLflow
+    upstream: mlflow/mlflow
+    license: Apache-2.0
+    decision: DEFER
+    phase: nowcast
+    reason: no model registry is required before an out-of-sample monthly baseline exists
+    replacement_target: custom_model_versioning
