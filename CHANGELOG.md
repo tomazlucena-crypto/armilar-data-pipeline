@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.7
+
+- Replaced the static Brazil decision with `BrazilIbgeAuditAdapter`.
+- Added independent IBGE source-family acquisition for SIDRA/CNT discovery, Sistema de Contas Nacionais, Contas Economicas Integradas, Tabelas de Recursos e Usos, downloadable SCN tables, POF/IPCA and classification/methodology evidence.
+- Added `brazil_methodology_gate_audit.csv` and `BRAZIL_METHOD_GATE_REPORT.md`.
+- Rejects SIDRA, SCN and CEI source-family evidence as exact weights unless a strict 2021 S14/P31DC twelve-purpose table is identified.
+- Rejects IBGE TRU evidence as exact weights because product-to-purpose allocation would be required.
+- Keeps POF/IPCA material as Class C only.
+- Preserves `weights_final.csv` as empty and adds zero exact cells.
+
 ## 0.6.6
 
 - Replaced the static Indonesia decision with `IndonesiaBpsAuditAdapter`.

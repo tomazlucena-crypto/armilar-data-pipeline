@@ -12,7 +12,7 @@ class ConfigTests(unittest.TestCase):
         config = load_config(ROOT / "config" / "step2_icp2021.json")
         self.assertEqual(config.source_id, "90")
         self.assertEqual(config.reference_year, 2021)
-        self.assertEqual(config.pipeline_version, "0.6.6")
+        self.assertEqual(config.pipeline_version, "0.6.7")
         self.assertEqual(config.source_probe_max_workers, 5)
         self.assertEqual(config.aggregate_country_name_tokens, ("benchmark",))
         self.assertIn("NAB", config.aggregate_country_codes)

@@ -2,6 +2,12 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.6.7: Brazil source-family audit
+
+Version 0.6.7 replaces the static Brazil decision with a dedicated `BrazilIbgeAuditAdapter`. It records IBGE official source-family attempts for SIDRA national-accounts table discovery, Sistema de Contas Nacionais, Contas Economicas Integradas, Tabelas de Recursos e Usos, downloadable SCN tables, POF/IPCA Class C evidence and classification/methodology discovery.
+
+The decision remains `NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE` when the critical IBGE source-family chain is acquired and structurally reviewed. SIDRA and SCN evidence remains discovery or publication-family evidence, CEI remains institutional-accounts evidence, TRU remains product/resource-use evidence requiring product-to-purpose allocation, and POF/IPCA remains Class C only. No exact cells are added.
+
 ## Version 0.6.6: Indonesia source-family audit
 
 Version 0.6.6 replaces the static Indonesia decision with a dedicated `IndonesiaBpsAuditAdapter`. It records BPS official source-family attempts for the GDP-by-expenditure publication, BPS statistics-table family, downloadable national-accounts publication search, Supply and Use Tables, input-output tables, survey/CPI Class C evidence and classification/methodology discovery.
@@ -80,6 +86,7 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 | 0.6.4 | Step 2H0 Russia evidence closure | Aggregate, SUT-product and survey-purpose concepts separated |
 | 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, 2020 input-output and 2021 GDP aggregate concepts separated |
 | 0.6.6 | Step 2H0 Indonesia source-family audit | BPS grouped, database, SUT, input-output and Class C concepts separated |
+| 0.6.7 | Step 2H0 Brazil source-family audit | IBGE SIDRA, SCN, CEI, TRU and Class C concepts separated |
 
 ## Version 0.4.0: Step 2H0
 

@@ -130,6 +130,13 @@ INDONESIA_GATE_FIELDS = [
 
 INDONESIA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
 
+BRAZIL_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+
+BRAZIL_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
 STEP2H_EXCEPTION_FIELDS = [
     "economy_code", "economy_name", "armilar_category", "decision",
     "current_status", "resolution_attempted", "reason",
@@ -168,6 +175,7 @@ class AdapterResult:
     russia_gate_rows: list[dict[str, Any]] | None = None
     china_gate_rows: list[dict[str, Any]] | None = None
     indonesia_gate_rows: list[dict[str, Any]] | None = None
+    brazil_gate_rows: list[dict[str, Any]] | None = None
     step2h_exception_rows: list[dict[str, Any]] | None = None
 
 
@@ -186,7 +194,7 @@ def registered_adapters() -> dict[str, CountryAdapter]:
         RussiaRosstatAuditAdapter(),
         ChinaNbsAuditAdapter(),
         IndonesiaBpsAuditAdapter(),
-        Step2IDecisionAdapter("BRA", "Brazil", "BRA_IBGE_OFFICIAL_SOURCE_AUDIT", "Instituto Brasileiro de Geografia e Estatistica", "https://www.ibge.gov.br/estatisticas/economicas/comercio/9052-sistema-de-contas-nacionais-brasil.html", "2021", "SNA_PRODUCT_TABLES", "product tables", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official product tables would require many-to-many product-to-COICOP allocation."),
+        BrazilIbgeAuditAdapter(),
         AuditOnlyAdapter("EGY", "Egypt", "EGY_CAPMAS_OFFICIAL_SOURCE_AUDIT", "Central Agency for Public Mobilization and Statistics", "https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview", "2021", "HOUSEHOLD_SURVEY", "survey microdata", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official HIECS is a survey source, not national-accounts S14/P31 current-price HFCE."),
         AuditOnlyAdapter("PAK", "Pakistan", "PAK_PBS_OFFICIAL_SOURCE_AUDIT", "Pakistan Bureau of Statistics", "https://www.pbs.gov.pk/national-accounts-2/", "2021-22", "HFCE_AGGREGATE", "aggregate only", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Public national-accounts source does not expose a twelve-category strict household table."),
         AuditOnlyAdapter("NGA", "Nigeria", "NGA_NBS_OFFICIAL_SOURCE_AUDIT", "National Bureau of Statistics", "https://www.nigerianstat.gov.ng/elibrary/read/1241168", "2021", "HFCE_AGGREGATE", "aggregate only", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official expenditure-GDP report publishes aggregate household consumption, not twelve categories."),
@@ -276,6 +284,7 @@ def write_country_outputs(out: Path, result: AdapterResult) -> None:
     write_csv(out / "russia_methodology_gate_audit.csv", RUSSIA_GATE_FIELDS, result.russia_gate_rows or [])
     write_csv(out / "china_methodology_gate_audit.csv", CHINA_GATE_FIELDS, result.china_gate_rows or [])
     write_csv(out / "indonesia_methodology_gate_audit.csv", INDONESIA_GATE_FIELDS, result.indonesia_gate_rows or [])
+    write_csv(out / "brazil_methodology_gate_audit.csv", BRAZIL_GATE_FIELDS, result.brazil_gate_rows or [])
     write_csv(out / "step2h_exception_audit.csv", STEP2H_EXCEPTION_FIELDS, result.step2h_exception_rows or step2h_exception_rows())
     write_json(out / "step2i_completion_summary.json", step2i_completion_summary(result))
     write_json(out / "step2i_audit_summary.json", step2i_audit_summary(result))
@@ -285,6 +294,7 @@ def write_country_outputs(out: Path, result: AdapterResult) -> None:
     write_russia_method_gate_report(out / "RUSSIA_METHOD_GATE_REPORT.md", result.russia_gate_rows or [])
     write_china_method_gate_report(out / "CHINA_METHOD_GATE_REPORT.md", result.china_gate_rows or [])
     write_indonesia_method_gate_report(out / "INDONESIA_METHOD_GATE_REPORT.md", result.indonesia_gate_rows or [])
+    write_brazil_method_gate_report(out / "BRAZIL_METHOD_GATE_REPORT.md", result.brazil_gate_rows or [])
 
 
 class IndiaMospiAdapter:
@@ -1001,6 +1011,185 @@ class IndonesiaBpsAuditAdapter:
         )
 
 
+class BrazilIbgeAuditAdapter:
+    economy_code = "BRA"
+    economy_name = "Brazil"
+    adapter_id = "BRA_IBGE_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "Instituto Brasileiro de Geografia e Estatistica"
+    reference_period = "2021"
+
+    source_specs = (
+        {
+            "source_id": "BRA_IBGE_SIDRA_CNT_TABLES",
+            "url": "https://sidra.ibge.gov.br/pesquisa/cnt/tabelas",
+            "filename": "sidra_cnt_tables.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_national_accounts_api",
+            "concept": "SIDRA national accounts table catalogue",
+            "classification": "SIDRA_API_OR_TABLE_DISCOVERY",
+        },
+        {
+            "source_id": "BRA_IBGE_SISTEMA_CONTAS_NACIONAIS",
+            "url": "https://www.ibge.gov.br/estatisticas/economicas/comercio/9052-sistema-de-contas-nacionais-brasil.html",
+            "filename": "sistema_contas_nacionais.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "Sistema de Contas Nacionais publication family",
+            "classification": "SCN_STRUCTURED_PUBLICATION",
+        },
+        {
+            "source_id": "BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS",
+            "url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais.html",
+            "filename": "contas_economicas_integradas.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_statistical_database",
+            "concept": "Contas Economicas Integradas / national accounts source family",
+            "classification": "CEI_INSTITUTIONAL_ACCOUNTS",
+        },
+        {
+            "source_id": "BRA_IBGE_TABELAS_RECURSOS_USOS",
+            "url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9052-sistema-de-contas-nacionais-brasil.html",
+            "filename": "tabelas_recursos_usos.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_supply_and_use_tables",
+            "concept": "Tabelas de Recursos e Usos",
+            "classification": "TRU_PRODUCT_TABLES",
+        },
+        {
+            "source_id": "BRA_IBGE_DOWNLOADABLE_SCN_TABLES",
+            "url": "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9052-sistema-de-contas-nacionais-brasil.html?=&t=downloads",
+            "filename": "scn_downloads.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_csv_xls_xlsx",
+            "concept": "Downloadable SCN tables",
+            "classification": "DOWNLOAD_DISCOVERY_ONLY",
+        },
+        {
+            "source_id": "BRA_IBGE_POF_IPCA_CLASS_C",
+            "url": "https://www.ibge.gov.br/estatisticas/sociais/rendimento-despesa-e-consumo.html",
+            "filename": "pof_ipca_class_c.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "survey_or_cpi_class_c_only",
+            "concept": "POF/IPCA survey or price-index evidence",
+            "classification": "SURVEY_OR_CPI_CLASS_C_ONLY",
+        },
+        {
+            "source_id": "BRA_IBGE_CLASSIFICACOES_METODOLOGIA",
+            "url": "https://www.ibge.gov.br/estatisticas/metodos-e-classificacoes/classificacoes-e-listas-estatisticas.html",
+            "filename": "classificacoes_metodologia.html",
+            "accept": "text/html,application/xhtml+xml,*/*;q=0.1",
+            "family": "official_classifications_methodology",
+            "concept": "IBGE classifications and methodology documents",
+            "classification": "CLASSIFICATION_METHODOLOGY_DISCOVERY",
+        },
+    )
+    core_source_ids = {
+        "BRA_IBGE_SIDRA_CNT_TABLES",
+        "BRA_IBGE_SISTEMA_CONTAS_NACIONAIS",
+        "BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS",
+        "BRA_IBGE_TABELAS_RECURSOS_USOS",
+    }
+
+    def acquire_and_parse(self, config: Step2Config, run_root: Path, cache_root: Path) -> AdapterResult:
+        raw_root = run_root / "raw" / "country_adapters" / self.economy_code
+        records: dict[str, AcquisitionRecord] = {}
+        analyses: dict[str, dict[str, Any]] = {}
+        errors: dict[str, Exception] = {}
+        failure_rows: list[dict[str, Any]] = []
+        for spec in self.source_specs:
+            source_id = str(spec["source_id"])
+            destination = raw_root / source_id / str(spec["filename"])
+            try:
+                record = fetch_url(
+                    config,
+                    source_id=source_id,
+                    url=str(spec["url"]),
+                    destination=destination,
+                    cache_path=cache_root / "country_adapters" / self.economy_code / str(spec["filename"]),
+                    accept=str(spec["accept"]),
+                )
+                records[source_id] = record
+                analyses[source_id] = analyse_brazil_source(source_id, destination, record.content_type or "")
+            except Exception as exc:
+                errors[source_id] = exc
+                failure_rows.append({
+                    "economy_code": self.economy_code,
+                    "adapter_id": self.adapter_id,
+                    "stage": f"acquisition_or_validation:{source_id}",
+                    "error_type": type(exc).__name__,
+                    "error": str(exc),
+                })
+
+        core_blocked = sorted(self.core_source_ids & set(errors))
+        unexpected = sorted(
+            source_id for source_id in self.core_source_ids & set(analyses)
+            if (
+                not analyses[source_id].get("expected_evidence_confirmed", False)
+                or analyses[source_id].get("decision") == "REVIEW_REQUIRED"
+            )
+        )
+        if core_blocked:
+            decision = "ACCESS_BLOCKED"
+            status = "ACCESS_BLOCKED"
+            blocking = (
+                "The current run could not acquire or validate all critical official Brazilian source families: "
+                + ", ".join(core_blocked)
+                + ". A closed source decision is not permitted while these attempts remain blocked."
+            )
+        elif unexpected:
+            decision = "CONCEPT_AMBIGUOUS"
+            status = "SOURCE_CONTENT_REVIEW_REQUIRED"
+            blocking = (
+                "Acquired official Brazilian resources did not match the reviewed structural markers for: "
+                + ", ".join(unexpected)
+                + ". No source is admitted until the changed content is reviewed."
+            )
+        else:
+            decision = "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE"
+            status = "REJECTED_BY_CONFIRMED_SOURCE_GATES"
+            blocking = (
+                "IBGE SIDRA/SCN/CEI source families do not expose an accepted 2021 current-price strict household S14/P31DC table by the twelve Armilar purposes in this probe; "
+                "TRU and downloadable SCN evidence is product/resource-use based and would require product-to-COICOP allocation; "
+                "POF/IPCA evidence remains Class C only. No many-to-many product bridge or survey/CPI share is used."
+            )
+
+        attempts = brazil_source_attempt_rows(records, analyses, errors, blocking)
+        gates = brazil_methodology_gate_rows(records, analyses, errors)
+        validate_brazil_methodology_gate_rows(gates)
+        return AdapterResult(
+            status_rows=[{
+                "economy_code": self.economy_code,
+                "economy_name": self.economy_name,
+                "adapter_id": self.adapter_id,
+                "status": status,
+                "data_class": decision,
+                "accepted_rows": 0,
+                "failure_count": len(failure_rows),
+                "source_url": str(self.source_specs[0]["url"]),
+                "blocking_reason": blocking,
+            }],
+            evidence_rows=brazil_evidence_rows(records, analyses, errors, blocking),
+            normalized_rows=[],
+            mapping_rows=brazil_mapping_audit_rows(analyses),
+            reconciliation_rows=[],
+            failure_rows=failure_rows,
+            acquisition_records=[records[key] for key in sorted(records)],
+            cell_status_rows=step2i_cell_rows(
+                self.economy_code, self.economy_name, self.adapter_id,
+                self.source_authority, self.reference_period, decision, blocking,
+            ),
+            source_attempt_rows=attempts,
+            source_family_rows=source_family_rows(
+                self.economy_code, self.economy_name, attempts, blocking,
+            ),
+            completion_rows=[completion_row(
+                self.economy_code, self.economy_name, blocking,
+                len(self.source_specs), decision,
+            )],
+            brazil_gate_rows=gates,
+        )
+
+
 class Step2IDecisionAdapter:
     def __init__(
         self, economy_code: str, economy_name: str, adapter_id: str,
@@ -1180,7 +1369,7 @@ def _xlsx_rows(path: Path) -> dict[int, dict[str, str]]:
 
 
 def _empty_result() -> AdapterResult:
-    return AdapterResult([], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [])
+    return AdapterResult([], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [])
 
 
 def _extend(target: AdapterResult, source: AdapterResult) -> None:
@@ -1199,6 +1388,7 @@ def _extend(target: AdapterResult, source: AdapterResult) -> None:
     target.russia_gate_rows.extend(source.russia_gate_rows or [])
     target.china_gate_rows.extend(source.china_gate_rows or [])
     target.indonesia_gate_rows.extend(source.indonesia_gate_rows or [])
+    target.brazil_gate_rows.extend(source.brazil_gate_rows or [])
     target.step2h_exception_rows.extend(source.step2h_exception_rows or [])
 
 
@@ -1886,6 +2076,297 @@ def validate_china_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
             raise ValueError("Exact-source rejection requires the input-output reference-year mismatch to be confirmed")
         if by_criterion["twelve_purpose_categories_in_2021_national_accounts"]["status"] != "CONTRADICTED":
             raise ValueError("Exact-source rejection requires the acquired 2021 national-accounts source to lack the purpose dimension")
+
+
+def _normalise_brazil_text(value: str) -> str:
+    value = html.unescape(value).lower()
+    value = re.sub(r"<[^>]+>", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def analyse_brazil_source(source_id: str, path: Path, content_type: str = "") -> dict[str, Any]:
+    text = _normalise_brazil_text(_decode_text_file(path))
+    if source_id == "BRA_IBGE_SIDRA_CNT_TABLES":
+        sidra = "sidra" in text or "sistema ibge de recuperacao automatica" in text
+        national_accounts = any(token in text for token in ("contas nacionais", "national accounts", "cnt"))
+        household = any(token in text for token in ("consumo das familias", "household consumption", "families consumption"))
+        exact = all(token in text for token in ("coicop", "2021", "s14", "p31"))
+        return {
+            "source_kind": "OFFICIAL_NATIONAL_ACCOUNTS_DATABASE",
+            "expected_evidence_confirmed": sidra and national_accounts,
+            "sidra_database": sidra,
+            "national_accounts_family": national_accounts,
+            "household_consumption_marker": household,
+            "exact_dataset_marker": exact,
+            "machine_readable": True,
+            "decision": "DISCOVERY_DATABASE_ONLY" if sidra and national_accounts and not exact else "REVIEW_REQUIRED",
+        }
+    if source_id == "BRA_IBGE_SISTEMA_CONTAS_NACIONAIS":
+        scn = "sistema de contas nacionais" in text or "system of national accounts" in text
+        year = "2021" in text
+        household = "consumo das familias" in text or "household final consumption" in text
+        resource_use = any(token in text for token in ("tabelas de recursos e usos", "resources and uses", "resource and use"))
+        purpose = any(token in text for token in ("coicop", "by purpose", "por finalidade"))
+        return {
+            "source_kind": "OFFICIAL_STRUCTURED_SCN_PUBLICATION",
+            "expected_evidence_confirmed": scn and (year or household or resource_use),
+            "scn_publication_family": scn,
+            "reference_2021": year,
+            "household_consumption_marker": household,
+            "resource_use_tables": resource_use,
+            "purpose_classification": purpose,
+            "machine_readable": True,
+            "decision": "REJECT_SCN_PRODUCT_OR_GROUPED_PUBLICATION" if scn and (year or household or resource_use) else "REVIEW_REQUIRED",
+        }
+    if source_id == "BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS":
+        cei = "contas economicas integradas" in text or "integrated economic accounts" in text
+        sectors = any(token in text for token in ("setores institucionais", "institutional sectors", "familias"))
+        national_accounts = "contas nacionais" in text or "national accounts" in text
+        purpose = any(token in text for token in ("coicop", "por finalidade", "by purpose"))
+        return {
+            "source_kind": "OFFICIAL_INSTITUTIONAL_ACCOUNTS_FAMILY",
+            "expected_evidence_confirmed": (cei or national_accounts) and sectors,
+            "integrated_accounts": cei,
+            "institutional_sector_family": sectors,
+            "purpose_classification": purpose,
+            "machine_readable": True,
+            "decision": "REJECT_INSTITUTIONAL_ACCOUNTS_NOT_PURPOSE_TABLE" if (cei or national_accounts) and sectors else "REVIEW_REQUIRED",
+        }
+    if source_id == "BRA_IBGE_TABELAS_RECURSOS_USOS":
+        tru = any(token in text for token in ("tabelas de recursos e usos", "tabela de recursos e usos", "supply and use", "resources and uses"))
+        product = any(token in text for token in ("produto", "products", "atividade", "industry"))
+        purpose = any(token in text for token in ("coicop", "por finalidade", "by purpose"))
+        return {
+            "source_kind": "OFFICIAL_SUPPLY_USE_SOURCE_FAMILY",
+            "expected_evidence_confirmed": tru,
+            "supply_use_family": tru,
+            "product_classification": product or tru,
+            "purpose_classification": purpose,
+            "machine_readable": True,
+            "decision": "REJECT_TRU_ALLOCATION_REQUIRED" if tru else "REVIEW_REQUIRED",
+        }
+    if source_id == "BRA_IBGE_DOWNLOADABLE_SCN_TABLES":
+        downloads = any(token in text for token in ("download", ".xls", ".xlsx", ".ods", ".csv"))
+        scn = "sistema de contas nacionais" in text or "contas nacionais" in text
+        exact = all(token in text for token in ("coicop", "2021", "s14", "p31"))
+        return {
+            "source_kind": "OFFICIAL_DOWNLOAD_DISCOVERY",
+            "expected_evidence_confirmed": downloads and scn,
+            "downloadable_family": downloads,
+            "exact_dataset_marker": exact,
+            "machine_readable": True,
+            "decision": "DISCOVERY_DOWNLOAD_ONLY" if downloads and scn and not exact else "REVIEW_REQUIRED",
+        }
+    if source_id == "BRA_IBGE_POF_IPCA_CLASS_C":
+        pof = "pesquisa de orcamentos familiares" in text or "pof" in text
+        ipca = "ipca" in text or "indice nacional de precos ao consumidor amplo" in text
+        survey_or_cpi = pof or ipca or "consumer price" in text or "household budget" in text
+        return {
+            "source_kind": "OFFICIAL_CLASS_C_SURVEY_OR_CPI",
+            "expected_evidence_confirmed": survey_or_cpi,
+            "survey_or_cpi": survey_or_cpi,
+            "machine_readable": True,
+            "decision": "REJECT_CLASS_C_SURVEY_OR_CPI" if survey_or_cpi else "REVIEW_REQUIRED",
+        }
+    if source_id == "BRA_IBGE_CLASSIFICACOES_METODOLOGIA":
+        ibge = "ibge" in text
+        classification = any(token in text for token in ("classificacao", "classification", "metodologia", "methodology", "coicop"))
+        return {
+            "source_kind": "OFFICIAL_CLASSIFICATION_METHODOLOGY_DISCOVERY",
+            "expected_evidence_confirmed": ibge and classification,
+            "classification_or_methodology": classification,
+            "machine_readable": True,
+            "decision": "DOCUMENTATION_DISCOVERY_ONLY" if ibge and classification else "REVIEW_REQUIRED",
+        }
+    raise ValueError(f"Unknown Brazilian source id: {source_id}")
+
+
+def brazil_source_attempt_rows(
+    records: dict[str, AcquisitionRecord],
+    analyses: dict[str, dict[str, Any]],
+    errors: dict[str, Exception],
+    rejection_reason: str,
+) -> list[dict[str, Any]]:
+    specs = {str(spec["source_id"]): spec for spec in BrazilIbgeAuditAdapter.source_specs}
+    rows: list[dict[str, Any]] = []
+    for source_id in sorted(specs):
+        spec = specs[source_id]
+        row = step2i_attempt_template(
+            "BRA", "*", BrazilIbgeAuditAdapter.source_authority,
+            source_id, str(spec["url"]), "2021", str(spec["concept"]),
+            str(spec["classification"]), rejection_reason,
+        )
+        row["source_family"] = str(spec["family"])
+        if source_id in errors:
+            row.update({
+                "retrieval_status": "ACCESS_BLOCKED",
+                "candidate_class": "ACCESS_BLOCKED",
+                "retrieved_at": "ACQUISITION_FAILED_NO_RAW_FILE",
+                "rejection_reason": f"{type(errors[source_id]).__name__}: {errors[source_id]}",
+            })
+        else:
+            record = records[source_id]
+            analysis = analyses[source_id]
+            decision = str(analysis.get("decision") or "REVIEW_REQUIRED")
+            retrieval = {
+                "DISCOVERY_DATABASE_ONLY": "ACQUIRED_DISCOVERY_DATABASE_ONLY",
+                "REJECT_SCN_PRODUCT_OR_GROUPED_PUBLICATION": "ACQUIRED_REJECTED_SCN_PUBLICATION",
+                "REJECT_INSTITUTIONAL_ACCOUNTS_NOT_PURPOSE_TABLE": "ACQUIRED_REJECTED_INSTITUTIONAL_ACCOUNTS",
+                "REJECT_TRU_ALLOCATION_REQUIRED": "ACQUIRED_REJECTED_TRU_ALLOCATION_REQUIRED",
+                "DISCOVERY_DOWNLOAD_ONLY": "ACQUIRED_DISCOVERY_DOWNLOAD_ONLY",
+                "REJECT_CLASS_C_SURVEY_OR_CPI": "ACQUIRED_CLASS_C_SURVEY_OR_CPI",
+                "DOCUMENTATION_DISCOVERY_ONLY": "ACQUIRED_DOCUMENTATION_DISCOVERY_ONLY",
+            }.get(decision, "ACQUIRED_REVIEW_REQUIRED")
+            row.update({
+                "retrieval_status": retrieval,
+                "status_code": record.status_code or "",
+                "content_type": record.content_type or "",
+                "file_signature": "HTML_DOCUMENT",
+                "byte_size": record.bytes,
+                "retrieved_at": record.retrieved_at,
+                "sha256": record.sha256,
+                "candidate_class": "CONCEPT_AMBIGUOUS" if decision == "REVIEW_REQUIRED" else "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+            })
+            if source_id in {"BRA_IBGE_TABELAS_RECURSOS_USOS", "BRA_IBGE_SISTEMA_CONTAS_NACIONAIS"}:
+                row.update({
+                    "institutional_sector": "MULTIPLE_FINAL_USE_SECTORS_OR_PUBLICATION_FAMILY",
+                    "transaction_code": "FINAL_USE_PRODUCT_TABLE_FAMILY",
+                    "classification": "PRODUCT_OR_RESOURCE_USE_TABLES_REQUIRING_PURPOSE_BRIDGE",
+                    "current_prices": "NOT_CONFIRMED_AS_EXACT_2021_PURPOSE_TABLE",
+                    "currency": "BRL", "unit": "SOURCE_TABLE_UNIT_NOT_ACCEPTED",
+                    "npish_treatment": "NOT_CONFIRMED_EXCLUDED_AT_PURPOSE_LEVEL",
+                    "government_treatment": "NOT_CONFIRMED_EXCLUDED_AT_PURPOSE_LEVEL",
+                    "imputed_rent_treatment": "NOT_CONFIRMED_AT_PURPOSE_LEVEL",
+                })
+            elif source_id == "BRA_IBGE_POF_IPCA_CLASS_C":
+                row.update({
+                    "institutional_sector": "HOUSEHOLD_SURVEY_OR_PRICE_INDEX_SCOPE",
+                    "transaction_code": "NOT_NATIONAL_ACCOUNTS_P31DC",
+                    "classification": "SURVEY_OR_CPI_CLASS_C_ONLY",
+                    "current_prices": "NOT_AN_EXACT_CURRENT_PRICE_NA_TABLE",
+                    "currency": "BRL_OR_INDEX", "unit": "SURVEY_VALUE_OR_INDEX",
+                    "npish_treatment": "OUTSIDE_SURVEY_OR_CPI_CONCEPT",
+                    "government_treatment": "OUTSIDE_SURVEY_OR_CPI_CONCEPT",
+                    "imputed_rent_treatment": "NOT_PROVEN_EQUIVALENT_TO_SNA",
+                })
+            else:
+                row.update({
+                    "institutional_sector": "DISCOVERY_OR_DOCUMENTATION_ONLY",
+                    "transaction_code": "NOT_AN_ACCEPTED_EXACT_DATASET",
+                    "current_prices": "NOT_CONFIRMED_AS_EXACT_2021_CURRENT_PRICE_TABLE",
+                    "currency": "NOT_ACCEPTED", "unit": "NOT_ACCEPTED",
+                    "npish_treatment": "NOT_CONFIRMED_EXCLUDED",
+                    "government_treatment": "NOT_CONFIRMED_EXCLUDED",
+                    "imputed_rent_treatment": "NOT_CONFIRMED",
+                })
+        rows.append(row)
+    return expand_attempt_categories(rows)
+
+
+def brazil_evidence_rows(records: dict[str, AcquisitionRecord], analyses: dict[str, dict[str, Any]], errors: dict[str, Exception], rejection_reason: str) -> list[dict[str, Any]]:
+    specs = {str(spec["source_id"]): spec for spec in BrazilIbgeAuditAdapter.source_specs}
+    rows: list[dict[str, Any]] = []
+    for source_id in sorted(specs):
+        spec = specs[source_id]
+        status = "ACCESS_BLOCKED" if source_id in errors else str(analyses[source_id].get("decision", "REVIEW_REQUIRED"))
+        rows.append({
+            "economy_code": "BRA", "source_id": source_id,
+            "source_authority": BrazilIbgeAuditAdapter.source_authority,
+            "source_url": spec["url"], "reference_period": "2021",
+            "concept": spec["concept"], "granularity": spec["classification"],
+            "machine_readable": "unknown" if source_id in errors else str(analyses[source_id].get("machine_readable", "")),
+            "status": status,
+            "rejection_reason": rejection_reason if source_id not in errors else f"{type(errors[source_id]).__name__}: {errors[source_id]}",
+        })
+    return rows
+
+
+def brazil_mapping_audit_rows(analyses: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    if analyses.get("BRA_IBGE_TABELAS_RECURSOS_USOS", {}).get("product_classification"):
+        rows.append({
+            "economy_code": "BRA", "original_item_code": "IBGE_TRU_PRODUCTS",
+            "original_item_name": "Tabelas de Recursos e Usos product/source tables",
+            "armilar_category": "", "mapping_type": "REJECTED_PRODUCT_TO_PURPOSE_ALLOCATION",
+            "status": "FAIL", "reason": "TRU product/resource-use tables cannot be transformed into exact COICOP/Armilar weights through many-to-many allocation.",
+        })
+    if analyses.get("BRA_IBGE_POF_IPCA_CLASS_C", {}).get("survey_or_cpi"):
+        rows.append({
+            "economy_code": "BRA", "original_item_code": "IBGE_POF_IPCA_CLASS_C",
+            "original_item_name": "POF/IPCA survey or CPI family",
+            "armilar_category": "", "mapping_type": "REJECTED_CLASS_C_SUBSTITUTION",
+            "status": "FAIL", "reason": "Survey/CPI evidence cannot substitute for strict S14/P31DC national-accounts expenditure.",
+        })
+    return rows
+
+
+def brazil_methodology_gate_rows(records: dict[str, AcquisitionRecord] | None = None, analyses: dict[str, dict[str, Any]] | None = None, errors: dict[str, Exception] | None = None) -> list[dict[str, Any]]:
+    records = records or {}
+    analyses = analyses or {}
+    errors = errors or {}
+    specs = {str(item["source_id"]): item for item in BrazilIbgeAuditAdapter.source_specs}
+
+    def source(source_id: str) -> dict[str, Any]:
+        record = records.get(source_id)
+        return {
+            "source_id": source_id,
+            "source_authority": BrazilIbgeAuditAdapter.source_authority,
+            "source_url": specs[source_id]["url"],
+            "source_retrieved_at": record.retrieved_at if record else "",
+            "source_sha256": record.sha256 if record else "",
+            "review_mode": "STRUCTURAL_MARKER_REVIEW" if record else "NOT_ACQUIRED_IN_CURRENT_RUN",
+        }
+
+    sidra = analyses.get("BRA_IBGE_SIDRA_CNT_TABLES", {})
+    scn = analyses.get("BRA_IBGE_SISTEMA_CONTAS_NACIONAIS", {})
+    cei = analyses.get("BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS", {})
+    tru = analyses.get("BRA_IBGE_TABELAS_RECURSOS_USOS", {})
+    class_c = analyses.get("BRA_IBGE_POF_IPCA_CLASS_C", {})
+    exact_chain_validated = (
+        sidra.get("expected_evidence_confirmed")
+        and scn.get("expected_evidence_confirmed")
+        and cei.get("expected_evidence_confirmed")
+        and tru.get("expected_evidence_confirmed")
+    )
+    rows = [
+        {"criterion": "official_sidra_national_accounts_acquired", "status": "CONFIRMED" if sidra.get("expected_evidence_confirmed") else ("NOT_FOUND" if "BRA_IBGE_SIDRA_CNT_TABLES" in errors else "AMBIGUOUS"), "evidence": "IBGE SIDRA national-accounts table catalogue was acquired as official source-family evidence.", **source("BRA_IBGE_SIDRA_CNT_TABLES")},
+        {"criterion": "sidra_exact_s14_p31dc_table_available", "status": "CONTRADICTED" if sidra.get("expected_evidence_confirmed") and not sidra.get("exact_dataset_marker") else "AMBIGUOUS", "evidence": "The SIDRA source family did not expose a reviewed 2021 strict S14/P31DC twelve-purpose table in this probe.", **source("BRA_IBGE_SIDRA_CNT_TABLES")},
+        {"criterion": "official_scn_publication_acquired", "status": "CONFIRMED" if scn.get("expected_evidence_confirmed") else ("NOT_FOUND" if "BRA_IBGE_SISTEMA_CONTAS_NACIONAIS" in errors else "AMBIGUOUS"), "evidence": "The IBGE Sistema de Contas Nacionais publication family was acquired and reviewed for household/source-family markers.", **source("BRA_IBGE_SISTEMA_CONTAS_NACIONAIS")},
+        {"criterion": "scn_publication_has_twelve_armilar_purposes", "status": "CONTRADICTED" if scn.get("expected_evidence_confirmed") and not scn.get("purpose_classification") else "AMBIGUOUS", "evidence": "The SCN publication family is not accepted as a twelve Armilar-purpose current-price S14/P31DC table.", **source("BRA_IBGE_SISTEMA_CONTAS_NACIONAIS")},
+        {"criterion": "cei_is_exact_purpose_classification", "status": "CONTRADICTED" if cei.get("expected_evidence_confirmed") and not cei.get("purpose_classification") else "AMBIGUOUS", "evidence": "Contas Economicas Integradas are institutional-accounts evidence, not an exact twelve-purpose household expenditure table.", **source("BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS")},
+        {"criterion": "tru_is_exact_purpose_classification", "status": "CONTRADICTED" if tru.get("expected_evidence_confirmed") and not tru.get("purpose_classification") else "AMBIGUOUS", "evidence": "IBGE TRU evidence is product/resource-use based and cannot be used as exact purpose weights without allocation.", **source("BRA_IBGE_TABELAS_RECURSOS_USOS")},
+        {"criterion": "survey_or_cpi_is_exact_national_accounts", "status": "CONTRADICTED" if class_c.get("expected_evidence_confirmed") else "AMBIGUOUS", "evidence": "POF/IPCA evidence is Class C only and cannot substitute for S14/P31DC national accounts.", **source("BRA_IBGE_POF_IPCA_CLASS_C")},
+        {"criterion": "exact_armilar_source_available", "status": "CONTRADICTED" if exact_chain_validated else "AMBIGUOUS", "evidence": "No acquired Brazilian source supplies all strict exact gates simultaneously; database discovery, institutional accounts, product tables and survey/CPI sources remain rejected.", **source("BRA_IBGE_SIDRA_CNT_TABLES")},
+    ]
+    validate_brazil_methodology_gate_rows(rows)
+    return rows
+
+
+def validate_brazil_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    required = {
+        "official_sidra_national_accounts_acquired",
+        "sidra_exact_s14_p31dc_table_available",
+        "official_scn_publication_acquired",
+        "scn_publication_has_twelve_armilar_purposes",
+        "cei_is_exact_purpose_classification",
+        "tru_is_exact_purpose_classification",
+        "survey_or_cpi_is_exact_national_accounts",
+        "exact_armilar_source_available",
+    }
+    by_criterion = {str(row.get("criterion")): row for row in rows}
+    missing = sorted(required - set(by_criterion))
+    if missing:
+        raise ValueError("Brazil methodology audit is missing criteria: " + ",".join(missing))
+    invalid = sorted({str(row.get("status")) for row in rows} - BRAZIL_GATE_STATUSES)
+    if invalid:
+        raise ValueError("Brazil methodology audit contains invalid statuses: " + ",".join(invalid))
+    if by_criterion["exact_armilar_source_available"]["status"] == "CONTRADICTED":
+        if by_criterion["sidra_exact_s14_p31dc_table_available"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires SIDRA exact-table rejection")
+        if by_criterion["tru_is_exact_purpose_classification"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires TRU purpose incompatibility")
+        if by_criterion["survey_or_cpi_is_exact_national_accounts"]["status"] != "CONTRADICTED":
+            raise ValueError("Exact-source rejection requires survey/CPI substitution rejection")
 
 
 def _normalise_indonesia_text(value: str) -> str:
@@ -2696,7 +3177,7 @@ def step2i_completion_summary(result: AdapterResult) -> dict[str, Any]:
     ])
     return {
         "schema_version": "1.1",
-        "pipeline_version": "0.6.6",
+        "pipeline_version": "0.6.7",
         "step": "2I",
         "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
         "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
@@ -2749,7 +3230,7 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
     lines = [
         f"# {title}",
         "",
-        "Generated: deterministic v0.6.6 Step 2I report",
+        "Generated: deterministic v0.6.7 Step 2I report",
         "",
         "## Version mapping",
         "",
@@ -2763,6 +3244,7 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
         "| 0.6.3 | Step 2H0 India evidence closure | India documentary rejection and evidence-linked methodology gates |",
         "| 0.6.4 | Step 2H0 Russia evidence closure | Fedstat aggregate, SUT product and HBS purpose concepts separated |",
         "| 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, input-output and GDP aggregate concepts separated |",
+        "| 0.6.7 | Step 2H0 Brazil source-family audit | IBGE SIDRA, SCN, CEI, TRU and Class C concepts separated |",
         "| 0.6.6 | Step 2H0 Indonesia evidence audit | BPS grouped, database, SUT, input-output and Class C concepts separated |",
         "",
         "## Status",
@@ -2809,7 +3291,7 @@ def write_india_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> No
     lines = [
         "# India method gate report",
         "",
-        "Pipeline version: `0.6.6`",
+        "Pipeline version: `0.6.7`",
         "",
         "This report records the strict Armilar admissibility decision for MoSPI PFCE Statement 5.1.",
         "The source remains outside the exact matrix whenever a material criterion is contradicted or unresolved.",
@@ -2839,7 +3321,7 @@ def write_russia_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> N
     lines = [
         "# Russia method gate report",
         "",
-        "Pipeline version: `0.6.6`",
+        "Pipeline version: `0.6.7`",
         "",
         "This report records the strict Armilar admissibility decision for the official Rosstat and Fedstat source chain.",
         "An aggregate national-accounts indicator, product-based SUT data and purpose-classified survey data are kept conceptually separate.",
@@ -2870,7 +3352,7 @@ def write_china_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> No
     lines = [
         "# China method gate report",
         "",
-        "Pipeline version: `0.6.6`",
+        "Pipeline version: `0.6.7`",
         "",
         "This report records the strict Armilar admissibility decision for the official NBS source chain.",
         "Household-survey detail, national-accounts aggregates and input-output product tables remain conceptually separate.",
@@ -2899,7 +3381,7 @@ def write_indonesia_method_gate_report(path: Path, rows: list[dict[str, Any]]) -
     lines = [
         "# Indonesia method gate report",
         "",
-        "Pipeline version: `0.6.6`",
+        "Pipeline version: `0.6.7`",
         "",
         "This report records the strict Armilar admissibility decision for the official BPS source chain.",
         "Grouped national-accounts publications, BPS database discovery pages, product-based SUT/input-output families and Class C survey/CPI evidence remain conceptually separate.",
@@ -2920,6 +3402,36 @@ def write_indonesia_method_gate_report(path: Path, rows: list[dict[str, Any]]) -
         "No grouped-category split, product-to-COICOP allocation, survey-share substitution or silent concept conversion is permitted.",
     ])
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def write_brazil_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> None:
+    if rows:
+        validate_brazil_methodology_gate_rows(rows)
+    lines = [
+        "# Brazil method gate report",
+        "",
+        "Pipeline version: `0.6.7`",
+        "",
+        "This report records the strict Armilar admissibility decision for the official IBGE source chain.",
+        "SIDRA, SCN, CEI, TRU and Class C survey/CPI evidence are kept conceptually separate.",
+        "",
+        "| Criterion | Status | Evidence source | Evidence |",
+        "|---|---|---|---|",
+    ]
+    for row in rows:
+        source = str(row.get("source_id") or "")
+        evidence = str(row.get("evidence") or "").replace("|", "\\|")
+        lines.append(f"| `{row.get('criterion', '')}` | `{row.get('status', '')}` | `{source}` | {evidence} |")
+    if not rows:
+        lines.append("| No gate evidence acquired in this run | `NOT_FOUND` |  |  |")
+    lines.extend([
+        "", "## Decision", "",
+        "No Brazilian source is admitted to the strict exact matrix in this probe.",
+        "SIDRA and SCN evidence remains discovery or publication-family evidence; CEI is institutional-accounts evidence; TRU is product/resource-use based; POF/IPCA material is Class C only.",
+        "No product-to-COICOP allocation, survey-share substitution or silent concept conversion is permitted.",
+    ])
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
 
 def classify_cell(row: dict[str, Any]) -> str:
     data_class = str(row.get("data_class") or "")
