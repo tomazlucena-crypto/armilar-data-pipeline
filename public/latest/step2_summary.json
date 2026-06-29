@@ -26,7 +26,7 @@
   "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
   "participating_economies_expected": 176,
   "participating_economies_mapped": 176,
-  "pipeline_version": "0.4.0",
+  "pipeline_version": "0.5.0",
   "proxy_ppp_categories": [
     "CP04",
     "CP06",
@@ -49,8 +49,8 @@
   "status": "RESEARCH_MATRIX_AVAILABLE_GLOBAL_SCOPE_INCOMPLETE",
   "step2h0": {
     "gap_priority": {
-      "complete_economy_direct_expenditure_indicator_total": "15751116284228.87565458846090",
-      "complete_economy_indicator_coverage_ratio": "0.4971716160380331246617494918",
+      "complete_economy_direct_expenditure_indicator_total": "15751116284228.87565458846089",
+      "complete_economy_indicator_coverage_ratio": "0.4971716160380331246617494915",
       "incomplete_economies_ranked": 114,
       "indicator_warning": "This priority indicator uses only seven direct ICP categories. It is not a final Armilar weight or a world-coverage estimate.",
       "participant_direct_expenditure_indicator_total": "31681447162550.66987812623148",

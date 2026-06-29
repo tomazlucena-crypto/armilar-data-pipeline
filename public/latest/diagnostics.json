@@ -6,15 +6,15 @@
     "xml_parts_scanned": 18
   },
   "gap_priority": {
-    "complete_economy_direct_expenditure_indicator_total": "15751116284228.87565458846090",
-    "complete_economy_indicator_coverage_ratio": "0.4971716160380331246617494918",
+    "complete_economy_direct_expenditure_indicator_total": "15751116284228.87565458846089",
+    "complete_economy_indicator_coverage_ratio": "0.4971716160380331246617494915",
     "incomplete_economies_ranked": 114,
     "indicator_warning": "This priority indicator uses only seven direct ICP categories. It is not a final Armilar weight or a world-coverage estimate.",
     "participant_direct_expenditure_indicator_total": "31681447162550.66987812623148",
     "top10_direct_expenditure_share": "0.3826946843860666965182529397",
     "top20_direct_expenditure_share": "0.4466570769862425192515560891"
   },
-  "generated_at": "2026-06-28T22:48:34Z",
+  "generated_at": "2026-06-29T08:03:25Z",
   "inventory_counts": {
     "Classification": 17,
     "Country": 207,
@@ -49,9 +49,9 @@
   },
   "runtime": {
     "github_actions": true,
-    "github_run_id": "28337953001",
+    "github_run_id": "28356065535",
     "github_runner_os": "Linux",
-    "github_sha": "73cda84b11698f615ed428aeaf303549693c6980",
+    "github_sha": "5f37213e5a8f093c31be658a8e9a85963b6895aa",
     "implementation": "CPython",
     "machine": "x86_64",
     "platform": "Linux-6.17.0-1018-azure-x86_64-with-glibc2.39",
@@ -130,7 +130,7 @@
     },
     {
       "economy_code": "VNM",
-      "error": "Acquisition failed for source_probe_VNM_NSO_VHLSS_2022: attempt=1:URLError:<urlopen error _ssl.c:999: The handshake operation timed out>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=3:URLError:<urlopen error _ssl.c:999: The handshake operation timed out>; attempt=4:URLError:<urlopen error _ssl.c:999: The handshake operation timed out>",
+      "error": "Acquisition failed for source_probe_VNM_NSO_VHLSS_2022: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>",
       "error_type": "RuntimeError",
       "source_id": "VNM_NSO_VHLSS_2022",
       "source_url": "https://www.nso.gov.vn/en/default/2024/04/results-of-the-viet-nam-household-living-standards-survey-2022/"
@@ -164,7 +164,7 @@
     "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
     "participating_economies_expected": 176,
     "participating_economies_mapped": 176,
-    "pipeline_version": "0.4.0",
+    "pipeline_version": "0.5.0",
     "proxy_ppp_categories": [
       "CP04",
       "CP06",
@@ -187,8 +187,8 @@
     "status": "RESEARCH_MATRIX_AVAILABLE_GLOBAL_SCOPE_INCOMPLETE",
     "step2h0": {
       "gap_priority": {
-        "complete_economy_direct_expenditure_indicator_total": "15751116284228.87565458846090",
-        "complete_economy_indicator_coverage_ratio": "0.4971716160380331246617494918",
+        "complete_economy_direct_expenditure_indicator_total": "15751116284228.87565458846089",
+        "complete_economy_indicator_coverage_ratio": "0.4971716160380331246617494915",
         "incomplete_economies_ranked": 114,
         "indicator_warning": "This priority indicator uses only seven direct ICP categories. It is not a final Armilar weight or a world-coverage estimate.",
         "participant_direct_expenditure_indicator_total": "31681447162550.66987812623148",

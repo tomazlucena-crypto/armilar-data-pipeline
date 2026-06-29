@@ -1,0 +1,15 @@
+economy_code,original_item_code,original_item_name,armilar_category,mapping_type,status,reason
+IND,1,Food and non-alcoholic beverages,CP01,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,2.1,Alcoholic beverages,CP02,MANY_TO_ONE_EXACT,PASS,Item belongs wholly to one Armilar category.
+IND,2.2,Tobacco,CP02,MANY_TO_ONE_EXACT,PASS,Item belongs wholly to one Armilar category.
+IND,3,Clothing and footwear,CP03,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,4,"Housing, water, electricity, gas and other fuels",CP04,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,5,"Furnishing, household equipment and routine household maintenance",CP05,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,6,Health,CP06,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,7,Transport,CP07,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,8,Communication,CP08,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,9,Recreation and culture,CP09,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,10,Education,CP10,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,11,Restaurants and hotels,CP11,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,12,Miscellaneous goods and services,CP12,ONE_TO_ONE,PASS,Item belongs wholly to one Armilar category.
+IND,2.3,Narcotics,,EXCLUDED,PASS,Narcotics are explicitly excluded by Armilar methodology.
