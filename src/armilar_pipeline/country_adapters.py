@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import csv
 import shutil
 import zipfile
 import xml.etree.ElementTree as ET
@@ -11,7 +10,7 @@ from typing import Any, Iterable, Protocol
 
 from .acquire import AcquisitionRecord, fetch_url
 from .config import Step2Config
-from .util import sha256_file, utc_now, write_csv, write_json, write_sha256sums
+from .util import utc_now, write_csv, write_json, write_sha256sums
 
 
 NORMALIZED_FIELDS = [
@@ -45,6 +44,56 @@ RECONCILIATION_FIELDS = [
 
 FAILURE_FIELDS = ["economy_code", "adapter_id", "stage", "error_type", "error"]
 
+STEP2I_ECONOMIES = ("CHN", "IND", "RUT", "IDN", "BRA")
+STEP2I_PROXY_CATEGORIES = ("CP04", "CP06", "CP09", "CP10", "CP12")
+
+CELL_STATUS_FIELDS = [
+    "economy_code", "economy_name", "armilar_category", "cell_class",
+    "source_id", "source_authority", "reference_period", "value_status",
+    "admissible_to_exact_matrix", "blocking_reason", "quality_flags",
+]
+
+SOURCE_ATTEMPT_FIELDS = [
+    "economy_code", "category", "authority", "dataset", "url",
+    "access_method", "retrieval_status", "content_type", "file_signature",
+    "reference_period", "institutional_sector", "transaction_code",
+    "classification", "current_prices", "currency", "unit",
+    "npish_treatment", "government_treatment", "imputed_rent_treatment",
+    "candidate_class", "rejection_reason", "retrieved_at", "sha256",
+]
+
+COMPLETION_ECONOMY_FIELDS = [
+    "economy_code", "economy_name", "accepted_categories",
+    "experimental_categories", "unavailable_categories", "coverage_added_cells",
+    "decision", "sources_examined", "remaining_blockers",
+]
+
+INDIA_GATE_FIELDS = ["criterion", "status", "evidence", "source_id"]
+
+STEP2H_EXCEPTION_FIELDS = [
+    "economy_code", "economy_name", "armilar_category", "decision",
+    "current_status", "resolution_attempted", "reason",
+]
+
+STEP2I_EXTRA_ATTEMPTS = {
+    "RUT": [
+        ("Federal State Statistics Service", "ROSSTAT_NATIONAL_ACCOUNTS_SECTION", "https://rosstat.gov.ru/statistics/accounts", "2021", "national accounts database/publications", "SOURCE_FAMILY_SEARCH", "National accounts section does not provide an accepted deterministic 2021 S14/P31DC COICOP-HH table in the adapter inputs."),
+        ("Federal State Statistics Service", "FEDSTAT_OFFICIAL_STATISTICAL_DATABASE", "https://fedstat.ru/", "2021", "official statistical database", "SOURCE_FAMILY_SEARCH", "No accepted Fedstat indicator with exact 2021 household final consumption by Armilar category has been integrated."),
+    ],
+    "CHN": [
+        ("National Bureau of Statistics of China", "NBS_DATA_PORTAL", "https://data.stats.gov.cn/english/easyquery.htm?cn=C01", "2021", "national data portal", "SOURCE_FAMILY_SEARCH", "No exact S14/P31DC twelve-category household-purpose table was identified in adapter inputs."),
+        ("National Bureau of Statistics of China", "CHINA_STATISTICAL_YEARBOOK_2022", "https://www.stats.gov.cn/sj/ndsj/2022/indexeh.htm", "2021", "statistical yearbook", "SOURCE_FAMILY_SEARCH", "Yearbook family does not provide an accepted exact twelve-category national-accounts HFCE table in adapter inputs."),
+    ],
+    "IDN": [
+        ("Badan Pusat Statistik", "BPS_STATISTICS_TABLES_EXPENDITURE", "https://www.bps.go.id/en/statistics-table?subject=531", "2021", "official statistics tables", "SOURCE_FAMILY_SEARCH", "No alternative exact twelve-category household-purpose table was integrated."),
+        ("Badan Pusat Statistik", "BPS_SUPPLY_USE_OR_NATIONAL_ACCOUNTS_SEARCH", "https://www.bps.go.id/en", "2021", "national accounts and supply-use source family", "SOURCE_FAMILY_SEARCH", "No exact COICOP-HH bridge without allocation was found in adapter inputs."),
+    ],
+    "BRA": [
+        ("Instituto Brasileiro de Geografia e Estatistica", "IBGE_SIDRA_NATIONAL_ACCOUNTS", "https://sidra.ibge.gov.br/pesquisa/cnt/tabelas", "2021", "SIDRA national accounts tables", "SOURCE_FAMILY_SEARCH", "No accepted exact household-purpose COICOP table was integrated."),
+        ("Instituto Brasileiro de Geografia e Estatistica", "IBGE_CONTAS_NACIONAIS_SOURCE_FAMILY", "https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais.html", "2021", "national accounts source family", "SOURCE_FAMILY_SEARCH", "Product/resource-use sources require many-to-many product-to-COICOP allocation and remain unavailable for exact weights."),
+    ],
+}
+
 
 @dataclass(frozen=True)
 class AdapterResult:
@@ -55,6 +104,11 @@ class AdapterResult:
     reconciliation_rows: list[dict[str, Any]]
     failure_rows: list[dict[str, Any]]
     acquisition_records: list[AcquisitionRecord]
+    cell_status_rows: list[dict[str, Any]] | None = None
+    source_attempt_rows: list[dict[str, Any]] | None = None
+    completion_rows: list[dict[str, Any]] | None = None
+    india_gate_rows: list[dict[str, Any]] | None = None
+    step2h_exception_rows: list[dict[str, Any]] | None = None
 
 
 class CountryAdapter(Protocol):
@@ -69,7 +123,7 @@ class CountryAdapter(Protocol):
 def registered_adapters() -> dict[str, CountryAdapter]:
     adapters: list[CountryAdapter] = [
         IndiaMospiAdapter(),
-        AuditOnlyAdapter(
+        Step2IDecisionAdapter(
             "RUT", "Russian Federation", "RUT_ROSSTAT_OFFICIAL_SOURCE_AUDIT",
             "Federal State Statistics Service",
             "https://eng.rosstat.gov.ru/storage/mediabank/BRICS_Joint_Statistical_Publication_2025.pdf",
@@ -77,7 +131,7 @@ def registered_adapters() -> dict[str, CountryAdapter]:
             "UNAVAILABLE",
             "No deterministic official XLS/XLSX/CSV/SDMX/HTML Rosstat table with 2021 strict household COICOP-HH values has passed the gates.",
         ),
-        AuditOnlyAdapter(
+        Step2IDecisionAdapter(
             "CHN", "China", "CHN_NBS_OFFICIAL_SOURCE_AUDIT",
             "National Bureau of Statistics of China",
             "https://www.stats.gov.cn/english/PressRelease/202201/t20220118_1826649.html",
@@ -85,8 +139,8 @@ def registered_adapters() -> dict[str, CountryAdapter]:
             "UNAVAILABLE",
             "Official NBS table is a household survey with eight combined groups, not national-accounts S14/P31 with twelve Armilar categories.",
         ),
-        AuditOnlyAdapter("IDN", "Indonesia", "IDN_BPS_OFFICIAL_SOURCE_AUDIT", "Badan Pusat Statistik", "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html", "2021", "HFCE_REGROUPED", "7 groups", "UNAVAILABLE", "Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories."),
-        AuditOnlyAdapter("BRA", "Brazil", "BRA_IBGE_OFFICIAL_SOURCE_AUDIT", "Instituto Brasileiro de Geografia e Estatistica", "https://www.ibge.gov.br/estatisticas/economicas/comercio/9052-sistema-de-contas-nacionais-brasil.html", "2021", "SNA_PRODUCT_TABLES", "product tables", "UNAVAILABLE", "Official product tables would require many-to-many product-to-COICOP allocation."),
+        Step2IDecisionAdapter("IDN", "Indonesia", "IDN_BPS_OFFICIAL_SOURCE_AUDIT", "Badan Pusat Statistik", "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html", "2021", "HFCE_REGROUPED", "7 groups", "UNAVAILABLE", "Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories."),
+        Step2IDecisionAdapter("BRA", "Brazil", "BRA_IBGE_OFFICIAL_SOURCE_AUDIT", "Instituto Brasileiro de Geografia e Estatistica", "https://www.ibge.gov.br/estatisticas/economicas/comercio/9052-sistema-de-contas-nacionais-brasil.html", "2021", "SNA_PRODUCT_TABLES", "product tables", "UNAVAILABLE", "Official product tables would require many-to-many product-to-COICOP allocation."),
         AuditOnlyAdapter("EGY", "Egypt", "EGY_CAPMAS_OFFICIAL_SOURCE_AUDIT", "Central Agency for Public Mobilization and Statistics", "https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview", "2021", "HOUSEHOLD_SURVEY", "survey microdata", "UNAVAILABLE", "Official HIECS is a survey source, not national-accounts S14/P31 current-price HFCE."),
         AuditOnlyAdapter("PAK", "Pakistan", "PAK_PBS_OFFICIAL_SOURCE_AUDIT", "Pakistan Bureau of Statistics", "https://www.pbs.gov.pk/national-accounts-2/", "2021-22", "HFCE_AGGREGATE", "aggregate only", "UNAVAILABLE", "Public national-accounts source does not expose a twelve-category strict household table."),
         AuditOnlyAdapter("NGA", "Nigeria", "NGA_NBS_OFFICIAL_SOURCE_AUDIT", "National Bureau of Statistics", "https://www.nigerianstat.gov.ng/elibrary/read/1241168", "2021", "HFCE_AGGREGATE", "aggregate only", "UNAVAILABLE", "Official expenditure-GDP report publishes aggregate household consumption, not twelve categories."),
@@ -168,6 +222,13 @@ def write_country_outputs(out: Path, result: AdapterResult) -> None:
     write_csv(out / "country_mapping_audit.csv", MAPPING_FIELDS, result.mapping_rows)
     write_csv(out / "country_reconciliation_audit.csv", RECONCILIATION_FIELDS, result.reconciliation_rows)
     write_csv(out / "country_adapter_failures.csv", FAILURE_FIELDS, result.failure_rows)
+    write_csv(out / "country_cell_status.csv", CELL_STATUS_FIELDS, result.cell_status_rows or [])
+    write_csv(out / "country_source_attempts.csv", SOURCE_ATTEMPT_FIELDS, result.source_attempt_rows or [])
+    write_csv(out / "step2i_economy_summary.csv", COMPLETION_ECONOMY_FIELDS, result.completion_rows or [])
+    write_csv(out / "india_methodology_gate_audit.csv", INDIA_GATE_FIELDS, result.india_gate_rows or [])
+    write_csv(out / "step2h_exception_audit.csv", STEP2H_EXCEPTION_FIELDS, result.step2h_exception_rows or step2h_exception_rows())
+    write_json(out / "step2i_completion_summary.json", step2i_completion_summary(result))
+    write_step2i_report(out / "STEP_2I_COMPLETION_REPORT.md", result)
 
 
 class IndiaMospiAdapter:
@@ -192,6 +253,7 @@ class IndiaMospiAdapter:
         rows, mapping = build_india_rows(parsed, record, run_root)
         reconciliation = reconcile_india(parsed)
         boundary_confirmed = False
+        gate_rows = india_methodology_gate_rows()
         blocking = (
             "Statement 5.1 is PFCE by item. The workbook supports exact item aggregation, "
             "but the strict households-only S14/P31 boundary and NPISH exclusion are not confirmed in this source file."
@@ -221,10 +283,17 @@ class IndiaMospiAdapter:
             reconciliation_rows=[reconciliation],
             failure_rows=[],
             acquisition_records=[record],
+            cell_status_rows=step2i_cell_rows(
+                self.economy_code, self.economy_name, self.adapter_id, self.source_authority,
+                self.reference_period, "UNAVAILABLE", blocking,
+            ),
+            source_attempt_rows=india_source_attempt_rows(record, blocking),
+            completion_rows=[completion_row(self.economy_code, self.economy_name, blocking, 2)],
+            india_gate_rows=gate_rows,
         )
 
 
-class AuditOnlyAdapter:
+class Step2IDecisionAdapter:
     def __init__(
         self, economy_code: str, economy_name: str, adapter_id: str,
         authority: str, source_url: str, reference_period: str,
@@ -242,6 +311,14 @@ class AuditOnlyAdapter:
         self.reason = reason
 
     def acquire_and_parse(self, config: Step2Config, run_root: Path, cache_root: Path) -> AdapterResult:
+        attempt = step2i_attempt_template(
+            self.economy_code, "*", self.authority, self.adapter_id, self.source_url,
+            self.reference_period, self.concept, self.granularity, self.reason,
+        )
+        source_attempts = expand_attempt_categories([attempt] + [
+            step2i_attempt_template(self.economy_code, "*", authority, dataset, url, period, concept, classification, reason)
+            for authority, dataset, url, period, concept, classification, reason in STEP2I_EXTRA_ATTEMPTS.get(self.economy_code, [])
+        ])
         return AdapterResult(
             status_rows=[{
                 "economy_code": self.economy_code, "economy_name": self.economy_name,
@@ -257,7 +334,17 @@ class AuditOnlyAdapter:
                 "status": "REJECTED", "rejection_reason": self.reason,
             }],
             normalized_rows=[], mapping_rows=[], reconciliation_rows=[], failure_rows=[], acquisition_records=[],
+            cell_status_rows=step2i_cell_rows(
+                self.economy_code, self.economy_name, self.adapter_id, self.authority,
+                self.reference_period, "UNAVAILABLE", self.reason,
+            ),
+            source_attempt_rows=source_attempts,
+            completion_rows=[completion_row(self.economy_code, self.economy_name, self.reason, len({row["dataset"] for row in source_attempts}))],
         )
+
+
+class AuditOnlyAdapter(Step2IDecisionAdapter):
+    pass
 
 
 def parse_india_statement_5_1(path: Path) -> dict[str, dict[str, Any]]:
@@ -384,7 +471,7 @@ def _xlsx_rows(path: Path) -> dict[int, dict[str, str]]:
 
 
 def _empty_result() -> AdapterResult:
-    return AdapterResult([], [], [], [], [], [], [])
+    return AdapterResult([], [], [], [], [], [], [], [], [], [], [], [])
 
 
 def _extend(target: AdapterResult, source: AdapterResult) -> None:
@@ -395,3 +482,264 @@ def _extend(target: AdapterResult, source: AdapterResult) -> None:
     target.reconciliation_rows.extend(source.reconciliation_rows)
     target.failure_rows.extend(source.failure_rows)
     target.acquisition_records.extend(source.acquisition_records)
+    target.cell_status_rows.extend(source.cell_status_rows or [])
+    target.source_attempt_rows.extend(source.source_attempt_rows or [])
+    target.completion_rows.extend(source.completion_rows or [])
+    target.india_gate_rows.extend(source.india_gate_rows or [])
+    target.step2h_exception_rows.extend(source.step2h_exception_rows or [])
+
+
+def step2i_cell_rows(
+    economy_code: str,
+    economy_name: str,
+    source_id: str,
+    authority: str,
+    reference_period: str,
+    cell_class: str,
+    blocking_reason: str,
+) -> list[dict[str, Any]]:
+    return [{
+        "economy_code": economy_code,
+        "economy_name": economy_name,
+        "armilar_category": category,
+        "cell_class": cell_class,
+        "source_id": source_id,
+        "source_authority": authority,
+        "reference_period": reference_period,
+        "value_status": "NOT_ADMISSIBLE",
+        "admissible_to_exact_matrix": False,
+        "blocking_reason": blocking_reason,
+        "quality_flags": "STEP2I_DECISION|FAIL_CLOSED|NO_ALLOCATION",
+    } for category in STEP2I_PROXY_CATEGORIES]
+
+
+def completion_row(economy_code: str, economy_name: str, blocker: str, sources_examined: int) -> dict[str, Any]:
+    return {
+        "economy_code": economy_code,
+        "economy_name": economy_name,
+        "accepted_categories": "",
+        "experimental_categories": "",
+        "unavailable_categories": "|".join(STEP2I_PROXY_CATEGORIES),
+        "coverage_added_cells": 0,
+        "decision": "UNAVAILABLE",
+        "sources_examined": sources_examined,
+        "remaining_blockers": blocker,
+    }
+
+
+def step2i_attempt_template(
+    economy_code: str,
+    category: str,
+    authority: str,
+    dataset: str,
+    url: str,
+    reference_period: str,
+    concept: str,
+    classification: str,
+    rejection_reason: str,
+) -> dict[str, Any]:
+    return {
+        "economy_code": economy_code,
+        "category": category,
+        "authority": authority,
+        "dataset": dataset,
+        "url": url,
+        "access_method": "OFFICIAL_WEB_SOURCE_AUDIT",
+        "retrieval_status": "DOCUMENTED_NOT_ADMISSIBLE",
+        "content_type": "",
+        "file_signature": "",
+        "reference_period": reference_period,
+        "institutional_sector": "UNCONFIRMED_STRICT_S14" if economy_code == "IND" else "NOT_CONFIRMED_AS_STRICT_S14",
+        "transaction_code": "NOT_CONFIRMED_AS_P31DC",
+        "classification": classification,
+        "current_prices": "UNKNOWN",
+        "currency": "UNKNOWN",
+        "unit": "UNKNOWN",
+        "npish_treatment": "NOT_CONFIRMED_EXCLUDED",
+        "government_treatment": "NOT_CONFIRMED_EXCLUDED",
+        "imputed_rent_treatment": "NOT_CONFIRMED",
+        "candidate_class": "UNAVAILABLE",
+        "rejection_reason": rejection_reason,
+        "retrieved_at": "NOT_RETRIEVED_IN_STEP2I_AUDIT",
+        "sha256": "",
+    }
+
+
+def india_source_attempt_rows(record: AcquisitionRecord, rejection_reason: str) -> list[dict[str, Any]]:
+    row = step2i_attempt_template(
+        "IND", "*", "Ministry of Statistics and Programme Implementation",
+        "IND_MOSPI_NAS2024_STATEMENT_5_1", record.url, "2021-22",
+        "PFCE classified by item", "MOSPI_NAS_ITEM", rejection_reason,
+    )
+    row.update({
+        "retrieval_status": record.status,
+        "content_type": record.content_type or "",
+        "file_signature": "XLSX_ZIP_CONTAINER",
+        "current_prices": "CONFIRMED",
+        "currency": "INR",
+        "unit": "crore",
+        "imputed_rent_treatment": "PRESENT_AS_HOUSING_RENT_COMPONENT_BUT_BOUNDARY_NOT_FULLY_CONFIRMED",
+        "candidate_class": "UNAVAILABLE",
+        "retrieved_at": "SEE_MANIFEST_FOR_RAW_RETRIEVAL_TIME",
+        "sha256": record.sha256,
+    })
+    method = step2i_attempt_template(
+        "IND", "*", "Ministry of Statistics and Programme Implementation",
+        "IND_MOSPI_METHOD_BOUNDARY_SEARCH", "https://www.mospi.gov.in/",
+        "2021-22", "NAS PFCE methodology", "METHODOLOGY_SEARCH", rejection_reason,
+    )
+    method["retrieval_status"] = "OFFICIAL_METHOD_DOCUMENT_NOT_FOUND_IN_ADAPTER_INPUTS"
+    return expand_attempt_categories([row, method])
+
+
+def expand_attempt_categories(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    expanded: list[dict[str, Any]] = []
+    for row in rows:
+        if row.get("category") != "*":
+            expanded.append(row)
+            continue
+        for category in STEP2I_PROXY_CATEGORIES:
+            item = dict(row)
+            item["category"] = category
+            expanded.append(item)
+    return expanded
+
+
+def india_methodology_gate_rows() -> list[dict[str, Any]]:
+    source_id = "IND_MOSPI_NAS2024_STATEMENT_5_1"
+    return [
+        {"criterion": "represents_households_S14", "status": "AMBIGUOUS", "evidence": "Statement uses PFCE/private final consumption expenditure; workbook does not state strict S14-only boundary.", "source_id": source_id},
+        {"criterion": "corresponds_to_P31_HFCE", "status": "AMBIGUOUS", "evidence": "PFCE is a national-accounts consumption concept but transaction code P31DC/HFCE is not explicit in the workbook.", "source_id": source_id},
+        {"criterion": "excludes_NPISH", "status": "NOT_FOUND", "evidence": "No NPISH exclusion statement found in Statement 5.1 workbook.", "source_id": source_id},
+        {"criterion": "excludes_government_consumption", "status": "CONFIRMED", "evidence": "Source title is private final consumption expenditure, not government final consumption expenditure.", "source_id": source_id},
+        {"criterion": "includes_imputed_rent", "status": "CONFIRMED", "evidence": "Housing group includes gross rentals for housing.", "source_id": source_id},
+        {"criterion": "current_prices", "status": "CONFIRMED", "evidence": "Workbook has explicit current-price block.", "source_id": source_id},
+        {"criterion": "reference_period_2021_22_accepted", "status": "CONFIRMED", "evidence": "Workbook exposes fiscal year 2021-22 and adapter preserves it without calendar conversion.", "source_id": source_id},
+    ]
+
+
+def step2h_exception_rows() -> list[dict[str, Any]]:
+    return [
+        {"economy_code": "BLR", "economy_name": "Belarus", "armilar_category": "CP02", "decision": "UNAVAILABLE", "current_status": "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100", "resolution_attempted": "Source 90 public cells audited; no official alcohol+tobacco replacement accepted.", "reason": "CP02 cannot be reconstructed without both alcohol and tobacco strict HFCE cells or an official narcotics-excluding aggregate."},
+        {"economy_code": "KWT", "economy_name": "Kuwait", "armilar_category": "CP02", "decision": "UNAVAILABLE", "current_status": "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100", "resolution_attempted": "Source 90 public cells audited; no official alcohol+tobacco replacement accepted.", "reason": "No modelled alcohol/tobacco split is allowed."},
+        {"economy_code": "SAU", "economy_name": "Saudi Arabia", "armilar_category": "CP02", "decision": "UNAVAILABLE", "current_status": "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100", "resolution_attempted": "Source 90 public cells audited; no official alcohol+tobacco replacement accepted.", "reason": "No modelled alcohol/tobacco split is allowed."},
+        {"economy_code": "BON", "economy_name": "Bonaire", "armilar_category": "*", "decision": "UNAVAILABLE", "current_status": "0/12 categories available", "resolution_attempted": "Participant registry and Source 90 cells audited.", "reason": "No public official twelve-category allocation or proxy-numerator source accepted."},
+        {"economy_code": "LBR", "economy_name": "Liberia", "armilar_category": "CP04|CP06|CP09|CP10|CP12", "decision": "UNAVAILABLE", "current_status": "SUPPLEMENTAL_NOMINAL_SOURCE_FAILED_UNIT_RECONCILIATION", "resolution_attempted": "UNData supplemental source compared against direct Source 90 categories.", "reason": "Median supplemental-to-Source90 ratio is incompatible; using it would risk a unit or concept error."},
+    ]
+
+
+def step2i_completion_summary(result: AdapterResult) -> dict[str, Any]:
+    rows = result.completion_rows or []
+    by_code = {row["economy_code"]: row for row in rows if row["economy_code"] in STEP2I_ECONOMIES}
+    return {
+        "schema_version": "1.0",
+        "pipeline_version": "0.6.0",
+        "step": "2I",
+        "status": "COMPLETE_DIAGNOSTICALLY",
+        "economies_required": list(STEP2I_ECONOMIES),
+        "economies_decided": sorted(by_code),
+        "accepted_cells_added_to_exact_matrix": 0,
+        "experimental_cells": 0,
+        "unavailable_cells": len([row for row in (result.cell_status_rows or []) if row.get("cell_class") == "UNAVAILABLE"]),
+        "weights_final_remains_empty": True,
+        "monetary_release_allowed": False,
+        "global_12_category_matrix_complete": False,
+        "summary_by_economy": by_code,
+        "step2h_exceptions": step2h_exception_rows(),
+    }
+
+
+def write_step2i_report(path: Path, result: AdapterResult) -> None:
+    summary = step2i_completion_summary(result)
+    lines = [
+        "# Step 2I completion report",
+        "",
+        "Generated: deterministic Step 2I report",
+        "",
+        "## Version mapping",
+        "",
+        "| Version | Project step | Meaning |",
+        "|---|---|---|",
+        "| 0.4.0 | Step 2H | Gap resolver and source probe |",
+        "| 0.5.0 | Step 2I start | National adapter architecture and first audits |",
+        "| 0.6.0 | Step 2I completion | Diagnostic closure for China, India, Russia, Indonesia and Brazil |",
+        "",
+        "## Step 2I decisions",
+        "",
+    ]
+    for row in result.completion_rows or []:
+        if row["economy_code"] not in STEP2I_ECONOMIES:
+            continue
+        lines.append(
+            f"- {row['economy_code']} {row['economy_name']}: decision `{row['decision']}`, "
+            f"accepted `{row['accepted_categories'] or 'none'}`, unavailable `{row['unavailable_categories']}`. "
+            f"Blocker: {row['remaining_blockers']}"
+        )
+    lines.extend([
+        "",
+        "## Coverage",
+        "",
+        f"- Exact cells added: `{summary['accepted_cells_added_to_exact_matrix']}`",
+        "- Coverage change: `0` complete economies; all gates remain fail-closed.",
+        "- `weights_final.csv` remains empty.",
+        "",
+        "## Step 2H exceptions",
+        "",
+    ])
+    for row in step2h_exception_rows():
+        lines.append(f"- {row['economy_code']} {row['armilar_category']}: `{row['decision']}` - {row['reason']}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def classify_cell(row: dict[str, Any]) -> str:
+    data_class = str(row.get("data_class") or "")
+    quality = set(str(row.get("quality_flags") or "").split("|"))
+    if data_class in {"EXACT_OFFICIAL", "OFFICIAL_EXACT_DERIVATION", "OFFICIAL_DERIVED_NO_ALLOCATION"}:
+        if "EXPERIMENTAL_ALLOCATION" in quality:
+            return "OFFICIAL_EXPERIMENTAL_ALLOCATION"
+        if "NO_ALLOCATION" in quality or str(row.get("derivation_method", "")).startswith("OFFICIAL"):
+            return "OFFICIAL_DERIVED_NO_ALLOCATION"
+        return "EXACT_OFFICIAL"
+    if data_class == "EXPERIMENTAL_ALLOCATION":
+        return "OFFICIAL_EXPERIMENTAL_ALLOCATION"
+    return "UNAVAILABLE"
+
+
+def validate_mixed_provider_cells(rows: list[dict[str, Any]]) -> tuple[bool, str]:
+    if not rows:
+        return False, "NO_ROWS"
+    seen: set[str] = set()
+    reference_periods: set[str] = set()
+    currencies: set[str] = set()
+    units: set[str] = set()
+    for row in rows:
+        category = str(row.get("armilar_category") or "")
+        if not category:
+            return False, "MISSING_CATEGORY"
+        if category in seen:
+            return False, f"DUPLICATE_CATEGORY:{category}"
+        seen.add(category)
+        reference_periods.add(str(row.get("reference_period") or ""))
+        currencies.add(str(row.get("currency") or ""))
+        units.add(str(row.get("unit") or ""))
+        if str(row.get("sector")) != "S14":
+            return False, "INCOMPATIBLE_SECTOR"
+        if str(row.get("transaction")) != "P31DC":
+            return False, "INCOMPATIBLE_TRANSACTION"
+        if str(row.get("data_class")) not in {"EXACT_OFFICIAL", "OFFICIAL_EXACT_DERIVATION", "OFFICIAL_DERIVED_NO_ALLOCATION"}:
+            return False, "INCOMPATIBLE_DATA_CLASS"
+        flags = set(str(row.get("quality_flags") or "").split("|"))
+        required = {"CURRENT_PRICES", "NPISH_EXCLUDED", "GOVERNMENT_EXCLUDED", "NO_ALLOCATION"}
+        missing = required - flags
+        if missing:
+            return False, "MISSING_QUALITY_FLAGS:" + "|".join(sorted(missing))
+        for field in ("source_authority", "source_file", "source_url", "source_hash"):
+            if not row.get(field):
+                return False, f"MISSING_PROVENANCE:{field}"
+    if len(reference_periods) != 1:
+        return False, "INCOMPATIBLE_REFERENCE_PERIOD"
+    if len(currencies) != 1:
+        return False, "INCOMPATIBLE_CURRENCY"
+    if len(units) != 1:
+        return False, "INCOMPATIBLE_UNIT"
+    return True, "PASS"

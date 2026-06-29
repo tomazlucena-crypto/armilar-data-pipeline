@@ -42,14 +42,14 @@ def build_gap_priority(
         if category in DIRECT_CATEGORIES:
             direct_real[code] = direct_real.get(code, Decimal("0")) + value
 
-    total_direct = sum((direct_real.get(code, Decimal("0")) for code in participant_registry), Decimal("0"))
+    total_direct = sum((direct_real.get(code, Decimal("0")) for code in sorted(participant_registry)), Decimal("0"))
     complete_codes = {
         str(row["economy_code"])
         for row in matrix.economy_registry_rows
         if row["icp_participation_status"] == "PARTICIPATING"
         and str(row["eligible_complete_12_category_matrix"]).lower() in {"true", "1"}
     }
-    complete_direct = sum((direct_real.get(code, Decimal("0")) for code in complete_codes), Decimal("0"))
+    complete_direct = sum((direct_real.get(code, Decimal("0")) for code in sorted(complete_codes)), Decimal("0"))
     probe_by_code = {str(row["economy_code"]): row for row in source_probe_economies}
 
     rows: list[dict[str, Any]] = []

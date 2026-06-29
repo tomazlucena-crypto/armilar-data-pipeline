@@ -88,6 +88,7 @@ class SupplementalTests(unittest.TestCase):
             result = parse_undata_zip(path, mapper(), source_id="UNDATA_SNA_TABLE32", source_url="https://example", retrieved_at="2026-01-01T00:00:00Z", priority=20)
             self.assertEqual(len(result.observations), 1)
             self.assertEqual(result.observations[0].value_lcu, Decimal("1234"))
+            self.assertTrue(result.observations[0].source_file.endswith("::UNData_Export.csv"))
 
     def test_source_selection_uses_one_complete_provider_per_economy(self):
         base = dict(economy_code="DEU", economy_name="Germany", currency="EUR", source_file="x", source_url="u", retrieved_at="t", source_hash="a"*64, concept="c", classification="COICOP1999", quality_flags=(), source_priority=1)

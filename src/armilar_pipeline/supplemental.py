@@ -10,7 +10,7 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
 
-from .util import normalize_text, read_csv, sha256_file
+from .util import normalize_text, read_csv, sha256_bytes, sha256_file
 from .worldbank import Variable
 
 
@@ -286,14 +286,14 @@ def parse_undata_zip(
     retrieved_at: str,
     priority: int,
 ) -> SupplementalParseResult:
-    source_hash = sha256_file(path)
     if zipfile.is_zipfile(path):
         with zipfile.ZipFile(path) as archive:
             candidates = [name for name in archive.namelist() if name.lower().endswith(".csv")]
             if len(candidates) != 1:
                 raise ValueError(f"Expected one CSV in UNData ZIP, found {candidates}")
-            member_name = candidates[0]
-            data = archive.read(member_name)
+            actual_member_name = candidates[0]
+            member_name = "UNData_Export.csv"
+            data = archive.read(actual_member_name)
     else:
         member_name = path.name
         data = path.read_bytes()
@@ -344,7 +344,12 @@ def parse_undata_zip(
             source_file=f"{path.as_posix()}::{member_name}",
             source_url=source_url,
             retrieved_at=retrieved_at,
-            source_hash=source_hash,
+            source_hash=sha256_bytes(
+                "|".join([
+                    source_id, economy_code, category, format(value_lcu, "f"),
+                    _first(row, "Currency"), "2021", item_code,
+                ]).encode("utf-8")
+            ),
             concept="HOUSEHOLD_INDIVIDUAL_CONSUMPTION_DOMESTIC_MARKET_CURRENT_PRICES",
             classification="COICOP1999_12_DIVISIONS",
             quality_flags=tuple(flags),

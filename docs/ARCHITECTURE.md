@@ -54,6 +54,8 @@ Data classes remain separated:
 
 Only the first two may enter the exact matrix. The current India adapter parses and reconciles MoSPI Statement 5.1, but keeps India `UNAVAILABLE` until the PFCE institutional boundary is officially confirmed as strict households-only with NPISH excluded.
 
+Version 0.6.0 adds per-cell Step 2I decisions. A country can mix official providers by category only when every accepted cell is S14/P31DC, current-price, same accepted reference period, same currency/unit basis, NPISH and government excluded, exact COICOP/Armilar mapping, full provenance and reconciliation. Mixed providers are rejected on duplicate categories, incompatible periods, units, concepts or missing provenance.
+
 ## 6. Proxy audit
 
 The financing-exposure calculation reconstructs strict HFCE from:
