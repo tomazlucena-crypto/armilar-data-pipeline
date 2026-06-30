@@ -13,6 +13,7 @@ from .index_engine import (
     write_index_outputs,
 )
 from .acquisition import PriceAcquisitionError, acquire_prices
+from .pilot import PricePilotError, build_eurostat_pilot_from_files
 from .normalizer import (
     PriceNormalizationError,
     load_observations,
@@ -63,6 +64,25 @@ def build_parser() -> argparse.ArgumentParser:
         choices=[mode.value for mode in AggregationMode],
         default=AggregationMode.PPP_WEIGHTED_LOCAL_PRICE_RELATIVES.value,
     )
+    pilot = subparsers.add_parser("build-eurostat-pilot")
+    pilot.add_argument("--weights-world", type=Path, required=True)
+    pilot.add_argument("--selected-prices", type=Path, required=True)
+    pilot.add_argument(
+        "--classification",
+        type=Path,
+        default=Path("config/armilar_consumption_classification_v1.json"),
+    )
+    pilot.add_argument(
+        "--mapping",
+        type=Path,
+        default=Path(
+            "config/classification_mappings/ecoicop_v1_to_armilar_v1.csv"
+        ),
+    )
+    pilot.add_argument("--reference-period", default="2021-01")
+    pilot.add_argument("--minimum-complete-months", type=int, default=2)
+    pilot.add_argument("--output", type=Path, required=True)
+
     return parser
 
 
@@ -109,7 +129,19 @@ def main(argv: list[str] | None = None) -> int:
             write_index_outputs(index_rows, contributions, evidence, summary, args.output)
             print(json.dumps(summary, indent=2, sort_keys=True))
             return 0
-    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError) as exc:
+        if args.command == "build-eurostat-pilot":
+            summary = build_eurostat_pilot_from_files(
+                args.weights_world,
+                args.selected_prices,
+                args.reference_period,
+                args.output,
+                classification_path=args.classification,
+                mapping_path=args.mapping,
+                minimum_complete_months=args.minimum_complete_months,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError, PricePilotError) as exc:
         print(f"ERROR: {exc}")
         return 2
     return 1

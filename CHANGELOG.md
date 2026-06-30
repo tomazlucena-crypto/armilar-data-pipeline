@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.8.2 - Fixed-universe Eurostat category pilot engine
+
+- added the versioned nine-category Armilar canonical consumption classification;
+- maps ECOICOP V1 CP01-CP12 through exact one-to-one relations and exact weighted merges;
+- preserves source-category contributions separately from canonical contributions;
+- publishes classification and mapping SHA-256 hashes in every pilot universe;
+- stores the ECOICOP V2 bridge as provisional and blocks strict use pending back-series validation;
+- exposes the HFMCE versus HFCE concept mismatch and keeps all release flags false;
+
+- added `PriceUniverseSpec` with explicit covered and external world weight;
+- added a deterministic CP01-CP12 P1 Eurostat pilot builder;
+- fixes the universe and weights for the entire common complete interval;
+- rejects incomplete periods without monthly renormalisation;
+- emits the six required outputs plus `MANIFEST.sha256`;
+- keeps the official live snapshot pending and all release flags false.
+
 ## 0.8.1 - SDMX pilot replay and provenance receipts
 
 - added deterministic Eurostat/OECD price acquisition replay;

@@ -2,6 +2,14 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.2: fixed-universe Eurostat category pilot engine
+
+Version 0.8.2 adds `PriceUniverseSpec` and a deterministic engine for an explicit Eurostat HICP category pilot. It admits only complete P1 CP01-CP12 economies, fixes the universe for the whole common interval, normalises covered world weights once, publishes external coverage and rejects incomplete months. The engine is ready for a hash-preserved official Eurostat snapshot; this commit does not represent synthetic fixtures as live data. `research_release_allowed=false` and `monetary_release_allowed=false`.
+
+### Canonical Armilar consumption classification
+
+The v0.8.2 pilot now publishes nine stable Armilar macro-categories while preserving all twelve ECOICOP V1 source divisions. The total index is still calculated from source-category fixed weights; canonical categories are exact weighted merges and cannot alter the total. Mapping files, effective periods and SHA-256 hashes are published. The ECOICOP V2 bridge remains provisional until the official back series is validated. The HICP monetary-consumption scope versus Armilar HFCE weights remains an explicit release blocker.
+
 ## Version 0.8.1: SDMX pilot replay and provenance receipts
 
 Version 0.8.1 adds deterministic replay from canonical synthetic Eurostat/OECD contract fixtures. Normalized observations are parsed from the same raw bytes recorded in the SHA-256 receipts. The fixtures are not archived official provider responses. Live acquisition is disabled until official DSD snapshots and provider-specific parsers are implemented, and it remains outside pull-request checks.
