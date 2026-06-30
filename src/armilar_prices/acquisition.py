@@ -15,7 +15,7 @@ from .normalizer import normalize_observations
 from .registry import load_registry
 
 
-PARSER_VERSION = "armilar-prices-acquisition-v0.8.1"
+PARSER_VERSION = "armilar-prices-acquisition-v0.8.1-provenance-bound"
 
 
 class PriceAcquisitionError(ValueError):
@@ -59,6 +59,10 @@ def acquire_prices(
     fixture_dir: Path | None = None,
     reference_period: str = "2021-01",
 ) -> dict[str, object]:
+    registry_payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    registry_version = str(registry_payload.get("registry_version", "")).strip()
+    if not registry_version:
+        raise PriceAcquisitionError("registry_version is required")
     definitions = load_registry(registry_path)
     if mode == "replay":
         if fixture_dir is None:
@@ -82,6 +86,7 @@ def acquire_prices(
         receipts,
         structures,
         {
+            "registry_version": registry_version,
             "mode": mode,
             "reference_period": reference_period,
             "raw_observation_count": len(observations),
@@ -94,6 +99,7 @@ def acquire_prices(
         },
     )
     return {
+        "registry_version": registry_version,
         "mode": mode,
         "reference_period": reference_period,
         "raw_observation_count": len(observations),
@@ -112,20 +118,36 @@ def replay_price_fixtures(
     definitions_by_id = {row.series_id: row for row in definitions}
     structures = _load_provider_structures(fixture_dir / "provider_structure_manifest.json")
     structures_by_key = {(row.provider, row.dataset): row for row in structures}
-    observations = _load_fixture_observations(fixture_dir / "observations.csv", definitions_by_id)
-
     raw_dir = fixture_dir / "raw"
+    observations: list[PriceObservation] = []
     receipts: list[SourceReceipt] = []
-    for definition in sorted((row for row in definitions_by_id.values() if row.enabled), key=lambda row: row.series_id):
+    seen: set[tuple[str, str]] = set()
+
+    for definition in sorted(
+        (row for row in definitions_by_id.values() if row.enabled),
+        key=lambda row: row.series_id,
+    ):
         structure = structures_by_key.get((definition.provider, definition.dataset))
         if structure is None:
-            raise PriceAcquisitionError(f"missing provider structure for {definition.provider}/{definition.dataset}")
+            raise PriceAcquisitionError(
+                f"missing provider structure for {definition.provider}/{definition.dataset}"
+            )
         _validate_definition_against_structure(definition, structure)
+
         raw_name = f"{definition.series_id}.json"
         raw_path = raw_dir / raw_name
         if not raw_path.exists():
             raise PriceAcquisitionError(f"missing raw fixture: {raw_name}")
         content = raw_path.read_bytes()
+
+        parsed = _parse_replay_payload(definition, structure, content)
+        for observation in parsed:
+            key = (observation.series_id, observation.period)
+            if key in seen:
+                raise PriceAcquisitionError(f"duplicate replay observation: {key}")
+            seen.add(key)
+            observations.append(observation)
+
         receipts.append(
             SourceReceipt(
                 provider=definition.provider,
@@ -149,53 +171,27 @@ def replay_price_fixtures(
                 dsd_schema_sha256=structure.schema_sha256,
             )
         )
-    return observations, receipts, structures
 
+    if not observations:
+        raise PriceAcquisitionError("raw replay fixtures contain no enabled observations")
+
+    return (
+        sorted(observations, key=lambda row: (row.series_id, row.period)),
+        receipts,
+        structures,
+    )
 
 def acquire_live_prices(
     definitions: Iterable[PriceSeriesDefinition],
 ) -> tuple[list[PriceObservation], list[SourceReceipt], list[ProviderStructure]]:
-    observations: list[PriceObservation] = []
-    receipts: list[SourceReceipt] = []
-    structures: list[ProviderStructure] = []
-    retrieved_at = datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
-    for definition in sorted((row for row in definitions if row.enabled), key=lambda row: row.series_id):
-        if definition.access_method != "SDMX":
-            raise PriceAcquisitionError(f"live mode only supports SDMX series in v0.8.1: {definition.series_id}")
-        try:
-            with urllib.request.urlopen(definition.source_url, timeout=60) as response:
-                content = response.read()
-                status = int(response.status)
-                headers = response.headers
-        except (urllib.error.URLError, TimeoutError) as exc:
-            raise PriceAcquisitionError(f"live request failed for {definition.series_id}: {exc}") from exc
-        receipts.append(
-            SourceReceipt(
-                provider=definition.provider,
-                dataset=definition.dataset,
-                series_id=definition.series_id,
-                final_url=definition.source_url,
-                query_spec={
-                    "provider_code": definition.provider_code,
-                    "query_key": definition.query_key,
-                    "frequency": definition.frequency,
-                    "seasonal_adjustment": definition.seasonal_adjustment,
-                    "source_category_code": definition.source_category_code,
-                },
-                retrieved_at=retrieved_at,
-                http_status=status,
-                content_type=headers.get("Content-Type", ""),
-                byte_count=len(content),
-                sha256=_sha256(content),
-                etag=headers.get("ETag", ""),
-                last_modified=headers.get("Last-Modified", ""),
-                dsd_schema_sha256="LIVE_STRUCTURE_NOT_SNAPSHOTTED",
-            )
-        )
-    if not observations:
-        raise PriceAcquisitionError("live mode captured receipts but no parser is enabled without a DSD snapshot")
-    return observations, receipts, structures
-
+    enabled = sorted(
+        (row.series_id for row in definitions if row.enabled),
+    )
+    raise PriceAcquisitionError(
+        "live acquisition is disabled in v0.8.1 until official provider DSD snapshots "
+        "and provider-specific Eurostat/OECD parsers are implemented; "
+        f"enabled_series={enabled}"
+    )
 
 def write_acquisition_outputs(
     output_dir: Path,
@@ -238,7 +234,7 @@ def write_acquisition_outputs(
     _write_json(
         output_dir / "resolved_price_series_registry.json",
         {
-            "registry_version": "0.8.1",
+            "registry_version": str(summary["registry_version"]),
             "research_release_allowed": False,
             "monetary_release_allowed": False,
             "series": [
@@ -283,40 +279,115 @@ def _load_provider_structures(path: Path) -> list[ProviderStructure]:
     return structures
 
 
-def _load_fixture_observations(
-    path: Path,
-    definitions_by_id: dict[str, PriceSeriesDefinition],
+def _parse_replay_payload(
+    definition: PriceSeriesDefinition,
+    structure: ProviderStructure,
+    content: bytes,
 ) -> list[PriceObservation]:
-    with path.open(encoding="utf-8-sig", newline="") as handle:
-        rows = list(csv.DictReader(handle))
+    try:
+        payload = json.loads(content)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise PriceAcquisitionError(
+            f"invalid raw JSON fixture for {definition.series_id}: {exc}"
+        ) from exc
+
+    if not isinstance(payload, dict):
+        raise PriceAcquisitionError(
+            f"raw fixture must be a JSON object: {definition.series_id}"
+        )
+    if payload.get("provider") != definition.provider:
+        raise PriceAcquisitionError(
+            f"raw fixture provider mismatch for {definition.series_id}"
+        )
+    if payload.get("dataset") != definition.dataset:
+        raise PriceAcquisitionError(
+            f"raw fixture dataset mismatch for {definition.series_id}"
+        )
+
+    raw_dimensions = payload.get("dimension_order")
+    if not isinstance(raw_dimensions, list):
+        raise PriceAcquisitionError(
+            f"raw fixture dimension_order missing for {definition.series_id}"
+        )
+    dimension_order = tuple(str(value) for value in raw_dimensions)
+    if dimension_order != structure.dimension_order:
+        raise PriceAcquisitionError(
+            f"raw fixture dimension_order mismatch for {definition.series_id}"
+        )
+
+    raw_key = payload.get("key")
+    if not isinstance(raw_key, dict):
+        raise PriceAcquisitionError(
+            f"raw fixture key missing for {definition.series_id}"
+        )
+
+    dimensions = set(structure.dimension_order)
+    area_dimension = "geo" if "geo" in dimensions else "ref_area"
+    expected_key = {
+        "freq": definition.frequency,
+        area_dimension: definition.economy_code,
+        "coicop": definition.source_category_code,
+    }
+    if "unit" in dimensions:
+        expected_key["unit"] = definition.unit
+    if "seasonal_adjustment" in dimensions:
+        expected_key["seasonal_adjustment"] = definition.seasonal_adjustment
+
+    for dimension, expected in expected_key.items():
+        actual = str(raw_key.get(dimension, ""))
+        if actual != expected:
+            raise PriceAcquisitionError(
+                f"raw fixture key mismatch for {definition.series_id}: "
+                f"{dimension}={actual!r}, expected {expected!r}"
+            )
+
+    rows = payload.get("observations")
+    if not isinstance(rows, list) or not rows:
+        raise PriceAcquisitionError(
+            f"raw fixture observations missing for {definition.series_id}"
+        )
+
+    raw_hash = _sha256(content)
     observations: list[PriceObservation] = []
-    seen: set[tuple[str, str]] = set()
-    for line_number, row in enumerate(rows, start=2):
-        series_id = (row.get("series_id") or "").strip()
-        if series_id not in definitions_by_id:
-            raise PriceAcquisitionError(f"unknown fixture series at CSV line {line_number}: {series_id}")
-        definition = definitions_by_id[series_id]
-        if not definition.enabled:
-            continue
+    seen_periods: set[str] = set()
+
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            raise PriceAcquisitionError(
+                f"raw fixture observation {index} is not an object: "
+                f"{definition.series_id}"
+            )
+        period = str(row.get("period", "")).strip()
+        if period in seen_periods:
+            raise PriceAcquisitionError(
+                f"duplicate raw fixture period for {definition.series_id}: {period}"
+            )
+        seen_periods.add(period)
+
+        try:
+            value = float(row["value"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise PriceAcquisitionError(
+                f"invalid raw fixture value for {definition.series_id}/{period}"
+            ) from exc
+
         observation = PriceObservation(
-            series_id=series_id,
-            period=(row.get("period") or "").strip(),
-            value=float(row["value"]),
-            published_at=(row.get("published_at") or "").strip(),
-            retrieved_at=(row.get("retrieved_at") or "").strip(),
-            revision_id=(row.get("revision_id") or "").strip(),
-            status=(row.get("status") or "").strip(),
+            series_id=definition.series_id,
+            period=period,
+            value=value,
+            published_at=str(row.get("published_at", "")).strip(),
+            retrieved_at=str(
+                row.get("retrieved_at", structure.retrieved_at)
+            ).strip(),
+            revision_id=str(
+                row.get("revision_id", f"sha256:{raw_hash}")
+            ).strip(),
+            status=str(row.get("status", "REPLAY")).strip(),
         )
         observation.validate()
-        key = (observation.series_id, observation.period)
-        if key in seen:
-            raise PriceAcquisitionError(f"duplicate fixture observation: {key}")
-        seen.add(key)
         observations.append(observation)
-    if not observations:
-        raise PriceAcquisitionError("fixture observations contain no enabled rows")
-    return sorted(observations, key=lambda row: (row.series_id, row.period))
 
+    return observations
 
 def _validate_definition_against_structure(
     definition: PriceSeriesDefinition,

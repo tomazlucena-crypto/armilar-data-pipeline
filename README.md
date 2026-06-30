@@ -4,7 +4,7 @@ Auditable acquisition and construction pipeline for Step 2 of the Armilar Index:
 
 ## Version 0.8.1: SDMX pilot replay and provenance receipts
 
-Version 0.8.1 adds deterministic replay for Eurostat/OECD monthly price pilots, including provider-structure snapshots, request receipts, raw SHA-256 hashes, health files, resolved registry output and normalized price observations. Live acquisition remains isolated from pull-request checks.
+Version 0.8.1 adds deterministic replay from canonical synthetic Eurostat/OECD contract fixtures. Normalized observations are parsed from the same raw bytes recorded in the SHA-256 receipts. The fixtures are not archived official provider responses. Live acquisition is disabled until official DSD snapshots and provider-specific parsers are implemented, and it remains outside pull-request checks.
 
 ## Version 0.8.0: monthly price registry and research index engine
 

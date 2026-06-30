@@ -7,6 +7,8 @@
 - added `armilar-prices acquire` with replay and isolated live modes;
 - emits source health, resolved registry, normalized observations and manifests;
 - keeps live acquisition out of pull-request checks and `monetary_release_allowed=false`.
+- corrected replay provenance so normalized observations are parsed from the exact hashed raw fixture bytes;
+- disabled live acquisition before network access until real Eurostat and OECD response parsers and DSD snapshots exist.
 
 ## 0.8.0 - Monthly price registry and research index engine
 

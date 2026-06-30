@@ -85,7 +85,10 @@ class PriceAcquisitionTests(unittest.TestCase):
             eurostat = next(row for row in receipts if row["series_id"] == "EUROSTAT_PRT_CP01_HICP")
             raw = (FIXTURES / "raw" / "EUROSTAT_PRT_CP01_HICP.json").read_bytes()
             self.assertEqual(eurostat["sha256"], hashlib.sha256(raw).hexdigest())
-            self.assertEqual(eurostat["parser_version"], "armilar-prices-acquisition-v0.8.1")
+            self.assertEqual(
+                eurostat["parser_version"],
+                "armilar-prices-acquisition-v0.8.1-provenance-bound",
+            )
             self.assertTrue((output / "MANIFEST.sha256").exists())
 
             with (output / "normalized_price_observations.csv").open(encoding="utf-8", newline="") as handle:
