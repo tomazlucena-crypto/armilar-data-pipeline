@@ -1,10 +1,10 @@
 {
   "accepted_cells_added_to_exact_matrix": 0,
-  "access_blocked_attempts": 25,
+  "access_blocked_attempts": 46,
   "audit_outputs": {
-    "country_source_attempts": 120,
-    "country_source_evidence": 20,
-    "country_source_family_coverage": 70
+    "country_source_attempts": 114,
+    "country_source_evidence": 62,
+    "country_source_family_coverage": 135
   },
   "concept_ambiguous_cells": 5,
   "economies_decided": [
@@ -35,10 +35,10 @@
     "UNAVAILABLE_AFTER_EXHAUSTIVE_AUDIT"
   ],
   "monetary_release_allowed": false,
-  "non_admissible_cells": 50,
-  "pipeline_version": "0.6.5",
+  "non_admissible_cells": 105,
+  "pipeline_version": "0.6.8",
   "schema_version": "1.1",
-  "sources_acquired_with_hash": 40,
+  "sources_acquired_with_hash": 68,
   "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
   "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
   "step": "2I",
@@ -94,12 +94,12 @@
     "BRA": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+      "decision": "ACCESS_BLOCKED",
       "economy_code": "BRA",
       "economy_name": "Brazil",
       "experimental_categories": "",
-      "remaining_blockers": "Official product tables would require many-to-many product-to-COICOP allocation.",
-      "sources_examined": 3,
+      "remaining_blockers": "The current run could not acquire or validate all critical official Brazil source families: BRA_IBGE_TABELAS_RECURSOS_USOS. A closed source decision is not permitted while these attempts remain blocked.",
+      "sources_examined": 7,
       "unavailable_categories": "CP04|CP06|CP09|CP10|CP12"
     },
     "CHN": {
@@ -116,12 +116,12 @@
     "IDN": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+      "decision": "ACCESS_BLOCKED",
       "economy_code": "IDN",
       "economy_name": "Indonesia",
       "experimental_categories": "",
-      "remaining_blockers": "Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories.",
-      "sources_examined": 3,
+      "remaining_blockers": "The current run could not acquire or validate all critical official Indonesia source families: IDN_BPS_GDP_EXPENDITURE_2020_2024, IDN_BPS_INPUT_OUTPUT_TABLES, IDN_BPS_STATISTICS_TABLES_EXPENDITURE, IDN_BPS_SUPPLY_USE_TABLES. A closed source decision is not permitted while these attempts remain blocked.",
+      "sources_examined": 7,
       "unavailable_categories": "CP04|CP06|CP09|CP10|CP12"
     },
     "IND": {

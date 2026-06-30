@@ -1,6 +1,6 @@
 # China method gate report
 
-Pipeline version: `0.6.5`
+Pipeline version: `0.6.8`
 
 This report records the strict Armilar admissibility decision for the official NBS source chain.
 Household-survey detail, national-accounts aggregates and input-output product tables remain conceptually separate.

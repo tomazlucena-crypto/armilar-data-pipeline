@@ -1,6 +1,6 @@
 # Russia method gate report
 
-Pipeline version: `0.6.5`
+Pipeline version: `0.6.8`
 
 This report records the strict Armilar admissibility decision for the official Rosstat and Fedstat source chain.
 An aggregate national-accounts indicator, product-based SUT data and purpose-classified survey data are kept conceptually separate.
