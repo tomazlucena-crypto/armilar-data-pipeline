@@ -6,7 +6,8 @@ on:
     branches:
       - main
   push:
-    branches: [main]
+    branches:
+      - main
     paths-ignore:
       - "public/latest/**"
   schedule:
@@ -16,31 +17,24 @@ permissions:
   contents: write
 
 concurrency:
-  group: armilar-step2-icp2021
-  cancel-in-progress: false
+  group: armilar-step2-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-step2:
+    name: build-step2
     runs-on: ubuntu-latest
-    timeout-minutes: 75
+    timeout-minutes: 25
+
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
-
-      - name: Restore last-known-good source cache
-        uses: actions/cache@v4
-        with:
-          path: .cache/armilar
-          key: armilar-icp2021-v4-${{ github.run_id }}
-          restore-keys: |
-            armilar-icp2021-v4-
-            armilar-icp2021-v2-
 
       - name: Install package
         run: |
@@ -50,9 +44,98 @@ jobs:
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
-      - name: Acquire official data and construct Step 2 outputs
+      - name: Compile Python sources
+        run: python -m compileall -q src
+
+      - name: Validate v0.7 safety contracts
         run: |
-          python -m armilar_pipeline run-step2 \
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          config = json.loads(
+              Path("config/step2_icp2021.json").read_text(encoding="utf-8")
+          )
+          version = str(config["pipeline_version"])
+          if not version.startswith("0.7."):
+              raise SystemExit(
+                  f"Expected the v0.7 roadmap on this branch, found {version}"
+              )
+
+          weights_final = Path("public/latest/weights_final.csv")
+          if weights_final.exists():
+              with weights_final.open(encoding="utf-8", newline="") as handle:
+                  rows = list(csv.DictReader(handle))
+              if rows:
+                  raise SystemExit(
+                      "public/latest/weights_final.csv must remain empty before "
+                      "the complete global matrix passes every gate"
+                  )
+
+          print(
+              json.dumps(
+                  {
+                      "pipeline_version": version,
+                      "pull_request_live_acquisition": False,
+                      "monetary_release_allowed": False,
+                      "weights_final_data_rows": 0,
+                  },
+                  indent=2,
+              )
+          )
+          PY
+
+  refresh-step2:
+    name: refresh-step2
+    if: github.event_name != 'pull_request'
+    needs: build-step2
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Restore last-known-good source cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/armilar
+          key: armilar-icp2021-v5-${{ github.run_id }}
+          restore-keys: |
+            armilar-icp2021-v5-
+            armilar-icp2021-v4-
+            armilar-icp2021-v2-
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Acquire official data and construct Step 2 outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          (
+            while sleep 300; do
+              echo "::notice::Armilar live acquisition is still running."
+            done
+          ) &
+          heartbeat_pid=$!
+
+          cleanup() {
+            kill "$heartbeat_pid" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          python -u -m armilar_pipeline run-step2 \
             --config config/step2_icp2021.json \
             --run-dir run \
             --cache-dir .cache/armilar \
@@ -65,19 +148,37 @@ jobs:
           import json
           from decimal import Decimal
 
-          summary = json.load(open("run/outputs/step2_summary.json", encoding="utf-8"))
+          summary = json.load(
+              open("run/outputs/step2_summary.json", encoding="utf-8")
+          )
           print(json.dumps(summary, indent=2, ensure_ascii=False))
+
           if summary["research_release_allowed"]:
-              with open("run/outputs/weights_observed_universe.csv", encoding="utf-8", newline="") as handle:
-                  total = sum((Decimal(row["weight"]) for row in csv.DictReader(handle)), Decimal("0"))
+              with open(
+                  "run/outputs/weights_observed_universe.csv",
+                  encoding="utf-8",
+                  newline="",
+              ) as handle:
+                  total = sum(
+                      (
+                          Decimal(row["weight"])
+                          for row in csv.DictReader(handle)
+                      ),
+                      Decimal("0"),
+                  )
               if total != Decimal("1"):
-                  raise SystemExit(f"Research weight sum is {total}, expected exactly 1")
+                  raise SystemExit(
+                      f"Research weight sum is {total}, expected exactly 1"
+                  )
+
           if summary["monetary_release_allowed"]:
-              raise SystemExit("Step 2 pipeline must not authorize monetary use")
+              raise SystemExit(
+                  "Step 2 pipeline must not authorize monetary use"
+              )
           PY
 
       - name: Upload complete acquisition bundle
-        if: always()
+        if: always() && github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: armilar-step2-${{ github.run_id }}
@@ -88,6 +189,28 @@ jobs:
             run/diagnostics.json
             run/SHA256SUMS
             run/STEP2_REPORT.md
+            run/outputs/source_probe_family_coverage.csv
+            run/outputs/proxy_error_by_category.csv
+            run/outputs/proxy_error_by_economy.csv
+            run/outputs/india_methodology_gate_audit.csv
+            run/outputs/russia_methodology_gate_audit.csv
+            run/outputs/china_methodology_gate_audit.csv
+            run/outputs/indonesia_methodology_gate_audit.csv
+            run/outputs/brazil_methodology_gate_audit.csv
+            run/outputs/egypt_methodology_gate_audit.csv
+            run/outputs/pakistan_methodology_gate_audit.csv
+            run/outputs/nigeria_methodology_gate_audit.csv
+            run/outputs/bangladesh_methodology_gate_audit.csv
+            run/outputs/vietnam_methodology_gate_audit.csv
+            run/outputs/INDIA_METHOD_GATE_REPORT.md
+            run/outputs/RUSSIA_METHOD_GATE_REPORT.md
+            run/outputs/CHINA_METHOD_GATE_REPORT.md
+            run/outputs/BRAZIL_METHOD_GATE_REPORT.md
+            run/outputs/EGYPT_METHOD_GATE_REPORT.md
+            run/outputs/PAKISTAN_METHOD_GATE_REPORT.md
+            run/outputs/NIGERIA_METHOD_GATE_REPORT.md
+            run/outputs/BANGLADESH_METHOD_GATE_REPORT.md
+            run/outputs/VIETNAM_METHOD_GATE_REPORT.md
             run/outputs/*.csv
             run/outputs/*.json
             run/outputs/*.md
@@ -99,84 +222,30 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+
           rm -rf public/latest
           mkdir -p public/latest
+
           cp run/manifest.json public/latest/manifest.json
           cp run/diagnostics.json public/latest/diagnostics.json
           cp run/SHA256SUMS public/latest/SHA256SUMS
           cp run/STEP2_REPORT.md public/latest/STEP2_REPORT.md
-          for file in \
-            step2_summary.json \
-            normalized_icp2021.csv \
-            raw_economy_heading_matrix.csv \
-            supplemental_nominal_all_sources.csv \
-            nominal_source_selection_audit.csv \
-            unit_reconciliation.csv \
-            economy_category_matrix.csv \
-            economy_category_matrix_weight_eligible.csv \
-            economy_registry.csv \
-            coverage_report.csv \
-            missing_data_report.csv \
-            exclusions_report.csv \
-            weights_observed_universe.csv \
-            weights_experimental_universe.csv \
-            weights_final.csv \
-            weights_by_category.csv \
-            weights_by_economy.csv \
-            officially_imputed_aggregate_only_economies.csv \
-            participation_mapping_audit.csv \
-            measure_selection_audit.csv \
-            measure_identity_audit.csv \
-            supplemental_source_diagnostics.csv \
-            source_acquisition_failures.csv \
-            source90_concepts.csv \
-            source90_variable_inventory.csv \
-            source_probe_candidate_results.csv \
-            source_probe_economy_summary.csv \
-            source_probe_family_coverage.csv \
-            source_probe_failures.csv \
-            source_probe_summary.json \
-            economy_gap_priority.csv \
-            gap_priority_summary.json \
-            proxy_financing_exposure.csv \
-            proxy_ppp_comparison.csv \
-            proxy_error_by_category.csv \
-            proxy_error_by_economy.csv \
-            proxy_validation_summary.json \
-            country_adapter_status.csv \
-            country_source_evidence.csv \
-            country_normalized_rows.csv \
-            country_mapping_audit.csv \
-            country_reconciliation_audit.csv \
-            country_adapter_failures.csv \
-            country_cell_status.csv \
-            country_source_attempts.csv \
-            step2i_economy_summary.csv \
-            india_methodology_gate_audit.csv \
-            russia_methodology_gate_audit.csv \
-            china_methodology_gate_audit.csv \
-            step2h_exception_audit.csv \
-            step2i_completion_summary.json \
-            step2i_audit_summary.json \
-            STEP_2I_COMPLETION_REPORT.md \
-            STEP_2I_AUDIT_REPORT.md \
-            INDIA_METHOD_GATE_REPORT.md \
-            RUSSIA_METHOD_GATE_REPORT.md \
-            CHINA_METHOD_GATE_REPORT.md \
-            country_source_family_coverage.csv \
-            methodology_policy_snapshot.json
-          do
-            cp "run/outputs/$file" "public/latest/$file"
-          done
+          cp run/outputs/*.csv public/latest/
+          cp run/outputs/*.json public/latest/
+          cp run/outputs/*.md public/latest/
 
       - name: Commit public latest outputs
         if: success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           set -euo pipefail
+
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add public/latest
+
           if git diff --cached --quiet; then
             echo "No public outputs changed."
           else
@@ -191,8 +260,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gh release delete data-latest --cleanup-tag --yes 2>/dev/null || true
-          BUNDLE=$(find artifacts -maxdepth 1 -name 'armilar_step2_icp2021_*.zip' -print -quit)
+
+          gh release delete data-latest --cleanup-tag --yes \
+            2>/dev/null || true
+
+          BUNDLE=$(
+            find artifacts -maxdepth 1 \
+              -name 'armilar_step2_icp2021_*.zip' \
+              -print -quit
+          )
+
           gh release create data-latest \
             "$BUNDLE" \
             run/manifest.json \
@@ -201,5 +278,7 @@ jobs:
             run/STEP2_REPORT.md \
             --target "$(git rev-parse HEAD)" \
             --title "Latest Armilar ICP 2021 Step 2 bundle" \
-            --notes "Automated ICP 2021 and official national-accounts acquisition. Use the research matrix only when research_release_allowed=true. weights_final.csv remains empty until the full global scope passes every gate." \
+            --notes "Automated ICP 2021 and official national-accounts acquisition.
+          Use the research matrix only when research_release_allowed=true.
+          weights_final.csv remains empty until the full global scope passes every gate." \
             --prerelease

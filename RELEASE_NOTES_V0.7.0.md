@@ -27,3 +27,9 @@ Version 0.7.0 introduces a separate experimental complete-world construction wit
 ### Explicit limitation
 
 This release defines and tests the global construction contract. It does not yet impute the real production universe or calculate a live price index.
+
+## Packaging correction
+
+- Uses the repository's existing `unittest` test runner, without adding an undeclared `pytest` dependency.
+- Updates `pyproject.toml`, `armilar_pipeline.__version__`, runtime configuration and version assertions together.
+- Refuses to apply over the obsolete public `main` version 0.6.5.

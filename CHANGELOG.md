@@ -1,5 +1,99 @@
 # Changelog
 
+## 0.7.3 - Conditional global research release
+
+- Adds a fail-closed release gate for the completed research evidence grid.
+- Evaluates validation sample size, MAPE, interval coverage and estimated evidence shares.
+- Builds `ARM-WEIGHTS-GLOBAL` only when every research gate passes.
+- Keeps `weights_final.csv` absent and `monetary_release_allowed=false`.
+
+## 0.7.2 - Imputation baselines and validation
+
+- Adds deterministic C, D and E research baselines.
+- Adds own-economy constrained allocation, profile-based donor selection and regional/global fallback.
+- Adds leave-one-out validation and attaches available validation metrics to estimated cells.
+- Does not publish global or monetary weights.
+
+## 0.7.1 - Evidence-cell staging
+
+- Adds `armilar_global_weights.staging`.
+- Adds `armilar-global-weights stage-strict`.
+- Converts strict Step 2 matrix rows into canonical evidence cells without changing values.
+- Emits `evidence_cells.csv` and `evidence_class_coverage.csv`.
+- Rejects experimental allocations during strict staging and prevents C/D/E evidence from being core-eligible.
+- Keeps strict outputs and monetary gates unchanged.
+
+## 0.7.0 - Global weight contract layer
+
+- Adds constitutional Amendment 2 for a separate experimental complete-world construction.
+- Adds the isolated `armilar_global_weights` package and `armilar-global-weights` CLI.
+- Adds per-cell evidence classes A to E, complete-grid validation, uncertainty bounds, provenance and donor requirements.
+- Emits separate `weights_core.csv`, `weights_global.csv`, `weights_uncertainty.csv`, `weights_method_audit.csv`, summaries and non-self-referential manifests.
+- Adds JSON schemas, synthetic sample input, release notes and open-source reuse documentation.
+- Keeps strict Step 2 outputs unchanged, `weights_final.csv` empty and `monetary_release_allowed=false`.
+
+## 0.6.13 - Cumulative second-wave and Step 2H exception audits
+
+- fixed the malformed Brazil classification/methodology registry row that caused the GitHub Actions failure;
+- strengthened registry validation so missing CSV values fail explicitly;
+- added dedicated official-source-family adapters for Pakistan, Nigeria, Bangladesh and Viet Nam;
+- added executable exception adapters for Belarus CP02, Kuwait CP02, Saudi Arabia CP02, Bonaire and Liberia;
+- expanded the source registry from ten to fifteen economies and to 65 official resources or source-family entries;
+- added blocked-access, content-change, deterministic-output and zero-exact-row tests for the new audits;
+- admitted zero exact cells and preserved all global and monetary gates as closed.
+
+## 0.6.12 - Viet Nam source-family audit
+
+- separated the aggregate 2021 final-consumption release from VHLSS 2020 and 2022 household-survey evidence;
+- rejected survey detail as exact national-accounts weights and added zero exact rows.
+
+## 0.6.11 - Bangladesh source-family audit
+
+- separated BBS national-accounts publication inventories from HIES 2022 household-survey evidence;
+- rejected wrong-period and non-SNA detail without interpolation.
+
+## 0.6.10 - Nigeria source-family audit
+
+- separated the official 2021 GDP-expenditure report from the 2019 consumption-pattern survey;
+- rejected aggregate and wrong-period survey sources from exact weights.
+
+## 0.6.9 - Pakistan source-family audit
+
+- separated annual aggregate national accounts from HIES survey detail;
+- rejected fiscal 2021-22 as a silent substitute for calendar 2021;
+- preserved NPISH and government boundaries at aggregate level without allocation.
+
+## 0.6.8 - Egypt source-family audit and registry repair
+
+- repaired the malformed `BRA_IBGE_CLASSIFICACOES_METODOLOGIA` CSV row;
+- strengthened CSV schema tests to detect missing values;
+- added dedicated Indonesia and Brazil source-family adapter outputs to the cumulative package;
+- replaced the static Egypt decision with a CAPMAS source-family adapter;
+- added CAPMAS National Accounts catalogue and CSV inventory resources;
+- separated historical product-based SUT evidence from HIECS 2021 survey evidence;
+- added Egypt gate CSV/report, failure-mode tests and deterministic fixture tests;
+- admitted zero exact cells and kept all monetary gates closed.
+
+## 0.6.7
+
+- Replaced the static Brazil decision with `BrazilIbgeAuditAdapter`.
+- Added independent IBGE source-family acquisition for SIDRA/CNT discovery, Sistema de Contas Nacionais, Contas Economicas Integradas, Tabelas de Recursos e Usos, downloadable SCN tables, POF/IPCA and classification/methodology evidence.
+- Added `brazil_methodology_gate_audit.csv` and `BRAZIL_METHOD_GATE_REPORT.md`.
+- Rejects SIDRA, SCN and CEI source-family evidence as exact weights unless a strict 2021 S14/P31DC twelve-purpose table is identified.
+- Rejects IBGE TRU evidence as exact weights because product-to-purpose allocation would be required.
+- Keeps POF/IPCA material as Class C only.
+- Preserves `weights_final.csv` as empty and adds zero exact cells.
+
+## 0.6.6
+
+- Replaced the static Indonesia decision with `IndonesiaBpsAuditAdapter`.
+- Added independent BPS source-family acquisition for the expenditure publication, statistics-table family, downloadable national-accounts publication search, SUT, input-output, survey/CPI and classification/methodology evidence.
+- Added `indonesia_methodology_gate_audit.csv` and `INDONESIA_METHOD_GATE_REPORT.md`.
+- Rejects grouped BPS national-accounts publication evidence without artificial category splitting.
+- Rejects BPS SUT and input-output source families as exact weights because product-to-purpose allocation would be required.
+- Keeps survey/CPI material as Class C only.
+- Preserves `weights_final.csv` as empty and adds zero exact cells.
+
 ## 0.6.5
 
 - Replaced the static China decision with `ChinaNbsAuditAdapter`.

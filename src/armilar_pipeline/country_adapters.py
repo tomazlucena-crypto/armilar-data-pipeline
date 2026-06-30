@@ -56,7 +56,7 @@ CELL_STATUS_FIELDS = [
 ]
 
 SOURCE_ATTEMPT_FIELDS = [
-    "economy_code", "category", "authority", "dataset", "url",
+    "economy_code", "category", "source_family", "authority", "dataset", "url",
     "access_method", "retrieval_status", "status_code", "content_type",
     "file_signature", "byte_size", "reference_period", "institutional_sector",
     "transaction_code", "classification", "current_prices", "currency", "unit",
@@ -88,9 +88,11 @@ SOURCE_FAMILIES = (
     (2, "official_csv_xls_xlsx"),
     (3, "official_statistical_database"),
     (4, "official_supply_and_use_tables"),
-    (5, "official_structured_publications"),
-    (6, "survey_or_cpi_class_c_only"),
-    (7, "exhaustive_unavailability_documentation"),
+    (5, "official_input_output_tables"),
+    (6, "official_structured_publications"),
+    (7, "survey_or_cpi_class_c_only"),
+    (8, "official_classifications_methodology"),
+    (9, "exhaustive_unavailability_documentation"),
 )
 
 COMPLETION_ECONOMY_FIELDS = [
@@ -120,6 +122,48 @@ CHINA_GATE_FIELDS = [
 ]
 
 CHINA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+INDONESIA_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+INDONESIA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+BRAZIL_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+BRAZIL_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+EGYPT_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+EGYPT_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+PAKISTAN_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+PAKISTAN_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+NIGERIA_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+NIGERIA_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+BANGLADESH_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+BANGLADESH_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
+
+VIETNAM_GATE_FIELDS = [
+    "criterion", "status", "evidence", "source_id", "source_authority",
+    "source_url", "source_retrieved_at", "source_sha256", "review_mode",
+]
+VIETNAM_GATE_STATUSES = {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}
 
 STEP2H_EXCEPTION_FIELDS = [
     "economy_code", "economy_name", "armilar_category", "decision",
@@ -158,6 +202,13 @@ class AdapterResult:
     india_gate_rows: list[dict[str, Any]] | None = None
     russia_gate_rows: list[dict[str, Any]] | None = None
     china_gate_rows: list[dict[str, Any]] | None = None
+    indonesia_gate_rows: list[dict[str, Any]] | None = None
+    brazil_gate_rows: list[dict[str, Any]] | None = None
+    egypt_gate_rows: list[dict[str, Any]] | None = None
+    pakistan_gate_rows: list[dict[str, Any]] | None = None
+    nigeria_gate_rows: list[dict[str, Any]] | None = None
+    bangladesh_gate_rows: list[dict[str, Any]] | None = None
+    vietnam_gate_rows: list[dict[str, Any]] | None = None
     step2h_exception_rows: list[dict[str, Any]] | None = None
 
 
@@ -175,13 +226,18 @@ def registered_adapters() -> dict[str, CountryAdapter]:
         IndiaMospiAdapter(),
         RussiaRosstatAuditAdapter(),
         ChinaNbsAuditAdapter(),
-        Step2IDecisionAdapter("IDN", "Indonesia", "IDN_BPS_OFFICIAL_SOURCE_AUDIT", "Badan Pusat Statistik", "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html", "2021", "HFCE_REGROUPED", "7 groups", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories."),
-        Step2IDecisionAdapter("BRA", "Brazil", "BRA_IBGE_OFFICIAL_SOURCE_AUDIT", "Instituto Brasileiro de Geografia e Estatistica", "https://www.ibge.gov.br/estatisticas/economicas/comercio/9052-sistema-de-contas-nacionais-brasil.html", "2021", "SNA_PRODUCT_TABLES", "product tables", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official product tables would require many-to-many product-to-COICOP allocation."),
-        AuditOnlyAdapter("EGY", "Egypt", "EGY_CAPMAS_OFFICIAL_SOURCE_AUDIT", "Central Agency for Public Mobilization and Statistics", "https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview", "2021", "HOUSEHOLD_SURVEY", "survey microdata", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official HIECS is a survey source, not national-accounts S14/P31 current-price HFCE."),
-        AuditOnlyAdapter("PAK", "Pakistan", "PAK_PBS_OFFICIAL_SOURCE_AUDIT", "Pakistan Bureau of Statistics", "https://www.pbs.gov.pk/national-accounts-2/", "2021-22", "HFCE_AGGREGATE", "aggregate only", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Public national-accounts source does not expose a twelve-category strict household table."),
-        AuditOnlyAdapter("NGA", "Nigeria", "NGA_NBS_OFFICIAL_SOURCE_AUDIT", "National Bureau of Statistics", "https://www.nigerianstat.gov.ng/elibrary/read/1241168", "2021", "HFCE_AGGREGATE", "aggregate only", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official expenditure-GDP report publishes aggregate household consumption, not twelve categories."),
-        AuditOnlyAdapter("BGD", "Bangladesh", "BGD_BBS_OFFICIAL_SOURCE_AUDIT", "Bangladesh Bureau of Statistics", "https://nsds.bbs.gov.bd/en/posts/85/Survey%20documentation%20for%20the%20Household%20Income%20and%20Expenditure%20Survey", "2022", "HOUSEHOLD_SURVEY", "survey", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official HIES reference year and concept do not satisfy 2021 national-accounts HFCE gates."),
-        AuditOnlyAdapter("VNM", "Viet Nam", "VNM_NSO_OFFICIAL_SOURCE_AUDIT", "National Statistics Office of Viet Nam", "https://www.nso.gov.vn/en/default/2024/04/results-of-the-viet-nam-household-living-standards-survey-2022/", "2022", "HOUSEHOLD_SURVEY", "survey", "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE", "Official VHLSS is 2022 survey evidence only, not exact 2021 S14/P31 HFCE."),
+        IndonesiaBpsAuditAdapter(),
+        BrazilIbgeAuditAdapter(),
+        EgyptCapmasAuditAdapter(),
+        PakistanPbsAuditAdapter(),
+        NigeriaNbsAuditAdapter(),
+        BangladeshBbsAuditAdapter(),
+        VietnamNsoAuditAdapter(),
+        BelarusBelstatExceptionAuditAdapter(),
+        KuwaitCsbExceptionAuditAdapter(),
+        SaudiGastatExceptionAuditAdapter(),
+        BonaireCbsExceptionAuditAdapter(),
+        LiberiaLisgisExceptionAuditAdapter(),
     ]
     return {adapter.economy_code: adapter for adapter in adapters}
 
@@ -265,6 +321,13 @@ def write_country_outputs(out: Path, result: AdapterResult) -> None:
     write_csv(out / "india_methodology_gate_audit.csv", INDIA_GATE_FIELDS, result.india_gate_rows or [])
     write_csv(out / "russia_methodology_gate_audit.csv", RUSSIA_GATE_FIELDS, result.russia_gate_rows or [])
     write_csv(out / "china_methodology_gate_audit.csv", CHINA_GATE_FIELDS, result.china_gate_rows or [])
+    write_csv(out / "indonesia_methodology_gate_audit.csv", INDONESIA_GATE_FIELDS, result.indonesia_gate_rows or [])
+    write_csv(out / "brazil_methodology_gate_audit.csv", BRAZIL_GATE_FIELDS, result.brazil_gate_rows or [])
+    write_csv(out / "egypt_methodology_gate_audit.csv", EGYPT_GATE_FIELDS, result.egypt_gate_rows or [])
+    write_csv(out / "pakistan_methodology_gate_audit.csv", PAKISTAN_GATE_FIELDS, result.pakistan_gate_rows or [])
+    write_csv(out / "nigeria_methodology_gate_audit.csv", NIGERIA_GATE_FIELDS, result.nigeria_gate_rows or [])
+    write_csv(out / "bangladesh_methodology_gate_audit.csv", BANGLADESH_GATE_FIELDS, result.bangladesh_gate_rows or [])
+    write_csv(out / "vietnam_methodology_gate_audit.csv", VIETNAM_GATE_FIELDS, result.vietnam_gate_rows or [])
     write_csv(out / "step2h_exception_audit.csv", STEP2H_EXCEPTION_FIELDS, result.step2h_exception_rows or step2h_exception_rows())
     write_json(out / "step2i_completion_summary.json", step2i_completion_summary(result))
     write_json(out / "step2i_audit_summary.json", step2i_audit_summary(result))
@@ -273,6 +336,13 @@ def write_country_outputs(out: Path, result: AdapterResult) -> None:
     write_india_method_gate_report(out / "INDIA_METHOD_GATE_REPORT.md", result.india_gate_rows or [])
     write_russia_method_gate_report(out / "RUSSIA_METHOD_GATE_REPORT.md", result.russia_gate_rows or [])
     write_china_method_gate_report(out / "CHINA_METHOD_GATE_REPORT.md", result.china_gate_rows or [])
+    write_country_method_gate_report(out / "INDONESIA_METHOD_GATE_REPORT.md", "Indonesia", "0.6.13", result.indonesia_gate_rows or [], validate_indonesia_methodology_gate_rows)
+    write_country_method_gate_report(out / "BRAZIL_METHOD_GATE_REPORT.md", "Brazil", "0.6.13", result.brazil_gate_rows or [], validate_brazil_methodology_gate_rows)
+    write_country_method_gate_report(out / "EGYPT_METHOD_GATE_REPORT.md", "Egypt", "0.6.13", result.egypt_gate_rows or [], validate_egypt_methodology_gate_rows)
+    write_country_method_gate_report(out / "PAKISTAN_METHOD_GATE_REPORT.md", "Pakistan", "0.6.13", result.pakistan_gate_rows or [], validate_pakistan_methodology_gate_rows)
+    write_country_method_gate_report(out / "NIGERIA_METHOD_GATE_REPORT.md", "Nigeria", "0.6.13", result.nigeria_gate_rows or [], validate_nigeria_methodology_gate_rows)
+    write_country_method_gate_report(out / "BANGLADESH_METHOD_GATE_REPORT.md", "Bangladesh", "0.6.13", result.bangladesh_gate_rows or [], validate_bangladesh_methodology_gate_rows)
+    write_country_method_gate_report(out / "VIETNAM_METHOD_GATE_REPORT.md", "Viet Nam", "0.6.13", result.vietnam_gate_rows or [], validate_vietnam_methodology_gate_rows)
 
 
 class IndiaMospiAdapter:
@@ -989,7 +1059,14 @@ def _xlsx_rows(path: Path) -> dict[int, dict[str, str]]:
 
 
 def _empty_result() -> AdapterResult:
-    return AdapterResult([], [], [], [], [], [], [], [], [], [], [], [], [], [], [])
+    return AdapterResult(
+        status_rows=[], evidence_rows=[], normalized_rows=[], mapping_rows=[],
+        reconciliation_rows=[], failure_rows=[], acquisition_records=[],
+        cell_status_rows=[], source_attempt_rows=[], source_family_rows=[],
+        completion_rows=[], india_gate_rows=[], russia_gate_rows=[],
+        china_gate_rows=[], indonesia_gate_rows=[], brazil_gate_rows=[],
+        egypt_gate_rows=[], pakistan_gate_rows=[], nigeria_gate_rows=[], bangladesh_gate_rows=[], vietnam_gate_rows=[], step2h_exception_rows=[],
+    )
 
 
 def _extend(target: AdapterResult, source: AdapterResult) -> None:
@@ -1007,6 +1084,13 @@ def _extend(target: AdapterResult, source: AdapterResult) -> None:
     target.india_gate_rows.extend(source.india_gate_rows or [])
     target.russia_gate_rows.extend(source.russia_gate_rows or [])
     target.china_gate_rows.extend(source.china_gate_rows or [])
+    target.indonesia_gate_rows.extend(source.indonesia_gate_rows or [])
+    target.brazil_gate_rows.extend(source.brazil_gate_rows or [])
+    target.egypt_gate_rows.extend(source.egypt_gate_rows or [])
+    target.pakistan_gate_rows.extend(source.pakistan_gate_rows or [])
+    target.nigeria_gate_rows.extend(source.nigeria_gate_rows or [])
+    target.bangladesh_gate_rows.extend(source.bangladesh_gate_rows or [])
+    target.vietnam_gate_rows.extend(source.vietnam_gate_rows or [])
     target.step2h_exception_rows.extend(source.step2h_exception_rows or [])
 
 
@@ -1065,19 +1149,26 @@ def source_family_rows(
     result: list[dict[str, Any]] = []
     attempts_by_family: dict[str, list[dict[str, Any]]] = {family: [] for _, family in SOURCE_FAMILIES}
     for attempt in attempts:
+        explicit_family = str(attempt.get("source_family") or "").strip()
+        if explicit_family in attempts_by_family:
+            attempts_by_family[explicit_family].append(attempt)
+            continue
         dataset = str(attempt.get("dataset") or "").upper()
         classification = str(attempt.get("classification") or "").upper()
-        concept = str(attempt.get("classification") or "").upper()
         if "API" in dataset or "SIDRA" in dataset:
             attempts_by_family["official_national_accounts_api"].append(attempt)
-        elif any(token in dataset for token in ("SUPPLY", "USE", "SUT", "TRU", "INPUT")):
+        elif any(token in dataset for token in ("INPUT_OUTPUT", "INPUT-OUTPUT", "IO_TABLE")):
+            attempts_by_family["official_input_output_tables"].append(attempt)
+        elif any(token in dataset for token in ("SUPPLY", "USE", "SUT", "TRU")):
             attempts_by_family["official_supply_and_use_tables"].append(attempt)
         elif "DATABASE" in classification or "FEDSTAT" in dataset or "STATBANK" in dataset or "BASE" in dataset:
             attempts_by_family["official_statistical_database"].append(attempt)
-        elif any(token in dataset for token in ("XLS", "XLSX", "CSV", "STATEMENT")):
+        elif any(token in dataset for token in ("XLS", "XLSX", "CSV", "STATEMENT", "DOWNLOAD")):
             attempts_by_family["official_csv_xls_xlsx"].append(attempt)
-        elif "SURVEY" in classification or "CPI" in classification or "HBS" in classification:
+        elif "SURVEY" in classification or "CPI" in classification or "HBS" in classification or "HIECS" in classification:
             attempts_by_family["survey_or_cpi_class_c_only"].append(attempt)
+        elif "METHODOLOGY" in classification or "CLASSIFICATION" in classification:
+            attempts_by_family["official_classifications_methodology"].append(attempt)
         else:
             attempts_by_family["official_structured_publications"].append(attempt)
     for order, family in SOURCE_FAMILIES:
@@ -1114,6 +1205,7 @@ def step2i_attempt_template(
     return {
         "economy_code": economy_code,
         "category": category,
+        "source_family": "official_structured_publications",
         "authority": authority,
         "dataset": dataset,
         "url": url,
@@ -2188,7 +2280,7 @@ def step2i_completion_summary(result: AdapterResult) -> dict[str, Any]:
     ])
     return {
         "schema_version": "1.1",
-        "pipeline_version": "0.6.5",
+        "pipeline_version": "0.6.8",
         "step": "2I",
         "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
         "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
@@ -2241,7 +2333,7 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
     lines = [
         f"# {title}",
         "",
-        "Generated: deterministic v0.6.5 Step 2I report",
+        "Generated: deterministic v0.6.13 Step 2I report",
         "",
         "## Version mapping",
         "",
@@ -2255,6 +2347,14 @@ def _write_step2i_report_common(path: Path, result: AdapterResult, *, title: str
         "| 0.6.3 | Step 2H0 India evidence closure | India documentary rejection and evidence-linked methodology gates |",
         "| 0.6.4 | Step 2H0 Russia evidence closure | Fedstat aggregate, SUT product and HBS purpose concepts separated |",
         "| 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, input-output and GDP aggregate concepts separated |",
+        "| 0.6.6 | Step 2H0 Indonesia audit | Grouped BPS, SUT, input-output and Class C concepts separated |",
+        "| 0.6.7 | Step 2H0 Brazil audit | SIDRA, SCN, CEI, TRU and Class C concepts separated |",
+        "| 0.6.8 | Step 2H0 Egypt audit | CAPMAS catalogue, historical SUT and HIECS concepts separated |",
+        "| 0.6.9 | Step 2H0 Pakistan audit | PBS aggregate national accounts, fiscal period and HIES survey concepts separated |",
+        "| 0.6.10 | Step 2H0 Nigeria audit | NBS aggregate expenditure reports and 2019 survey detail separated |",
+        "| 0.6.11 | Step 2H0 Bangladesh audit | BBS aggregate portals and HIES 2022 survey evidence separated |",
+        "| 0.6.12 | Step 2H0 Viet Nam audit | NSO aggregate final-consumption releases and VHLSS surveys separated |",
+        "| 0.6.13 | Step 2H exception audits | Belarus, Kuwait, Saudi Arabia, Bonaire and Liberia exceptions made executable |",
         "",
         "## Status",
         "",
@@ -2300,7 +2400,7 @@ def write_india_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> No
     lines = [
         "# India method gate report",
         "",
-        "Pipeline version: `0.6.5`",
+        "Pipeline version: `0.6.8`",
         "",
         "This report records the strict Armilar admissibility decision for MoSPI PFCE Statement 5.1.",
         "The source remains outside the exact matrix whenever a material criterion is contradicted or unresolved.",
@@ -2330,7 +2430,7 @@ def write_russia_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> N
     lines = [
         "# Russia method gate report",
         "",
-        "Pipeline version: `0.6.5`",
+        "Pipeline version: `0.6.8`",
         "",
         "This report records the strict Armilar admissibility decision for the official Rosstat and Fedstat source chain.",
         "An aggregate national-accounts indicator, product-based SUT data and purpose-classified survey data are kept conceptually separate.",
@@ -2361,7 +2461,7 @@ def write_china_method_gate_report(path: Path, rows: list[dict[str, Any]]) -> No
     lines = [
         "# China method gate report",
         "",
-        "Pipeline version: `0.6.5`",
+        "Pipeline version: `0.6.8`",
         "",
         "This report records the strict Armilar admissibility decision for the official NBS source chain.",
         "Household-survey detail, national-accounts aggregates and input-output product tables remain conceptually separate.",
@@ -2437,3 +2537,1110 @@ def validate_mixed_provider_cells(rows: list[dict[str, Any]]) -> tuple[bool, str
     if len(units) != 1:
         return False, "INCOMPATIBLE_UNIT"
     return True, "PASS"
+
+# ---------------------------------------------------------------------------
+# Reusable Step 2H0 official source-family audits (v0.6.6+)
+# ---------------------------------------------------------------------------
+
+ALL_ARMILAR_CATEGORIES = tuple(f"CP{number:02d}" for number in range(1, 13))
+
+
+def _normalise_audit_text(value: str) -> str:
+    value = html.unescape(value).lower()
+    value = re.sub(r"<[^>]+>", " ", value)
+    value = re.sub(r"[^a-z0-9]+", " ", value)
+    return " ".join(value.split())
+
+
+def _file_signature(path: Path) -> str:
+    payload = path.read_bytes()[:8]
+    if payload.startswith(b"%PDF"):
+        return "PDF"
+    if payload.startswith(b"PK\x03\x04"):
+        return "ZIP_OR_OOXML"
+    suffix = path.suffix.lower()
+    if suffix == ".csv":
+        return "CSV_TEXT"
+    if suffix in {".html", ".htm"}:
+        return "HTML_TEXT"
+    return suffix.lstrip(".").upper() or "BINARY"
+
+
+def _analyse_source_spec(spec: dict[str, Any], path: Path, content_type: str = "") -> dict[str, Any]:
+    if path.suffix.lower() in {".xlsx", ".xlsm", ".docx"} and zipfile.is_zipfile(path):
+        source_text = _office_xml_text(path)
+    else:
+        source_text = _decode_text_file(path)
+    text = _normalise_audit_text(source_text)
+    markers = tuple(_normalise_audit_text(str(marker)) for marker in spec.get("required_markers", ()))
+    marker_hits = {marker: marker in text for marker in markers}
+    expected = all(marker_hits.values()) if markers else path.exists() and path.stat().st_size > 0
+    return {
+        "source_id": str(spec["source_id"]),
+        "expected_evidence_confirmed": expected,
+        "marker_hits": marker_hits,
+        "decision": str(spec.get("source_decision") or "REJECT_NON_EXACT_SOURCE_FAMILY"),
+        "concept": str(spec.get("concept") or ""),
+        "classification": str(spec.get("classification") or ""),
+        "source_family": str(spec.get("family") or "official_structured_publications"),
+        "content_type": content_type,
+        "file_signature": _file_signature(path),
+        "machine_readable": str(spec.get("machine_readable") or "partly"),
+        "reference_period": str(spec.get("reference_period") or "2021"),
+        "institutional_sector": str(spec.get("institutional_sector") or "NOT_CONFIRMED_AS_STRICT_S14"),
+        "transaction_code": str(spec.get("transaction_code") or "NOT_CONFIRMED_AS_P31DC"),
+        "current_prices": str(spec.get("current_prices") or "UNKNOWN"),
+        "currency": str(spec.get("currency") or "UNKNOWN"),
+        "unit": str(spec.get("unit") or "UNKNOWN"),
+        "npish_treatment": str(spec.get("npish_treatment") or "NOT_CONFIRMED_EXCLUDED"),
+        "government_treatment": str(spec.get("government_treatment") or "NOT_CONFIRMED_EXCLUDED"),
+        "imputed_rent_treatment": str(spec.get("imputed_rent_treatment") or "NOT_CONFIRMED"),
+        "rejection_reason": str(spec.get("rejection_reason") or "Source does not satisfy all exact Armilar gates."),
+    }
+
+
+def _audit_source_attempt_rows(
+    adapter: "OfficialFamilyAuditAdapter",
+    records: dict[str, AcquisitionRecord],
+    analyses: dict[str, dict[str, Any]],
+    errors: dict[str, Exception],
+    blocking: str,
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for spec in adapter.source_specs:
+        source_id = str(spec["source_id"])
+        record = records.get(source_id)
+        analysis = analyses.get(source_id, {})
+        error = errors.get(source_id)
+        rows.append({
+            "economy_code": adapter.economy_code,
+            "category": "*",
+            "source_family": str(spec["family"]),
+            "authority": adapter.source_authority,
+            "dataset": source_id,
+            "url": str(spec["url"]),
+            "access_method": "REAL_HTTP_OR_EQUIVALENT_ACQUISITION",
+            "retrieval_status": "ACCESS_BLOCKED" if error else (
+                "ACQUIRED_REJECTED" if analysis.get("expected_evidence_confirmed") else "SOURCE_CONTENT_REVIEW_REQUIRED"
+            ),
+            "status_code": record.status_code if record and record.status_code is not None else "",
+            "content_type": record.content_type or "" if record else "",
+            "file_signature": analysis.get("file_signature", ""),
+            "byte_size": record.bytes if record else "",
+            "reference_period": str(spec.get("reference_period") or adapter.reference_period),
+            "institutional_sector": analysis.get("institutional_sector", str(spec.get("institutional_sector") or "UNKNOWN")),
+            "transaction_code": analysis.get("transaction_code", str(spec.get("transaction_code") or "UNKNOWN")),
+            "classification": str(spec.get("classification") or ""),
+            "current_prices": analysis.get("current_prices", str(spec.get("current_prices") or "UNKNOWN")),
+            "currency": analysis.get("currency", str(spec.get("currency") or "UNKNOWN")),
+            "unit": analysis.get("unit", str(spec.get("unit") or "UNKNOWN")),
+            "npish_treatment": analysis.get("npish_treatment", str(spec.get("npish_treatment") or "UNKNOWN")),
+            "government_treatment": analysis.get("government_treatment", str(spec.get("government_treatment") or "UNKNOWN")),
+            "imputed_rent_treatment": analysis.get("imputed_rent_treatment", str(spec.get("imputed_rent_treatment") or "UNKNOWN")),
+            "candidate_class": "ACCESS_BLOCKED" if error else (
+                "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE" if analysis.get("expected_evidence_confirmed") else "CONCEPT_AMBIGUOUS"
+            ),
+            "rejection_reason": (
+                f"{type(error).__name__}: {error}" if error else analysis.get("rejection_reason", blocking)
+            ),
+            "retrieved_at": record.retrieved_at if record else "",
+            "sha256": record.sha256 if record else "",
+        })
+    return rows
+
+
+def _audit_evidence_rows(
+    adapter: "OfficialFamilyAuditAdapter",
+    records: dict[str, AcquisitionRecord],
+    analyses: dict[str, dict[str, Any]],
+    errors: dict[str, Exception],
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for spec in adapter.source_specs:
+        source_id = str(spec["source_id"])
+        analysis = analyses.get(source_id, {})
+        error = errors.get(source_id)
+        rows.append({
+            "economy_code": adapter.economy_code,
+            "source_id": source_id,
+            "source_authority": adapter.source_authority,
+            "source_url": str(spec["url"]),
+            "reference_period": str(spec.get("reference_period") or adapter.reference_period),
+            "concept": str(spec.get("concept") or ""),
+            "granularity": str(spec.get("classification") or ""),
+            "machine_readable": analysis.get("machine_readable", str(spec.get("machine_readable") or "unknown")),
+            "status": "ACCESS_BLOCKED" if error else (
+                "ACQUIRED_BUT_REJECTED" if analysis.get("expected_evidence_confirmed") else "ACQUIRED_REVIEW_REQUIRED"
+            ),
+            "rejection_reason": f"{type(error).__name__}: {error}" if error else analysis.get("rejection_reason", ""),
+        })
+    return rows
+
+
+def _audit_mapping_rows(adapter: "OfficialFamilyAuditAdapter", analyses: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for spec in adapter.source_specs:
+        source_id = str(spec["source_id"])
+        analysis = analyses.get(source_id)
+        if not analysis:
+            continue
+        rows.append({
+            "economy_code": adapter.economy_code,
+            "original_item_code": source_id,
+            "original_item_name": str(spec.get("concept") or ""),
+            "armilar_category": "",
+            "mapping_type": "NO_EXACT_MAPPING_PERMITTED",
+            "status": "REJECTED" if analysis.get("expected_evidence_confirmed") else "REVIEW_REQUIRED",
+            "reason": analysis.get("rejection_reason", ""),
+        })
+    return rows
+
+
+def country_audit_cell_rows(
+    economy_code: str,
+    economy_name: str,
+    source_id: str,
+    authority: str,
+    reference_period: str,
+    decision: str,
+    blocking_reason: str,
+    categories: tuple[str, ...],
+) -> list[dict[str, Any]]:
+    return [{
+        "economy_code": economy_code,
+        "economy_name": economy_name,
+        "armilar_category": category,
+        "cell_class": decision,
+        "source_id": source_id,
+        "source_authority": authority,
+        "reference_period": reference_period,
+        "value_status": "NO_VALUE_ADMITTED",
+        "admissible_to_exact_matrix": False,
+        "blocking_reason": blocking_reason,
+        "quality_flags": "SOURCE_FAMILY_AUDIT|ZERO_EXACT_ROWS",
+    } for category in categories]
+
+
+def country_audit_completion_row(
+    economy_code: str,
+    economy_name: str,
+    blocking: str,
+    sources_examined: int,
+    decision: str,
+    categories: tuple[str, ...],
+) -> dict[str, Any]:
+    return {
+        "economy_code": economy_code,
+        "economy_name": economy_name,
+        "accepted_categories": "",
+        "experimental_categories": "",
+        "unavailable_categories": "|".join(categories),
+        "coverage_added_cells": 0,
+        "decision": decision,
+        "sources_examined": sources_examined,
+        "remaining_blockers": blocking,
+    }
+
+
+class OfficialFamilyAuditAdapter:
+    economy_code = ""
+    economy_name = ""
+    adapter_id = ""
+    source_authority = ""
+    reference_period = "2021"
+    source_specs: tuple[dict[str, Any], ...] = ()
+    core_source_ids: set[str] = set()
+    audit_categories: tuple[str, ...] = ALL_ARMILAR_CATEGORIES
+    exception_category = ""
+    exception_current_status = ""
+    exception_resolution_attempted = ""
+    exception_reason = ""
+
+    def build_gate_rows(
+        self,
+        records: dict[str, AcquisitionRecord],
+        analyses: dict[str, dict[str, Any]],
+        errors: dict[str, Exception],
+    ) -> list[dict[str, Any]]:
+        raise NotImplementedError
+
+    def validate_gate_rows(self, rows: list[dict[str, Any]]) -> None:
+        raise NotImplementedError
+
+    def closed_rejection_reason(self) -> str:
+        raise NotImplementedError
+
+    def acquire_and_parse(self, config: Step2Config, run_root: Path, cache_root: Path) -> AdapterResult:
+        raw_root = run_root / "raw" / "country_adapters" / self.economy_code
+        records: dict[str, AcquisitionRecord] = {}
+        analyses: dict[str, dict[str, Any]] = {}
+        errors: dict[str, Exception] = {}
+        failure_rows: list[dict[str, Any]] = []
+        for spec in self.source_specs:
+            source_id = str(spec["source_id"])
+            destination = raw_root / source_id / str(spec["filename"])
+            try:
+                record = fetch_url(
+                    config,
+                    source_id=source_id,
+                    url=str(spec["url"]),
+                    destination=destination,
+                    cache_path=cache_root / "country_adapters" / self.economy_code / str(spec["filename"]),
+                    accept=str(spec.get("accept") or "*/*"),
+                )
+                records[source_id] = record
+                analyses[source_id] = _analyse_source_spec(spec, destination, record.content_type or "")
+            except Exception as exc:
+                errors[source_id] = exc
+                failure_rows.append({
+                    "economy_code": self.economy_code,
+                    "adapter_id": self.adapter_id,
+                    "stage": f"acquisition_or_validation:{source_id}",
+                    "error_type": type(exc).__name__,
+                    "error": str(exc),
+                })
+        core_blocked = sorted(self.core_source_ids & set(errors))
+        unexpected = sorted(
+            source_id for source_id in self.core_source_ids & set(analyses)
+            if not analyses[source_id].get("expected_evidence_confirmed", False)
+        )
+        if core_blocked:
+            decision = "ACCESS_BLOCKED"
+            status = "ACCESS_BLOCKED"
+            blocking = (
+                f"The current run could not acquire or validate all critical official {self.economy_name} source families: "
+                + ", ".join(core_blocked)
+                + ". A closed source decision is not permitted while these attempts remain blocked."
+            )
+        elif unexpected:
+            decision = "CONCEPT_AMBIGUOUS"
+            status = "SOURCE_CONTENT_REVIEW_REQUIRED"
+            blocking = (
+                f"Acquired official {self.economy_name} resources did not match the reviewed structural markers for: "
+                + ", ".join(unexpected)
+                + ". No source is admitted until the changed content is reviewed."
+            )
+        else:
+            decision = "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE"
+            status = "REJECTED_BY_CONFIRMED_SOURCE_GATES"
+            blocking = self.closed_rejection_reason()
+        attempts = _audit_source_attempt_rows(self, records, analyses, errors, blocking)
+        gates = self.build_gate_rows(records, analyses, errors)
+        self.validate_gate_rows(gates)
+        gate_kwargs: dict[str, Any] = {}
+        if self.economy_code == "IDN":
+            gate_kwargs["indonesia_gate_rows"] = gates
+        elif self.economy_code == "BRA":
+            gate_kwargs["brazil_gate_rows"] = gates
+        elif self.economy_code == "EGY":
+            gate_kwargs["egypt_gate_rows"] = gates
+        elif self.economy_code == "PAK":
+            gate_kwargs["pakistan_gate_rows"] = gates
+        elif self.economy_code == "NGA":
+            gate_kwargs["nigeria_gate_rows"] = gates
+        elif self.economy_code == "BGD":
+            gate_kwargs["bangladesh_gate_rows"] = gates
+        elif self.economy_code == "VNM":
+            gate_kwargs["vietnam_gate_rows"] = gates
+        if self.exception_category:
+            gate_kwargs["step2h_exception_rows"] = [{
+                "economy_code": self.economy_code,
+                "economy_name": self.economy_name,
+                "armilar_category": self.exception_category,
+                "decision": decision,
+                "current_status": self.exception_current_status,
+                "resolution_attempted": self.exception_resolution_attempted,
+                "reason": blocking if decision != "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE" else self.exception_reason,
+            }]
+        return AdapterResult(
+            status_rows=[{
+                "economy_code": self.economy_code,
+                "economy_name": self.economy_name,
+                "adapter_id": self.adapter_id,
+                "status": status,
+                "data_class": decision,
+                "accepted_rows": 0,
+                "failure_count": len(failure_rows),
+                "source_url": str(self.source_specs[0]["url"]),
+                "blocking_reason": blocking,
+            }],
+            evidence_rows=_audit_evidence_rows(self, records, analyses, errors),
+            normalized_rows=[],
+            mapping_rows=_audit_mapping_rows(self, analyses),
+            reconciliation_rows=[],
+            failure_rows=failure_rows,
+            acquisition_records=[records[key] for key in sorted(records)],
+            cell_status_rows=country_audit_cell_rows(
+                self.economy_code, self.economy_name, self.adapter_id,
+                self.source_authority, self.reference_period, decision, blocking,
+                self.audit_categories,
+            ),
+            source_attempt_rows=attempts,
+            source_family_rows=source_family_rows(self.economy_code, self.economy_name, attempts, blocking),
+            completion_rows=[country_audit_completion_row(
+                self.economy_code, self.economy_name, blocking,
+                len(self.source_specs), decision, self.audit_categories,
+            )],
+            **gate_kwargs,
+        )
+
+
+def _gate_source(
+    adapter: OfficialFamilyAuditAdapter,
+    source_id: str,
+    records: dict[str, AcquisitionRecord],
+    review_mode: str = "STRUCTURAL_MARKER_VALIDATION",
+) -> dict[str, Any]:
+    spec = next(spec for spec in adapter.source_specs if spec["source_id"] == source_id)
+    record = records.get(source_id)
+    return {
+        "source_id": source_id,
+        "source_authority": adapter.source_authority,
+        "source_url": str(spec["url"]),
+        "source_retrieved_at": record.retrieved_at if record else "",
+        "source_sha256": record.sha256 if record else "",
+        "review_mode": review_mode,
+    }
+
+
+def _validate_country_gate_rows(
+    rows: list[dict[str, Any]],
+    required: set[str],
+    statuses: set[str],
+    country: str,
+) -> None:
+    by_criterion = {str(row.get("criterion")): row for row in rows}
+    missing = sorted(required - set(by_criterion))
+    if missing:
+        raise ValueError(f"{country} methodology audit is missing criteria: " + ",".join(missing))
+    invalid = sorted({str(row.get("status")) for row in rows} - statuses)
+    if invalid:
+        raise ValueError(f"{country} methodology audit contains invalid statuses: " + ",".join(invalid))
+    final = by_criterion.get("exact_armilar_source_available", {})
+    if final.get("status") == "CONTRADICTED":
+        underlying = [row for key, row in by_criterion.items() if key != "exact_armilar_source_available"]
+        if not any(row.get("status") == "CONTRADICTED" for row in underlying):
+            raise ValueError(f"{country} exact-source rejection requires at least one confirmed underlying contradiction")
+
+
+class IndonesiaBpsAuditAdapter(OfficialFamilyAuditAdapter):
+    economy_code = "IDN"
+    economy_name = "Indonesia"
+    adapter_id = "IDN_BPS_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "Badan Pusat Statistik"
+    reference_period = "2021"
+    audit_categories = STEP2I_PROXY_CATEGORIES
+    source_specs = (
+        {"source_id":"IDN_BPS_GDP_EXPENDITURE_2020_2024","url":"https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html","filename":"gdp_by_expenditure_2020_2024.html","accept":"text/html,*/*;q=0.1","family":"official_structured_publications","concept":"GDP by expenditure publication with grouped household consumption","classification":"HFCE_REGROUPED_PUBLICATION","required_markers":("gross domestic product of indonesia by expenditure","household consumption"),"source_decision":"REJECT_GROUPED_PURPOSES","rejection_reason":"The publication groups household consumption rather than supplying twelve Armilar purposes and cannot be split without allocation.","reference_period":"2020-2024","current_prices":"MIXED","currency":"IDR","unit":"PUBLICATION_TABLES"},
+        {"source_id":"IDN_BPS_STATISTICS_TABLES_EXPENDITURE","url":"https://www.bps.go.id/en/statistics-table?subject=531","filename":"statistics_tables_expenditure.html","accept":"text/html,*/*;q=0.1","family":"official_statistical_database","concept":"BPS official expenditure-side statistics tables","classification":"BPS_DATABASE_DISCOVERY","required_markers":("statistics table","expenditure"),"source_decision":"DISCOVERY_ONLY","rejection_reason":"The table portal is discovery evidence and no pinned exact 2021 S14/P31DC twelve-purpose query is identified."},
+        {"source_id":"IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH","url":"https://www.bps.go.id/en/publication?keyword=gross%20domestic%20product%20expenditure","filename":"national_accounts_download_search.html","accept":"text/html,*/*;q=0.1","family":"official_csv_xls_xlsx","concept":"Downloadable national-accounts publication search","classification":"DOWNLOAD_DISCOVERY_ONLY","required_markers":("publication","gross domestic product"),"source_decision":"DISCOVERY_ONLY","rejection_reason":"Publication search evidence is not a machine-readable exact dataset."},
+        {"source_id":"IDN_BPS_SUPPLY_USE_TABLES","url":"https://www.bps.go.id/en/publication?keyword=supply%20use%20table","filename":"supply_use_tables_search.html","accept":"text/html,*/*;q=0.1","family":"official_supply_and_use_tables","concept":"BPS supply and use table family","classification":"SUT_PRODUCT_TABLE_DISCOVERY","required_markers":("supply","use"),"source_decision":"REJECT_PRODUCT_TO_PURPOSE_ALLOCATION","rejection_reason":"Supply-use evidence is product-based and cannot be converted to exact purpose weights through many-to-many allocation."},
+        {"source_id":"IDN_BPS_INPUT_OUTPUT_TABLES","url":"https://www.bps.go.id/en/publication?keyword=input%20output%20table","filename":"input_output_tables_search.html","accept":"text/html,*/*;q=0.1","family":"official_input_output_tables","concept":"BPS input-output table family","classification":"INPUT_OUTPUT_PRODUCT_TABLE_DISCOVERY","required_markers":("input","output"),"source_decision":"REJECT_PRODUCT_TO_PURPOSE_ALLOCATION","rejection_reason":"Input-output evidence is product-based and cannot provide exact COICOP purpose weights without allocation."},
+        {"source_id":"IDN_BPS_SURVEY_OR_CPI_CLASS_C","url":"https://www.bps.go.id/en/statistics-table?subject=3","filename":"survey_or_cpi_class_c.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"Household survey or CPI evidence","classification":"SURVEY_OR_CPI_CLASS_C_ONLY","required_markers":("statistics table",),"source_decision":"REJECT_CLASS_C","rejection_reason":"Survey and CPI evidence cannot replace national-accounts expenditure weights."},
+        {"source_id":"IDN_BPS_CLASSIFICATION_METHODOLOGY","url":"https://www.bps.go.id/en/publication?keyword=classification%20coicop","filename":"classification_methodology_search.html","accept":"text/html,*/*;q=0.1","family":"official_classifications_methodology","concept":"Classification and methodology documents","classification":"CLASSIFICATION_METHODOLOGY_DISCOVERY","required_markers":("publication",),"source_decision":"DOCUMENTATION_ONLY","rejection_reason":"Classification documentation does not itself provide admissible expenditure values."},
+    )
+    core_source_ids = {"IDN_BPS_GDP_EXPENDITURE_2020_2024","IDN_BPS_STATISTICS_TABLES_EXPENDITURE","IDN_BPS_SUPPLY_USE_TABLES","IDN_BPS_INPUT_OUTPUT_TABLES"}
+    def closed_rejection_reason(self) -> str:
+        return "The BPS expenditure publication is grouped rather than twelve-purpose; database and download pages remain discovery evidence; SUT and input-output families are product-based; survey/CPI evidence is Class C. No exact 2021 current-price S14/P31DC twelve-purpose source passed the gates."
+    def build_gate_rows(self, records, analyses, errors):
+        def state(source_id, contradiction=False):
+            if source_id in errors: return "NOT_FOUND"
+            if analyses.get(source_id,{}).get("expected_evidence_confirmed"): return "CONTRADICTED" if contradiction else "CONFIRMED"
+            return "AMBIGUOUS"
+        rows=[
+            {"criterion":"official_grouped_hfce_publication_available","status":state("IDN_BPS_GDP_EXPENDITURE_2020_2024"),"evidence":"BPS publishes GDP by expenditure with grouped household-consumption categories.",**_gate_source(self,"IDN_BPS_GDP_EXPENDITURE_2020_2024",records)},
+            {"criterion":"twelve_armilar_purposes_available","status":state("IDN_BPS_GDP_EXPENDITURE_2020_2024",True),"evidence":"The reviewed publication is grouped and cannot be split into twelve purposes without allocation.",**_gate_source(self,"IDN_BPS_GDP_EXPENDITURE_2020_2024",records)},
+            {"criterion":"sut_is_exact_purpose_source","status":state("IDN_BPS_SUPPLY_USE_TABLES",True),"evidence":"The SUT family is product-based and does not prove an exact COICOP-purpose table.",**_gate_source(self,"IDN_BPS_SUPPLY_USE_TABLES",records)},
+            {"criterion":"input_output_is_exact_purpose_source","status":state("IDN_BPS_INPUT_OUTPUT_TABLES",True),"evidence":"Input-output tables are product-based and require prohibited allocation.",**_gate_source(self,"IDN_BPS_INPUT_OUTPUT_TABLES",records)},
+            {"criterion":"survey_or_cpi_can_supply_exact_weights","status":state("IDN_BPS_SURVEY_OR_CPI_CLASS_C",True),"evidence":"Survey or CPI data remains Class C and cannot supply exact national-accounts weights.",**_gate_source(self,"IDN_BPS_SURVEY_OR_CPI_CLASS_C",records)},
+        ]
+        exact="NOT_FOUND" if any(x in errors for x in self.core_source_ids) else ("CONTRADICTED" if all(analyses.get(x,{}).get("expected_evidence_confirmed") for x in self.core_source_ids) else "AMBIGUOUS")
+        rows.append({"criterion":"exact_armilar_source_available","status":exact,"evidence":"No reviewed source supplies strict S14/P31DC current-price 2021 values across twelve purposes without allocation.",**_gate_source(self,"IDN_BPS_GDP_EXPENDITURE_2020_2024",records,"CROSS_SOURCE_METHOD_GATE")})
+        return rows
+    def validate_gate_rows(self, rows): validate_indonesia_methodology_gate_rows(rows)
+
+
+class BrazilIbgeAuditAdapter(OfficialFamilyAuditAdapter):
+    economy_code = "BRA"
+    economy_name = "Brazil"
+    adapter_id = "BRA_IBGE_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "Instituto Brasileiro de Geografia e Estatistica"
+    reference_period = "2021"
+    audit_categories = STEP2I_PROXY_CATEGORIES
+    source_specs = (
+        {"source_id":"BRA_IBGE_SIDRA_CNT_TABLES","url":"https://sidra.ibge.gov.br/pesquisa/cnt/tabelas","filename":"sidra_cnt_tables.html","accept":"text/html,*/*;q=0.1","family":"official_national_accounts_api","concept":"SIDRA national-accounts table discovery","classification":"SIDRA_DISCOVERY","required_markers":("sidra","contas nacionais"),"source_decision":"DISCOVERY_ONLY","rejection_reason":"SIDRA landing evidence does not pin an exact 2021 household-purpose table."},
+        {"source_id":"BRA_IBGE_SISTEMA_CONTAS_NACIONAIS","url":"https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9052-sistema-de-contas-nacionais-brasil.html","filename":"sistema_contas_nacionais.html","accept":"text/html,*/*;q=0.1","family":"official_structured_publications","concept":"Sistema de Contas Nacionais","classification":"SCN_PUBLICATION_FAMILY","required_markers":("sistema de contas nacionais","ibge"),"source_decision":"REJECT_NO_EXACT_PURPOSE_TABLE","rejection_reason":"The SCN publication family does not expose a pinned strict S14/P31DC twelve-purpose table in this probe."},
+        {"source_id":"BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS","url":"https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9052-sistema-de-contas-nacionais-brasil.html?=&t=resultados","filename":"contas_economicas_integradas.html","accept":"text/html,*/*;q=0.1","family":"official_statistical_database","concept":"Contas Economicas Integradas","classification":"INSTITUTIONAL_ACCOUNTS","required_markers":("contas economicas integradas",),"source_decision":"REJECT_INSTITUTIONAL_NOT_PURPOSE","rejection_reason":"Integrated economic accounts identify institutional flows, not twelve consumption purposes."},
+        {"source_id":"BRA_IBGE_TABELAS_RECURSOS_USOS","url":"https://www.ibge.gov.br/estatisticas/economicas/contas-nacionais/9052-sistema-de-contas-nacionais-brasil.html?=&t=resultados","filename":"tabelas_recursos_usos.html","accept":"text/html,*/*;q=0.1","family":"official_supply_and_use_tables","concept":"Tabelas de Recursos e Usos","classification":"TRU_PRODUCT_TABLES","required_markers":("tabelas de recursos e usos",),"source_decision":"REJECT_PRODUCT_TO_PURPOSE_ALLOCATION","rejection_reason":"TRU is product/resource-use evidence; exact COICOP weights would require many-to-many allocation."},
+        {"source_id":"BRA_IBGE_DOWNLOADABLE_SCN_TABLES","url":"https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html","filename":"downloadable_scn_tables.html","accept":"text/html,*/*;q=0.1","family":"official_csv_xls_xlsx","concept":"Downloadable SCN tables","classification":"DOWNLOAD_DISCOVERY_ONLY","required_markers":("downloads",),"source_decision":"DISCOVERY_ONLY","rejection_reason":"A downloads page is not a pinned exact dataset."},
+        {"source_id":"BRA_IBGE_POF_IPCA_CLASS_C","url":"https://www.ibge.gov.br/estatisticas/sociais/populacao/24786-pesquisa-de-orcamentos-familiares-2.html","filename":"pof_ipca_class_c.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"POF household-budget survey and IPCA evidence","classification":"SURVEY_OR_CPI_CLASS_C_ONLY","required_markers":("pesquisa de orcamentos familiares",),"source_decision":"REJECT_CLASS_C","rejection_reason":"POF/IPCA shares cannot substitute for exact national-accounts weights."},
+        {"source_id":"BRA_IBGE_CLASSIFICACOES_METODOLOGIA","url":"https://www.ibge.gov.br/estatisticas/metodos-e-classificacoes/classificacoes-e-listas-estatisticas.html","filename":"classificacoes_metodologia.html","accept":"text/html,*/*;q=0.1","family":"official_classifications_methodology","concept":"IBGE classifications and methodology","classification":"METHODOLOGY_DOCUMENTATION","required_markers":("classificacoes", "ibge"),"source_decision":"DOCUMENTATION_ONLY","rejection_reason":"Methodology documentation does not itself supply expenditure values."},
+    )
+    core_source_ids = {"BRA_IBGE_SIDRA_CNT_TABLES","BRA_IBGE_SISTEMA_CONTAS_NACIONAIS","BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS","BRA_IBGE_TABELAS_RECURSOS_USOS"}
+    def closed_rejection_reason(self) -> str:
+        return "SIDRA and SCN remain discovery/publication-family evidence, CEI is institutional rather than purpose-classified, TRU is product-based, and POF/IPCA is Class C. No exact 2021 current-price strict-household twelve-purpose source passed the gates."
+    def build_gate_rows(self, records, analyses, errors):
+        def state(source_id, contradiction=False):
+            if source_id in errors: return "NOT_FOUND"
+            if analyses.get(source_id,{}).get("expected_evidence_confirmed"): return "CONTRADICTED" if contradiction else "CONFIRMED"
+            return "AMBIGUOUS"
+        rows=[
+            {"criterion":"sidra_national_accounts_family_identified","status":state("BRA_IBGE_SIDRA_CNT_TABLES"),"evidence":"The official SIDRA national-accounts family is identified, but the landing page is discovery evidence only.",**_gate_source(self,"BRA_IBGE_SIDRA_CNT_TABLES",records)},
+            {"criterion":"scn_exact_twelve_purpose_table_identified","status":state("BRA_IBGE_SISTEMA_CONTAS_NACIONAIS",True),"evidence":"The SCN publication family does not pin a strict twelve-purpose S14 table in this probe.",**_gate_source(self,"BRA_IBGE_SISTEMA_CONTAS_NACIONAIS",records)},
+            {"criterion":"cei_is_purpose_classified_hfce","status":state("BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS",True),"evidence":"CEI is institutional-account evidence rather than household consumption by purpose.",**_gate_source(self,"BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS",records)},
+            {"criterion":"tru_is_exact_purpose_source","status":state("BRA_IBGE_TABELAS_RECURSOS_USOS",True),"evidence":"TRU is product-based and cannot be mapped exactly to COICOP without allocation.",**_gate_source(self,"BRA_IBGE_TABELAS_RECURSOS_USOS",records)},
+            {"criterion":"pof_or_ipca_can_supply_exact_weights","status":state("BRA_IBGE_POF_IPCA_CLASS_C",True),"evidence":"POF/IPCA remains survey or price-index evidence and cannot supply exact national-accounts weights.",**_gate_source(self,"BRA_IBGE_POF_IPCA_CLASS_C",records)},
+        ]
+        exact="NOT_FOUND" if any(x in errors for x in self.core_source_ids) else ("CONTRADICTED" if all(analyses.get(x,{}).get("expected_evidence_confirmed") for x in self.core_source_ids) else "AMBIGUOUS")
+        rows.append({"criterion":"exact_armilar_source_available","status":exact,"evidence":"No reviewed IBGE source provides current-price 2021 S14/P31DC by twelve Armilar purposes without product allocation or survey substitution.",**_gate_source(self,"BRA_IBGE_SISTEMA_CONTAS_NACIONAIS",records,"CROSS_SOURCE_METHOD_GATE")})
+        return rows
+    def validate_gate_rows(self, rows): validate_brazil_methodology_gate_rows(rows)
+
+
+class EgyptCapmasAuditAdapter(OfficialFamilyAuditAdapter):
+    economy_code = "EGY"
+    economy_name = "Egypt"
+    adapter_id = "EGY_CAPMAS_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "Central Agency for Public Mobilization and Statistics"
+    reference_period = "2021"
+    audit_categories = ALL_ARMILAR_CATEGORIES
+    source_specs = (
+        {"source_id":"EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG","url":"https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/National_Accounts?reset=reset","filename":"national_accounts_catalog.html","accept":"text/html,*/*;q=0.1","family":"official_statistical_database","concept":"CAPMAS National Accounts collection","classification":"CATALOGUE_INVENTORY","required_markers":("national accounts","supply and use tables 2017 2018"),"source_decision":"REJECT_NO_2021_EXACT_TABLE_IN_INVENTORY","rejection_reason":"The official catalogue inventory lists historical SUT and input-output studies but no 2021 twelve-purpose S14/P31 table.","currency":"EGP"},
+        {"source_id":"EGY_CAPMAS_NATIONAL_ACCOUNTS_EXPORT_CSV","url":"https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/export/csv?collection%5B%5D=National_Accounts&ps=5000","filename":"national_accounts_catalog.csv","accept":"text/csv,text/plain,*/*;q=0.1","family":"official_csv_xls_xlsx","concept":"Machine-readable National Accounts catalogue inventory","classification":"CATALOGUE_INVENTORY_CSV","required_markers":("supply and use tables 2017 2018","input output tables"),"source_decision":"REJECT_INVENTORY_WITHOUT_2021_EXACT_DATASET","rejection_reason":"The CSV is an inventory, not expenditure values, and does not identify a 2021 exact-purpose table.","machine_readable":"true","currency":"EGP"},
+        {"source_id":"EGY_CAPMAS_SUT_2017_2018_METHOD","url":"https://censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/518/study-description","filename":"sut_2017_2018_study_description.html","accept":"text/html,*/*;q=0.1","family":"official_supply_and_use_tables","concept":"Supply and Use Tables 2017/2018","classification":"SUT_PRODUCT_ACTIVITY_TABLES","required_markers":("supply and use tables","2017 2018","products"),"source_decision":"REJECT_WRONG_YEAR_PRODUCT_SUT","rejection_reason":"The SUT benchmark is 2017/2018 and organised by products and activities, not a 2021 twelve-purpose table.","reference_period":"2017-18","current_prices":"true","currency":"EGP","unit":"OFFICIAL_SUT"},
+        {"source_id":"EGY_CAPMAS_HIECS_2021","url":"https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview","filename":"hiecs_2021_overview.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"Survey of Income, Expenditure and Consumption 2021","classification":"HIECS_HOUSEHOLD_SURVEY","required_markers":("survey of income expenditure and consumption 2021","survey by sample"),"source_decision":"REJECT_CLASS_C_SURVEY","rejection_reason":"HIECS is a sample household survey rather than national-accounts S14/P31 expenditure.","institutional_sector":"HOUSEHOLD_SURVEY","transaction_code":"NOT_SNA_P31","current_prices":"true","currency":"EGP","unit":"SURVEY_MICRODATA","npish_treatment":"SURVEY_OUT_OF_SCOPE","government_treatment":"SURVEY_OUT_OF_SCOPE"},
+        {"source_id":"EGY_CAPMAS_CENTRAL_DATA_CATALOG","url":"https://www.censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/?sort_by=titl&sort_order=desc","filename":"central_data_catalog.html","accept":"text/html,*/*;q=0.1","family":"official_structured_publications","concept":"CAPMAS Central Data Catalog","classification":"DISCOVERY_CATALOGUE","required_markers":("central data catalog",),"source_decision":"DISCOVERY_ONLY","rejection_reason":"The central catalogue is discovery evidence, not a pinned dataset."},
+    )
+    core_source_ids = {"EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG","EGY_CAPMAS_NATIONAL_ACCOUNTS_EXPORT_CSV","EGY_CAPMAS_SUT_2017_2018_METHOD","EGY_CAPMAS_HIECS_2021"}
+    def closed_rejection_reason(self) -> str:
+        return "The CAPMAS National Accounts catalogue and its CSV inventory identify only historical SUT/input-output studies, the latest relevant SUT benchmark is 2017/2018 and product/activity-based, and HIECS 2021 is a sample household survey. No current-price 2021 strict S14/P31 twelve-purpose national-accounts source passed the gates."
+    def build_gate_rows(self, records, analyses, errors):
+        def state(source_id, contradiction=False):
+            if source_id in errors: return "NOT_FOUND"
+            if analyses.get(source_id,{}).get("expected_evidence_confirmed"): return "CONTRADICTED" if contradiction else "CONFIRMED"
+            return "AMBIGUOUS"
+        rows=[
+            {"criterion":"national_accounts_catalogue_acquired","status":state("EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG"),"evidence":"The official CAPMAS National Accounts collection was acquired and its study inventory reviewed.",**_gate_source(self,"EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG",records)},
+            {"criterion":"machine_readable_catalogue_inventory_acquired","status":state("EGY_CAPMAS_NATIONAL_ACCOUNTS_EXPORT_CSV"),"evidence":"The official catalogue CSV inventory was acquired as machine-readable source-family evidence.",**_gate_source(self,"EGY_CAPMAS_NATIONAL_ACCOUNTS_EXPORT_CSV",records)},
+            {"criterion":"sut_reference_period_matches_2021","status":state("EGY_CAPMAS_SUT_2017_2018_METHOD",True),"evidence":"The identified CAPMAS SUT benchmark is 2017/2018 rather than 2021.",**_gate_source(self,"EGY_CAPMAS_SUT_2017_2018_METHOD",records)},
+            {"criterion":"sut_is_exact_purpose_classification","status":state("EGY_CAPMAS_SUT_2017_2018_METHOD",True),"evidence":"The SUT is organised around products and activities, not twelve household purposes.",**_gate_source(self,"EGY_CAPMAS_SUT_2017_2018_METHOD",records)},
+            {"criterion":"hiecs_is_national_accounts_s14_p31","status":state("EGY_CAPMAS_HIECS_2021",True),"evidence":"HIECS 2021 is explicitly a sample survey and cannot be substituted for national-accounts S14/P31.",**_gate_source(self,"EGY_CAPMAS_HIECS_2021",records)},
+            {"criterion":"hiecs_reference_period_matches_2021","status":state("EGY_CAPMAS_HIECS_2021"),"evidence":"HIECS is a 2021 survey, but the matching year does not cure the conceptual mismatch.",**_gate_source(self,"EGY_CAPMAS_HIECS_2021",records)},
+        ]
+        exact="NOT_FOUND" if any(x in errors for x in self.core_source_ids) else ("CONTRADICTED" if all(analyses.get(x,{}).get("expected_evidence_confirmed") for x in self.core_source_ids) else "AMBIGUOUS")
+        rows.append({"criterion":"exact_armilar_source_available","status":exact,"evidence":"The catalogues, historical product-based SUT and 2021 survey each fail at least one exact Armilar gate; none supplies current-price 2021 S14/P31 by twelve purposes.",**_gate_source(self,"EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG",records,"CROSS_SOURCE_METHOD_GATE")})
+        return rows
+    def validate_gate_rows(self, rows): validate_egypt_methodology_gate_rows(rows)
+
+
+
+class PakistanPbsAuditAdapter(OfficialFamilyAuditAdapter):
+    economy_code = "PAK"
+    economy_name = "Pakistan"
+    adapter_id = "PAK_PBS_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "Pakistan Bureau of Statistics"
+    reference_period = "2021-22"
+    audit_categories = ALL_ARMILAR_CATEGORIES
+    source_specs = (
+        {
+            "source_id": "PAK_PBS_NATIONAL_ACCOUNTS_PAGE",
+            "url": "https://www.pbs.gov.pk/national-accounts-2/",
+            "filename": "national_accounts.html",
+            "accept": "text/html,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "Annual national accounts and expenditure on GDP",
+            "classification": "SNA_2008_AGGREGATE_EXPENDITURE",
+            "required_markers": ("annual national accounts", "expenditure on gdp", "current and constant"),
+            "source_decision": "REJECT_AGGREGATE_ONLY",
+            "rejection_reason": "The national-accounts portal confirms aggregate expenditure-GDP series but does not expose HFCE by twelve household purposes.",
+            "institutional_sector": "HOUSEHOLDS_AGGREGATE",
+            "transaction_code": "HFCE_AGGREGATE",
+            "current_prices": "true",
+            "currency": "PKR",
+            "unit": "OFFICIAL_NATIONAL_ACCOUNTS_UNIT",
+            "npish_treatment": "SEPARATE_IN_METHODOLOGY_NOT_IN_PURPOSE_TABLE",
+            "government_treatment": "SEPARATE_AGGREGATE",
+        },
+        {
+            "source_id": "PAK_PBS_NATIONAL_ACCOUNTS_XLSX",
+            "url": "https://www.pbs.gov.pk/wp-content/uploads/2020/07/National-Accounts-Annual-Tables-2024-25-Updated-March-2026.xlsx",
+            "filename": "national_accounts_annual_tables.xlsx",
+            "accept": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*;q=0.1",
+            "family": "official_csv_xls_xlsx",
+            "concept": "Annual national accounts tables",
+            "classification": "SNA_2008_AGGREGATE_EXPENDITURE_XLSX",
+            "required_markers": ("household final consumption expenditure", "2021-22"),
+            "source_decision": "REJECT_AGGREGATE_FISCAL_YEAR_TABLE",
+            "rejection_reason": "The workbook supplies aggregate HFCE for fiscal 2021-22, not calendar-2021 expenditure by twelve purposes.",
+            "reference_period": "2021-22",
+            "institutional_sector": "HOUSEHOLDS_AGGREGATE",
+            "transaction_code": "HFCE_AGGREGATE",
+            "current_prices": "true",
+            "currency": "PKR",
+            "unit": "million rupees",
+            "npish_treatment": "SEPARATE_AGGREGATE",
+            "government_treatment": "SEPARATE_AGGREGATE",
+            "machine_readable": "true",
+        },
+        {
+            "source_id": "PAK_PBS_NATIONAL_ACCOUNTS_FAQ",
+            "url": "https://www.pbs.gov.pk/docs/national-accounts/",
+            "filename": "national_accounts_faq.html",
+            "accept": "text/html,*/*;q=0.1",
+            "family": "official_classifications_methodology",
+            "concept": "National accounts scope and demand-side methodology",
+            "classification": "SNA_2008_METHODOLOGY",
+            "required_markers": ("demand side", "current and constant prices", "final consumption expenditure of households"),
+            "source_decision": "CONFIRM_AGGREGATE_SCOPE_ONLY",
+            "rejection_reason": "The methodology confirms aggregate household final consumption as a GDP component but no purpose-classified table.",
+            "reference_period": "METHODOLOGY",
+            "institutional_sector": "HOUSEHOLDS_AGGREGATE",
+            "transaction_code": "HFCE_AGGREGATE",
+            "current_prices": "true",
+            "currency": "PKR",
+        },
+        {
+            "source_id": "PAK_PBS_HIES_2018_19",
+            "url": "https://www.pbs.gov.pk/hies/",
+            "filename": "hies.html",
+            "accept": "text/html,*/*;q=0.1",
+            "family": "survey_or_cpi_class_c_only",
+            "concept": "Household Integrated Economic Survey 2018-19",
+            "classification": "HIES_COICOP_HOUSEHOLD_SURVEY",
+            "required_markers": ("hies pslm 2018-19", "consumption expenditure", "coicop"),
+            "source_decision": "REJECT_CLASS_C_WRONG_PERIOD_SURVEY",
+            "rejection_reason": "HIES provides COICOP household-survey shares for 2018-19, not national-accounts S14/P31 values for 2021.",
+            "reference_period": "2018-19",
+            "institutional_sector": "HOUSEHOLD_SURVEY",
+            "transaction_code": "NOT_SNA_P31",
+            "current_prices": "true",
+            "currency": "PKR",
+            "unit": "survey household expenditure",
+            "npish_treatment": "OUTSIDE_SURVEY_SCOPE",
+            "government_treatment": "OUTSIDE_SURVEY_SCOPE",
+        },
+        {
+            "source_id": "PAK_PBS_NATIONAL_ACCOUNTS_METHODOLOGY_PDF",
+            "url": "https://www.pbs.gov.pk/wp-content/uploads/2020/07/National-Accounts-of-Pakistan-Backward-Revisions-for-the-Years-1999-2000-to-2014-15-on-the-base-year-2015-16.pdf",
+            "filename": "national_accounts_methodology.pdf",
+            "accept": "application/pdf,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "Backward-series national-accounts methodology",
+            "classification": "OFFICIAL_METHODOLOGY_PDF",
+            "required_markers": (),
+            "source_decision": "DOCUMENTATION_ONLY",
+            "rejection_reason": "The methodology documents separate aggregate HFCE and NPISH compilation but is not a purpose-classified 2021 dataset.",
+            "reference_period": "METHODOLOGY",
+            "institutional_sector": "HOUSEHOLDS_AND_NPISH_SEPARATELY_DESCRIBED",
+            "transaction_code": "HFCE_AND_NPISH_AGGREGATES",
+            "current_prices": "true",
+            "currency": "PKR",
+            "machine_readable": "false",
+        },
+    )
+    core_source_ids = {
+        "PAK_PBS_NATIONAL_ACCOUNTS_PAGE",
+        "PAK_PBS_NATIONAL_ACCOUNTS_XLSX",
+        "PAK_PBS_NATIONAL_ACCOUNTS_FAQ",
+        "PAK_PBS_HIES_2018_19",
+    }
+
+    def closed_rejection_reason(self) -> str:
+        return (
+            "PBS publishes aggregate annual household final consumption at current and constant prices, including fiscal 2021-22, "
+            "while the purpose detail located in HIES is a 2018-19 household survey. The reviewed source chain does not provide "
+            "calendar-2021 current-price S14/P31 household expenditure by all twelve Armilar purposes without survey substitution or temporal conversion."
+        )
+
+    def build_gate_rows(self, records, analyses, errors):
+        def state(source_id: str, contradiction: bool = False) -> str:
+            if source_id in errors:
+                return "NOT_FOUND"
+            if analyses.get(source_id, {}).get("expected_evidence_confirmed"):
+                return "CONTRADICTED" if contradiction else "CONFIRMED"
+            return "AMBIGUOUS"
+        rows = [
+            {"criterion":"annual_national_accounts_source_acquired","status":state("PAK_PBS_NATIONAL_ACCOUNTS_PAGE"),"evidence":"The official PBS annual national-accounts page was acquired and confirms demand-side aggregate series.",**_gate_source(self,"PAK_PBS_NATIONAL_ACCOUNTS_PAGE",records)},
+            {"criterion":"machine_readable_2021_22_hfce_aggregate_acquired","status":state("PAK_PBS_NATIONAL_ACCOUNTS_XLSX"),"evidence":"The official annual-tables workbook contains aggregate household final consumption for fiscal 2021-22.",**_gate_source(self,"PAK_PBS_NATIONAL_ACCOUNTS_XLSX",records)},
+            {"criterion":"reference_period_matches_calendar_2021","status":state("PAK_PBS_NATIONAL_ACCOUNTS_XLSX",True),"evidence":"The relevant official period is fiscal 2021-22 rather than calendar year 2021.",**_gate_source(self,"PAK_PBS_NATIONAL_ACCOUNTS_XLSX",records)},
+            {"criterion":"twelve_armilar_purposes_available_in_national_accounts","status":state("PAK_PBS_NATIONAL_ACCOUNTS_PAGE",True),"evidence":"The reviewed annual national-accounts source family exposes HFCE as an aggregate GDP component, not twelve purposes.",**_gate_source(self,"PAK_PBS_NATIONAL_ACCOUNTS_PAGE",records)},
+            {"criterion":"hies_is_national_accounts_s14_p31","status":state("PAK_PBS_HIES_2018_19",True),"evidence":"HIES is a household survey and cannot replace national-accounts S14/P31 expenditure.",**_gate_source(self,"PAK_PBS_HIES_2018_19",records)},
+            {"criterion":"hies_reference_period_matches_2021","status":state("PAK_PBS_HIES_2018_19",True),"evidence":"The located detailed HIES tables refer to 2018-19, not 2021.",**_gate_source(self,"PAK_PBS_HIES_2018_19",records)},
+        ]
+        exact = "NOT_FOUND" if any(x in errors for x in self.core_source_ids) else ("CONTRADICTED" if all(analyses.get(x,{}).get("expected_evidence_confirmed") for x in self.core_source_ids) else "AMBIGUOUS")
+        rows.append({"criterion":"exact_armilar_source_available","status":exact,"evidence":"No reviewed PBS source combines calendar 2021, current prices, strict household national accounts and twelve-purpose coverage.",**_gate_source(self,"PAK_PBS_NATIONAL_ACCOUNTS_PAGE",records,"CROSS_SOURCE_METHOD_GATE")})
+        return rows
+
+    def validate_gate_rows(self, rows):
+        validate_pakistan_methodology_gate_rows(rows)
+
+
+class NigeriaNbsAuditAdapter(OfficialFamilyAuditAdapter):
+    economy_code = "NGA"
+    economy_name = "Nigeria"
+    adapter_id = "NGA_NBS_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "National Bureau of Statistics"
+    reference_period = "2021"
+    audit_categories = ALL_ARMILAR_CATEGORIES
+    source_specs = (
+        {
+            "source_id": "NGA_NBS_ELIBRARY_REPORT_PAGE",
+            "url": "https://www.nigerianstat.gov.ng/elibrary/read/1241168",
+            "filename": "gdp_expenditure_2021_report_page.html",
+            "accept": "text/html,*/*;q=0.1",
+            "family": "official_structured_publications",
+            "concept": "GDP expenditure and income approach report",
+            "classification": "SNA_AGGREGATE_EXPENDITURE",
+            "required_markers": ("household consumption expenditure", "2021", "government consumption expenditure"),
+            "source_decision": "REJECT_AGGREGATE_ONLY",
+            "rejection_reason": "The official 2021 expenditure-GDP release reports household consumption only as an aggregate component.",
+            "institutional_sector": "HOUSEHOLDS_AGGREGATE",
+            "transaction_code": "HFCE_AGGREGATE",
+            "current_prices": "partly_nominal_and_real",
+            "currency": "NGN",
+            "unit": "OFFICIAL_REPORT_UNIT",
+            "npish_treatment": "SEPARATE_AGGREGATE_IN_EXPENDITURE_ACCOUNTS",
+            "government_treatment": "SEPARATE_AGGREGATE",
+        },
+        {
+            "source_id": "NGA_NBS_GDP_EXPENDITURE_2021_PDF",
+            "url": "https://www.nigerianstat.gov.ng/pdfuploads/Expenditure%20Report%20Revised_Q2%202020%20-Q3%202021%20and%20Provisional%20Q4%202021.pdf",
+            "filename": "gdp_expenditure_2021.pdf",
+            "accept": "application/pdf,*/*;q=0.1",
+            "family": "official_csv_xls_xlsx",
+            "concept": "2021 expenditure-GDP report download",
+            "classification": "SNA_AGGREGATE_EXPENDITURE_PDF",
+            "required_markers": (),
+            "source_decision": "REJECT_NON_MACHINE_READABLE_AGGREGATE",
+            "rejection_reason": "The official PDF preserves the 2021 aggregate expenditure evidence but does not provide a machine-readable twelve-purpose table.",
+            "institutional_sector": "HOUSEHOLDS_AGGREGATE",
+            "transaction_code": "HFCE_AGGREGATE",
+            "current_prices": "partly_nominal_and_real",
+            "currency": "NGN",
+            "unit": "OFFICIAL_REPORT_UNIT",
+            "npish_treatment": "SEPARATE_AGGREGATE",
+            "government_treatment": "SEPARATE_AGGREGATE",
+            "machine_readable": "false",
+        },
+        {
+            "source_id": "NGA_NBS_CONSUMPTION_PATTERN_2019",
+            "url": "https://www.nigerianstat.gov.ng/elibrary/read/1094",
+            "filename": "consumption_pattern_2019.html",
+            "accept": "text/html,*/*;q=0.1",
+            "family": "survey_or_cpi_class_c_only",
+            "concept": "Consumption Expenditure Pattern in Nigeria 2019",
+            "classification": "HOUSEHOLD_SURVEY_CONSUMPTION_PATTERN",
+            "required_markers": ("consumption expenditure pattern in nigeria 2019", "total household expenditure", "food and non-food"),
+            "source_decision": "REJECT_CLASS_C_WRONG_PERIOD_SURVEY",
+            "rejection_reason": "The 2019 household-consumption study is survey evidence, has the wrong period and does not constitute national-accounts S14/P31 by twelve purposes.",
+            "reference_period": "2019",
+            "institutional_sector": "HOUSEHOLD_SURVEY",
+            "transaction_code": "NOT_SNA_P31",
+            "current_prices": "true",
+            "currency": "NGN",
+            "unit": "survey expenditure",
+            "npish_treatment": "OUTSIDE_SURVEY_SCOPE",
+            "government_treatment": "OUTSIDE_SURVEY_SCOPE",
+        },
+        {
+            "source_id": "NGA_NBS_ELIBRARY",
+            "url": "https://nigerianstat.gov.ng/elibrary",
+            "filename": "elibrary.html",
+            "accept": "text/html,*/*;q=0.1",
+            "family": "official_statistical_database",
+            "concept": "NBS e-library and open-data portal",
+            "classification": "DISCOVERY_CATALOGUE",
+            "required_markers": ("elibrary", "open data portal"),
+            "source_decision": "DISCOVERY_ONLY",
+            "rejection_reason": "The portal is source-discovery evidence and not itself an exact dataset.",
+        },
+    )
+    core_source_ids = {
+        "NGA_NBS_ELIBRARY_REPORT_PAGE",
+        "NGA_NBS_GDP_EXPENDITURE_2021_PDF",
+        "NGA_NBS_CONSUMPTION_PATTERN_2019",
+    }
+
+    def closed_rejection_reason(self) -> str:
+        return (
+            "The official 2021 expenditure-GDP release supplies aggregate household consumption, while detailed consumption evidence located in the NBS e-library refers to a 2019 household survey. "
+            "No reviewed source supplies current-price 2021 strict S14/P31 expenditure by all twelve Armilar purposes without survey substitution."
+        )
+
+    def build_gate_rows(self, records, analyses, errors):
+        def state(source_id: str, contradiction: bool = False) -> str:
+            if source_id in errors:
+                return "NOT_FOUND"
+            if analyses.get(source_id, {}).get("expected_evidence_confirmed"):
+                return "CONTRADICTED" if contradiction else "CONFIRMED"
+            return "AMBIGUOUS"
+        rows = [
+            {"criterion":"gdp_expenditure_2021_source_acquired","status":state("NGA_NBS_ELIBRARY_REPORT_PAGE"),"evidence":"The official NBS 2021 expenditure-GDP release was acquired.",**_gate_source(self,"NGA_NBS_ELIBRARY_REPORT_PAGE",records)},
+            {"criterion":"household_consumption_is_purpose_classified","status":state("NGA_NBS_ELIBRARY_REPORT_PAGE",True),"evidence":"The report presents household consumption as an aggregate GDP-expenditure component, not twelve purposes.",**_gate_source(self,"NGA_NBS_ELIBRARY_REPORT_PAGE",records)},
+            {"criterion":"download_is_machine_readable_twelve_purpose_data","status":state("NGA_NBS_GDP_EXPENDITURE_2021_PDF",True),"evidence":"The official download is a PDF report and does not expose a machine-readable purpose matrix.",**_gate_source(self,"NGA_NBS_GDP_EXPENDITURE_2021_PDF",records)},
+            {"criterion":"consumption_pattern_is_national_accounts_s14_p31","status":state("NGA_NBS_CONSUMPTION_PATTERN_2019",True),"evidence":"The consumption-pattern publication is household survey evidence, not national-accounts S14/P31.",**_gate_source(self,"NGA_NBS_CONSUMPTION_PATTERN_2019",records)},
+            {"criterion":"consumption_pattern_reference_period_matches_2021","status":state("NGA_NBS_CONSUMPTION_PATTERN_2019",True),"evidence":"The detailed consumption study refers to 2019 rather than 2021.",**_gate_source(self,"NGA_NBS_CONSUMPTION_PATTERN_2019",records)},
+        ]
+        exact = "NOT_FOUND" if any(x in errors for x in self.core_source_ids) else ("CONTRADICTED" if all(analyses.get(x,{}).get("expected_evidence_confirmed") for x in self.core_source_ids) else "AMBIGUOUS")
+        rows.append({"criterion":"exact_armilar_source_available","status":exact,"evidence":"The reviewed official sources separate a 2021 aggregate national-accounts component from wrong-period household-survey detail; neither is an exact twelve-purpose matrix.",**_gate_source(self,"NGA_NBS_ELIBRARY_REPORT_PAGE",records,"CROSS_SOURCE_METHOD_GATE")})
+        return rows
+
+    def validate_gate_rows(self, rows):
+        validate_nigeria_methodology_gate_rows(rows)
+
+
+class BangladeshBbsAuditAdapter(OfficialFamilyAuditAdapter):
+    economy_code = "BGD"
+    economy_name = "Bangladesh"
+    adapter_id = "BGD_BBS_OFFICIAL_SOURCE_AUDIT"
+    source_authority = "Bangladesh Bureau of Statistics"
+    reference_period = "2021"
+    audit_categories = ALL_ARMILAR_CATEGORIES
+    source_specs = (
+        {
+            "source_id":"BGD_BBS_NSDS_PORTAL",
+            "url":"https://nsds.bbs.gov.bd/",
+            "filename":"nsds_portal.html",
+            "accept":"text/html,*/*;q=0.1",
+            "family":"official_statistical_database",
+            "concept":"BBS national statistical dissemination portal",
+            "classification":"AGGREGATE_STATISTICAL_PORTAL",
+            "required_markers":("bangladesh bureau of statistics","gross domestic product","million bdt"),
+            "source_decision":"REJECT_AGGREGATE_PORTAL_ONLY",
+            "rejection_reason":"The official portal exposes aggregate indicators but no pinned current-price 2021 S14/P31 table by twelve purposes.",
+            "institutional_sector":"AGGREGATE_NATIONAL_ACCOUNTS",
+            "transaction_code":"GDP_AGGREGATE",
+            "current_prices":"partly",
+            "currency":"BDT",
+            "unit":"million bdt",
+        },
+        {
+            "source_id":"BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS",
+            "url":"https://nsds.bbs.gov.bd/en/release-calendar",
+            "filename":"release_calendar.html",
+            "accept":"text/html,*/*;q=0.1",
+            "family":"official_structured_publications",
+            "concept":"Official release calendar for national accounts",
+            "classification":"PUBLICATION_INVENTORY",
+            "required_markers":("national accounts statistics","provisional estimates of gdp"),
+            "source_decision":"REJECT_INVENTORY_WITHOUT_EXACT_DATASET",
+            "rejection_reason":"The release calendar confirms national-accounts publications but does not itself supply twelve-purpose HFCE values.",
+            "institutional_sector":"MULTIPLE",
+            "transaction_code":"PUBLICATION_INVENTORY",
+            "current_prices":"unknown",
+            "currency":"BDT",
+        },
+        {
+            "source_id":"BGD_BBS_HIES_DOCUMENTATION",
+            "url":"https://nsds.bbs.gov.bd/en/posts/85/Survey%20documentation%20for%20the%20Household%20Income%20and%20Expenditure%20Survey",
+            "filename":"hies_documentation.html",
+            "accept":"text/html,*/*;q=0.1",
+            "family":"survey_or_cpi_class_c_only",
+            "concept":"Household Income and Expenditure Survey documentation",
+            "classification":"HIES_HOUSEHOLD_SURVEY",
+            "required_markers":("household income and expenditure survey","core activities","household"),
+            "source_decision":"REJECT_CLASS_C_SURVEY",
+            "rejection_reason":"HIES is household-survey evidence and cannot substitute for national-accounts S14/P31 expenditure.",
+            "reference_period":"2022",
+            "institutional_sector":"HOUSEHOLD_SURVEY",
+            "transaction_code":"NOT_SNA_P31",
+            "current_prices":"true",
+            "currency":"BDT",
+            "unit":"survey household expenditure",
+            "npish_treatment":"OUTSIDE_SURVEY_SCOPE",
+            "government_treatment":"OUTSIDE_SURVEY_SCOPE",
+        },
+        {
+            "source_id":"BGD_BBS_HIES_2022_FINAL_REPORT_PAGE",
+            "url":"https://nsds.bbs.gov.bd/en/posts/161/Final%20Report%20of%20Household%20Income%20and%20Expenditure%20Survey%20%28HIES%29%202016",
+            "filename":"hies_2022_final_report_page.html",
+            "accept":"text/html,*/*;q=0.1",
+            "family":"official_structured_publications",
+            "concept":"Final Report of HIES 2022",
+            "classification":"HIES_2022_PUBLICATION",
+            "required_markers":("final report","household income and expenditure survey","2022"),
+            "source_decision":"REJECT_WRONG_PERIOD_SURVEY_REPORT",
+            "rejection_reason":"The final HIES report refers to 2022 and remains a survey publication rather than a 2021 national-accounts purpose matrix.",
+            "reference_period":"2022",
+            "institutional_sector":"HOUSEHOLD_SURVEY",
+            "transaction_code":"NOT_SNA_P31",
+            "current_prices":"true",
+            "currency":"BDT",
+            "unit":"survey report",
+        },
+        {
+            "source_id":"BGD_BBS_PORTAL",
+            "url":"https://bbs.portal.gov.bd/",
+            "filename":"bbs_portal.html",
+            "accept":"text/html,*/*;q=0.1",
+            "family":"official_structured_publications",
+            "concept":"BBS institutional portal",
+            "classification":"DISCOVERY_PORTAL",
+            "required_markers":(),
+            "source_decision":"DISCOVERY_ONLY",
+            "rejection_reason":"The institutional portal is a discovery route, not a dataset.",
+        },
+    )
+    core_source_ids={"BGD_BBS_NSDS_PORTAL","BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS","BGD_BBS_HIES_DOCUMENTATION","BGD_BBS_HIES_2022_FINAL_REPORT_PAGE"}
+    def closed_rejection_reason(self)->str:
+        return "The BBS dissemination portal and release calendar confirm aggregate national-accounts publications, while the detailed expenditure source located is HIES 2022, a household survey. No reviewed source provides current-price calendar-2021 S14/P31 expenditure by all twelve Armilar purposes."
+    def build_gate_rows(self,records,analyses,errors):
+        def state(source_id,contradiction=False):
+            if source_id in errors:return "NOT_FOUND"
+            if analyses.get(source_id,{}).get("expected_evidence_confirmed"):return "CONTRADICTED" if contradiction else "CONFIRMED"
+            return "AMBIGUOUS"
+        rows=[
+            {"criterion":"official_national_statistics_portal_acquired","status":state("BGD_BBS_NSDS_PORTAL"),"evidence":"The official BBS dissemination portal was acquired.",**_gate_source(self,"BGD_BBS_NSDS_PORTAL",records)},
+            {"criterion":"national_accounts_release_family_identified","status":state("BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS"),"evidence":"The official release calendar identifies national-accounts publications.",**_gate_source(self,"BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS",records)},
+            {"criterion":"twelve_armilar_purposes_available_in_national_accounts","status":state("BGD_BBS_NSDS_PORTAL",True),"evidence":"The reviewed portal evidence remains aggregate and does not expose twelve-purpose household expenditure.",**_gate_source(self,"BGD_BBS_NSDS_PORTAL",records)},
+            {"criterion":"hies_is_national_accounts_s14_p31","status":state("BGD_BBS_HIES_DOCUMENTATION",True),"evidence":"HIES is explicitly a household survey rather than national-accounts S14/P31.",**_gate_source(self,"BGD_BBS_HIES_DOCUMENTATION",records)},
+            {"criterion":"hies_reference_period_matches_2021","status":state("BGD_BBS_HIES_2022_FINAL_REPORT_PAGE",True),"evidence":"The located final HIES report refers to 2022 rather than 2021.",**_gate_source(self,"BGD_BBS_HIES_2022_FINAL_REPORT_PAGE",records)},
+        ]
+        exact="NOT_FOUND" if any(x in errors for x in self.core_source_ids) else ("CONTRADICTED" if all(analyses.get(x,{}).get("expected_evidence_confirmed") for x in self.core_source_ids) else "AMBIGUOUS")
+        rows.append({"criterion":"exact_armilar_source_available","status":exact,"evidence":"No reviewed BBS source combines 2021, current prices, strict household national accounts and twelve-purpose coverage.",**_gate_source(self,"BGD_BBS_NSDS_PORTAL",records,"CROSS_SOURCE_METHOD_GATE")})
+        return rows
+    def validate_gate_rows(self,rows):validate_bangladesh_methodology_gate_rows(rows)
+
+
+class VietnamNsoAuditAdapter(OfficialFamilyAuditAdapter):
+    economy_code="VNM"
+    economy_name="Viet Nam"
+    adapter_id="VNM_NSO_OFFICIAL_SOURCE_AUDIT"
+    source_authority="National Statistics Office of Viet Nam"
+    reference_period="2021"
+    audit_categories=ALL_ARMILAR_CATEGORIES
+    source_specs=(
+        {"source_id":"VNM_NSO_STATISTICAL_DATA_PORTAL","url":"https://www.nso.gov.vn/en/statistical-data/","filename":"statistical_data.html","accept":"text/html,*/*;q=0.1","family":"official_statistical_database","concept":"NSO statistical data portal","classification":"STATISTICAL_TABLE_CATALOGUE","required_markers":("statistical data","national accounts"),"source_decision":"REJECT_CATALOGUE_WITHOUT_PINNED_EXACT_TABLE","rejection_reason":"The official statistical-data catalogue does not itself provide a pinned 2021 S14/P31 twelve-purpose table.","currency":"VND"},
+        {"source_id":"VNM_NSO_SOCIO_ECONOMIC_2021","url":"https://www.nso.gov.vn/en/data-and-statistics/2022/01/socio-economic-situation-in-the-fourth-quarter-and-2021/","filename":"socio_economic_2021.html","accept":"text/html,*/*;q=0.1","family":"official_structured_publications","concept":"Socio-economic situation in fourth quarter and 2021","classification":"GDP_USE_AGGREGATE_RELEASE","required_markers":("gdp use in 2021","final consumption increased","accumulated assets"),"source_decision":"REJECT_AGGREGATE_GROWTH_ONLY","rejection_reason":"The 2021 release reports aggregate final-consumption growth, not household expenditure levels by purpose.","institutional_sector":"ALL_FINAL_CONSUMPTION_AGGREGATE","transaction_code":"FINAL_CONSUMPTION_AGGREGATE","current_prices":"false_growth_rate_only","currency":"VND","unit":"growth rate"},
+        {"source_id":"VNM_NSO_VHLSS_2022","url":"https://www.nso.gov.vn/en/default/2024/04/results-of-the-viet-nam-household-living-standards-survey-2022/","filename":"vhlss_2022.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"Viet Nam Household Living Standards Survey 2022","classification":"VHLSS_HOUSEHOLD_SURVEY","required_markers":("household living standards survey 2022","living standards","consumption expenditure"),"source_decision":"REJECT_CLASS_C_WRONG_PERIOD_SURVEY","rejection_reason":"VHLSS 2022 is a household survey with the wrong period and cannot replace national-accounts S14/P31.","reference_period":"2022","institutional_sector":"HOUSEHOLD_SURVEY","transaction_code":"NOT_SNA_P31","current_prices":"true","currency":"VND","unit":"survey household expenditure","npish_treatment":"OUTSIDE_SURVEY_SCOPE","government_treatment":"OUTSIDE_SURVEY_SCOPE"},
+        {"source_id":"VNM_NSO_VHLSS_2020","url":"https://www.nso.gov.vn/en/data-and-statistics/2022/06/results-of-the-viet-nam-household-living-standards-survey-2020/","filename":"vhlss_2020.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"Viet Nam Household Living Standards Survey 2020","classification":"VHLSS_HOUSEHOLD_SURVEY","required_markers":("household living standards survey 2020","consumption expenditure"),"source_decision":"REJECT_CLASS_C_WRONG_PERIOD_SURVEY","rejection_reason":"VHLSS 2020 is a household survey and does not match the 2021 national-accounts benchmark.","reference_period":"2020","institutional_sector":"HOUSEHOLD_SURVEY","transaction_code":"NOT_SNA_P31","current_prices":"true","currency":"VND","unit":"survey household expenditure","npish_treatment":"OUTSIDE_SURVEY_SCOPE","government_treatment":"OUTSIDE_SURVEY_SCOPE"},
+        {"source_id":"VNM_NSO_HOMEPAGE","url":"https://www.nso.gov.vn/en/homepage/","filename":"homepage.html","accept":"text/html,*/*;q=0.1","family":"official_structured_publications","concept":"NSO institutional homepage","classification":"DISCOVERY_PORTAL","required_markers":("national statistics office",),"source_decision":"DISCOVERY_ONLY","rejection_reason":"The homepage is a discovery route, not a dataset."},
+    )
+    core_source_ids={"VNM_NSO_STATISTICAL_DATA_PORTAL","VNM_NSO_SOCIO_ECONOMIC_2021","VNM_NSO_VHLSS_2022","VNM_NSO_VHLSS_2020"}
+    def closed_rejection_reason(self)->str:
+        return "The NSO 2021 socio-economic release reports aggregate final-consumption growth, while the located detailed household sources are VHLSS surveys for 2020 and 2022. No reviewed source provides current-price 2021 strict S14/P31 expenditure by all twelve Armilar purposes."
+    def build_gate_rows(self,records,analyses,errors):
+        def state(source_id,contradiction=False):
+            if source_id in errors:return "NOT_FOUND"
+            if analyses.get(source_id,{}).get("expected_evidence_confirmed"):return "CONTRADICTED" if contradiction else "CONFIRMED"
+            return "AMBIGUOUS"
+        rows=[
+            {"criterion":"official_statistical_data_portal_acquired","status":state("VNM_NSO_STATISTICAL_DATA_PORTAL"),"evidence":"The official NSO statistical-data portal was acquired.",**_gate_source(self,"VNM_NSO_STATISTICAL_DATA_PORTAL",records)},
+            {"criterion":"2021_final_consumption_release_acquired","status":state("VNM_NSO_SOCIO_ECONOMIC_2021"),"evidence":"The official 2021 socio-economic release was acquired.",**_gate_source(self,"VNM_NSO_SOCIO_ECONOMIC_2021",records)},
+            {"criterion":"2021_release_is_household_level_by_purpose","status":state("VNM_NSO_SOCIO_ECONOMIC_2021",True),"evidence":"The release reports aggregate final-consumption growth and no household-purpose levels.",**_gate_source(self,"VNM_NSO_SOCIO_ECONOMIC_2021",records)},
+            {"criterion":"vhlss_is_national_accounts_s14_p31","status":state("VNM_NSO_VHLSS_2022",True),"evidence":"VHLSS is a living-standards household survey, not national-accounts S14/P31.",**_gate_source(self,"VNM_NSO_VHLSS_2022",records)},
+            {"criterion":"vhlss_reference_period_matches_2021","status":state("VNM_NSO_VHLSS_2022",True),"evidence":"The located VHLSS rounds are 2020 and 2022 rather than 2021.",**_gate_source(self,"VNM_NSO_VHLSS_2022",records)},
+        ]
+        exact="NOT_FOUND" if any(x in errors for x in self.core_source_ids) else ("CONTRADICTED" if all(analyses.get(x,{}).get("expected_evidence_confirmed") for x in self.core_source_ids) else "AMBIGUOUS")
+        rows.append({"criterion":"exact_armilar_source_available","status":exact,"evidence":"No reviewed NSO source combines 2021, current prices, strict household national accounts and twelve-purpose coverage.",**_gate_source(self,"VNM_NSO_STATISTICAL_DATA_PORTAL",records,"CROSS_SOURCE_METHOD_GATE")})
+        return rows
+    def validate_gate_rows(self,rows):validate_vietnam_methodology_gate_rows(rows)
+
+
+
+class Step2HExceptionOfficialAuditAdapter(OfficialFamilyAuditAdapter):
+    gate_criteria: tuple[tuple[str, str, bool, str], ...] = ()
+
+    def build_gate_rows(self, records, analyses, errors):
+        def state(source_id: str, contradiction: bool = False) -> str:
+            if source_id in errors:
+                return "NOT_FOUND"
+            if analyses.get(source_id, {}).get("expected_evidence_confirmed"):
+                return "CONTRADICTED" if contradiction else "CONFIRMED"
+            return "AMBIGUOUS"
+        rows = []
+        for criterion, source_id, contradiction, evidence in self.gate_criteria:
+            rows.append({
+                "criterion": criterion,
+                "status": state(source_id, contradiction),
+                "evidence": evidence,
+                **_gate_source(self, source_id, records),
+            })
+        exact = "NOT_FOUND" if any(x in errors for x in self.core_source_ids) else (
+            "CONTRADICTED" if all(analyses.get(x, {}).get("expected_evidence_confirmed") for x in self.core_source_ids)
+            else "AMBIGUOUS"
+        )
+        rows.append({
+            "criterion": "exact_armilar_source_available",
+            "status": exact,
+            "evidence": self.closed_rejection_reason(),
+            **_gate_source(self, next(iter(sorted(self.core_source_ids))), records, "CROSS_SOURCE_METHOD_GATE"),
+        })
+        return rows
+
+    def validate_gate_rows(self, rows):
+        required = {criterion for criterion, *_ in self.gate_criteria} | {"exact_armilar_source_available"}
+        _validate_country_gate_rows(
+            rows, required, {"CONFIRMED", "CONTRADICTED", "AMBIGUOUS", "NOT_FOUND"}, self.economy_name
+        )
+
+
+class BelarusBelstatExceptionAuditAdapter(Step2HExceptionOfficialAuditAdapter):
+    economy_code = "BLR"
+    economy_name = "Belarus"
+    adapter_id = "BLR_BELSTAT_CP02_EXCEPTION_AUDIT"
+    source_authority = "National Statistical Committee of the Republic of Belarus"
+    reference_period = "2021"
+    audit_categories = ("CP02",)
+    exception_category = "CP02"
+    exception_current_status = "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100"
+    exception_resolution_attempted = "Belstat 2022 Statistical Yearbook and household living-standards publication audited as official source families."
+    exception_reason = "The reviewed official publications do not establish a current-price national-accounts CP02 aggregate excluding narcotics or separate strict-HFCE alcohol and tobacco cells that can be combined without allocation."
+    source_specs = (
+        {"source_id":"BLR_BELSTAT_YEARBOOK_2022","url":"https://belstat.gov.by/upload/iblock/57e/a76lpm9rtfb8x0l0o2t3wfts61arbk2q.pdf","filename":"statistical_yearbook_2022.pdf","accept":"application/pdf,*/*;q=0.1","family":"official_structured_publications","concept":"Statistical Yearbook of the Republic of Belarus 2022","classification":"MULTI_SOURCE_YEARBOOK","required_markers":(),"source_decision":"REJECT_NO_STRICT_CP02_NATIONAL_ACCOUNTS_CELL","rejection_reason":"The yearbook covers 2021 but does not provide an admissible strict-HFCE CP02 cell with narcotics excluded.","currency":"BYN","unit":"multiple"},
+        {"source_id":"BLR_BELSTAT_LIVING_STANDARDS","url":"https://www.belstat.gov.by/upload/iblock/747/h2d3js5a6ro9svs5xv2zi0fb8ov7o41i.pdf","filename":"living_standards.pdf","accept":"application/pdf,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"Social Situation and Living Standards household expenditure publication","classification":"HOUSEHOLD_SAMPLE_SURVEY_PUBLICATION","required_markers":(),"source_decision":"REJECT_CLASS_C_SURVEY","rejection_reason":"Household living-standards expenditure is survey evidence and cannot replace national-accounts S14/P31 purpose weights.","institutional_sector":"HOUSEHOLD_SURVEY","transaction_code":"NOT_SNA_P31","currency":"BYN"},
+    )
+    core_source_ids = {"BLR_BELSTAT_YEARBOOK_2022", "BLR_BELSTAT_LIVING_STANDARDS"}
+    gate_criteria = (
+        ("official_2021_publication_acquired","BLR_BELSTAT_YEARBOOK_2022",False,"The official yearbook covering 2021 was acquired."),
+        ("cp02_narcotics_excluded_exactly","BLR_BELSTAT_YEARBOOK_2022",True,"No reviewed exact national-accounts CP02 aggregate excluding narcotics was identified."),
+        ("household_survey_can_supply_exact_cp02","BLR_BELSTAT_LIVING_STANDARDS",True,"The living-standards source is survey evidence rather than S14/P31 national accounts."),
+    )
+    def closed_rejection_reason(self): return self.exception_reason
+
+
+class KuwaitCsbExceptionAuditAdapter(Step2HExceptionOfficialAuditAdapter):
+    economy_code = "KWT"
+    economy_name = "Kuwait"
+    adapter_id = "KWT_CSB_CP02_EXCEPTION_AUDIT"
+    source_authority = "Kuwait Central Statistical Bureau"
+    reference_period = "2021"
+    audit_categories = ("CP02",)
+    exception_category = "CP02"
+    exception_current_status = "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100"
+    exception_resolution_attempted = "Official 2019/2021 household income and expenditure survey and input-output publication inventories audited."
+    exception_reason = "The 2019/2021 detailed source is a household survey, while the official input-output inventory only exposes substantially older product tables. No strict 2021 national-accounts CP02 source excluding narcotics passed the gates."
+    source_specs = (
+        {"source_id":"KWT_CSB_HIES_2019_2021","url":"https://www.csb.gov.kw/Pages/Statistics_en?ID=16&ParentCatID=+1","filename":"hies_2019_2021.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"Household income and expenditure survey 2019/2021","classification":"HOUSEHOLD_SURVEY","required_markers":("household income and expendeture survey 2019/2021","2021"),"source_decision":"REJECT_CLASS_C_SURVEY","rejection_reason":"The detailed 2021 source is a household survey and cannot supply exact national-accounts CP02 weights.","institutional_sector":"HOUSEHOLD_SURVEY","transaction_code":"NOT_SNA_P31","currency":"KWD"},
+        {"source_id":"KWT_CSB_INPUT_OUTPUT_INVENTORY","url":"https://www.csb.gov.kw/Pages/Statistics_en?ID=26&ParentCatID=+3","filename":"input_output_inventory.html","accept":"text/html,*/*;q=0.1","family":"official_input_output_tables","concept":"National Accounts Statistics Input and Output Tables inventory","classification":"HISTORICAL_PRODUCT_IO_TABLES","required_markers":("input & output tables","2005-2010"),"source_decision":"REJECT_WRONG_PERIOD_PRODUCT_TABLES","rejection_reason":"The listed input-output sources are historical and product-based, not a 2021 purpose-classified CP02 table.","reference_period":"2000-2010","currency":"KWD"},
+    )
+    core_source_ids = {"KWT_CSB_HIES_2019_2021", "KWT_CSB_INPUT_OUTPUT_INVENTORY"}
+    gate_criteria = (
+        ("hies_2021_source_acquired","KWT_CSB_HIES_2019_2021",False,"The official 2019/2021 household survey publication was acquired."),
+        ("hies_is_national_accounts_s14_p31","KWT_CSB_HIES_2019_2021",True,"The detailed source is a household survey, not national accounts."),
+        ("input_output_reference_period_matches_2021","KWT_CSB_INPUT_OUTPUT_INVENTORY",True,"The official inventory lists older input-output tables rather than 2021."),
+        ("cp02_narcotics_excluded_exactly","KWT_CSB_HIES_2019_2021",True,"No exact strict-HFCE alcohol+tobacco aggregate excluding narcotics is established."),
+    )
+    def closed_rejection_reason(self): return self.exception_reason
+
+
+class SaudiGastatExceptionAuditAdapter(Step2HExceptionOfficialAuditAdapter):
+    economy_code = "SAU"
+    economy_name = "Saudi Arabia"
+    adapter_id = "SAU_GASTAT_CP02_EXCEPTION_AUDIT"
+    source_authority = "General Authority for Statistics"
+    reference_period = "2021"
+    audit_categories = ("CP02",)
+    exception_category = "CP02"
+    exception_current_status = "MISSING_SOURCE90_ALCOHOL_OR_TOBACCO_NOMINAL_OR_PPP:1102100"
+    exception_resolution_attempted = "Official SUT/IO, annual national accounts and household expenditure methodology families audited."
+    exception_reason = "GASTAT confirms detailed SUTs and household expenditure surveys, but the reviewed evidence does not establish a 2021 strict-HFCE CP02 purpose cell with tobacco isolated and narcotics excluded without allocation."
+    source_specs = (
+        {"source_id":"SAU_GASTAT_SUT_IO_2018_2023","url":"https://www.stats.gov.sa/en/w/supply-and-use-input-output-tables-2019","filename":"sut_io_2018_2023.html","accept":"text/html,*/*;q=0.1","family":"official_supply_and_use_tables","concept":"Supply and Use and Input-Output Tables by Divisions 2018-2023","classification":"PRODUCT_DIVISION_SUT_IO","required_markers":("supply and use tables","2018-2023"),"source_decision":"REJECT_PRODUCT_TABLE_WITHOUT_EXACT_PURPOSE_BRIDGE","rejection_reason":"Product-division SUT/IO data do not by themselves provide a strict purpose-classified CP02 cell.","current_prices":"true","currency":"SAR"},
+        {"source_id":"SAU_GASTAT_HOUSEHOLD_EXPENDITURE_SURVEY","url":"https://www.stats.gov.sa/en/w/hes-2","filename":"household_expenditure_survey.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"Household Expenditure Survey","classification":"COICOP_HOUSEHOLD_SURVEY","required_markers":("field-based household surveys","classification of individual consumption according to purpose"),"source_decision":"REJECT_CLASS_C_SURVEY","rejection_reason":"The source is a household survey used for CPI weights, not an exact national-accounts S14/P31 matrix.","institutional_sector":"HOUSEHOLD_SURVEY","transaction_code":"NOT_SNA_P31","currency":"SAR"},
+        {"source_id":"SAU_GASTAT_ANNUAL_NA_METHOD","url":"https://www.stats.gov.sa/en/w/methodology-and-quality-report-for-annual-national-accounts","filename":"annual_national_accounts_method.html","accept":"text/html,*/*;q=0.1","family":"official_classifications_methodology","concept":"Annual National Accounts methodology","classification":"SNA_2008_METHOD_DOCUMENT","required_markers":("annual national accounts","supply and use"),"source_decision":"METHODOLOGY_ONLY","rejection_reason":"The methodology documents the accounts but is not a 2021 purpose-value dataset.","currency":"SAR"},
+    )
+    core_source_ids = {"SAU_GASTAT_SUT_IO_2018_2023", "SAU_GASTAT_HOUSEHOLD_EXPENDITURE_SURVEY", "SAU_GASTAT_ANNUAL_NA_METHOD"}
+    gate_criteria = (
+        ("sut_family_acquired","SAU_GASTAT_SUT_IO_2018_2023",False,"The official SUT/IO family was acquired."),
+        ("sut_is_exact_purpose_cp02_source","SAU_GASTAT_SUT_IO_2018_2023",True,"The tables are organised by product divisions and require a bridge to household purposes."),
+        ("survey_is_national_accounts_s14_p31","SAU_GASTAT_HOUSEHOLD_EXPENDITURE_SURVEY",True,"The household expenditure source is a field survey."),
+        ("cp02_narcotics_excluded_exactly","SAU_GASTAT_HOUSEHOLD_EXPENDITURE_SURVEY",True,"No exact 2021 strict-HFCE CP02 cell excluding narcotics is established."),
+    )
+    def closed_rejection_reason(self): return self.exception_reason
+
+
+class BonaireCbsExceptionAuditAdapter(Step2HExceptionOfficialAuditAdapter):
+    economy_code = "BON"
+    economy_name = "Bonaire"
+    adapter_id = "BON_CBS_TWELVE_CATEGORY_EXCEPTION_AUDIT"
+    source_authority = "Statistics Netherlands"
+    reference_period = "2021"
+    audit_categories = ALL_ARMILAR_CATEGORIES
+    exception_category = "*"
+    exception_current_status = "0/12 categories available in exact Source 90 matrix"
+    exception_resolution_attempted = "CBS Caribbean Netherlands CPI weights and Bonaire GDP tables audited separately."
+    exception_reason = "CBS publishes twelve CPI product-group weights for Caribbean Netherlands and aggregate Bonaire GDP, but CPI weights are not national-accounts S14/P31 expenditure values and the GDP table is not purpose-classified HFCE."
+    source_specs = (
+        {"source_id":"BON_CBS_CPI_WEIGHTS","url":"https://www.cbs.nl/en-gb/figures/detail/84046ENG","filename":"cpi_weights.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"Caribbean Netherlands CPI and weighting coefficients","classification":"CPI_12_PRODUCT_GROUPS","required_markers":("12 product groups","weighting coefficient"),"source_decision":"REJECT_CPI_WEIGHTS_AS_EXACT_HFCE","rejection_reason":"The twelve-group weights are CPI expenditure weights, not national-accounts S14/P31 values.","institutional_sector":"CPI_HOUSEHOLD_BASKET","transaction_code":"CPI_WEIGHTS","currency":"USD"},
+        {"source_id":"BON_CBS_GDP","url":"https://www.cbs.nl/en-gb/figures/detail/84789ENG","filename":"gdp.html","accept":"text/html,*/*;q=0.1","family":"official_statistical_database","concept":"Bonaire gross domestic product","classification":"GDP_AGGREGATE","required_markers":("gross domestic product","bonaire"),"source_decision":"REJECT_GDP_WITHOUT_PURPOSE_HFCE","rejection_reason":"The GDP table contains macroeconomic aggregates and no twelve-purpose household consumption matrix.","current_prices":"true","currency":"USD"},
+    )
+    core_source_ids = {"BON_CBS_CPI_WEIGHTS", "BON_CBS_GDP"}
+    gate_criteria = (
+        ("twelve_group_cpi_weights_available","BON_CBS_CPI_WEIGHTS",False,"CBS publishes twelve CPI product groups with weighting coefficients."),
+        ("cpi_weights_are_national_accounts_s14_p31","BON_CBS_CPI_WEIGHTS",True,"CPI weights are not national-accounts expenditure values."),
+        ("bonaire_gdp_is_purpose_classified_hfce","BON_CBS_GDP",True,"The GDP table is not household consumption by purpose."),
+    )
+    def closed_rejection_reason(self): return self.exception_reason
+
+
+class LiberiaLisgisExceptionAuditAdapter(Step2HExceptionOfficialAuditAdapter):
+    economy_code = "LBR"
+    economy_name = "Liberia"
+    adapter_id = "LBR_LISGIS_UNIT_CONCEPT_EXCEPTION_AUDIT"
+    source_authority = "Liberia Institute of Statistics and Geo-Information Services"
+    reference_period = "2021"
+    audit_categories = ("CP04","CP06","CP09","CP10","CP12")
+    exception_category = "CP04|CP06|CP09|CP10|CP12"
+    exception_current_status = "SUPPLEMENTAL_NOMINAL_SOURCE_FAILED_UNIT_RECONCILIATION"
+    exception_resolution_attempted = "LISGIS 2016-2022 GDP report and official HIES publication family audited for unit, currency and sector concepts."
+    exception_reason = "The GDP report separates expenditure aggregates but does not supply a compatible twelve-purpose S14 matrix, while HIES is survey evidence. The existing supplemental nominal rows remain unreconciled in unit or concept and are excluded."
+    source_specs = (
+        {"source_id":"LBR_LISGIS_GDP_2016_2022","url":"https://lisgis.gov.lr/admin_area/nationalaccount/gdp20162022.pdf","filename":"gdp_2016_2022.pdf","accept":"application/pdf,*/*;q=0.1","family":"official_structured_publications","concept":"Liberia GDP Report 2016-2022","classification":"EXPENDITURE_GDP_AGGREGATES","required_markers":(),"source_decision":"REJECT_AGGREGATE_MULTI_SECTOR_CONSUMPTION","rejection_reason":"The report discusses household, government and NPISH final consumption at aggregate level, not strict S14 values by twelve purposes.","institutional_sector":"HOUSEHOLDS_GOVERNMENT_NPISH_AGGREGATES","transaction_code":"FINAL_CONSUMPTION_AGGREGATES","current_prices":"true","currency":"LRD_OR_USD_REQUIRES_TABLE_LEVEL_CONFIRMATION","unit":"REPORT_SPECIFIC"},
+        {"source_id":"LBR_LISGIS_HIES_PORTAL","url":"https://lisgis.gov.lr/","filename":"lisgis_hies_portal.html","accept":"text/html,*/*;q=0.1","family":"survey_or_cpi_class_c_only","concept":"LISGIS Household Income and Expenditure Survey publications","classification":"HIES_SURVEY_PUBLICATION_FAMILY","required_markers":("household income and expenditure survey",),"source_decision":"REJECT_CLASS_C_SURVEY","rejection_reason":"HIES is survey evidence and cannot resolve the national-accounts unit/concept mismatch as exact weights.","institutional_sector":"HOUSEHOLD_SURVEY","transaction_code":"NOT_SNA_P31","currency":"LRD"},
+    )
+    core_source_ids = {"LBR_LISGIS_GDP_2016_2022", "LBR_LISGIS_HIES_PORTAL"}
+    gate_criteria = (
+        ("official_gdp_report_acquired","LBR_LISGIS_GDP_2016_2022",False,"The official 2016-2022 GDP report was acquired."),
+        ("gdp_report_is_twelve_purpose_s14_matrix","LBR_LISGIS_GDP_2016_2022",True,"The report provides expenditure aggregates rather than a twelve-purpose S14 matrix."),
+        ("currency_and_unit_identified_for_supplemental_rows","LBR_LISGIS_GDP_2016_2022",True,"The prior supplemental rows cannot be reconciled to a unique compatible currency/unit/concept from the reviewed source."),
+        ("hies_can_resolve_exact_national_accounts_weights","LBR_LISGIS_HIES_PORTAL",True,"HIES is survey evidence and cannot substitute for national accounts."),
+    )
+    def closed_rejection_reason(self): return self.exception_reason
+
+
+def validate_indonesia_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    _validate_country_gate_rows(rows, {"official_grouped_hfce_publication_available","twelve_armilar_purposes_available","sut_is_exact_purpose_source","input_output_is_exact_purpose_source","survey_or_cpi_can_supply_exact_weights","exact_armilar_source_available"}, INDONESIA_GATE_STATUSES, "Indonesia")
+
+
+def validate_brazil_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    _validate_country_gate_rows(rows, {"sidra_national_accounts_family_identified","scn_exact_twelve_purpose_table_identified","cei_is_purpose_classified_hfce","tru_is_exact_purpose_source","pof_or_ipca_can_supply_exact_weights","exact_armilar_source_available"}, BRAZIL_GATE_STATUSES, "Brazil")
+
+
+def validate_egypt_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    _validate_country_gate_rows(rows, {"national_accounts_catalogue_acquired","machine_readable_catalogue_inventory_acquired","sut_reference_period_matches_2021","sut_is_exact_purpose_classification","hiecs_is_national_accounts_s14_p31","hiecs_reference_period_matches_2021","exact_armilar_source_available"}, EGYPT_GATE_STATUSES, "Egypt")
+
+def validate_pakistan_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    _validate_country_gate_rows(rows, {"annual_national_accounts_source_acquired","machine_readable_2021_22_hfce_aggregate_acquired","reference_period_matches_calendar_2021","twelve_armilar_purposes_available_in_national_accounts","hies_is_national_accounts_s14_p31","hies_reference_period_matches_2021","exact_armilar_source_available"}, PAKISTAN_GATE_STATUSES, "Pakistan")
+
+def validate_nigeria_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    _validate_country_gate_rows(rows, {"gdp_expenditure_2021_source_acquired","household_consumption_is_purpose_classified","download_is_machine_readable_twelve_purpose_data","consumption_pattern_is_national_accounts_s14_p31","consumption_pattern_reference_period_matches_2021","exact_armilar_source_available"}, NIGERIA_GATE_STATUSES, "Nigeria")
+
+def validate_bangladesh_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    _validate_country_gate_rows(rows, {"official_national_statistics_portal_acquired","national_accounts_release_family_identified","twelve_armilar_purposes_available_in_national_accounts","hies_is_national_accounts_s14_p31","hies_reference_period_matches_2021","exact_armilar_source_available"}, BANGLADESH_GATE_STATUSES, "Bangladesh")
+
+def validate_vietnam_methodology_gate_rows(rows: list[dict[str, Any]]) -> None:
+    _validate_country_gate_rows(rows, {"official_statistical_data_portal_acquired","2021_final_consumption_release_acquired","2021_release_is_household_level_by_purpose","vhlss_is_national_accounts_s14_p31","vhlss_reference_period_matches_2021","exact_armilar_source_available"}, VIETNAM_GATE_STATUSES, "Viet Nam")
+
+
+def write_country_method_gate_report(path: Path, country: str, version: str, rows: list[dict[str, Any]], validator: Any) -> None:
+    if rows:
+        validator(rows)
+    lines = [
+        f"# {country} method gate report",
+        "",
+        f"Pipeline version: `{version}`",
+        "",
+        "This report preserves the official source-family evidence and the strict Armilar admissibility decision.",
+        "A blocked source or changed structural marker prevents a closed rejection.",
+        "",
+        "| Criterion | Status | Evidence source | SHA-256 | Evidence |",
+        "|---|---|---|---|---|",
+    ]
+    for row in rows:
+        evidence = str(row.get("evidence") or "").replace("|", "\\|")
+        lines.append(f"| `{row.get('criterion','')}` | `{row.get('status','')}` | `{row.get('source_id','')}` | `{row.get('source_sha256','')}` | {evidence} |")
+    if not rows:
+        lines.append("| No gate evidence acquired in this run | `NOT_FOUND` |  |  |  |")
+    lines.extend(["", "## Decision", "", "No exact rows are admitted by this audit. `weights_final.csv` remains empty and monetary release remains disabled."])
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")

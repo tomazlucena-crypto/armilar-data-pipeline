@@ -1,0 +1,13 @@
+{
+  "policy_version": "0.7.3",
+  "minimum_validated_economies": 20,
+  "minimum_prediction_count": 120,
+  "maximum_mape": 0.20,
+  "minimum_interval_coverage": 0.80,
+  "maximum_estimated_expenditure_share": 0.35,
+  "maximum_fallback_e_expenditure_share": 0.05,
+  "require_validation_metrics_for_all_estimated_cells": true,
+  "require_complete_grid": true,
+  "research_release_allowed_when_all_gates_pass": true,
+  "monetary_release_allowed": false
+}
