@@ -1,9 +1,9 @@
 {
   "schema_version": "4.0",
-  "pipeline_version": "0.8.4",
+  "pipeline_version": "0.8.5",
   "source_id": "90",
   "reference_year": 2021,
-  "user_agent": "ArmilarDataPipeline/0.8.4 (+https://github.com/tomazlucena-crypto/armilar-data-pipeline)",
+  "user_agent": "ArmilarDataPipeline/0.8.5 (+https://github.com/tomazlucena-crypto/armilar-data-pipeline)",
   "timeout_seconds": 120,
   "retries": 4,
   "source_probe_max_workers": 5,

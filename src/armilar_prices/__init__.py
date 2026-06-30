@@ -14,6 +14,11 @@ from .completion import (
     PriceCompletionError,
     build_global_completion_from_files,
 )
+from .audit import (
+    PriceModelAuditError,
+    ValidationGatePolicy,
+    audit_global_price_model,
+)
 from .registry import RegistryError, load_registry
 
 __all__ = [
@@ -24,13 +29,16 @@ __all__ = [
     "CompletionPolicy",
     "IndexBuildError",
     "PriceCompletionError",
+    "PriceModelAuditError",
     "PriceEvidenceClass",
     "PriceObservation",
     "PriceSeriesDefinition",
     "PricePilotError",
     "PriceUniverseSpec",
+    "ValidationGatePolicy",
     "RegistryError",
     "build_eurostat_category_pilot",
+    "audit_global_price_model",
     "build_global_completion_from_files",
     "calculate_monthly_indices",
     "load_classification_bundle",

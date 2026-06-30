@@ -24,6 +24,10 @@ from .completion import (
     PriceCompletionError,
     build_global_completion_from_files,
 )
+from .audit import (
+    PriceModelAuditError,
+    audit_global_price_model,
+)
 from .normalizer import (
     PriceNormalizationError,
     load_observations,
@@ -135,6 +139,31 @@ def build_parser() -> argparse.ArgumentParser:
     completion.add_argument("--reference-period", default="2021-01")
     completion.add_argument("--output", type=Path, required=True)
 
+    audit = subparsers.add_parser("audit-global-price-model")
+    audit.add_argument("--weights-global", type=Path, required=True)
+    audit.add_argument("--observed-prices", type=Path, required=True)
+    audit.add_argument("--economy-profiles", type=Path, required=True)
+    audit.add_argument(
+        "--completion-policy",
+        type=Path,
+        default=Path("config/price_completion_policy_v084.json"),
+    )
+    audit.add_argument("--completion-output", type=Path, required=True)
+    audit.add_argument(
+        "--gate-policy",
+        type=Path,
+        default=Path("config/price_validation_gates_v085.json"),
+    )
+    audit.add_argument(
+        "--classification-mapping",
+        type=Path,
+        default=Path(
+            "config/classification_mappings/ecoicop_v1_to_armilar_v1.csv"
+        ),
+    )
+    audit.add_argument("--reference-period", default="2021-01")
+    audit.add_argument("--output", type=Path, required=True)
+
     return parser
 
 
@@ -230,7 +259,21 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(json.dumps(summary, indent=2, sort_keys=True))
             return 0
-    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError, PricePilotError, FXMethodologyError, PriceCompletionError) as exc:
+        if args.command == "audit-global-price-model":
+            summary = audit_global_price_model(
+                args.weights_global,
+                args.observed_prices,
+                args.economy_profiles,
+                args.completion_policy,
+                args.completion_output,
+                args.gate_policy,
+                args.reference_period,
+                args.output,
+                mapping_path=args.classification_mapping,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError, PricePilotError, FXMethodologyError, PriceCompletionError, PriceModelAuditError) as exc:
         print(f"ERROR: {exc}")
         return 2
     return 1

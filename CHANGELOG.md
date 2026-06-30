@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.5 - Validation gates and sensitivity audit
+
+- verifies completion manifests and every original input hash;
+- publishes row-level validation on a common comparison sample;
+- compares selected, headline-only and world-pattern baselines;
+- tests predeclared donor-policy sensitivity scenarios;
+- evaluates overall, worst-category, worst-region and evidence gates;
+- keeps the gate policy unratified and both release flags false.
+
 ## 0.8.4 - Experimental global price completion
 
 - completes the fixed ARM01-ARM09 economy-category-month grid;

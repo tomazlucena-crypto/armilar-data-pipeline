@@ -2,6 +2,10 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.5: validation gates and sensitivity audit
+
+Version 0.8.5 verifies every v0.8.4 output and original input hash, publishes row-level validation, compares the selected completion model with headline-only and world-pattern baselines, runs predeclared donor sensitivity scenarios and evaluates overall plus worst-group gates. The gate policy is deliberately unratified and passing technical gates cannot authorise release. `research_release_allowed=false` and `monetary_release_allowed=false`.
+
 ## Version 0.8.4: experimental global price completion
 
 Version 0.8.4 completes the canonical ARM01-ARM09 economy-category-month grid using P1/P2 official observations and headline-anchored P3/P4/P5 fallbacks. P4 and P5 estimate only the category deviation from each target economy's official headline inflation, select donors ex ante from declared profiles and availability, chain monthly indices, publish uncertainty and run leave-one-economy-out validation by category, region, horizon and fallback class. All inputs and outputs are hashed. The engine is experimental and does not claim a real global official data release. `research_release_allowed=false` and `monetary_release_allowed=false`.
