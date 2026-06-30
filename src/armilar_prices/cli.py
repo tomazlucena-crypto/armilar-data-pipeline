@@ -12,6 +12,7 @@ from .index_engine import (
     load_global_weights,
     write_index_outputs,
 )
+from .acquisition import PriceAcquisitionError, acquire_prices
 from .normalizer import (
     PriceNormalizationError,
     load_observations,
@@ -33,6 +34,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     validate = subparsers.add_parser("validate-registry")
     validate.add_argument("--registry", type=Path, required=True)
+
+    acquire = subparsers.add_parser("acquire")
+    acquire.add_argument("--registry", type=Path, required=True)
+    acquire.add_argument("--output", type=Path, required=True)
+    acquire.add_argument("--mode", choices=["replay", "live"], default="replay")
+    acquire.add_argument("--fixture-dir", type=Path)
+    acquire.add_argument("--reference-period", default="2021-01")
 
     normalize = subparsers.add_parser("normalize")
     normalize.add_argument("--registry", type=Path, required=True)
@@ -65,6 +73,16 @@ def main(argv: list[str] | None = None) -> int:
             definitions = load_registry(args.registry)
             print(json.dumps(registry_summary(definitions), indent=2, sort_keys=True))
             return 0
+        if args.command == "acquire":
+            summary = acquire_prices(
+                args.registry,
+                args.output,
+                mode=args.mode,
+                fixture_dir=args.fixture_dir,
+                reference_period=args.reference_period,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
         if args.command == "normalize":
             definitions = load_registry(args.registry)
             rows, summary = normalize_observations(
@@ -91,7 +109,7 @@ def main(argv: list[str] | None = None) -> int:
             write_index_outputs(index_rows, contributions, evidence, summary, args.output)
             print(json.dumps(summary, indent=2, sort_keys=True))
             return 0
-    except (RegistryError, PriceNormalizationError, PriceSelectionError, IndexBuildError) as exc:
+    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError) as exc:
         print(f"ERROR: {exc}")
         return 2
     return 1

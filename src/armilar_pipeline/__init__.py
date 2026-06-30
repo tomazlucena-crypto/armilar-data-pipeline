@@ -1,3 +1,3 @@
 """Armilar ICP 2021 data acquisition and weight-construction pipeline."""
 
-__version__ = "0.8.0"
+__version__ = "0.8.1"

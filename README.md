@@ -2,6 +2,10 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.1: SDMX pilot replay and provenance receipts
+
+Version 0.8.1 adds deterministic replay for Eurostat/OECD monthly price pilots, including provider-structure snapshots, request receipts, raw SHA-256 hashes, health files, resolved registry output and normalized price observations. Live acquisition remains isolated from pull-request checks.
+
 ## Version 0.8.0: monthly price registry and research index engine
 
 Version 0.8.0 adds a canonical monthly CPI/HICP registry, the P1-P5 price-evidence hierarchy, deterministic rebasing, audited source selection and monthly core/global research index calculation. Incomplete months are never silently renormalised. The live OECD and Eurostat pilots remain disabled pending network validation, common-currency FX treatment is not yet ratified, and `monetary_release_allowed=false` remains mandatory.

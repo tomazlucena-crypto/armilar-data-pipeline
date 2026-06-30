@@ -1,6 +1,6 @@
 {
-  "registry_version": "0.8.0",
-  "status": "LIVE_PILOT_PENDING",
+  "registry_version": "0.8.1",
+  "status": "REPLAY_VALIDATED_LIVE_PILOT_PENDING",
   "description": "Candidate official CPI/HICP sources for the first Armilar monthly-price pilot.",
   "monetary_release_allowed": false,
   "series": [

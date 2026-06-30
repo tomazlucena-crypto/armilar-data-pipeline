@@ -1,0 +1,32 @@
+{
+  "structures": [
+    {
+      "provider": "Eurostat",
+      "dataset": "prc_hicp_midx",
+      "dimension_order": ["freq", "unit", "coicop", "geo"],
+      "allowed_values": {
+        "freq": ["M"],
+        "unit": ["INDEX"],
+        "coicop": ["CP00", "CP01", "CP02"],
+        "geo": ["PRT"]
+      },
+      "schema_sha256": "eurostat-prc-hicp-midx-structure-fixture-v1",
+      "source_url": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/3.0/data/prc_hicp_midx",
+      "retrieved_at": "2026-06-30T00:00:00Z"
+    },
+    {
+      "provider": "OECD",
+      "dataset": "DSD_PRICES@DF_PRICES_ALL",
+      "dimension_order": ["ref_area", "freq", "seasonal_adjustment", "measure", "unit", "coicop"],
+      "allowed_values": {
+        "freq": ["M"],
+        "seasonal_adjustment": ["NSA"],
+        "coicop": ["_T", "CP01"],
+        "ref_area": ["PRT"]
+      },
+      "schema_sha256": "oecd-df-prices-all-structure-fixture-v1",
+      "source_url": "https://sdmx.oecd.org/public/rest/v1/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0",
+      "retrieved_at": "2026-06-30T00:00:00Z"
+    }
+  ]
+}

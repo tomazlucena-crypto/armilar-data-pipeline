@@ -79,9 +79,9 @@ class PriceSeriesDefinition:
         if invalid:
             raise ValueError(f"invalid target_categories for {self.series_id}: {invalid}")
         if self.frequency != "M":
-            raise ValueError(f"only monthly frequency is allowed in v0.8.0: {self.series_id}")
+            raise ValueError(f"only monthly frequency is allowed: {self.series_id}")
         if self.unit != "INDEX":
-            raise ValueError(f"only index-level series are allowed in v0.8.0: {self.series_id}")
+            raise ValueError(f"only index-level series are allowed: {self.series_id}")
         if self.seasonal_adjustment != "NSA":
             raise ValueError(f"only non-seasonally-adjusted series are allowed: {self.series_id}")
         if self.source_priority < 1:

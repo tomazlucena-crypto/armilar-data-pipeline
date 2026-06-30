@@ -15,7 +15,7 @@ class RegistryError(ValueError):
 def load_registry(path: Path) -> list[PriceSeriesDefinition]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if bool(payload.get("monetary_release_allowed", False)):
-        raise RegistryError("the v0.8.0 price registry cannot authorise monetary release")
+        raise RegistryError("the Armilar price registry cannot authorise monetary release")
     rows = payload.get("series")
     if not isinstance(rows, list) or not rows:
         raise RegistryError("registry must contain a non-empty series list")
