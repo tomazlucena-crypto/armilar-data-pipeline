@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.8.6 - Version source, SDMX spike, properties and telemetry
+
+- makes `pyproject.toml` the sole authored project version;
+- derives runtime and generated report versions from installed package metadata;
+- adds a CI gate and negative test for version divergence;
+- selects `sdmx1` for the v0.8.7 Eurostat/OECD SDMX pilot and records `pysdmx` as unevaluated absent a concrete gap;
+- keeps live SDMX smoke checks manual and outside pull-request CI;
+- adds Hypothesis as a test-only optional dependency for bounded invariant properties;
+- generates deterministic `development_metrics.json` as a CI artefact with null-plus-reason unavailable metrics;
+- marks v0.8.6 contracts V086-C02 through V086-C05 complete while keeping release flags false.
+
 ## 0.8.5 - Validation gates and sensitivity audit
 
 - verifies completion manifests and every original input hash;

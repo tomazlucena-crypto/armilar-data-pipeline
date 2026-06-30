@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 
 from armilar_pipeline import __version__
+from armilar_pipeline.version import installed_version
 from armilar_proxy_audit.cli import main as proxy_main
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -15,8 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 class ProgramArchitectureTests(unittest.TestCase):
     def test_package_and_config_versions_match(self) -> None:
         config = json.loads((ROOT / "config" / "step2_icp2021.json").read_text(encoding="utf-8"))
-        self.assertEqual(__version__, "0.8.5")
-        self.assertEqual(config["pipeline_version"], __version__)
+        self.assertEqual(__version__, installed_version())
+        self.assertNotIn("pipeline_version", config)
 
     def test_program_entry_points_are_declared(self) -> None:
         text = (ROOT / "pyproject.toml").read_text(encoding="utf-8")

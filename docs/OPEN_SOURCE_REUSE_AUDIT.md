@@ -2,44 +2,58 @@
 
 ## Rule
 
-Before a new parser, storage layer, validator, workflow engine, API server or model registry is written, the developer must record whether an existing open-source component can be adopted or adapted.
+Before a material parser, storage layer, validator, workflow engine, API server or model registry is written, record whether an existing maintained component should be adopted, adapted, retained, rejected or deferred.
 
-The economic definition of the Armilar, its mapping rules, evidence hierarchy, imputation policy, index formula and monetary gates remain project-specific.
+The Armilar economic definition, classification mappings, evidence hierarchy, imputation policy, index formula, uncertainty rules and monetary gates remain project-specific.
 
-## Immediate decisions
+## Decision vocabulary
+
+- `ADOPT`: introduce the component in the declared phase;
+- `ADOPT_PILOT`: run a bounded spike before permanent adoption;
+- `ADAPT_REFERENCE_ONLY`: use upstream acquisition knowledge without adding the client as a runtime dependency;
+- `RETAIN_CUSTOM`: preserve Armilar-specific code;
+- `EVALUATE_CHALLENGER`: compare only against a demonstrated unmet requirement;
+- `DEFER`: do not integrate before the stated trigger;
+- `REJECT`: documented incompatibility.
+
+## Immediate decisions for v0.8.6
 
 ### SDMX
 
-Run a narrow retrieval spike with `sdmx1` against the OECD and Eurostat before writing any new SDMX parser. Keep `pysdmx` as a challenger because its information model and serializers may be useful, but do not add both as runtime dependencies without a measured benefit.
+Pilot `sdmx1` against Eurostat and OECD. The spike must test data retrieval, metadata/DSD access, key construction, SDMX-CSV or SDMX-JSON parsing, error handling and preservation of raw provider bytes. Keep `pysdmx` as a challenger only for requirements that the pilot records as unmet. Do not install both permanently without measured benefit.
 
-### DBnomics
+### Provider discovery
 
-Use DBnomics fetchers to discover datasets and inspect provider-specific acquisition logic. Runtime data should still preserve the official source URL, response, retrieval time and hash. Each fetcher licence must be reviewed before code is copied or modified.
+Use DBnomics APIs, fetchers and repository knowledge for discovery and connector research. Production evidence must still identify the official provider URL and preserve the official response, retrieval time and hash. Review the licence of each fetcher before copying code.
 
-### Storage
+### Property testing
 
-Continue with CSV and JSON for the v0.7 contract layer. Introduce DuckDB and Parquet when monthly panels and historical vintages make repeated CSV joins a measurable bottleneck.
+Adopt Hypothesis as a test-only dependency in v0.8.6. Initial properties cover exact sums, order invariance, duplicate rejection, future-period rejection, FX conventions, incomplete grids and absence of silent renormalisation.
 
-### Validation
+### Storage and tabular validation
 
-Keep zero runtime dependencies in v0.7. JSON Schema and standard-library semantic checks make the contract independently auditable. Evaluate Pandera when price observations become dataframe-heavy.
+Retain CSV and JSON until historical multi-vintage panels make repeated joins a measured bottleneck. Adopt DuckDB and Parquet at that trigger. Defer Pandera until real price panels stabilise and it can replace repetitive dataframe validation.
 
-### Testing
+### Backtest and nowcast
 
-Add Hypothesis in the next development increment to test mathematical invariants and randomly generated incomplete or contradictory grids.
+Adopt scikit-learn when the minimum backtest begins, while retaining custom publication-date and vintage logic. Adopt statsmodels for state-space candidates after the monthly baseline exists. Keep sktime as a challenger. Defer MLflow until multiple real models require promotion and rollback.
 
-## Build versus reuse gate
+### Public operation
 
-A new material component requires a registry entry with:
+Defer Pydantic and FastAPI until the public response contract is stable. Defer Prefect and structured logging until several production connectors exist. Evaluate OpenLineage only when current manifests and provenance receipts become insufficient.
+
+## Build-versus-reuse gate
+
+Every material registry entry records:
 
 - capability;
-- candidate project;
+- candidate and upstream project;
 - licence;
 - maintenance status;
-- security considerations;
+- security review status;
 - integration cost;
-- decision;
+- decision and trigger;
 - reason;
-- custom code that would be replaced.
+- custom code replaced or retained.
 
-`ADOPT`, `ADAPT`, `RETAIN`, `REJECT` and `DEFER` are the permitted decisions. `ADOPT_PILOT` and `ADOPT_NEXT` are temporary implementation states.
+The authoritative registry is `config/component_registry.yaml`.

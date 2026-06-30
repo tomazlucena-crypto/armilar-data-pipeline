@@ -2,6 +2,10 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.6: development discipline and telemetry
+
+Version 0.8.6 makes `pyproject.toml` the only authored project version, derives runtime version values from installed metadata, selects `sdmx1` for the v0.8.7 Eurostat/OECD pilot, adds bounded Hypothesis property tests and publishes deterministic development telemetry as a CI artefact. Live SDMX checks are manual and non-PR only; unavailable telemetry metrics are `null` with reasons. `research_release_allowed=false` and `monetary_release_allowed=false`.
+
 ## Version 0.8.5: validation gates and sensitivity audit
 
 Version 0.8.5 verifies every v0.8.4 output and original input hash, publishes row-level validation, compares the selected completion model with headline-only and world-pattern baselines, runs predeclared donor sensitivity scenarios and evaluates overall plus worst-group gates. The gate policy is deliberately unratified and passing technical gates cannot authorise release. `research_release_allowed=false` and `monetary_release_allowed=false`.

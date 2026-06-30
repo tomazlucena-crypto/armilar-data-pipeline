@@ -29,6 +29,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -39,7 +41,7 @@ jobs:
       - name: Install package
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e .
+          python -m pip install -e ".[test]"
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
@@ -47,26 +49,42 @@ jobs:
       - name: Compile Python sources
         run: python -m compileall -q src
 
+      - name: Validate development contracts
+        run: python scripts/validate_development_contracts.py
+
+      - name: Validate version source of truth
+        run: python scripts/check_version_consistency.py
+
+      - name: Generate development telemetry
+        run: |
+          mkdir -p artifacts
+          python scripts/generate_development_metrics.py \
+            --output artifacts/development_metrics.json \
+            --baseline-ref origin/main \
+            --fail-on-test-regression
+
+      - name: Upload development telemetry
+        uses: actions/upload-artifact@v4
+        with:
+          name: development-metrics
+          path: artifacts/development_metrics.json
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Validate release safety contracts
         run: |
           python - <<'PY'
           import csv
           import json
-          import tomllib
           from pathlib import Path
+          from armilar_pipeline.version import installed_version
 
-          project = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
-          project_version = str(project["project"]["version"])
           config = json.loads(
               Path("config/step2_icp2021.json").read_text(encoding="utf-8")
           )
-          pipeline_version = str(config["pipeline_version"])
-          if pipeline_version != project_version:
-              raise SystemExit(
-                  "config/step2_icp2021.json pipeline_version "
-                  f"{pipeline_version} does not match pyproject.toml "
-                  f"project.version {project_version}"
-              )
+          project_version = installed_version()
+          if "pipeline_version" in config:
+              raise SystemExit("config/step2_icp2021.json must not author pipeline_version")
 
           weights_final = Path("public/latest/weights_final.csv")
           if weights_final.exists():
@@ -82,7 +100,6 @@ jobs:
               json.dumps(
                   {
                       "project_version": project_version,
-                      "pipeline_version": pipeline_version,
                       "pull_request_live_acquisition": False,
                       "monetary_release_allowed": False,
                       "weights_final_data_rows": 0,
@@ -91,6 +108,40 @@ jobs:
               )
           )
           PY
+
+  sdmx-spike:
+    name: sdmx-spike
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install SDMX spike dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[sdmx]"
+
+      - name: Run manual SDMX smoke spike
+        run: |
+          mkdir -p artifacts/sdmx_spike
+          python scripts/run_sdmx_spike.py --output artifacts/sdmx_spike --live
+
+      - name: Upload SDMX spike artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdmx-spike
+          path: artifacts/sdmx_spike
+          if-no-files-found: error
+          retention-days: 30
 
   refresh-step2:
     name: refresh-step2
