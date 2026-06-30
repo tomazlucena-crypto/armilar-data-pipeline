@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/price_series_registry.schema.json",
+  "title": "Armilar monthly price-series registry",
+  "type": "object",
+  "required": ["registry_version", "monetary_release_allowed", "series"],
+  "properties": {
+    "registry_version": {"type": "string", "minLength": 1},
+    "monetary_release_allowed": {"const": false},
+    "series": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "series_id", "provider", "dataset", "economy_code", "source_category_code",
+          "target_categories", "evidence_class", "source_priority", "access_method",
+          "source_url"
+        ],
+        "properties": {
+          "series_id": {"type": "string", "minLength": 1},
+          "provider": {"type": "string", "minLength": 1},
+          "dataset": {"type": "string", "minLength": 1},
+          "economy_code": {"type": "string", "pattern": "^[A-Z0-9]{3}$"},
+          "source_category_code": {"type": "string", "minLength": 1},
+          "target_categories": {"type": "string", "minLength": 4},
+          "evidence_class": {
+            "enum": [
+              "P1_OFFICIAL_CATEGORY", "P2_OFFICIAL_AGGREGATE", "P3_OFFICIAL_HEADLINE",
+              "P4_REGIONAL_PROXY", "P5_GLOBAL_PROXY"
+            ]
+          },
+          "source_priority": {"type": "integer", "minimum": 1},
+          "access_method": {"enum": ["SDMX", "REST_JSON", "CSV", "FIXTURE"]},
+          "source_url": {"type": "string", "minLength": 1},
+          "frequency": {"const": "M"},
+          "unit": {"const": "INDEX"},
+          "seasonal_adjustment": {"const": "NSA"},
+          "publication_lag_days": {"type": "integer", "minimum": 0},
+          "fallback_series": {"type": "string"},
+          "enabled": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

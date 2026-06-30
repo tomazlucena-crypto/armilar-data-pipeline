@@ -1,14 +1,14 @@
-registry_version: "1.0"
+registry_version: "1.1"
 reviewed_on: "2026-06-29"
 default_rule: "Evaluate maintained open-source components before writing material custom infrastructure."
 components:
   - capability: sdmx_client
-    candidate: sdmx1
+    candidate: sdmx1_2_26
     upstream: khaeru/sdmx
     license: Apache-2.0
-    decision: ADOPT_PILOT
-    phase: price_source_registry
-    reason: mature SDMX 2.1 and 3.0 client; broad statistical-agency use case
+    decision: ADOPT_OPTIONAL
+    phase: monthly_index
+    reason: supports SDMX 2.1 and 3.0 retrieval and parsing while fixture tests remain independent of network access
     replacement_target: custom_sdmx_http_and_parsing
   - capability: sdmx_metadata_toolbox
     candidate: pysdmx
@@ -74,3 +74,11 @@ components:
     phase: nowcast
     reason: no model registry is required before an out-of-sample monthly baseline exists
     replacement_target: custom_model_versioning
+  - capability: monthly_price_registry
+    candidate: standard_library_contracts
+    upstream: internal_contract_layer
+    license: MIT
+    decision: RETAIN_CUSTOM
+    phase: monthly_index
+    reason: evidence hierarchy, fallback policy and no-renormalisation rules are Armilar-specific economic logic
+    replacement_target: none

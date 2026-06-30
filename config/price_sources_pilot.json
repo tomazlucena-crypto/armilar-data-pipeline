@@ -1,0 +1,50 @@
+{
+  "registry_version": "0.8.0",
+  "status": "LIVE_PILOT_PENDING",
+  "description": "Candidate official CPI/HICP sources for the first Armilar monthly-price pilot.",
+  "monetary_release_allowed": false,
+  "series": [
+    {
+      "series_id": "EUROSTAT_PRT_CP01_HICP",
+      "provider": "Eurostat",
+      "provider_code": "ESTAT",
+      "dataset": "prc_hicp_midx",
+      "economy_code": "PRT",
+      "source_category_code": "CP01",
+      "target_categories": "CP01",
+      "evidence_class": "P1_OFFICIAL_CATEGORY",
+      "source_priority": 1,
+      "access_method": "SDMX",
+      "source_url": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/3.0/data/prc_hicp_midx",
+      "query_key": "LIVE_PILOT_TO_CONFIRM_FROM_DSD",
+      "frequency": "M",
+      "unit": "INDEX",
+      "seasonal_adjustment": "NSA",
+      "publication_lag_days": 15,
+      "revision_policy": "REVISABLE",
+      "fallback_series": "OECD_PRT_CPI_HEADLINE",
+      "enabled": false
+    },
+    {
+      "series_id": "OECD_PRT_CPI_HEADLINE",
+      "provider": "OECD",
+      "provider_code": "OECD",
+      "dataset": "DSD_PRICES@DF_PRICES_ALL",
+      "economy_code": "PRT",
+      "source_category_code": "_T",
+      "target_categories": "CP01|CP02|CP03|CP04|CP05|CP06|CP07|CP08|CP09|CP10|CP11|CP12",
+      "evidence_class": "P3_OFFICIAL_HEADLINE",
+      "source_priority": 1,
+      "access_method": "SDMX",
+      "source_url": "https://sdmx.oecd.org/public/rest/v1/data/OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0/PRT.M.N.CPI.IX._T.N.GY",
+      "query_key": "PRT.M.N.CPI.IX._T.N.GY",
+      "frequency": "M",
+      "unit": "INDEX",
+      "seasonal_adjustment": "NSA",
+      "publication_lag_days": 35,
+      "revision_policy": "REVISABLE",
+      "fallback_series": "",
+      "enabled": false
+    }
+  ]
+}

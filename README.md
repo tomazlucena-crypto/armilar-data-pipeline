@@ -2,6 +2,67 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.0: monthly price registry and research index engine
+
+Version 0.8.0 adds a canonical monthly CPI/HICP registry, the P1-P5 price-evidence hierarchy, deterministic rebasing, audited source selection and monthly core/global research index calculation. Incomplete months are never silently renormalised. The live OECD and Eurostat pilots remain disabled pending network validation, common-currency FX treatment is not yet ratified, and `monetary_release_allowed=false` remains mandatory.
+
+## Version 0.7.3: conditional global research release
+
+Version 0.7.3 adds a fail-closed gate between the completed research evidence grid and publication of `ARM-WEIGHTS-GLOBAL`. It evaluates validation coverage, MAPE, interval coverage, estimated expenditure share, Class E fallback share and per-cell validation metadata. A research release is created only when every configured gate passes. `weights_final.csv` remains untouched and `monetary_release_allowed=false` cannot be overridden.
+
+## Version 0.7.2: baseline imputation and validation
+
+Version 0.7.2 adds deterministic C, D and E research baselines, own-economy aggregate allocation, profile-based donor selection, regional/global fallback and leave-one-out validation. Outputs remain research-only until the v0.7.3 gate passes.
+
+## Version 0.7.1: evidence-cell staging
+
+Version 0.7.1 adds a canonical `evidence_cells.csv` staging layer between the strict Step 2 matrix and the experimental global-weight builder. The `armilar-global-weights stage-strict` command converts `economy_category_matrix_weight_eligible.csv` into per-cell evidence records with source state, evidence class, transformation method and core/global eligibility.
+
+Strict rows are converted to A/B evidence without changing their real-expenditure values or uncertainty bounds. Experimental allocations are rejected rather than silently promoted, and C/D/E evidence can be marked global-eligible only outside `ARM-WEIGHTS-CORE`.
+
+## Version 0.7.0: global weight contract layer
+
+Version 0.7.0 keeps the strict observed matrix and national-source audits intact while adding a separate experimental complete-world weight contract. The new `armilar-global-weights` programme builds `ARM-WEIGHTS-GLOBAL` from a complete economy-category grid with per-cell evidence classes A to E, required uncertainty for estimated cells, method provenance and deterministic manifests.
+
+`ARM-WEIGHTS-CORE` remains separate and accepts only official exact cells and official deterministic derivations. Estimated C/D/E cells can enter only the experimental global construction with explicit bounds, method IDs, model versions, source IDs and donors where applicable. They are never promoted to official exact values.
+
+The release also adds Amendment 2, JSON schemas, a synthetic sample input, open-source reuse documentation and build-versus-reuse decisions. `monetary_release_allowed=false` remains unchanged.
+
+## Version 0.6.13: cumulative second-wave and Step 2H exception audits
+
+Version 0.6.13 is the cumulative staging release intended to replace the failed v0.6.7 pull-request contents. It includes the malformed Brazil registry-row repair, dedicated official-source-family audits for Egypt, Pakistan, Nigeria, Bangladesh and Viet Nam, and executable Step 2H exception audits for Belarus CP02, Kuwait CP02, Saudi Arabia CP02, Bonaire and Liberia.
+
+All new country adapters preserve real acquisition receipts and hashes, distinguish `ACCESS_BLOCKED` from source non-admissibility, require renewed review when structural markers change, and emit zero exact rows when a source fails a material Armilar gate. Survey and CPI detail remains Class C, product-based SUT/input-output evidence is not converted into exact purpose weights, and wrong-period evidence is not silently interpolated.
+
+The source registry now covers fifteen economies and sixty-five concrete official resources or source-family entries. `weights_final.csv` remains header-only, `global_12_category_matrix_complete=false`, `monetary_release_allowed=false`, and direct AIC/HFCE PPP validation remains `INSUFFICIENT_DIRECT_EVIDENCE`.
+
+## Versions 0.6.9 to 0.6.12: second-wave country audits
+
+- **0.6.9 Pakistan:** separates aggregate fiscal-year national accounts from HIES survey detail and rejects fiscal 2021-22 as calendar 2021.
+- **0.6.10 Nigeria:** separates the 2021 aggregate expenditure-GDP report from the 2019 household consumption survey.
+- **0.6.11 Bangladesh:** separates the national-accounts publication inventory from HIES 2022 survey evidence.
+- **0.6.12 Viet Nam:** separates the aggregate 2021 final-consumption release from VHLSS 2020/2022 survey publications.
+
+## Version 0.6.8: Egypt source-family audit and registry repair
+
+Version 0.6.8 repairs the malformed Brazil classification/methodology registry row that caused the v0.6.7 pull-request workflow to fail. The CSV schema test now also rejects missing values, not only surplus fields.
+
+Egypt now uses a dedicated `EgyptCapmasAuditAdapter`. It acquires the CAPMAS National Accounts catalogue, the machine-readable catalogue CSV export, the 2017/2018 Supply and Use Tables study description and HIECS 2021 separately. The catalogue evidence identifies historical SUT and input-output studies, the relevant SUT benchmark is 2017/2018 and product/activity based, and HIECS 2021 is a sample survey rather than national-accounts S14/P31. No exact cells are added.
+
+Network failures remain `ACCESS_BLOCKED`; changed structural markers require review. `weights_final.csv` remains empty, `global_12_category_matrix_complete=false` and `monetary_release_allowed=false`.
+
+## Version 0.6.7: Brazil source-family audit
+
+Version 0.6.7 replaces the static Brazil decision with a dedicated `BrazilIbgeAuditAdapter`. It records IBGE official source-family attempts for SIDRA national-accounts table discovery, Sistema de Contas Nacionais, Contas Economicas Integradas, Tabelas de Recursos e Usos, downloadable SCN tables, POF/IPCA Class C evidence and classification/methodology discovery.
+
+The decision remains `NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE` when the critical IBGE source-family chain is acquired and structurally reviewed. SIDRA and SCN evidence remains discovery or publication-family evidence, CEI remains institutional-accounts evidence, TRU remains product/resource-use evidence requiring product-to-purpose allocation, and POF/IPCA remains Class C only. No exact cells are added.
+
+## Version 0.6.6: Indonesia source-family audit
+
+Version 0.6.6 replaces the static Indonesia decision with a dedicated `IndonesiaBpsAuditAdapter`. It records BPS official source-family attempts for the GDP-by-expenditure publication, BPS statistics-table family, downloadable national-accounts publication search, Supply and Use Tables, input-output tables, survey/CPI Class C evidence and classification/methodology discovery.
+
+The decision remains `NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE` when the critical BPS source-family chain is acquired and structurally reviewed. The known BPS expenditure publication is rejected because it is grouped rather than a twelve-Armilar-purpose strict S14/P31DC current-price dataset. BPS SUT and input-output evidence remains product/source-family evidence and cannot be transformed into exact COICOP weights through many-to-many allocation. Survey or CPI evidence remains Class C only. No exact cells are added.
+
 ## Version 0.6.5: China source-chain closure
 
 Version 0.6.5 replaces the static China decision with a dedicated `ChinaNbsAuditAdapter`. It acquires six exact official NBS resources independently, preserves raw evidence and hashes, and separates the eight-group household survey, the statistical-yearbook inventory, the 2020 product-based input-output family and the aggregate 2021 GDP verification.
@@ -73,6 +134,16 @@ No new exact cells are admitted in this version. Each of the five Step 2I econom
 | 0.6.3 | Step 2H0 India evidence closure | Evidence-linked S14/NPISH and calendar-year rejection |
 | 0.6.4 | Step 2H0 Russia evidence closure | Aggregate, SUT-product and survey-purpose concepts separated |
 | 0.6.5 | Step 2H0 China evidence closure | Survey, yearbook, 2020 input-output and 2021 GDP aggregate concepts separated |
+| 0.6.6 | Step 2H0 Indonesia source-family audit | BPS grouped, database, SUT, input-output and Class C concepts separated |
+| 0.6.7 | Step 2H0 Brazil source-family audit | IBGE SIDRA, SCN, CEI, TRU and Class C concepts separated |
+| 0.6.8 | Step 2H0 Egypt source-family audit | CAPMAS catalogue, historical SUT and HIECS concepts separated |
+| 0.6.9 | Step 2H0 Pakistan source-family audit | Fiscal-year aggregate accounts and HIES survey concepts separated |
+| 0.6.10 | Step 2H0 Nigeria source-family audit | 2021 aggregate GDP-expenditure and 2019 survey concepts separated |
+| 0.6.11 | Step 2H0 Bangladesh source-family audit | Publication inventory and HIES 2022 concepts separated |
+| 0.6.12 | Step 2H0 Viet Nam source-family audit | Aggregate 2021 release and VHLSS concepts separated |
+| 0.6.13 | Step 2H exception audits | CP02, territory-scope and unit/concept exceptions made executable |
+| 0.7.0 | Global weight contract layer | Separate core/global constructions with per-cell evidence classes and uncertainty |
+| 0.7.1 | Evidence-cell staging | Strict A/B conversion and class coverage reports |
 
 ## Version 0.4.0: Step 2H0
 
@@ -224,9 +295,16 @@ The intended acquisition environment is GitHub Actions. A push to `main` starts 
 - `outputs/step2i_economy_summary.csv`
 - `outputs/india_methodology_gate_audit.csv`
 - `outputs/russia_methodology_gate_audit.csv`
+- `outputs/china_methodology_gate_audit.csv`
+- `outputs/indonesia_methodology_gate_audit.csv`
 - `outputs/step2h_exception_audit.csv`
 - `outputs/step2i_completion_summary.json`
+- `outputs/step2i_audit_summary.json`
+- `outputs/INDIA_METHOD_GATE_REPORT.md`
 - `outputs/RUSSIA_METHOD_GATE_REPORT.md`
+- `outputs/CHINA_METHOD_GATE_REPORT.md`
+- `outputs/INDONESIA_METHOD_GATE_REPORT.md`
+- `outputs/STEP_2I_AUDIT_REPORT.md`
 - `outputs/STEP_2I_COMPLETION_REPORT.md`
 - `outputs/weights_observed_universe.csv`
 - `outputs/weights_experimental_universe.csv`

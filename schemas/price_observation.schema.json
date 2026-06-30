@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/price_observation.schema.json",
+  "title": "Armilar raw monthly price observation",
+  "type": "object",
+  "required": ["series_id", "period", "value"],
+  "properties": {
+    "series_id": {"type": "string", "minLength": 1},
+    "period": {"type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"},
+    "value": {"type": "number", "exclusiveMinimum": 0},
+    "published_at": {"type": "string"},
+    "retrieved_at": {"type": "string"},
+    "revision_id": {"type": "string"},
+    "status": {"type": "string"}
+  }
+}

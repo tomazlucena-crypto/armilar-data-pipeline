@@ -29,9 +29,11 @@
 
 ## v0.8.0: monthly price registry
 
-- pilot `sdmx1` against OECD and Eurostat;
-- establish categorical CPI hierarchy;
-- produce the first monthly core and global index series.
+- establish canonical price-series and observation contracts;
+- adopt optional `sdmx1` acquisition adapter;
+- establish the P1-P5 categorical CPI hierarchy;
+- produce deterministic monthly core/global research series from validated inputs;
+- keep OECD/Eurostat live pilots and real-world release gated pending network validation.
 
 ## v0.9.0: backtest and reconciliation
 

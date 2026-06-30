@@ -1,0 +1,5 @@
+economy_code,category_code,weight,evidence_class,method_id,model_version
+AAA,CP01,0.25,A_OFFICIAL_EXACT,strict,0.7.3
+AAA,CP02,0.25,A_OFFICIAL_EXACT,strict,0.7.3
+BBB,CP01,0.25,D_DONOR_IMPUTATION,donor,0.7.3
+BBB,CP02,0.25,D_DONOR_IMPUTATION,donor,0.7.3
