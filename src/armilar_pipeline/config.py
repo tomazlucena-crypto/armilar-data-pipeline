@@ -6,6 +6,8 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
+from .version import build_user_agent, installed_version
+
 
 @dataclass(frozen=True)
 class Step2Config:
@@ -77,8 +79,8 @@ def load_config(path: str | Path) -> Step2Config:
     config_path = Path(path).resolve()
     raw: dict[str, Any] = json.loads(config_path.read_text(encoding="utf-8"))
     required = {
-        "schema_version", "pipeline_version", "source_id", "reference_year",
-        "expected_participating_economies", "expected_officially_imputed_economies", "user_agent",
+        "schema_version", "source_id", "reference_year",
+        "expected_participating_economies", "expected_officially_imputed_economies",
         "timeout_seconds", "retries", "backoff_seconds", "max_response_bytes", "per_page",
         "weight_decimal_places", "weight_sum_tolerance", "identity_relative_tolerance",
         "hierarchy_relative_tolerance", "source_conflict_relative_tolerance", "urls",
@@ -104,12 +106,12 @@ def load_config(path: str | Path) -> Step2Config:
     return Step2Config(
         path=config_path,
         schema_version=str(raw["schema_version"]),
-        pipeline_version=str(raw["pipeline_version"]),
+        pipeline_version=installed_version(),
         source_id=str(raw["source_id"]),
         reference_year=int(raw["reference_year"]),
         expected_participating_economies=int(raw["expected_participating_economies"]),
         expected_officially_imputed_economies=int(raw["expected_officially_imputed_economies"]),
-        user_agent=str(raw["user_agent"]),
+        user_agent=build_user_agent(),
         timeout_seconds=int(raw["timeout_seconds"]),
         retries=int(raw["retries"]),
         source_probe_max_workers=max(1, int(raw.get("source_probe_max_workers", 5))),

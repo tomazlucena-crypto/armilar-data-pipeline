@@ -1,3 +1,5 @@
-﻿"""Armilar ICP 2021 data acquisition and weight-construction pipeline."""
+"""Armilar ICP 2021 data acquisition and weight-construction pipeline."""
 
-__version__ = "0.8.5"
+from .version import installed_version
+
+__version__ = installed_version()

@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from armilar_pipeline.config import load_config
+from armilar_pipeline.version import installed_version
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -13,7 +14,7 @@ class ConfigTests(unittest.TestCase):
         config = load_config(ROOT / "config" / "step2_icp2021.json")
         self.assertEqual(config.source_id, "90")
         self.assertEqual(config.reference_year, 2021)
-        self.assertEqual(config.pipeline_version, "0.8.5")
+        self.assertEqual(config.pipeline_version, installed_version())
         self.assertEqual(config.source_probe_max_workers, 5)
         self.assertEqual(config.aggregate_country_name_tokens, ("benchmark",))
         self.assertIn("NAB", config.aggregate_country_codes)
