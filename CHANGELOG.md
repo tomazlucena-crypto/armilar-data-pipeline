@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.3 - Ratified FX separation and ECB pilot
+
+- separates local-price inflation from common-currency basket cost;
+- adds official ECB EXR monthly-average acquisition and deterministic replay;
+- discovers the ECB CSV structure and preserves raw bytes, receipts and hashes;
+- rejects inverted FX conventions and double conversion;
+- handles EUR monetary-union cells and explicit redenomination factors;
+- fails closed on missing FX and unratified currency transitions;
+- keeps both research and monetary release flags false.
+
 ## 0.8.2 - Fixed-universe Eurostat category pilot engine
 
 - added the versioned nine-category Armilar canonical consumption classification;

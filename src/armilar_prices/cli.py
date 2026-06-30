@@ -14,6 +14,12 @@ from .index_engine import (
 )
 from .acquisition import PriceAcquisitionError, acquire_prices
 from .pilot import PricePilotError, build_eurostat_pilot_from_files
+from .fx import (
+    FXMethodologyError,
+    PRICE_BASIS,
+    acquire_ecb_fx,
+    build_fx_separation_from_files,
+)
 from .normalizer import (
     PriceNormalizationError,
     load_observations,
@@ -83,6 +89,29 @@ def build_parser() -> argparse.ArgumentParser:
     pilot.add_argument("--minimum-complete-months", type=int, default=2)
     pilot.add_argument("--output", type=Path, required=True)
 
+    fx_acquire = subparsers.add_parser("acquire-ecb-fx")
+    fx_acquire.add_argument("--currencies", nargs="+", required=True)
+    fx_acquire.add_argument("--start-period", required=True)
+    fx_acquire.add_argument("--end-period", required=True)
+    fx_acquire.add_argument("--mode", choices=["replay", "live"], required=True)
+    fx_acquire.add_argument("--fixture", type=Path)
+    fx_acquire.add_argument("--expected-sha256", default="")
+    fx_acquire.add_argument("--output", type=Path, required=True)
+
+    fx_build = subparsers.add_parser("build-fx-separation")
+    fx_build.add_argument("--price-contributions", type=Path, required=True)
+    fx_build.add_argument("--currency-registry", type=Path, required=True)
+    fx_build.add_argument("--fx-observations", type=Path, required=True)
+    fx_build.add_argument("--fx-receipts", type=Path, required=True)
+    fx_build.add_argument("--reference-period", required=True)
+    fx_build.add_argument("--scope-id", required=True)
+    fx_build.add_argument(
+        "--price-basis",
+        choices=[PRICE_BASIS],
+        required=True,
+    )
+    fx_build.add_argument("--output", type=Path, required=True)
+
     return parser
 
 
@@ -141,7 +170,32 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(json.dumps(summary, indent=2, sort_keys=True))
             return 0
-    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError, PricePilotError) as exc:
+        if args.command == "acquire-ecb-fx":
+            summary = acquire_ecb_fx(
+                args.currencies,
+                args.start_period,
+                args.end_period,
+                args.output,
+                mode=args.mode,
+                fixture_path=args.fixture,
+                expected_sha256=args.expected_sha256,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+        if args.command == "build-fx-separation":
+            summary = build_fx_separation_from_files(
+                args.price_contributions,
+                args.currency_registry,
+                args.fx_observations,
+                args.fx_receipts,
+                args.reference_period,
+                args.scope_id,
+                args.output,
+                price_basis=args.price_basis,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError, PricePilotError, FXMethodologyError) as exc:
         print(f"ERROR: {exc}")
         return 2
     return 1

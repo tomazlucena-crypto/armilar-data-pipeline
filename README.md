@@ -2,6 +2,10 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.3: ratified FX separation and ECB pilot
+
+Version 0.8.3 formally separates the primary `PPP_WEIGHTED_LOCAL_PRICE_RELATIVES` index from the informational `COMMON_CURRENCY_BASKET_COST` layer. Current FX never enters the primary inflation index. The common-currency layer uses official ECB EXR monthly average rates quoted as currency units per EUR, preserves raw bytes and SHA-256 receipts, rejects inverse conventions and fails closed without renormalisation when FX is missing. Both layers remain research-only and do not inform monetary policy.
+
 ## Version 0.8.2: fixed-universe Eurostat category pilot engine
 
 Version 0.8.2 adds `PriceUniverseSpec` and a deterministic engine for an explicit Eurostat HICP category pilot. It admits only complete P1 CP01-CP12 economies, fixes the universe for the whole common interval, normalises covered world weights once, publishes external coverage and rejects incomplete months. The engine is ready for a hash-preserved official Eurostat snapshot; this commit does not represent synthetic fixtures as live data. `research_release_allowed=false` and `monetary_release_allowed=false`.

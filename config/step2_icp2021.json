@@ -1,6 +1,6 @@
 {
   "schema_version": "4.0",
-  "pipeline_version": "0.8.2",
+  "pipeline_version": "0.8.3",
   "source_id": "90",
   "reference_year": 2021,
   "user_agent": "ArmilarDataPipeline/0.8.1 (+https://github.com/tomazlucena-crypto/armilar-data-pipeline)",
