@@ -18,7 +18,7 @@
     "C_ONLY": 1,
     "D_UNAVAILABLE": 14
   },
-  "pipeline_version": "0.8.1",
+  "pipeline_version": "0.8.5",
   "schema_version": "2.1",
   "source_candidates_access_blocked": 17,
   "source_candidates_acquired_as_datasets": 3,

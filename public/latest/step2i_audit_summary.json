@@ -1,12 +1,12 @@
 {
   "accepted_cells_added_to_exact_matrix": 0,
-  "access_blocked_attempts": 45,
+  "access_blocked_attempts": 44,
   "audit_outputs": {
     "country_source_attempts": 114,
     "country_source_evidence": 62,
     "country_source_family_coverage": 135
   },
-  "concept_ambiguous_cells": 5,
+  "concept_ambiguous_cells": 10,
   "economies_decided": [
     "BRA",
     "CHN",
@@ -38,7 +38,7 @@
   "non_admissible_cells": 105,
   "pipeline_version": "0.6.8",
   "schema_version": "1.1",
-  "sources_acquired_with_hash": 69,
+  "sources_acquired_with_hash": 70,
   "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
   "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
   "step": "2I",
@@ -94,11 +94,11 @@
     "BRA": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "ACCESS_BLOCKED",
+      "decision": "CONCEPT_AMBIGUOUS",
       "economy_code": "BRA",
       "economy_name": "Brazil",
       "experimental_categories": "",
-      "remaining_blockers": "The current run could not acquire or validate all critical official Brazil source families: BRA_IBGE_TABELAS_RECURSOS_USOS. A closed source decision is not permitted while these attempts remain blocked.",
+      "remaining_blockers": "Acquired official Brazil resources did not match the reviewed structural markers for: BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS. No source is admitted until the changed content is reviewed.",
       "sources_examined": 7,
       "unavailable_categories": "CP04|CP06|CP09|CP10|CP12"
     },

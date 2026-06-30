@@ -19,6 +19,7 @@ CHN,INPUT_OUTPUT_PRODUCTS_2020,NBS 2020 input-output products,,MANY_TO_MANY_PROD
 BRA,BRA_IBGE_SIDRA_CNT_TABLES,SIDRA national-accounts table discovery,,NO_EXACT_MAPPING_PERMITTED,REJECTED,SIDRA landing evidence does not pin an exact 2021 household-purpose table.
 BRA,BRA_IBGE_SISTEMA_CONTAS_NACIONAIS,Sistema de Contas Nacionais,,NO_EXACT_MAPPING_PERMITTED,REJECTED,The SCN publication family does not expose a pinned strict S14/P31DC twelve-purpose table in this probe.
 BRA,BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS,Contas Economicas Integradas,,NO_EXACT_MAPPING_PERMITTED,REVIEW_REQUIRED,"Integrated economic accounts identify institutional flows, not twelve consumption purposes."
+BRA,BRA_IBGE_TABELAS_RECURSOS_USOS,Tabelas de Recursos e Usos,,NO_EXACT_MAPPING_PERMITTED,REJECTED,TRU is product/resource-use evidence; exact COICOP weights would require many-to-many allocation.
 BRA,BRA_IBGE_DOWNLOADABLE_SCN_TABLES,Downloadable SCN tables,,NO_EXACT_MAPPING_PERMITTED,REJECTED,A downloads page is not a pinned exact dataset.
 BRA,BRA_IBGE_POF_IPCA_CLASS_C,POF household-budget survey and IPCA evidence,,NO_EXACT_MAPPING_PERMITTED,REVIEW_REQUIRED,POF/IPCA shares cannot substitute for exact national-accounts weights.
 BRA,BRA_IBGE_CLASSIFICACOES_METODOLOGIA,IBGE classifications and methodology,,NO_EXACT_MAPPING_PERMITTED,REVIEW_REQUIRED,Methodology documentation does not itself supply expenditure values.

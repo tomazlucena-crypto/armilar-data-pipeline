@@ -36,7 +36,7 @@ Generated: deterministic v0.6.13 Step 2I report
 - RUT Russian Federation: decision `ACCESS_BLOCKED`, accepted `none`, non-admissible `CP04|CP06|CP09|CP10|CP12`. Blocker: The current run could not acquire or validate all critical official Russian source families: RUT_FEDSTAT_HFCE_31414, RUT_ROSSTAT_HBS_2021, RUT_ROSSTAT_SUT_2021_XLSX. The absence of an admissible exact table cannot be treated as proven while these attempts are blocked.
 - CHN China: decision `CONCEPT_AMBIGUOUS`, accepted `none`, non-admissible `CP04|CP06|CP09|CP10|CP12`. Blocker: Acquired official Chinese resources did not match the reviewed structural markers for: CHN_NBS_YEARBOOK_2022_INDEX. No source is admitted until the changed content is reviewed.
 - IDN Indonesia: decision `ACCESS_BLOCKED`, accepted `none`, non-admissible `CP04|CP06|CP09|CP10|CP12`. Blocker: The current run could not acquire or validate all critical official Indonesia source families: IDN_BPS_GDP_EXPENDITURE_2020_2024, IDN_BPS_INPUT_OUTPUT_TABLES, IDN_BPS_STATISTICS_TABLES_EXPENDITURE, IDN_BPS_SUPPLY_USE_TABLES. A closed source decision is not permitted while these attempts remain blocked.
-- BRA Brazil: decision `ACCESS_BLOCKED`, accepted `none`, non-admissible `CP04|CP06|CP09|CP10|CP12`. Blocker: The current run could not acquire or validate all critical official Brazil source families: BRA_IBGE_TABELAS_RECURSOS_USOS. A closed source decision is not permitted while these attempts remain blocked.
+- BRA Brazil: decision `CONCEPT_AMBIGUOUS`, accepted `none`, non-admissible `CP04|CP06|CP09|CP10|CP12`. Blocker: Acquired official Brazil resources did not match the reviewed structural markers for: BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS. No source is admitted until the changed content is reviewed.
 
 ## Coverage
 
@@ -58,7 +58,7 @@ Generated: deterministic v0.6.13 Step 2I report
 - BRA `official_national_accounts_api`: 1 attempt(s), best status `ACQUIRED_REJECTED`.
 - BRA `official_csv_xls_xlsx`: 1 attempt(s), best status `ACQUIRED_REJECTED`.
 - BRA `official_statistical_database`: 1 attempt(s), best status `SOURCE_CONTENT_REVIEW_REQUIRED`.
-- BRA `official_supply_and_use_tables`: 1 attempt(s), best status `ACCESS_BLOCKED`.
+- BRA `official_supply_and_use_tables`: 1 attempt(s), best status `ACQUIRED_REJECTED`.
 - BRA `official_structured_publications`: 1 attempt(s), best status `ACQUIRED_REJECTED`.
 - BRA `survey_or_cpi_class_c_only`: 1 attempt(s), best status `SOURCE_CONTENT_REVIEW_REQUIRED`.
 - BRA `official_classifications_methodology`: 1 attempt(s), best status `SOURCE_CONTENT_REVIEW_REQUIRED`.

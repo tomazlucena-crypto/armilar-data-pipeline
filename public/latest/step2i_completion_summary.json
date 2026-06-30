@@ -75,11 +75,11 @@
     "BRA": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "ACCESS_BLOCKED",
+      "decision": "CONCEPT_AMBIGUOUS",
       "economy_code": "BRA",
       "economy_name": "Brazil",
       "experimental_categories": "",
-      "remaining_blockers": "The current run could not acquire or validate all critical official Brazil source families: BRA_IBGE_TABELAS_RECURSOS_USOS. A closed source decision is not permitted while these attempts remain blocked.",
+      "remaining_blockers": "Acquired official Brazil resources did not match the reviewed structural markers for: BRA_IBGE_CONTAS_ECONOMICAS_INTEGRADAS. No source is admitted until the changed content is reviewed.",
       "sources_examined": 7,
       "unavailable_categories": "CP04|CP06|CP09|CP10|CP12"
     },
