@@ -28,11 +28,19 @@
 
 ## 2026-06-30: sdmx1 first, pysdmx only as a challenger
 
-**Decision:** Run a bounded `sdmx1` spike against Eurostat and OECD. Evaluate `pysdmx` only against a recorded gap.
+**Decision:** Select `sdmx1` for the v0.8.7 Eurostat and OECD pilot. Evaluate `pysdmx` only against a recorded gap.
 
 **Reason:** Installing parallel SDMX stacks without a concrete need increases maintenance cost.
 
-**Consequence:** One client must be selected before v0.8.7.
+**Consequence:** `pysdmx` is not installed in v0.8.6. If live network is blocked, the spike records `NETWORK_BLOCKED` rather than inventing acquisition evidence.
+
+## 2026-06-30: deterministic development telemetry
+
+**Decision:** Generate `development_metrics.json` with standard-library code and publish it as a CI artefact outside `public/latest`.
+
+**Reason:** Development metrics are useful for review but must not become economic progress gates.
+
+**Consequence:** Unknown metrics are represented as `null` with reasons, and test-count regression is measured against the current `main` baseline rather than a hard-coded historical value.
 
 ## 2026-06-30: property-based testing is test-only infrastructure
 

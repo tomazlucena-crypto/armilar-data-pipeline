@@ -16,12 +16,12 @@ components:
     upstream: cpoly-org/sdmx1
     license: Apache-2.0
     maintenance_status: ACTIVE_AS_OF_REVIEW
-    security_status: REVIEW_TRANSITIVE_DEPENDENCIES_IN_SPIKE
+    security_status: SELECTED_FOR_V087_PILOT_REVIEW_TRANSITIVE_DEPENDENCIES
     integration_cost: LOW_TO_MEDIUM
     decision: ADOPT_PILOT
     phase: v0.8.6
     trigger: EUROSTAT_AND_OECD_REQUIREMENT_MATRIX
-    reason: "Supports SDMX 2.1 and 3.0; the existing adapter contract already delegates transport to an open-source client."
+    reason: "Supports the bounded Eurostat/OECD pilot contract; no concrete unmet requirement justified installing pysdmx in v0.8.6."
     replacement_target: custom_sdmx_http_and_parsing
 
   - capability: sdmx_challenger
@@ -31,10 +31,10 @@ components:
     maintenance_status: ACTIVE_AS_OF_REVIEW
     security_status: UPSTREAM_SECURITY_POLICY_PRESENT
     integration_cost: MEDIUM
-    decision: EVALUATE_CHALLENGER
+    decision: DEFER
     phase: v0.8.6
     trigger: DOCUMENTED_SDMX1_REQUIREMENT_GAP
-    reason: "Compare only against a concrete metadata, validation or serialisation requirement that sdmx1 fails."
+    reason: "Not installed or evaluated in v0.8.6 because no concrete metadata, validation or serialisation requirement failed under sdmx1."
     replacement_target: none_until_gap
 
   - capability: provider_fetcher_reference
@@ -218,3 +218,16 @@ components:
     trigger: PERMANENT
     reason: "Evidence hierarchy, fallback policy and no-renormalisation rules are Armilar-specific economic logic."
     replacement_target: none
+
+  - capability: development_telemetry
+    candidate: standard_library_metrics_script
+    upstream: internal
+    license: MIT
+    maintenance_status: PROJECT_MAINTAINED
+    security_status: NO_EXTERNAL_RUNTIME_DEPENDENCY
+    integration_cost: LOW
+    decision: RETAIN_CUSTOM
+    phase: v0.8.6
+    trigger: DEVELOPMENT_METRICS_ARTIFACT
+    reason: "Counts repository and test metrics deterministically without adding an observability platform."
+    replacement_target: external_observability_stack

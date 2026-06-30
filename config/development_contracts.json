@@ -34,7 +34,7 @@
     {
       "contract_id": "V086-C02-VERSION-SOURCE-OF-TRUTH",
       "milestone": "0.8.6",
-      "status": "PLANNED",
+      "status": "COMPLETE",
       "objective": "Make pyproject.toml the sole authored project version and fail CI on divergent generated values.",
       "inputs": ["pyproject.toml", "installed package metadata", "version-bearing configs and generated reports"],
       "outputs": ["importlib.metadata version helper", "version consistency check", "CI gate"],
@@ -49,7 +49,7 @@
     {
       "contract_id": "V086-C03-SDMX-CLIENT-SPIKE",
       "milestone": "0.8.6",
-      "status": "PLANNED",
+      "status": "COMPLETE",
       "objective": "Select one SDMX client for the v0.8.7 Eurostat and OECD pilot using recorded evidence.",
       "inputs": ["existing armilar_prices SDMX adapter contract", "Eurostat official endpoint", "OECD official endpoint", "network-enabled non-PR runner"],
       "outputs": ["spike report", "preserved request metadata", "capability matrix", "selected-client decision"],
@@ -64,7 +64,7 @@
     {
       "contract_id": "V086-C04-PROPERTY-TESTS",
       "milestone": "0.8.6",
-      "status": "PLANNED",
+      "status": "COMPLETE",
       "objective": "Use Hypothesis to test economic and mathematical invariants over generated edge cases.",
       "inputs": ["current deterministic engines", "current unit tests", "declared invariants"],
       "outputs": ["test-only Hypothesis dependency", "property tests", "documented profiles suitable for CI"],
@@ -79,7 +79,7 @@
     {
       "contract_id": "V086-C05-DEVELOPMENT-TELEMETRY",
       "milestone": "0.8.6",
-      "status": "PLANNED",
+      "status": "COMPLETE",
       "objective": "Publish reproducible codebase and pipeline telemetry without treating code volume as progress.",
       "inputs": ["repository tree", "test result", "pipeline outputs when available"],
       "outputs": ["development_metrics.json", "CI artefact", "documented metric definitions"],
