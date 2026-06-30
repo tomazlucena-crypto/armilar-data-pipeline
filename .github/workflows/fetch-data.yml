@@ -178,7 +178,7 @@ jobs:
           PY
 
       - name: Upload complete acquisition bundle
-        if: always()
+        if: always() && github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: armilar-step2-${{ github.run_id }}
@@ -189,6 +189,28 @@ jobs:
             run/diagnostics.json
             run/SHA256SUMS
             run/STEP2_REPORT.md
+            run/outputs/source_probe_family_coverage.csv
+            run/outputs/proxy_error_by_category.csv
+            run/outputs/proxy_error_by_economy.csv
+            run/outputs/india_methodology_gate_audit.csv
+            run/outputs/russia_methodology_gate_audit.csv
+            run/outputs/china_methodology_gate_audit.csv
+            run/outputs/indonesia_methodology_gate_audit.csv
+            run/outputs/brazil_methodology_gate_audit.csv
+            run/outputs/egypt_methodology_gate_audit.csv
+            run/outputs/pakistan_methodology_gate_audit.csv
+            run/outputs/nigeria_methodology_gate_audit.csv
+            run/outputs/bangladesh_methodology_gate_audit.csv
+            run/outputs/vietnam_methodology_gate_audit.csv
+            run/outputs/INDIA_METHOD_GATE_REPORT.md
+            run/outputs/RUSSIA_METHOD_GATE_REPORT.md
+            run/outputs/CHINA_METHOD_GATE_REPORT.md
+            run/outputs/BRAZIL_METHOD_GATE_REPORT.md
+            run/outputs/EGYPT_METHOD_GATE_REPORT.md
+            run/outputs/PAKISTAN_METHOD_GATE_REPORT.md
+            run/outputs/NIGERIA_METHOD_GATE_REPORT.md
+            run/outputs/BANGLADESH_METHOD_GATE_REPORT.md
+            run/outputs/VIETNAM_METHOD_GATE_REPORT.md
             run/outputs/*.csv
             run/outputs/*.json
             run/outputs/*.md
@@ -196,7 +218,7 @@ jobs:
           retention-days: 90
 
       - name: Publish latest diagnostics and matrices
-        if: success() && github.ref == 'refs/heads/main'
+        if: success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           set -euo pipefail
@@ -213,7 +235,7 @@ jobs:
           cp run/outputs/*.md public/latest/
 
       - name: Commit public latest outputs
-        if: success() && github.ref == 'refs/heads/main'
+        if: success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           set -euo pipefail
@@ -232,7 +254,7 @@ jobs:
           fi
 
       - name: Replace rolling data release
-        if: success() && github.ref == 'refs/heads/main'
+        if: success() && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
