@@ -1,5 +1,51 @@
 # Changelog
 
+## 0.8.5 - Validation gates and sensitivity audit
+
+- verifies completion manifests and every original input hash;
+- publishes row-level validation on a common comparison sample;
+- compares selected, headline-only and world-pattern baselines;
+- tests predeclared donor-policy sensitivity scenarios;
+- evaluates overall, worst-category, worst-region and evidence gates;
+- keeps the gate policy unratified and both release flags false.
+
+## 0.8.4 - Experimental global price completion
+
+- completes the fixed ARM01-ARM09 economy-category-month grid;
+- preserves direct P1/P2 observations without promotion or alteration;
+- implements headline-anchored P3, P4 regional and P5 world fallbacks;
+- selects donors from declared profiles and availability without target values;
+- chains monthly estimates and publishes cell and global uncertainty;
+- adds leave-one-economy-out validation by category, region, horizon and class;
+- hashes every input contract and generated output;
+- keeps research and monetary release flags false.
+
+## 0.8.3 - Ratified FX separation and ECB pilot
+
+- separates local-price inflation from common-currency basket cost;
+- adds official ECB EXR monthly-average acquisition and deterministic replay;
+- discovers the ECB CSV structure and preserves raw bytes, receipts and hashes;
+- rejects inverted FX conventions and double conversion;
+- handles EUR monetary-union cells and explicit redenomination factors;
+- fails closed on missing FX and unratified currency transitions;
+- keeps both research and monetary release flags false.
+
+## 0.8.2 - Fixed-universe Eurostat category pilot engine
+
+- added the versioned nine-category Armilar canonical consumption classification;
+- maps ECOICOP V1 CP01-CP12 through exact one-to-one relations and exact weighted merges;
+- preserves source-category contributions separately from canonical contributions;
+- publishes classification and mapping SHA-256 hashes in every pilot universe;
+- stores the ECOICOP V2 bridge as provisional and blocks strict use pending back-series validation;
+- exposes the HFMCE versus HFCE concept mismatch and keeps all release flags false;
+
+- added `PriceUniverseSpec` with explicit covered and external world weight;
+- added a deterministic CP01-CP12 P1 Eurostat pilot builder;
+- fixes the universe and weights for the entire common complete interval;
+- rejects incomplete periods without monthly renormalisation;
+- emits the six required outputs plus `MANIFEST.sha256`;
+- keeps the official live snapshot pending and all release flags false.
+
 ## 0.8.1 - SDMX pilot replay and provenance receipts
 
 - added deterministic Eurostat/OECD price acquisition replay;

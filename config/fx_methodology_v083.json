@@ -1,0 +1,40 @@
+{
+  "methodology_version": "0.8.3",
+  "status": "RATIFIED_RESEARCH_ONLY",
+  "primary_index": {
+    "index_id": "ARM-PPP-WEIGHTED-LOCAL-PRICE-RELATIVES-V0.8.3",
+    "method": "PPP_WEIGHTED_LOCAL_PRICE_RELATIVES",
+    "uses_fixed_ppp_weights": true,
+    "uses_local_price_relatives": true,
+    "includes_current_fx": false,
+    "informs_monetary_policy": false
+  },
+  "informational_layer": {
+    "index_id": "ARM-COMMON-CURRENCY-BASKET-COST-EUR-V0.8.3",
+    "method": "COMMON_CURRENCY_BASKET_COST",
+    "numeraire": "EUR",
+    "fx_convention": "CURRENCY_UNITS_PER_EUR",
+    "missing_fx_rule": "FAIL_CLOSED_WITHOUT_RENORMALISATION",
+    "currency_transition_rule": "FAIL_CLOSED_PENDING_RATIFIED_BRIDGE",
+    "informs_monetary_policy": false
+  },
+  "fx_source": {
+    "provider": "ECB",
+    "dataset": "EXR",
+    "frequency": "M",
+    "currency_denominator": "EUR",
+    "exchange_rate_type": "SP00",
+    "series_variation": "A",
+    "structure_discovery": "PROGRAMMATIC_FROM_CSV_HEADER",
+    "raw_bytes_preserved": true,
+    "receipts_and_sha256_required": true
+  },
+  "input_contract": {
+    "required_price_basis": "LOCAL_CURRENCY_RELATIVE",
+    "double_conversion_allowed": false,
+    "fixed_universe_required": true,
+    "monthly_renormalisation_allowed": false
+  },
+  "research_release_allowed": false,
+  "monetary_release_allowed": false
+}

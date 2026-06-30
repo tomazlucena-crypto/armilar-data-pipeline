@@ -1,0 +1,43 @@
+{
+  "policy_version": "0.8.4",
+  "model_version": "price-completion-v0.8.4",
+  "status": "EXPERIMENTAL_GLOBAL_PRICE_COMPLETION",
+  "required_categories": [
+    "ARM01",
+    "ARM02",
+    "ARM03",
+    "ARM04",
+    "ARM05",
+    "ARM06",
+    "ARM07",
+    "ARM08",
+    "ARM09"
+  ],
+  "minimum_region_donors": 3,
+  "minimum_world_donors": 5,
+  "maximum_donors": 25,
+  "interval_lower_quantile": "0.10",
+  "interval_upper_quantile": "0.90",
+  "p3_default_half_width": "0.03",
+  "validation_horizons": [
+    1,
+    3,
+    6,
+    12
+  ],
+  "p4_formula": "headline_target_monthly_change + weighted_median(category_donor_monthly_change - headline_donor_monthly_change)",
+  "p5_formula": "headline_target_monthly_change + weighted_median(category_donor_monthly_change - headline_donor_monthly_change)",
+  "donor_selection_inputs": [
+    "region",
+    "income_group",
+    "declared_characteristics",
+    "numeric_profile_covariates",
+    "world_expenditure_weight",
+    "observation_availability"
+  ],
+  "hidden_target_value_allowed_for_donor_selection": false,
+  "future_observation_use_allowed": false,
+  "silent_monthly_renormalisation_allowed": false,
+  "research_release_allowed": false,
+  "monetary_release_allowed": false
+}

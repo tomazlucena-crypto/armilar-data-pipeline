@@ -2,6 +2,26 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.5: validation gates and sensitivity audit
+
+Version 0.8.5 verifies every v0.8.4 output and original input hash, publishes row-level validation, compares the selected completion model with headline-only and world-pattern baselines, runs predeclared donor sensitivity scenarios and evaluates overall plus worst-group gates. The gate policy is deliberately unratified and passing technical gates cannot authorise release. `research_release_allowed=false` and `monetary_release_allowed=false`.
+
+## Version 0.8.4: experimental global price completion
+
+Version 0.8.4 completes the canonical ARM01-ARM09 economy-category-month grid using P1/P2 official observations and headline-anchored P3/P4/P5 fallbacks. P4 and P5 estimate only the category deviation from each target economy's official headline inflation, select donors ex ante from declared profiles and availability, chain monthly indices, publish uncertainty and run leave-one-economy-out validation by category, region, horizon and fallback class. All inputs and outputs are hashed. The engine is experimental and does not claim a real global official data release. `research_release_allowed=false` and `monetary_release_allowed=false`.
+
+## Version 0.8.3: ratified FX separation and ECB pilot
+
+Version 0.8.3 formally separates the primary `PPP_WEIGHTED_LOCAL_PRICE_RELATIVES` index from the informational `COMMON_CURRENCY_BASKET_COST` layer. Current FX never enters the primary inflation index. The common-currency layer uses official ECB EXR monthly average rates quoted as currency units per EUR, preserves raw bytes and SHA-256 receipts, rejects inverse conventions and fails closed without renormalisation when FX is missing. Both layers remain research-only and do not inform monetary policy.
+
+## Version 0.8.2: fixed-universe Eurostat category pilot engine
+
+Version 0.8.2 adds `PriceUniverseSpec` and a deterministic engine for an explicit Eurostat HICP category pilot. It admits only complete P1 CP01-CP12 economies, fixes the universe for the whole common interval, normalises covered world weights once, publishes external coverage and rejects incomplete months. The engine is ready for a hash-preserved official Eurostat snapshot; this commit does not represent synthetic fixtures as live data. `research_release_allowed=false` and `monetary_release_allowed=false`.
+
+### Canonical Armilar consumption classification
+
+The v0.8.2 pilot now publishes nine stable Armilar macro-categories while preserving all twelve ECOICOP V1 source divisions. The total index is still calculated from source-category fixed weights; canonical categories are exact weighted merges and cannot alter the total. Mapping files, effective periods and SHA-256 hashes are published. The ECOICOP V2 bridge remains provisional until the official back series is validated. The HICP monetary-consumption scope versus Armilar HFCE weights remains an explicit release blocker.
+
 ## Version 0.8.1: SDMX pilot replay and provenance receipts
 
 Version 0.8.1 adds deterministic replay from canonical synthetic Eurostat/OECD contract fixtures. Normalized observations are parsed from the same raw bytes recorded in the SHA-256 receipts. The fixtures are not archived official provider responses. Live acquisition is disabled until official DSD snapshots and provider-specific parsers are implemented, and it remains outside pull-request checks.

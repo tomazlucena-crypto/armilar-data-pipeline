@@ -1,0 +1,70 @@
+{
+  "classification_id": "ARMILAR_CONSUMPTION_CLASSIFICATION",
+  "version": "1.0.0",
+  "status": "EXPERIMENTAL_RESEARCH",
+  "purpose": "Stable canonical macro-classification for Armilar price and weight aggregation across source-classification revisions.",
+  "global_exclusions": [
+    "NARCOTICS"
+  ],
+  "raw_source_detail_preserved": true,
+  "silent_mapping_change_allowed": false,
+  "estimated_split_allowed_in_strict_pilot": false,
+  "research_release_allowed": false,
+  "monetary_release_allowed": false,
+  "categories": [
+    {
+      "category_code": "ARM01",
+      "label": "Food and non-alcoholic beverages",
+      "description": "Food products and non-alcoholic beverages acquired for household consumption.",
+      "display_order": 1
+    },
+    {
+      "category_code": "ARM02",
+      "label": "Alcoholic beverages and tobacco",
+      "description": "Alcoholic beverages and tobacco within the admissible source scope; narcotics are excluded globally.",
+      "display_order": 2
+    },
+    {
+      "category_code": "ARM03",
+      "label": "Clothing and footwear",
+      "description": "Clothing, footwear and directly associated goods and services.",
+      "display_order": 3
+    },
+    {
+      "category_code": "ARM04",
+      "label": "Housing and household operation",
+      "description": "Housing, utilities, furnishings, household equipment and routine household maintenance.",
+      "display_order": 4
+    },
+    {
+      "category_code": "ARM05",
+      "label": "Health",
+      "description": "Medical products and health services paid within the source price-index scope.",
+      "display_order": 5
+    },
+    {
+      "category_code": "ARM06",
+      "label": "Mobility and connectivity",
+      "description": "Personal transport, transport services, postal, communication and information-connectivity products and services.",
+      "display_order": 6
+    },
+    {
+      "category_code": "ARM07",
+      "label": "Recreation, culture and education",
+      "description": "Recreation, sport, culture, media and education goods and services.",
+      "display_order": 7
+    },
+    {
+      "category_code": "ARM08",
+      "label": "Hospitality",
+      "description": "Restaurants, catering and accommodation services.",
+      "display_order": 8
+    },
+    {
+      "category_code": "ARM09",
+      "label": "Personal, social and financial services",
+      "description": "Personal care, personal effects, social protection, insurance, financial and miscellaneous services within the source scope.",
+      "display_order": 9
+    }
+  ]
+}

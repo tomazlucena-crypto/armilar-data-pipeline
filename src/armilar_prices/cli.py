@@ -13,6 +13,21 @@ from .index_engine import (
     write_index_outputs,
 )
 from .acquisition import PriceAcquisitionError, acquire_prices
+from .pilot import PricePilotError, build_eurostat_pilot_from_files
+from .fx import (
+    FXMethodologyError,
+    PRICE_BASIS,
+    acquire_ecb_fx,
+    build_fx_separation_from_files,
+)
+from .completion import (
+    PriceCompletionError,
+    build_global_completion_from_files,
+)
+from .audit import (
+    PriceModelAuditError,
+    audit_global_price_model,
+)
 from .normalizer import (
     PriceNormalizationError,
     load_observations,
@@ -63,6 +78,92 @@ def build_parser() -> argparse.ArgumentParser:
         choices=[mode.value for mode in AggregationMode],
         default=AggregationMode.PPP_WEIGHTED_LOCAL_PRICE_RELATIVES.value,
     )
+    pilot = subparsers.add_parser("build-eurostat-pilot")
+    pilot.add_argument("--weights-world", type=Path, required=True)
+    pilot.add_argument("--selected-prices", type=Path, required=True)
+    pilot.add_argument(
+        "--classification",
+        type=Path,
+        default=Path("config/armilar_consumption_classification_v1.json"),
+    )
+    pilot.add_argument(
+        "--mapping",
+        type=Path,
+        default=Path(
+            "config/classification_mappings/ecoicop_v1_to_armilar_v1.csv"
+        ),
+    )
+    pilot.add_argument("--reference-period", default="2021-01")
+    pilot.add_argument("--minimum-complete-months", type=int, default=2)
+    pilot.add_argument("--output", type=Path, required=True)
+
+    fx_acquire = subparsers.add_parser("acquire-ecb-fx")
+    fx_acquire.add_argument("--currencies", nargs="+", required=True)
+    fx_acquire.add_argument("--start-period", required=True)
+    fx_acquire.add_argument("--end-period", required=True)
+    fx_acquire.add_argument("--mode", choices=["replay", "live"], required=True)
+    fx_acquire.add_argument("--fixture", type=Path)
+    fx_acquire.add_argument("--expected-sha256", default="")
+    fx_acquire.add_argument("--output", type=Path, required=True)
+
+    fx_build = subparsers.add_parser("build-fx-separation")
+    fx_build.add_argument("--price-contributions", type=Path, required=True)
+    fx_build.add_argument("--currency-registry", type=Path, required=True)
+    fx_build.add_argument("--fx-observations", type=Path, required=True)
+    fx_build.add_argument("--fx-receipts", type=Path, required=True)
+    fx_build.add_argument("--reference-period", required=True)
+    fx_build.add_argument("--scope-id", required=True)
+    fx_build.add_argument(
+        "--price-basis",
+        choices=[PRICE_BASIS],
+        required=True,
+    )
+    fx_build.add_argument("--output", type=Path, required=True)
+
+    completion = subparsers.add_parser("build-global-price-completion")
+    completion.add_argument("--weights-global", type=Path, required=True)
+    completion.add_argument("--observed-prices", type=Path, required=True)
+    completion.add_argument("--economy-profiles", type=Path, required=True)
+    completion.add_argument(
+        "--policy",
+        type=Path,
+        default=Path("config/price_completion_policy_v084.json"),
+    )
+    completion.add_argument(
+        "--classification-mapping",
+        type=Path,
+        default=Path(
+            "config/classification_mappings/ecoicop_v1_to_armilar_v1.csv"
+        ),
+    )
+    completion.add_argument("--reference-period", default="2021-01")
+    completion.add_argument("--output", type=Path, required=True)
+
+    audit = subparsers.add_parser("audit-global-price-model")
+    audit.add_argument("--weights-global", type=Path, required=True)
+    audit.add_argument("--observed-prices", type=Path, required=True)
+    audit.add_argument("--economy-profiles", type=Path, required=True)
+    audit.add_argument(
+        "--completion-policy",
+        type=Path,
+        default=Path("config/price_completion_policy_v084.json"),
+    )
+    audit.add_argument("--completion-output", type=Path, required=True)
+    audit.add_argument(
+        "--gate-policy",
+        type=Path,
+        default=Path("config/price_validation_gates_v085.json"),
+    )
+    audit.add_argument(
+        "--classification-mapping",
+        type=Path,
+        default=Path(
+            "config/classification_mappings/ecoicop_v1_to_armilar_v1.csv"
+        ),
+    )
+    audit.add_argument("--reference-period", default="2021-01")
+    audit.add_argument("--output", type=Path, required=True)
+
     return parser
 
 
@@ -109,7 +210,70 @@ def main(argv: list[str] | None = None) -> int:
             write_index_outputs(index_rows, contributions, evidence, summary, args.output)
             print(json.dumps(summary, indent=2, sort_keys=True))
             return 0
-    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError) as exc:
+        if args.command == "build-eurostat-pilot":
+            summary = build_eurostat_pilot_from_files(
+                args.weights_world,
+                args.selected_prices,
+                args.reference_period,
+                args.output,
+                classification_path=args.classification,
+                mapping_path=args.mapping,
+                minimum_complete_months=args.minimum_complete_months,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+        if args.command == "acquire-ecb-fx":
+            summary = acquire_ecb_fx(
+                args.currencies,
+                args.start_period,
+                args.end_period,
+                args.output,
+                mode=args.mode,
+                fixture_path=args.fixture,
+                expected_sha256=args.expected_sha256,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+        if args.command == "build-fx-separation":
+            summary = build_fx_separation_from_files(
+                args.price_contributions,
+                args.currency_registry,
+                args.fx_observations,
+                args.fx_receipts,
+                args.reference_period,
+                args.scope_id,
+                args.output,
+                price_basis=args.price_basis,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+        if args.command == "build-global-price-completion":
+            summary = build_global_completion_from_files(
+                args.weights_global,
+                args.observed_prices,
+                args.economy_profiles,
+                args.policy,
+                args.reference_period,
+                args.output,
+                mapping_path=args.classification_mapping,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+        if args.command == "audit-global-price-model":
+            summary = audit_global_price_model(
+                args.weights_global,
+                args.observed_prices,
+                args.economy_profiles,
+                args.completion_policy,
+                args.completion_output,
+                args.gate_policy,
+                args.reference_period,
+                args.output,
+                mapping_path=args.classification_mapping,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError, PricePilotError, FXMethodologyError, PriceCompletionError, PriceModelAuditError) as exc:
         print(f"ERROR: {exc}")
         return 2
     return 1
