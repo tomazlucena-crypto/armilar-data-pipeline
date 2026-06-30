@@ -1,84 +1,220 @@
-registry_version: "1.1"
-reviewed_on: "2026-06-29"
+registry_version: "1.2"
+reviewed_on: "2026-06-30"
 default_rule: "Evaluate maintained open-source components before writing material custom infrastructure."
+decisions:
+  allowed:
+    - ADOPT
+    - ADOPT_PILOT
+    - ADAPT_REFERENCE_ONLY
+    - RETAIN_CUSTOM
+    - EVALUATE_CHALLENGER
+    - DEFER
+    - REJECT
 components:
   - capability: sdmx_client
-    candidate: sdmx1_2_26
-    upstream: khaeru/sdmx
+    candidate: sdmx1
+    upstream: cpoly-org/sdmx1
     license: Apache-2.0
-    decision: ADOPT_OPTIONAL
-    phase: monthly_index
-    reason: supports SDMX 2.1 and 3.0 retrieval and parsing while fixture tests remain independent of network access
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_TRANSITIVE_DEPENDENCIES_IN_SPIKE
+    integration_cost: LOW_TO_MEDIUM
+    decision: ADOPT_PILOT
+    phase: v0.8.6
+    trigger: EUROSTAT_AND_OECD_REQUIREMENT_MATRIX
+    reason: "Supports SDMX 2.1 and 3.0; the existing adapter contract already delegates transport to an open-source client."
     replacement_target: custom_sdmx_http_and_parsing
-  - capability: sdmx_metadata_toolbox
+
+  - capability: sdmx_challenger
     candidate: pysdmx
     upstream: bis-med-it/pysdmx
     license: Apache-2.0
-    decision: EVALUATE
-    phase: price_source_registry
-    reason: actively maintained BIS Open Tech project; useful challenger for SDMX metadata and validation
-    replacement_target: none_until_spike
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: UPSTREAM_SECURITY_POLICY_PRESENT
+    integration_cost: MEDIUM
+    decision: EVALUATE_CHALLENGER
+    phase: v0.8.6
+    trigger: DOCUMENTED_SDMX1_REQUIREMENT_GAP
+    reason: "Compare only against a concrete metadata, validation or serialisation requirement that sdmx1 fails."
+    replacement_target: none_until_gap
+
   - capability: provider_fetcher_reference
     candidate: DBnomics_fetchers
     upstream: DBnomics fetcher repositories
     license: REVIEW_PER_FETCHER
+    maintenance_status: REVIEW_PER_FETCHER
+    security_status: NO_RUNTIME_ADOPTION_PLANNED
+    integration_cost: LOW_FOR_DISCOVERY
     decision: ADAPT_REFERENCE_ONLY
-    phase: national_source_adapters
-    reason: reuse acquisition knowledge while retaining official-source receipts and reviewing each fetcher licence
+    phase: source_discovery
+    trigger: NEW_PROVIDER_INVESTIGATION
+    reason: "Reuse acquisition knowledge while retaining official-source receipts and reviewing every copied component licence."
     replacement_target: duplicated_provider_discovery_work
-  - capability: analytical_storage
-    candidate: DuckDB_and_Parquet
-    upstream: duckdb/duckdb
-    license: MIT
-    decision: DEFER
-    phase: monthly_index
-    reason: appropriate when historical price panels exceed simple CSV operation; unnecessary for the v0.7 contract layer
-    replacement_target: large_scale_csv_joins
-  - capability: tabular_validation
-    candidate: Pandera
-    upstream: unionai-oss/pandera
-    license: MIT
-    decision: DEFER
-    phase: monthly_index
-    reason: adopt after the tabular contracts stabilise; JSON Schema and standard-library checks remain sufficient in v0.7
-    replacement_target: repetitive_dataframe_validation
+
   - capability: property_based_testing
     candidate: Hypothesis
     upstream: HypothesisWorks/hypothesis
     license: MPL-2.0
-    decision: ADOPT_NEXT
-    phase: global_weight_imputation
-    reason: suitable for invariants, malformed grids, normalisation and uncertainty edge cases
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: TEST_ONLY_DEPENDENCY
+    integration_cost: LOW
+    decision: ADOPT
+    phase: v0.8.6
+    trigger: PROPERTY_TEST_PULL_REQUEST
+    reason: "Generate edge cases for exact sums, order invariance, duplicate rejection, future periods, FX conventions and incomplete grids."
     replacement_target: hand_written_edge_case_matrix
+
+  - capability: analytical_storage
+    candidate: DuckDB_and_Parquet
+    upstream: duckdb/duckdb
+    license: MIT
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: DEFERRED_REVIEW
+    integration_cost: MEDIUM
+    decision: DEFER
+    phase: v0.9.0
+    trigger: MEASURED_MULTI_VINTAGE_CSV_BOTTLENECK
+    reason: "Appropriate for historical panels, but current public contracts remain file-based."
+    replacement_target: large_scale_csv_joins
+
+  - capability: tabular_validation
+    candidate: Pandera
+    upstream: unionai-oss/pandera
+    license: MIT
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: DEFERRED_REVIEW
+    integration_cost: MEDIUM
+    decision: DEFER
+    phase: v0.9.0
+    trigger: STABLE_REAL_PRICE_PANEL_AND_REPETITIVE_VALIDATION
+    reason: "Adopt only when it replaces material dataframe validation rather than duplicating current checks."
+    replacement_target: repetitive_dataframe_validation
+
+  - capability: backtest_utilities
+    candidate: scikit-learn
+    upstream: scikit-learn/scikit-learn
+    license: BSD-3-Clause
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_AT_ADOPTION
+    integration_cost: LOW_TO_MEDIUM
+    decision: DEFER
+    phase: v0.8.8
+    trigger: MINIMUM_BACKTEST
+    reason: "Use temporal split utilities and metrics while retaining Armilar publication-date and vintage logic."
+    replacement_target: generic_metric_and_split_helpers
+
+  - capability: state_space_models
+    candidate: statsmodels
+    upstream: statsmodels/statsmodels
+    license: BSD-3-Clause
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_AT_ADOPTION
+    integration_cost: MEDIUM
+    decision: DEFER
+    phase: v0.10.0
+    trigger: VALIDATED_MONTHLY_BASELINE
+    reason: "Provides established state-space and Kalman infrastructure after a baseline exists."
+    replacement_target: custom_state_space_infrastructure
+
+  - capability: forecasting_framework
+    candidate: sktime
+    upstream: sktime/sktime
+    license: BSD-3-Clause
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_IF_CHALLENGER_ACTIVATED
+    integration_cost: MEDIUM_TO_HIGH
+    decision: EVALUATE_CHALLENGER
+    phase: v0.10.0
+    trigger: MULTIPLE_COMPARABLE_FORECAST_MODELS
+    reason: "Evaluate only if uniform challenger pipelines reduce measured maintenance cost."
+    replacement_target: none_until_multiple_models
+
+  - capability: service_contracts
+    candidate: Pydantic
+    upstream: pydantic/pydantic
+    license: MIT
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_AT_ADOPTION
+    integration_cost: LOW_TO_MEDIUM
+    decision: DEFER
+    phase: v0.11.0
+    trigger: STABLE_PUBLIC_RESPONSE_CONTRACT
+    reason: "No service-model dependency before the public contract is stable."
+    replacement_target: repetitive_service_validation
+
   - capability: public_api
     candidate: FastAPI
     upstream: fastapi/fastapi
     license: MIT
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_AT_ADOPTION
+    integration_cost: MEDIUM
     decision: DEFER
-    phase: public_operation
-    reason: no API before a validated monthly series exists
+    phase: v0.11.0
+    trigger: VALIDATED_RESEARCH_SERIES
+    reason: "No API before a validated monthly series exists."
     replacement_target: custom_http_server
+
   - capability: orchestration
     candidate: Prefect
     upstream: PrefectHQ/prefect
     license: Apache-2.0
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_AT_ADOPTION
+    integration_cost: HIGH
     decision: DEFER
-    phase: public_operation
-    reason: workflow orchestration becomes useful after multiple production connectors exist
+    phase: v0.11.0
+    trigger: MULTIPLE_PRODUCTION_CONNECTORS
+    reason: "Workflow states and retries become useful only after connector functions are stable."
     replacement_target: custom_retry_and_scheduler
+
   - capability: model_registry
     candidate: MLflow
     upstream: mlflow/mlflow
     license: Apache-2.0
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_AT_ADOPTION
+    integration_cost: HIGH
     decision: DEFER
-    phase: nowcast
-    reason: no model registry is required before an out-of-sample monthly baseline exists
+    phase: v0.10.0_or_later
+    trigger: MULTIPLE_PROMOTED_MODELS_NEED_ROLLBACK
+    reason: "No model registry is required before several real challengers exist."
     replacement_target: custom_model_versioning
+
+  - capability: standard_lineage
+    candidate: OpenLineage
+    upstream: OpenLineage/OpenLineage
+    license: Apache-2.0
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_AT_ADOPTION
+    integration_cost: HIGH
+    decision: DEFER
+    phase: v0.11.0_or_later
+    trigger: CURRENT_MANIFESTS_PROVE_INSUFFICIENT
+    reason: "Do not add lineage infrastructure while current receipts and manifests remain sufficient."
+    replacement_target: expanded_custom_lineage_events
+
+  - capability: structured_logging
+    candidate: structlog
+    upstream: hynek/structlog
+    license: MIT_OR_APACHE-2.0
+    maintenance_status: ACTIVE_AS_OF_REVIEW
+    security_status: REVIEW_AT_ADOPTION
+    integration_cost: LOW_TO_MEDIUM
+    decision: DEFER
+    phase: v0.11.0
+    trigger: PUBLIC_OPERATION
+    reason: "Structured event logging is useful once production operations and redaction rules exist."
+    replacement_target: ad_hoc_logging
+
   - capability: monthly_price_registry
     candidate: standard_library_contracts
     upstream: internal_contract_layer
     license: MIT
+    maintenance_status: PROJECT_MAINTAINED
+    security_status: COVERED_BY_PROJECT_TESTS
+    integration_cost: NONE
     decision: RETAIN_CUSTOM
     phase: monthly_index
-    reason: evidence hierarchy, fallback policy and no-renormalisation rules are Armilar-specific economic logic
+    trigger: PERMANENT
+    reason: "Evidence hierarchy, fallback policy and no-renormalisation rules are Armilar-specific economic logic."
     replacement_target: none

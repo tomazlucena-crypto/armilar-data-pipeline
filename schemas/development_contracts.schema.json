@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/development_contracts.schema.json",
+  "title": "Armilar development contracts",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "roadmap_version", "reviewed_on", "allowed_statuses", "required_fields", "contracts"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "roadmap_version": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "allowed_statuses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "required_fields": {"type": "array", "minItems": 10, "uniqueItems": true, "items": {"type": "string"}},
+    "contracts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_id", "milestone", "status", "objective", "inputs", "outputs", "invariants",
+          "failure_states", "success_condition", "stop_condition", "fallback_condition", "acceptance_tests", "out_of_scope"
+        ],
+        "properties": {
+          "contract_id": {"type": "string", "pattern": "^V[0-9]{3}-C[0-9]{2}-[A-Z0-9-]+$"},
+          "milestone": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+          "status": {"type": "string"},
+          "objective": {"type": "string", "minLength": 10},
+          "inputs": {"$ref": "#/$defs/nonEmptyStrings"},
+          "outputs": {"$ref": "#/$defs/nonEmptyStrings"},
+          "invariants": {"$ref": "#/$defs/nonEmptyStrings"},
+          "failure_states": {"$ref": "#/$defs/nonEmptyStrings"},
+          "success_condition": {"type": "string", "minLength": 10},
+          "stop_condition": {"type": "string", "minLength": 10},
+          "fallback_condition": {"type": "string", "minLength": 10},
+          "acceptance_tests": {"$ref": "#/$defs/nonEmptyStrings"},
+          "out_of_scope": {"$ref": "#/$defs/nonEmptyStrings"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}
