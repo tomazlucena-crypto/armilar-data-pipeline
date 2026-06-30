@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.8.4 - Experimental global price completion
+
+- completes the fixed ARM01-ARM09 economy-category-month grid;
+- preserves direct P1/P2 observations without promotion or alteration;
+- implements headline-anchored P3, P4 regional and P5 world fallbacks;
+- selects donors from declared profiles and availability without target values;
+- chains monthly estimates and publishes cell and global uncertainty;
+- adds leave-one-economy-out validation by category, region, horizon and class;
+- hashes every input contract and generated output;
+- keeps research and monetary release flags false.
+
 ## 0.8.3 - Ratified FX separation and ECB pilot
 
 - separates local-price inflation from common-currency basket cost;

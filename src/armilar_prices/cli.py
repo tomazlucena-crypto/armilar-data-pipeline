@@ -20,6 +20,10 @@ from .fx import (
     acquire_ecb_fx,
     build_fx_separation_from_files,
 )
+from .completion import (
+    PriceCompletionError,
+    build_global_completion_from_files,
+)
 from .normalizer import (
     PriceNormalizationError,
     load_observations,
@@ -112,6 +116,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
     fx_build.add_argument("--output", type=Path, required=True)
 
+    completion = subparsers.add_parser("build-global-price-completion")
+    completion.add_argument("--weights-global", type=Path, required=True)
+    completion.add_argument("--observed-prices", type=Path, required=True)
+    completion.add_argument("--economy-profiles", type=Path, required=True)
+    completion.add_argument(
+        "--policy",
+        type=Path,
+        default=Path("config/price_completion_policy_v084.json"),
+    )
+    completion.add_argument(
+        "--classification-mapping",
+        type=Path,
+        default=Path(
+            "config/classification_mappings/ecoicop_v1_to_armilar_v1.csv"
+        ),
+    )
+    completion.add_argument("--reference-period", default="2021-01")
+    completion.add_argument("--output", type=Path, required=True)
+
     return parser
 
 
@@ -195,7 +218,19 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(json.dumps(summary, indent=2, sort_keys=True))
             return 0
-    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError, PricePilotError, FXMethodologyError) as exc:
+        if args.command == "build-global-price-completion":
+            summary = build_global_completion_from_files(
+                args.weights_global,
+                args.observed_prices,
+                args.economy_profiles,
+                args.policy,
+                args.reference_period,
+                args.output,
+                mapping_path=args.classification_mapping,
+            )
+            print(json.dumps(summary, indent=2, sort_keys=True))
+            return 0
+    except (RegistryError, PriceAcquisitionError, PriceNormalizationError, PriceSelectionError, IndexBuildError, PricePilotError, FXMethodologyError, PriceCompletionError) as exc:
         print(f"ERROR: {exc}")
         return 2
     return 1

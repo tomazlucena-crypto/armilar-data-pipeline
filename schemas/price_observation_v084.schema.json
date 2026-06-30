@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/price-observation-v0.8.4.schema.json",
+  "title": "Armilar canonical monthly price observation record v0.8.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "economy_code",
+    "category_code",
+    "period",
+    "price_relative",
+    "evidence_class",
+    "source_ids"
+  ],
+  "properties": {
+    "economy_code": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{3}$"
+    },
+    "category_code": {
+      "type": "string",
+      "enum": [
+        "ARM01",
+        "ARM02",
+        "ARM03",
+        "ARM04",
+        "ARM05",
+        "ARM06",
+        "ARM07",
+        "ARM08",
+        "ARM09",
+        "HEADLINE"
+      ]
+    },
+    "period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+    },
+    "price_relative": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "evidence_class": {
+      "type": "string",
+      "enum": [
+        "P1_OFFICIAL_CATEGORY",
+        "P2_OFFICIAL_COMPATIBLE_AGGREGATE",
+        "P3_OFFICIAL_HEADLINE"
+      ]
+    },
+    "source_ids": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -2,6 +2,10 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.4: experimental global price completion
+
+Version 0.8.4 completes the canonical ARM01-ARM09 economy-category-month grid using P1/P2 official observations and headline-anchored P3/P4/P5 fallbacks. P4 and P5 estimate only the category deviation from each target economy's official headline inflation, select donors ex ante from declared profiles and availability, chain monthly indices, publish uncertainty and run leave-one-economy-out validation by category, region, horizon and fallback class. All inputs and outputs are hashed. The engine is experimental and does not claim a real global official data release. `research_release_allowed=false` and `monetary_release_allowed=false`.
+
 ## Version 0.8.3: ratified FX separation and ECB pilot
 
 Version 0.8.3 formally separates the primary `PPP_WEIGHTED_LOCAL_PRICE_RELATIVES` index from the informational `COMMON_CURRENCY_BASKET_COST` layer. Current FX never enters the primary inflation index. The common-currency layer uses official ECB EXR monthly average rates quoted as currency units per EUR, preserves raw bytes and SHA-256 receipts, rejects inverse conventions and fails closed without renormalisation when FX is missing. Both layers remain research-only and do not inform monetary policy.

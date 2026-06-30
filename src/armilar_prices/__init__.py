@@ -9,6 +9,11 @@ from .classification import (
     load_classification_bundle,
 )
 from .pilot import PricePilotError, PriceUniverseSpec, build_eurostat_category_pilot
+from .completion import (
+    CompletionPolicy,
+    PriceCompletionError,
+    build_global_completion_from_files,
+)
 from .registry import RegistryError, load_registry
 
 __all__ = [
@@ -16,7 +21,9 @@ __all__ = [
     "ARMILAR_CATEGORY_CODES",
     "ClassificationBundle",
     "ClassificationError",
+    "CompletionPolicy",
     "IndexBuildError",
+    "PriceCompletionError",
     "PriceEvidenceClass",
     "PriceObservation",
     "PriceSeriesDefinition",
@@ -24,6 +31,7 @@ __all__ = [
     "PriceUniverseSpec",
     "RegistryError",
     "build_eurostat_category_pilot",
+    "build_global_completion_from_files",
     "calculate_monthly_indices",
     "load_classification_bundle",
     "load_registry",
