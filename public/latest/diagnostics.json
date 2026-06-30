@@ -14,7 +14,7 @@
     "top10_direct_expenditure_share": "0.3826946843860666965182529397",
     "top20_direct_expenditure_share": "0.4466570769862425192515560891"
   },
-  "generated_at": "2026-06-30T08:43:00Z",
+  "generated_at": "2026-06-30T14:35:11Z",
   "inventory_counts": {
     "Classification": 17,
     "Country": 207,
@@ -64,9 +64,9 @@
   },
   "runtime": {
     "github_actions": true,
-    "github_run_id": "28426445522",
+    "github_run_id": "28445382591",
     "github_runner_os": "Linux",
-    "github_sha": "a5dab423b6b1a2e6299516ad6bc92c2a0e70dc1d",
+    "github_sha": "bec1f7dc9b61d3b6e9948e85941a761a1909f7a7",
     "implementation": "CPython",
     "machine": "x86_64",
     "platform": "Linux-6.17.0-1018-azure-x86_64-with-glibc2.39",
@@ -109,9 +109,9 @@
     "economies_with_complete_core_family_probe": 0,
     "economy_audit_state_counts": {
       "ACCESS_BLOCKED": 4,
-      "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 3,
+      "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 4,
       "OFFICIAL_EXPERIMENTAL_ALLOCATION": 1,
-      "SOURCE_NOT_MACHINE_READABLE": 7
+      "SOURCE_NOT_MACHINE_READABLE": 6
     },
     "economy_class_counts": {
       "A_CANDIDATE": 0,
@@ -119,27 +119,27 @@
       "C_ONLY": 1,
       "D_UNAVAILABLE": 14
     },
-    "pipeline_version": "0.7.3",
+    "pipeline_version": "0.8.1",
     "schema_version": "2.1",
-    "source_candidates_access_blocked": 29,
+    "source_candidates_access_blocked": 17,
     "source_candidates_acquired_as_datasets": 3,
-    "source_candidates_acquired_as_discovery_only": 12,
-    "source_candidates_acquired_as_documentation": 10,
-    "source_candidates_content_validation_failed": 11,
-    "source_candidates_failed": 29,
-    "source_candidates_probed": 65,
+    "source_candidates_acquired_as_discovery_only": 9,
+    "source_candidates_acquired_as_documentation": 8,
+    "source_candidates_content_validation_failed": 9,
+    "source_candidates_failed": 17,
+    "source_candidates_probed": 46,
     "source_probe_max_workers": 5,
-    "uninvestigated_core_family_count": 56
+    "uninvestigated_core_family_count": 62
   },
   "source_probe_failures": [
     {
-      "attempt_errors": "attempt=1:URLError:<urlopen error timed out>|attempt=2:URLError:<urlopen error timed out>|attempt=3:URLError:<urlopen error timed out>|attempt=4:URLError:<urlopen error timed out>",
+      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)>",
       "economy_code": "BGD",
-      "error": "Acquisition failed for source_probe_BGD_BBS_PORTAL: attempt=1:URLError:<urlopen error timed out>; attempt=2:URLError:<urlopen error timed out>; attempt=3:URLError:<urlopen error timed out>; attempt=4:URLError:<urlopen error timed out>",
+      "error": "Acquisition failed for source_probe_BGD_BBS_PORTAL: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)>",
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/BGD/BGD_BBS_PORTAL/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:35Z",
+      "retrieved_at": "2026-06-30T12:48:11Z",
       "source_id": "BGD_BBS_PORTAL",
       "source_title": "Bangladesh Bureau of Statistics data portal",
       "source_url": "https://bbs.portal.gov.bd/"
@@ -151,22 +151,10 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/BGD/BGD_BBS_HIES_2022/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:35Z",
+      "retrieved_at": "2026-06-30T12:56:10Z",
       "source_id": "BGD_BBS_HIES_2022",
       "source_title": "Household Income and Expenditure Survey 2022 documentation",
       "source_url": "https://nsds.bbs.gov.bd/en/posts/85/Survey%20documentation%20for%20the%20Household%20Income%20and%20Expenditure%20Survey"
-    },
-    {
-      "attempt_errors": "attempt=1:URLError:<urlopen error timed out>|attempt=2:URLError:<urlopen error timed out>|attempt=3:URLError:<urlopen error timed out>|attempt=4:URLError:<urlopen error timed out>",
-      "economy_code": "BRA",
-      "error": "Acquisition failed for source_probe_BRA_IBGE_SISTEMA_CONTAS_NACIONAIS: attempt=1:URLError:<urlopen error timed out>; attempt=2:URLError:<urlopen error timed out>; attempt=3:URLError:<urlopen error timed out>; attempt=4:URLError:<urlopen error timed out>",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/BRA/BRA_IBGE_SISTEMA_CONTAS_NACIONAIS/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:35Z",
-      "source_id": "BRA_IBGE_SISTEMA_CONTAS_NACIONAIS",
-      "source_title": "Sistema de Contas Nacionais Brazil",
-      "source_url": "https://www.ibge.gov.br/estatisticas/economicas/comercio/9052-sistema-de-contas-nacionais-brasil.html"
     },
     {
       "attempt_errors": "attempt=1:URLError:<urlopen error timed out>|attempt=2:URLError:<urlopen error timed out>|attempt=3:URLError:<urlopen error timed out>|attempt=4:URLError:<urlopen error timed out>",
@@ -175,7 +163,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/BRA/BRA_IBGE_CLASSIFICACOES_METODOLOGIA/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:14:22Z",
+      "retrieved_at": "2026-06-30T12:56:11Z",
       "source_id": "BRA_IBGE_CLASSIFICACOES_METODOLOGIA",
       "source_title": "IBGE classifications and methodology",
       "source_url": "https://www.ibge.gov.br/estatisticas/metodos-e-classificacoes/classificacoes-e-listas-estatisticas.html"
@@ -187,7 +175,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/EGY/EGY_CAPMAS_CENTRAL_DATA_CATALOG/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:10:43Z",
+      "retrieved_at": "2026-06-30T12:48:46Z",
       "source_id": "EGY_CAPMAS_CENTRAL_DATA_CATALOG",
       "source_title": "CAPMAS Central Data Catalog",
       "source_url": "https://www.censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/?sort_by=titl&sort_order=desc"
@@ -199,7 +187,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/EGY/EGY_CAPMAS_HIECS_2021/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:00Z",
+      "retrieved_at": "2026-06-30T12:49:02Z",
       "source_id": "EGY_CAPMAS_HIECS_2021",
       "source_title": "Household Income, Expenditure and Consumption Survey catalogue entry",
       "source_url": "https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview"
@@ -211,7 +199,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/IDN/IDN_BPS_STATISTICS_TABLES_EXPENDITURE/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:12Z",
+      "retrieved_at": "2026-06-30T12:49:14Z",
       "source_id": "IDN_BPS_STATISTICS_TABLES_EXPENDITURE",
       "source_title": "BPS expenditure statistics table catalogue",
       "source_url": "https://www.bps.go.id/en/statistics-table?subject=531"
@@ -219,62 +207,14 @@
     {
       "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
       "economy_code": "IDN",
-      "error": "Acquisition failed for source_probe_IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
+      "error": "Acquisition failed for source_probe_IDN_BPS_NATIONAL_ACCOUNTS_HOME: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
       "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH/failure_receipt.json",
+      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_NATIONAL_ACCOUNTS_HOME/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:24Z",
-      "source_id": "IDN_BPS_NATIONAL_ACCOUNTS_DOWNLOAD_SEARCH",
-      "source_title": "BPS downloadable national-accounts publication search",
-      "source_url": "https://www.bps.go.id/en/publication?keyword=gross%20domestic%20product%20expenditure"
-    },
-    {
-      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
-      "economy_code": "IDN",
-      "error": "Acquisition failed for source_probe_IDN_BPS_SUPPLY_USE_TABLES: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_SUPPLY_USE_TABLES/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:36Z",
-      "source_id": "IDN_BPS_SUPPLY_USE_TABLES",
-      "source_title": "BPS Supply and Use Tables publication search",
-      "source_url": "https://www.bps.go.id/en/publication?keyword=supply%20use%20table"
-    },
-    {
-      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
-      "economy_code": "IDN",
-      "error": "Acquisition failed for source_probe_IDN_BPS_INPUT_OUTPUT_TABLES: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_INPUT_OUTPUT_TABLES/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:47Z",
-      "source_id": "IDN_BPS_INPUT_OUTPUT_TABLES",
-      "source_title": "BPS input-output table publication search",
-      "source_url": "https://www.bps.go.id/en/publication?keyword=input%20output%20table"
-    },
-    {
-      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
-      "economy_code": "IDN",
-      "error": "Acquisition failed for source_probe_IDN_BPS_SURVEY_OR_CPI_CLASS_C: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_SURVEY_OR_CPI_CLASS_C/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:47Z",
-      "source_id": "IDN_BPS_SURVEY_OR_CPI_CLASS_C",
-      "source_title": "BPS household survey or CPI family",
-      "source_url": "https://www.bps.go.id/en/statistics-table?subject=3"
-    },
-    {
-      "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
-      "economy_code": "IDN",
-      "error": "Acquisition failed for source_probe_IDN_BPS_CLASSIFICATION_METHODOLOGY: attempt=1:HTTPError:HTTP Error 403: Forbidden; attempt=2:HTTPError:HTTP Error 403: Forbidden; attempt=3:HTTPError:HTTP Error 403: Forbidden; attempt=4:HTTPError:HTTP Error 403: Forbidden",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/IDN/IDN_BPS_CLASSIFICATION_METHODOLOGY/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:47Z",
-      "source_id": "IDN_BPS_CLASSIFICATION_METHODOLOGY",
-      "source_title": "BPS COICOP/classification methodology search",
-      "source_url": "https://www.bps.go.id/en/publication?keyword=classification%20coicop"
+      "retrieved_at": "2026-06-30T12:49:26Z",
+      "source_id": "IDN_BPS_NATIONAL_ACCOUNTS_HOME",
+      "source_title": "BPS national accounts and supply-use discovery portal",
+      "source_url": "https://www.bps.go.id/en"
     },
     {
       "attempt_errors": "attempt=1:HTTPError:HTTP Error 403: Forbidden|attempt=2:HTTPError:HTTP Error 403: Forbidden|attempt=3:HTTPError:HTTP Error 403: Forbidden|attempt=4:HTTPError:HTTP Error 403: Forbidden",
@@ -283,7 +223,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/IDN/IDN_BPS_GDP_EXPENDITURE_2020_2024/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:11:48Z",
+      "retrieved_at": "2026-06-30T12:49:38Z",
       "source_id": "IDN_BPS_GDP_EXPENDITURE_2020_2024",
       "source_title": "Gross Domestic Product of Indonesia by Expenditure 2020-2024",
       "source_url": "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html"
@@ -295,7 +235,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/IND/IND_NSC_NATIONAL_ACCOUNTS_PORTAL/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:02Z",
+      "retrieved_at": "2026-06-30T12:49:55Z",
       "source_id": "IND_NSC_NATIONAL_ACCOUNTS_PORTAL",
       "source_title": "National Accounts Statistics portal",
       "source_url": "https://nsc.mospi.gov.in/national-accounts-statistics-0"
@@ -307,7 +247,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_FEDSTAT_HFCE_31414/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:17Z",
+      "retrieved_at": "2026-06-30T12:56:31Z",
       "source_id": "RUT_FEDSTAT_HFCE_31414",
       "source_title": "Household final consumption expenditure indicator 31414",
       "source_url": "https://www.fedstat.ru/indicator/31414"
@@ -319,7 +259,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_SUT_2021_XLSX/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:18Z",
+      "retrieved_at": "2026-06-30T12:56:31Z",
       "source_id": "RUT_ROSSTAT_SUT_2021_XLSX",
       "source_title": "Base input-output and supply-use tables for 2021",
       "source_url": "https://rosstat.gov.ru/storage/mediabank/Rezultaty_RB_2021.xlsx"
@@ -331,7 +271,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_KIPC_DH_CLASSIFICATION/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:19Z",
+      "retrieved_at": "2026-06-30T12:56:46Z",
       "source_id": "RUT_ROSSTAT_KIPC_DH_CLASSIFICATION",
       "source_title": "KIPC-DH classification",
       "source_url": "https://rosstat.gov.ru/storage/mediabank/KIPC_DX.docx"
@@ -343,7 +283,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:19Z",
+      "retrieved_at": "2026-06-30T12:56:46Z",
       "source_id": "RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022",
       "source_title": "National Accounts of Russia in 2015-2022",
       "source_url": "https://rosstat.gov.ru/storage/mediabank/Nac-sch_2015-2022.pdf"
@@ -355,7 +295,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_HBS_2021/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:33Z",
+      "retrieved_at": "2026-06-30T12:57:01Z",
       "source_id": "RUT_ROSSTAT_HBS_2021",
       "source_title": "Income expenditure and consumption of households in 2021",
       "source_url": "https://rosstat.gov.ru/bgd/regl/b21_102/"
@@ -367,7 +307,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/VNM/VNM_NSO_PORTAL/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:34Z",
+      "retrieved_at": "2026-06-30T12:57:02Z",
       "source_id": "VNM_NSO_PORTAL",
       "source_title": "National Statistics Office of Viet Nam data portal",
       "source_url": "https://www.nso.gov.vn/en/"
@@ -379,7 +319,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/VNM/VNM_NSO_SOCIO_ECONOMIC_2021/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:34Z",
+      "retrieved_at": "2026-06-30T12:57:04Z",
       "source_id": "VNM_NSO_SOCIO_ECONOMIC_2021",
       "source_title": "Socio-economic situation in the fourth quarter and 2021",
       "source_url": "https://www.nso.gov.vn/en/data-and-statistics/2022/01/socio-economic-situation-in-the-fourth-quarter-and-2021/"
@@ -391,94 +331,10 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/VNM/VNM_NSO_VHLSS_2022/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:12:34Z",
+      "retrieved_at": "2026-06-30T12:57:17Z",
       "source_id": "VNM_NSO_VHLSS_2022",
       "source_title": "Results of the Viet Nam Household Living Standards Survey 2022",
       "source_url": "https://www.nso.gov.vn/en/default/2024/04/results-of-the-viet-nam-household-living-standards-survey-2022/"
-    },
-    {
-      "attempt_errors": "attempt=1:URLError:<urlopen error timed out>|attempt=2:URLError:<urlopen error timed out>|attempt=3:URLError:<urlopen error timed out>|attempt=4:URLError:<urlopen error timed out>",
-      "economy_code": "BGD",
-      "error": "Acquisition failed for source_probe_BGD_BBS_NSDS_PORTAL: attempt=1:URLError:<urlopen error timed out>; attempt=2:URLError:<urlopen error timed out>; attempt=3:URLError:<urlopen error timed out>; attempt=4:URLError:<urlopen error timed out>",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_NSDS_PORTAL/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:20:48Z",
-      "source_id": "BGD_BBS_NSDS_PORTAL",
-      "source_title": "BBS national statistical dissemination portal",
-      "source_url": "https://nsds.bbs.gov.bd/"
-    },
-    {
-      "attempt_errors": "attempt=1:URLError:<urlopen error timed out>|attempt=2:URLError:<urlopen error timed out>|attempt=3:URLError:<urlopen error timed out>|attempt=4:URLError:<urlopen error timed out>",
-      "economy_code": "BGD",
-      "error": "Acquisition failed for source_probe_BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS: attempt=1:URLError:<urlopen error timed out>; attempt=2:URLError:<urlopen error timed out>; attempt=3:URLError:<urlopen error timed out>; attempt=4:URLError:<urlopen error timed out>",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:20:54Z",
-      "source_id": "BGD_BBS_RELEASE_CALENDAR_NATIONAL_ACCOUNTS",
-      "source_title": "BBS release calendar for national accounts statistics",
-      "source_url": "https://nsds.bbs.gov.bd/en/release-calendar"
-    },
-    {
-      "attempt_errors": "attempt=1:URLError:<urlopen error timed out>|attempt=2:URLError:<urlopen error timed out>|attempt=3:URLError:<urlopen error timed out>|attempt=4:URLError:<urlopen error timed out>",
-      "economy_code": "BGD",
-      "error": "Acquisition failed for source_probe_BGD_BBS_HIES_DOCUMENTATION: attempt=1:URLError:<urlopen error timed out>; attempt=2:URLError:<urlopen error timed out>; attempt=3:URLError:<urlopen error timed out>; attempt=4:URLError:<urlopen error timed out>",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_HIES_DOCUMENTATION/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:20:59Z",
-      "source_id": "BGD_BBS_HIES_DOCUMENTATION",
-      "source_title": "HIES survey documentation",
-      "source_url": "https://nsds.bbs.gov.bd/en/posts/85/Survey%20documentation%20for%20the%20Household%20Income%20and%20Expenditure%20Survey"
-    },
-    {
-      "attempt_errors": "attempt=1:URLError:<urlopen error timed out>|attempt=2:URLError:<urlopen error timed out>|attempt=3:URLError:<urlopen error timed out>|attempt=4:URLError:<urlopen error timed out>",
-      "economy_code": "BGD",
-      "error": "Acquisition failed for source_probe_BGD_BBS_HIES_2022_FINAL_REPORT_PAGE: attempt=1:URLError:<urlopen error timed out>; attempt=2:URLError:<urlopen error timed out>; attempt=3:URLError:<urlopen error timed out>; attempt=4:URLError:<urlopen error timed out>",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/BGD/BGD_BBS_HIES_2022_FINAL_REPORT_PAGE/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:21:05Z",
-      "source_id": "BGD_BBS_HIES_2022_FINAL_REPORT_PAGE",
-      "source_title": "Final Report of HIES 2022",
-      "source_url": "https://nsds.bbs.gov.bd/en/posts/161/Final%20Report%20of%20Household%20Income%20and%20Expenditure%20Survey%20%28HIES%29%202016"
-    },
-    {
-      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>",
-      "economy_code": "VNM",
-      "error": "Acquisition failed for source_probe_VNM_NSO_STATISTICAL_DATA_PORTAL: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/VNM/VNM_NSO_STATISTICAL_DATA_PORTAL/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:14:38Z",
-      "source_id": "VNM_NSO_STATISTICAL_DATA_PORTAL",
-      "source_title": "NSO statistical data portal",
-      "source_url": "https://www.nso.gov.vn/en/statistical-data/"
-    },
-    {
-      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>",
-      "economy_code": "VNM",
-      "error": "Acquisition failed for source_probe_VNM_NSO_HOMEPAGE: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/VNM/VNM_NSO_HOMEPAGE/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:14:52Z",
-      "source_id": "VNM_NSO_HOMEPAGE",
-      "source_title": "NSO institutional homepage",
-      "source_url": "https://www.nso.gov.vn/en/homepage/"
-    },
-    {
-      "attempt_errors": "attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>|attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>",
-      "economy_code": "VNM",
-      "error": "Acquisition failed for source_probe_VNM_NSO_VHLSS_2020: attempt=1:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=2:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=3:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>; attempt=4:URLError:<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1016)>",
-      "error_type": "AcquisitionError",
-      "failure_receipt": "raw/source_probe/VNM/VNM_NSO_VHLSS_2020/failure_receipt.json",
-      "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T07:15:06Z",
-      "source_id": "VNM_NSO_VHLSS_2020",
-      "source_title": "Results of VHLSS 2020",
-      "source_url": "https://www.nso.gov.vn/en/data-and-statistics/2022/06/results-of-the-viet-nam-household-living-standards-survey-2020/"
     }
   ],
   "step2_summary": {
@@ -509,7 +365,7 @@
     "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
     "participating_economies_expected": 176,
     "participating_economies_mapped": 176,
-    "pipeline_version": "0.7.3",
+    "pipeline_version": "0.8.1",
     "proxy_ppp_categories": [
       "CP04",
       "CP06",
@@ -586,9 +442,9 @@
         "economies_with_complete_core_family_probe": 0,
         "economy_audit_state_counts": {
           "ACCESS_BLOCKED": 4,
-          "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 3,
+          "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 4,
           "OFFICIAL_EXPERIMENTAL_ALLOCATION": 1,
-          "SOURCE_NOT_MACHINE_READABLE": 7
+          "SOURCE_NOT_MACHINE_READABLE": 6
         },
         "economy_class_counts": {
           "A_CANDIDATE": 0,
@@ -596,17 +452,17 @@
           "C_ONLY": 1,
           "D_UNAVAILABLE": 14
         },
-        "pipeline_version": "0.7.3",
+        "pipeline_version": "0.8.1",
         "schema_version": "2.1",
-        "source_candidates_access_blocked": 29,
+        "source_candidates_access_blocked": 17,
         "source_candidates_acquired_as_datasets": 3,
-        "source_candidates_acquired_as_discovery_only": 12,
-        "source_candidates_acquired_as_documentation": 10,
-        "source_candidates_content_validation_failed": 11,
-        "source_candidates_failed": 29,
-        "source_candidates_probed": 65,
+        "source_candidates_acquired_as_discovery_only": 9,
+        "source_candidates_acquired_as_documentation": 8,
+        "source_candidates_content_validation_failed": 9,
+        "source_candidates_failed": 17,
+        "source_candidates_probed": 46,
         "source_probe_max_workers": 5,
-        "uninvestigated_core_family_count": 56
+        "uninvestigated_core_family_count": 62
       }
     },
     "supplemental_nominal_observations": 1851,

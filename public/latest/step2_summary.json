@@ -26,7 +26,7 @@
   "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
   "participating_economies_expected": 176,
   "participating_economies_mapped": 176,
-  "pipeline_version": "0.7.3",
+  "pipeline_version": "0.8.1",
   "proxy_ppp_categories": [
     "CP04",
     "CP06",
@@ -103,9 +103,9 @@
       "economies_with_complete_core_family_probe": 0,
       "economy_audit_state_counts": {
         "ACCESS_BLOCKED": 4,
-        "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 3,
+        "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 4,
         "OFFICIAL_EXPERIMENTAL_ALLOCATION": 1,
-        "SOURCE_NOT_MACHINE_READABLE": 7
+        "SOURCE_NOT_MACHINE_READABLE": 6
       },
       "economy_class_counts": {
         "A_CANDIDATE": 0,
@@ -113,17 +113,17 @@
         "C_ONLY": 1,
         "D_UNAVAILABLE": 14
       },
-      "pipeline_version": "0.7.3",
+      "pipeline_version": "0.8.1",
       "schema_version": "2.1",
-      "source_candidates_access_blocked": 29,
+      "source_candidates_access_blocked": 17,
       "source_candidates_acquired_as_datasets": 3,
-      "source_candidates_acquired_as_discovery_only": 12,
-      "source_candidates_acquired_as_documentation": 10,
-      "source_candidates_content_validation_failed": 11,
-      "source_candidates_failed": 29,
-      "source_candidates_probed": 65,
+      "source_candidates_acquired_as_discovery_only": 9,
+      "source_candidates_acquired_as_documentation": 8,
+      "source_candidates_content_validation_failed": 9,
+      "source_candidates_failed": 17,
+      "source_candidates_probed": 46,
       "source_probe_max_workers": 5,
-      "uninvestigated_core_family_count": 56
+      "uninvestigated_core_family_count": 62
     }
   },
   "supplemental_nominal_observations": 1851,
