@@ -48,6 +48,10 @@ The first real, replayable Eurostat HICP vertical series has been built for the 
 
 ## v0.8.8
 
-Run the first minimum economic backtest and identify the three largest measured error sources before expanding coverage or model complexity.
+Status: complete under the declared final-vintage fallback.
 
-`weights_final.csv` remains unused and monetary release remains separately gated.
+The first bounded economic backtest now compares B0 through B3 on a common rolling-origin sample and publishes a quantitative top-three error report. Historical publication vintages, independent CP00 headline data, vintage-aligned FX and imputed economies remain unavailable and are not reconstructed.
+
+## v0.9.0
+
+Use the measured v0.8.8 errors to prioritise the next source and coverage expansion. Preserve repeated provider snapshots so later tests can become genuinely publication-aware. Do not begin nowcast, API or monetary work. Keep both release gates false.
