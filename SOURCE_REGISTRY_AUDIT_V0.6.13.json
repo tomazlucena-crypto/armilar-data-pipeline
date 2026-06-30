@@ -1,0 +1,37 @@
+{
+  "candidate_classes": {
+    "C_ONLY": 21,
+    "D_UNAVAILABLE": 44
+  },
+  "economies": 15,
+  "economy_codes": [
+    "BGD",
+    "BLR",
+    "BON",
+    "BRA",
+    "CHN",
+    "EGY",
+    "IDN",
+    "IND",
+    "KWT",
+    "LBR",
+    "NGA",
+    "PAK",
+    "RUT",
+    "SAU",
+    "VNM"
+  ],
+  "exact_cells_added": 0,
+  "global_12_category_matrix_complete": false,
+  "methodological_states": {
+    "CONCEPT_AMBIGUOUS": 3,
+    "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 39,
+    "OFFICIAL_EXPERIMENTAL_ALLOCATION": 18,
+    "SOURCE_NOT_MACHINE_READABLE": 5
+  },
+  "monetary_release_allowed": false,
+  "pipeline_version": "0.6.13",
+  "proxy_validation": "INSUFFICIENT_DIRECT_EVIDENCE",
+  "registry_rows": 65,
+  "weights_final_empty": true
+}

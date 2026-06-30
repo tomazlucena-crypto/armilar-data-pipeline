@@ -17,8 +17,8 @@
   "experimental_cells": 0,
   "global_12_category_matrix_complete": false,
   "monetary_release_allowed": false,
-  "non_admissible_cells": 50,
-  "pipeline_version": "0.6.5",
+  "non_admissible_cells": 105,
+  "pipeline_version": "0.6.8",
   "schema_version": "1.1",
   "status": "DIAGNOSTIC_INFRASTRUCTURE_COMPLETE_SOURCE_AUDIT_ONGOING",
   "status_label": "Step 2I diagnostic infrastructure complete; source audit ongoing",
@@ -75,12 +75,12 @@
     "BRA": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+      "decision": "ACCESS_BLOCKED",
       "economy_code": "BRA",
       "economy_name": "Brazil",
       "experimental_categories": "",
-      "remaining_blockers": "Official product tables would require many-to-many product-to-COICOP allocation.",
-      "sources_examined": 3,
+      "remaining_blockers": "The current run could not acquire or validate all critical official Brazil source families: BRA_IBGE_TABELAS_RECURSOS_USOS. A closed source decision is not permitted while these attempts remain blocked.",
+      "sources_examined": 7,
       "unavailable_categories": "CP04|CP06|CP09|CP10|CP12"
     },
     "CHN": {
@@ -97,12 +97,12 @@
     "IDN": {
       "accepted_categories": "",
       "coverage_added_cells": 0,
-      "decision": "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE",
+      "decision": "ACCESS_BLOCKED",
       "economy_code": "IDN",
       "economy_name": "Indonesia",
       "experimental_categories": "",
-      "remaining_blockers": "Official source identified in probe regroups COICOP and cannot be bridged exactly to twelve Armilar categories.",
-      "sources_examined": 3,
+      "remaining_blockers": "The current run could not acquire or validate all critical official Indonesia source families: IDN_BPS_GDP_EXPENDITURE_2020_2024, IDN_BPS_INPUT_OUTPUT_TABLES, IDN_BPS_STATISTICS_TABLES_EXPENDITURE, IDN_BPS_SUPPLY_USE_TABLES. A closed source decision is not permitted while these attempts remain blocked.",
+      "sources_examined": 7,
       "unavailable_categories": "CP04|CP06|CP09|CP10|CP12"
     },
     "IND": {

@@ -39,11 +39,13 @@ SOURCE_FAMILIES = (
     (2, "official_csv_xls_xlsx"),
     (3, "official_statistical_database"),
     (4, "official_supply_and_use_tables"),
-    (5, "official_structured_publications"),
-    (6, "survey_or_cpi_class_c_only"),
+    (5, "official_input_output_tables"),
+    (6, "official_structured_publications"),
+    (7, "survey_or_cpi_class_c_only"),
+    (8, "official_classifications_methodology"),
 )
 FAMILY_ORDER = {family: order for order, family in SOURCE_FAMILIES}
-EXHAUSTIVE_CORE_FAMILIES = {family for order, family in SOURCE_FAMILIES if order <= 5}
+EXHAUSTIVE_CORE_FAMILIES = {family for order, family in SOURCE_FAMILIES if order <= 6}
 
 DATASET_RESOURCE_TYPES = {
     "API_RESPONSE",
@@ -56,6 +58,10 @@ DISCOVERY_RESOURCE_TYPES = {
     "DOCUMENTATION",
     "PUBLICATION_PAGE",
     "PUBLICATION_FILE",
+    "PUBLICATION_SEARCH",
+    "DISCOVERY_PAGE",
+    "DOWNLOAD_PAGE",
+    "METHODOLOGY_PAGE",
 }
 
 

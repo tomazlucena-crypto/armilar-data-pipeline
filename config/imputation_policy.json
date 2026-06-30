@@ -1,0 +1,21 @@
+{
+  "model_version": "0.7.2",
+  "donor_count": 5,
+  "minimum_donors": 3,
+  "inverse_distance_floor": 0.05,
+  "minimum_relative_interval": 0.10,
+  "interval_quantile_lower": 0.10,
+  "interval_quantile_upper": 0.90,
+  "allocation_groups": [
+    {"group_id": "CP01_CP02", "category_codes": ["CP01", "CP02"]},
+    {"group_id": "CP04_CP05", "category_codes": ["CP04", "CP05"]},
+    {"group_id": "CP07_CP08", "category_codes": ["CP07", "CP08"]},
+    {"group_id": "CP09_CP10", "category_codes": ["CP09", "CP10"]},
+    {"group_id": "CP11_CP12", "category_codes": ["CP11", "CP12"]}
+  ],
+  "release_policy": {
+    "research_release_only": true,
+    "global_weight_release_produced": false,
+    "monetary_release_allowed": false
+  }
+}

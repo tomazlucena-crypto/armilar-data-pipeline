@@ -1,6 +1,6 @@
 # India method gate report
 
-Pipeline version: `0.6.5`
+Pipeline version: `0.6.8`
 
 This report records the strict Armilar admissibility decision for MoSPI PFCE Statement 5.1.
 The source remains outside the exact matrix whenever a material criterion is contradicted or unresolved.

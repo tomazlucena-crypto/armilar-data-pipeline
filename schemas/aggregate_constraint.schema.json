@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Armilar own-economy aggregate constraint",
+  "type": "object",
+  "required": ["economy_code", "aggregate_id", "category_codes", "aggregate_real_expenditure", "source_ids"],
+  "properties": {
+    "economy_code": {"type": "string", "pattern": "^[A-Z0-9]{3}$"},
+    "aggregate_id": {"type": "string", "minLength": 1},
+    "category_codes": {"type": "string", "minLength": 9},
+    "aggregate_real_expenditure": {"type": "number", "exclusiveMinimum": 0},
+    "source_ids": {"type": "string", "minLength": 1},
+    "notes": {"type": "string"}
+  },
+  "additionalProperties": false
+}

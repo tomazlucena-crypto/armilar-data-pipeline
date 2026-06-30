@@ -1,6 +1,6 @@
 # Armilar Step 2 hybrid ICP 2021 report
 
-Generated: 2026-06-29T17:27:43Z
+Generated: 2026-06-30T08:43:00Z
 
 ## Method
 
@@ -30,10 +30,10 @@ Government and NPISH expenditure never enters the numerator.
 
 ## Step 2H0 feasibility audit
 
-- Priority economies probed: `10`
+- Priority economies probed: `15`
 - A/B candidates accessible in this run: `0`
 - C-only economies accessible in this run: `1`
-- Unavailable economies in this run: `9`
+- Unavailable economies in this run: `14`
 - Complete-economy coverage in the seven-category priority indicator: `0.4971716160380331246617494915`
 - Option B evidence status: `INSUFFICIENT_DIRECT_EVIDENCE`
 - Direct strict-HFCE versus AIC PPP comparisons: `0`
