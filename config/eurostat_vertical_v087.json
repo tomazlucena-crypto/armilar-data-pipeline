@@ -1,0 +1,47 @@
+{
+  "policy_version": "0.8.7",
+  "universe_id": "ARM-EUROSTAT-HICP-FIVE-ECONOMY-V0.8.7",
+  "dataset": "prc_hicp_midx",
+  "api_base": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_midx",
+  "unit": "I15",
+  "frequency": "M",
+  "classification_version": "ECOICOP_V1_PRE_2026",
+  "reference_year": 2021,
+  "start_period": "2021-01",
+  "end_period": "2025-12",
+  "economies": [
+    {"eurostat_code": "DE", "armilar_code": "DEU", "name": "Germany"},
+    {"eurostat_code": "ES", "armilar_code": "ESP", "name": "Spain"},
+    {"eurostat_code": "FR", "armilar_code": "FRA", "name": "France"},
+    {"eurostat_code": "IT", "armilar_code": "ITA", "name": "Italy"},
+    {"eurostat_code": "PT", "armilar_code": "PRT", "name": "Portugal"}
+  ],
+  "source_categories": [
+    "CP01", "CP02", "CP03", "CP04", "CP05", "CP06",
+    "CP07", "CP08", "CP09", "CP10", "CP11", "CP12"
+  ],
+  "category_map": {
+    "CP01": "ARM01",
+    "CP02": "ARM02",
+    "CP03": "ARM03",
+    "CP04": "ARM04",
+    "CP05": "ARM04",
+    "CP06": "ARM05",
+    "CP07": "ARM06",
+    "CP08": "ARM06",
+    "CP09": "ARM07",
+    "CP10": "ARM07",
+    "CP11": "ARM08",
+    "CP12": "ARM09"
+  },
+  "normalization_rule": "FIXED_UNIVERSE_NORMALISE_ONCE",
+  "aggregation_mode": "PPP_WEIGHTED_LOCAL_PRICE_RELATIVES",
+  "fx_treatment": "SEPARATE_NOT_USED_IN_PRIMARY_INDEX",
+  "price_concept": "HICP_HOUSEHOLD_FINAL_MONETARY_CONSUMPTION",
+  "weight_concept": "ARMILAR_HFCE_PPP_2021",
+  "concept_alignment_status": "PARTIAL_HFMCE_HFCE_SCOPE_MISMATCH",
+  "request_timeout_seconds": 30,
+  "max_response_bytes": 25000000,
+  "research_release_allowed": false,
+  "monetary_release_allowed": false
+}

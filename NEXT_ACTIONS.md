@@ -1,4 +1,4 @@
-# Next actions after v0.8.5
+# Next actions after v0.8.7
 
 The immediate objective is a validated vertical chain, not further horizontal expansion:
 
@@ -42,7 +42,9 @@ Keep `research_release_allowed=false` and `monetary_release_allowed=false`.
 
 ## v0.8.7
 
-Build the first real, replayable Eurostat HICP vertical series for a fixed declared universe and common interval. No synthetic fixture may be described as an official live release.
+Status: complete.
+
+The first real, replayable Eurostat HICP vertical series has been built for the fixed declared universe and common interval. The official bytes are preserved under `artifacts/v087/eurostat_snapshot`, the replayed economic outputs are under `artifacts/v087/eurostat_vertical`, and `public/latest` remains unchanged. The release remains research-blocked and monetary-blocked.
 
 ## v0.8.8
 

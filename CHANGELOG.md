@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.7 - Eurostat vertical series
+
+- adds the first bounded Eurostat HICP price-to-index vertical chain over official preserved bytes;
+- acquires one bounded JSON-stat response per ECOICOP division and stores raw bytes with SHA-256 receipts;
+- replays a fixed Germany, Spain, France, Italy and Portugal universe from 2021-01 through 2025-12;
+- publishes monthly index rows, category/economy contributions, coverage disclosures and the economic report outside `public/latest`;
+- keeps `research_release_allowed=false` and `monetary_release_allowed=false`.
+
 ## 0.8.6 - Version source, SDMX spike, properties and telemetry
 
 - makes `pyproject.toml` the sole authored project version;
