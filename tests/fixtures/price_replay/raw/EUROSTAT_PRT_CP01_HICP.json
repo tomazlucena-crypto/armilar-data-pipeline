@@ -1,0 +1,10 @@
+{
+  "provider": "Eurostat",
+  "dataset": "prc_hicp_midx",
+  "dimension_order": ["freq", "unit", "coicop", "geo"],
+  "key": {"freq": "M", "unit": "INDEX", "coicop": "CP01", "geo": "PRT"},
+  "observations": [
+    {"period": "2021-01", "value": 100.0},
+    {"period": "2021-02", "value": 101.2}
+  ]
+}

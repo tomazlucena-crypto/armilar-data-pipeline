@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.8.1 - SDMX pilot replay and provenance receipts
+
+- added deterministic Eurostat/OECD price acquisition replay;
+- added provider structure snapshots, request receipts and raw SHA-256 hashes;
+- added `armilar-prices acquire` with replay and isolated live modes;
+- emits source health, resolved registry, normalized observations and manifests;
+- keeps live acquisition out of pull-request checks and `monetary_release_allowed=false`.
+- corrected replay provenance so normalized observations are parsed from the exact hashed raw fixture bytes;
+- disabled live acquisition before network access until real Eurostat and OECD response parsers and DSD snapshots exist.
+
+## 0.8.0 - Monthly price registry and research index engine
+
+- added P1-P5 price evidence classes;
+- added deterministic rebasing and source selection;
+- added monthly core/global research index calculation;
+- blocked silent renormalisation and unratified FX aggregation;
+- added optional `sdmx1` acquisition adapter;
+- preserved `monetary_release_allowed=false`.
+
 ## 0.7.3 - Conditional global research release
 
 - Adds a fail-closed release gate for the completed research evidence grid.

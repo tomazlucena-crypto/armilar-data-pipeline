@@ -1,0 +1,10 @@
+{
+  "provider": "OECD",
+  "dataset": "DSD_PRICES@DF_PRICES_ALL",
+  "dimension_order": ["ref_area", "freq", "seasonal_adjustment", "measure", "unit", "coicop"],
+  "key": {"ref_area": "PRT", "freq": "M", "seasonal_adjustment": "NSA", "measure": "CPI", "unit": "INDEX", "coicop": "_T"},
+  "observations": [
+    {"period": "2021-01", "value": 100.0},
+    {"period": "2021-02", "value": 100.8}
+  ]
+}

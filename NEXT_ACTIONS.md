@@ -1,10 +1,10 @@
-# Next actions after v0.7.3
+# Next actions after v0.8.1
 
-1. Run v0.7.2 validation on the real staged A/B evidence and review errors by category and method.
-2. Calibrate `config/global_release_gates.json` from observed validation performance rather than assumptions.
-3. Connect country-audit partial evidence into the C-candidate staging layer without changing strict outputs.
-4. Add explicit duplicate-promotion guards across strict, country-audit and imputed evidence sources.
-5. Build the first monthly price-series registry and adapters after the world-weight research gate is empirically evaluated.
-6. Keep `weights_final.csv` empty and `monetary_release_allowed=false` until separate monetary ratification.
-
-Experimental allocations remain authorised only inside `ARM-WEIGHTS-GLOBAL` with explicit uncertainty and provenance.
+1. Run the OECD and Eurostat live pilots in a network-enabled non-PR job and preserve the resulting raw responses outside Git.
+2. Replace replay fixtures only when the raw hash, DSD snapshot and parser expectations are updated together.
+3. Confirm the exact OECD and Eurostat data structures and categorical query keys before enabling candidate series in production.
+4. Expand the price registry across the observed economies using official category CPI/HICP first and headline CPI only as an explicit fallback.
+5. Ratify the exchange-rate treatment before enabling common-currency basket calculations.
+6. Build the first real monthly core and global research series only for periods with complete declared coverage.
+7. Start the v0.9.0 vintage-aware backtest and reconciliation layer.
+8. Keep `weights_final.csv` empty and `monetary_release_allowed=false` until separate monetary ratification.

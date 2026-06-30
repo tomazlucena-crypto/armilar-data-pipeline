@@ -4,13 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "armilar-data-pipeline"
-version = "0.7.3"
+version = "0.8.1"
 description = "Auditable acquisition and construction pipeline for the ICP 2021 Armilar weight matrix"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [{name = "Armilar Project"}]
 dependencies = []
+
+[project.optional-dependencies]
+sdmx = ["sdmx1>=2.26,<3"]
 
 [project.scripts]
 armilar-data = "armilar_pipeline.cli:main"
@@ -21,6 +24,7 @@ armilar-matrix = "armilar_matrix_builder.cli:main"
 armilar-global-weights = "armilar_global_weights.cli:main"
 armilar-imputation = "armilar_global_weights.imputation_cli:main"
 armilar-global-release = "armilar_global_weights.release_cli:main"
+armilar-prices = "armilar_prices.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

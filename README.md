@@ -2,6 +2,14 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.1: SDMX pilot replay and provenance receipts
+
+Version 0.8.1 adds deterministic replay from canonical synthetic Eurostat/OECD contract fixtures. Normalized observations are parsed from the same raw bytes recorded in the SHA-256 receipts. The fixtures are not archived official provider responses. Live acquisition is disabled until official DSD snapshots and provider-specific parsers are implemented, and it remains outside pull-request checks.
+
+## Version 0.8.0: monthly price registry and research index engine
+
+Version 0.8.0 adds a canonical monthly CPI/HICP registry, the P1-P5 price-evidence hierarchy, deterministic rebasing, audited source selection and monthly core/global research index calculation. Incomplete months are never silently renormalised. The live OECD and Eurostat pilots remain disabled pending network validation, common-currency FX treatment is not yet ratified, and `monetary_release_allowed=false` remains mandatory.
+
 ## Version 0.7.3: conditional global research release
 
 Version 0.7.3 adds a fail-closed gate between the completed research evidence grid and publication of `ARM-WEIGHTS-GLOBAL`. It evaluates validation coverage, MAPE, interval coverage, estimated expenditure share, Class E fallback share and per-cell validation metadata. A research release is created only when every configured gate passes. `weights_final.csv` remains untouched and `monetary_release_allowed=false` cannot be overridden.

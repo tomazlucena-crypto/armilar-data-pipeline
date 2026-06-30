@@ -1,0 +1,63 @@
+{
+  "registry_version": "sample-v0.8.0",
+  "monetary_release_allowed": false,
+  "series": [
+    {
+      "series_id": "AAA_CP01_DIRECT",
+      "provider": "Sample statistical office",
+      "dataset": "sample_category_cpi",
+      "economy_code": "AAA",
+      "source_category_code": "CP01",
+      "target_categories": "CP01",
+      "evidence_class": "P1_OFFICIAL_CATEGORY",
+      "source_priority": 1,
+      "access_method": "FIXTURE",
+      "source_url": "https://example.invalid/aaa/category",
+      "frequency": "M",
+      "unit": "INDEX",
+      "seasonal_adjustment": "NSA",
+      "publication_lag_days": 10,
+      "revision_policy": "REVISABLE",
+      "fallback_series": "AAA_HEADLINE",
+      "enabled": true
+    },
+    {
+      "series_id": "AAA_HEADLINE",
+      "provider": "Sample statistical office",
+      "dataset": "sample_headline_cpi",
+      "economy_code": "AAA",
+      "source_category_code": "ALL",
+      "target_categories": "CP01|CP02|CP03|CP04|CP05|CP06|CP07|CP08|CP09|CP10|CP11|CP12",
+      "evidence_class": "P3_OFFICIAL_HEADLINE",
+      "source_priority": 1,
+      "access_method": "FIXTURE",
+      "source_url": "https://example.invalid/aaa/headline",
+      "frequency": "M",
+      "unit": "INDEX",
+      "seasonal_adjustment": "NSA",
+      "publication_lag_days": 10,
+      "revision_policy": "REVISABLE",
+      "fallback_series": "",
+      "enabled": true
+    },
+    {
+      "series_id": "BBB_HEADLINE",
+      "provider": "Sample statistical office",
+      "dataset": "sample_headline_cpi",
+      "economy_code": "BBB",
+      "source_category_code": "ALL",
+      "target_categories": "CP01|CP02|CP03|CP04|CP05|CP06|CP07|CP08|CP09|CP10|CP11|CP12",
+      "evidence_class": "P3_OFFICIAL_HEADLINE",
+      "source_priority": 1,
+      "access_method": "FIXTURE",
+      "source_url": "https://example.invalid/bbb/headline",
+      "frequency": "M",
+      "unit": "INDEX",
+      "seasonal_adjustment": "NSA",
+      "publication_lag_days": 10,
+      "revision_policy": "REVISABLE",
+      "fallback_series": "",
+      "enabled": true
+    }
+  ]
+}
