@@ -1,0 +1,30 @@
+{
+  "policy_version": "0.9.1",
+  "required_backtest_policy_version": "0.9.0",
+  "required_vintage_mode": "FINAL_VINTAGE_PSEUDO_REAL_TIME",
+  "minimum_cases_per_priority": 12,
+  "pairs": [
+    {
+      "pair_id": "B1_VS_B0",
+      "challenger": "B1_ARMILAR_WEIGHTED_HEADLINE",
+      "baseline": "B0_GLOBAL_EQUAL_HEADLINE"
+    },
+    {
+      "pair_id": "B2_VS_B1",
+      "challenger": "B2_CATEGORY_CARRY_FORWARD",
+      "baseline": "B1_ARMILAR_WEIGHTED_HEADLINE"
+    },
+    {
+      "pair_id": "B3_VS_B2",
+      "challenger": "B3_HIERARCHICAL_COMPLETION",
+      "baseline": "B2_CATEGORY_CARRY_FORWARD"
+    },
+    {
+      "pair_id": "B3_VS_B1",
+      "challenger": "B3_HIERARCHICAL_COMPLETION",
+      "baseline": "B1_ARMILAR_WEIGHTED_HEADLINE"
+    }
+  ],
+  "research_release_allowed": false,
+  "monetary_release_allowed": false
+}
