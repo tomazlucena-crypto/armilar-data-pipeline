@@ -26,7 +26,7 @@
   "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
   "participating_economies_expected": 176,
   "participating_economies_mapped": 176,
-  "pipeline_version": "0.8.8",
+  "pipeline_version": "0.9.0",
   "proxy_ppp_categories": [
     "CP04",
     "CP06",
@@ -113,7 +113,7 @@
         "C_ONLY": 1,
         "D_UNAVAILABLE": 14
       },
-      "pipeline_version": "0.8.8",
+      "pipeline_version": "0.9.0",
       "schema_version": "2.1",
       "source_candidates_access_blocked": 17,
       "source_candidates_acquired_as_datasets": 3,
