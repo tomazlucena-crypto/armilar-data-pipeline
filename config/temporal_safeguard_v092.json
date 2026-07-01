@@ -1,0 +1,31 @@
+{
+  "policy_version": "0.9.2",
+  "required_backtest_policy_version": "0.9.0",
+  "required_vintage_mode": "FINAL_VINTAGE_PSEUDO_REAL_TIME",
+  "development_target_start": "2022-01",
+  "development_target_end": "2023-12",
+  "evaluation_target_start": "2024-01",
+  "evaluation_target_end": "2025-12",
+  "base_model": "B3_HIERARCHICAL_COMPLETION",
+  "fallback_model": "B2_CATEGORY_CARRY_FORWARD",
+  "minimum_development_cases_per_rule": 12,
+  "activation_mean_delta_bps_gt": "0.00000000",
+  "activation_regression_rate_gte": "0.5000000000",
+  "candidate_rules": [
+    {
+      "rule_id": "CP08_FALLBACK_TO_B2",
+      "rule_type": "SOURCE_CATEGORY",
+      "source_category": "CP08"
+    },
+    {
+      "rule_id": "CATEGORY_OUTAGE_H1_FALLBACK_TO_B2",
+      "rule_type": "SCENARIO_HORIZON",
+      "scenario": "CATEGORY_OUTAGE",
+      "horizon_months": 1
+    }
+  ],
+  "rejected_v089_experiment_reused": false,
+  "model_promotion_allowed": false,
+  "research_release_allowed": false,
+  "monetary_release_allowed": false
+}
