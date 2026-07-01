@@ -1,6 +1,6 @@
 {
   "policy_version": "0.9.3",
-  "universe_id": "ARMILAR_EUROSTAT_5_ECONOMY_VERTICAL",
+  "universe_id": "ARM-EUROSTAT-HICP-FIVE-ECONOMY-V0.8.7",
   "provider": "EUROSTAT",
   "dataset": "prc_hicp_midx",
   "source_category": "CP00",
