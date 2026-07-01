@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/research_core_constitution.schema.json",
+  "title": "ARMILAR_RESEARCH_CORE_V1 draft constitution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "constitution_id",
+    "constitution_version",
+    "constitution_status",
+    "research_core_id",
+    "scope",
+    "economies",
+    "basket_categories",
+    "benchmark_categories",
+    "series",
+    "currency_policy",
+    "release_gates",
+    "pending_decisions",
+    "basket_materialization",
+    "prohibitions",
+    "source_documents"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "constitution_id": {"type": "string", "const": "ARMILAR_RESEARCH_CORE_V1"},
+    "constitution_version": {"type": "string", "const": "0.1.0-draft"},
+    "constitution_status": {"type": "string", "const": "DRAFT"},
+    "research_core_id": {"type": "string", "const": "ARMILAR_RESEARCH_CORE_V1"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim",
+        "geographical_scope",
+        "price_source_scope",
+        "weight_policy",
+        "world_index_claim_allowed",
+        "monetary_use_allowed"
+      ],
+      "properties": {
+        "claim": {"type": "string", "minLength": 40},
+        "geographical_scope": {"type": "string", "const": "FIVE_EURO_AREA_ECONOMIES"},
+        "price_source_scope": {"type": "string", "const": "OFFICIAL_EUROSTAT_CATEGORY_PRICES"},
+        "weight_policy": {"type": "string", "const": "FIXED_ARMILAR_RESEARCH_WEIGHTS"},
+        "world_index_claim_allowed": {"type": "boolean", "const": false},
+        "monetary_use_allowed": {"type": "boolean", "const": false}
+      }
+    },
+    "economies": {"type": "array", "const": ["DEU", "ESP", "FRA", "ITA", "PRT"]},
+    "basket_categories": {"type": "array", "const": ["CP01", "CP02", "CP03", "CP04", "CP05", "CP06", "CP07", "CP08", "CP09", "CP10", "CP11", "CP12"]},
+    "benchmark_categories": {"type": "array", "const": ["CP00"]},
+    "series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ARM-O", "ARM-L", "ARM-R", "ARM-H"],
+      "properties": {
+        "ARM-O": {"$ref": "#/$defs/armO"},
+        "ARM-L": {"$ref": "#/$defs/armL"},
+        "ARM-R": {"$ref": "#/$defs/armR"},
+        "ARM-H": {"$ref": "#/$defs/armH"}
+      }
+    },
+    "currency_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "current_fx_in_arm_o",
+        "current_fx_in_arm_l",
+        "informational_fx_layer_allowed",
+        "fx_failure_changes_arm_o_or_arm_l",
+        "future_fx_proxy_requires_methodological_decision",
+        "future_fx_proxy_requires_backtest"
+      ],
+      "properties": {
+        "current_fx_in_arm_o": {"type": "boolean", "const": false},
+        "current_fx_in_arm_l": {"type": "boolean", "const": false},
+        "informational_fx_layer_allowed": {"type": "boolean", "const": true},
+        "fx_failure_changes_arm_o_or_arm_l": {"type": "boolean", "const": false},
+        "future_fx_proxy_requires_methodological_decision": {"type": "boolean", "const": true},
+        "future_fx_proxy_requires_backtest": {"type": "boolean", "const": true}
+      }
+    },
+    "release_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["research_release_allowed", "model_promotion_allowed", "monetary_release_allowed", "shadow_production_allowed"],
+      "properties": {
+        "research_release_allowed": {"type": "boolean", "const": false},
+        "model_promotion_allowed": {"type": "boolean", "const": false},
+        "monetary_release_allowed": {"type": "boolean", "const": false},
+        "shadow_production_allowed": {"type": "boolean", "const": false}
+      }
+    },
+    "pending_decisions": {
+      "type": "array",
+      "const": [
+        {"decision_id": "normalization_base", "status": "PENDING_RATIFICATION"},
+        {"decision_id": "official_formula", "status": "PENDING_RATIFICATION"},
+        {"decision_id": "vintage_and_revision_policy", "status": "PENDING_RATIFICATION"},
+        {"decision_id": "precision_and_rounding", "status": "PENDING_RATIFICATION"},
+        {"decision_id": "exact_series_semantics", "status": "PENDING_RATIFICATION"},
+        {"decision_id": "hfce_hicp_conceptual_treatment", "status": "PENDING_RATIFICATION"},
+        {"decision_id": "constitutional_amendment_process", "status": "PENDING_RATIFICATION"}
+      ]
+    },
+    "basket_materialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "expected_cell_count", "required_input", "blocking_reason", "synthetic_test_weights_allowed", "silent_renormalization_allowed"],
+      "properties": {
+        "status": {"type": "string", "const": "BASKET_MATERIALIZATION_BLOCKED"},
+        "expected_cell_count": {"type": "integer", "const": 60},
+        "required_input": {"type": "string", "const": "artifacts/v093/first_published_panel/first_published_observations.csv"},
+        "blocking_reason": {"type": "string", "minLength": 80},
+        "synthetic_test_weights_allowed": {"type": "boolean", "const": false},
+        "silent_renormalization_allowed": {"type": "boolean", "const": false}
+      }
+    },
+    "prohibitions": {
+      "type": "array",
+      "const": [
+        "SILENT_ECONOMY_EXPANSION",
+        "CATEGORY_ADDITION_WITHOUT_CONSTITUTIONAL_CHANGE",
+        "CP00_IN_WEIGHTED_BASKET",
+        "SILENT_RENORMALIZATION_OF_INCOMPLETE_BASKET",
+        "AUTOMATIC_WEIGHT_CHANGES",
+        "MODEL_REWRITE_OF_OFFICIAL_HISTORY",
+        "AUTOMATIC_GATE_ACTIVATION",
+        "MONETARY_USE",
+        "WORLD_INDEX_CLAIM",
+        "BLOCKCHAIN_ORACLE_USE"
+      ]
+    },
+    "source_documents": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "seriesBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["meaning", "role", "silent_substitution_allowed"],
+      "properties": {
+        "meaning": {"type": "string", "minLength": 20},
+        "role": {"type": "string"},
+        "silent_substitution_allowed": {"type": "boolean", "const": false}
+      }
+    },
+    "armO": {"allOf": [{"$ref": "#/$defs/seriesBase"}, {"properties": {"role": {"const": "OFFICIAL"}}}]},
+    "armL": {"allOf": [{"$ref": "#/$defs/seriesBase"}, {"properties": {"role": {"const": "LIVE_ESTIMATE"}}}]},
+    "armR": {"allOf": [{"$ref": "#/$defs/seriesBase"}, {"properties": {"role": {"const": "REVISED_HISTORY"}}}]},
+    "armH": {"allOf": [{"$ref": "#/$defs/seriesBase"}, {"properties": {"role": {"const": "HEADLINE_BENCHMARK"}}}]}
+  }
+}

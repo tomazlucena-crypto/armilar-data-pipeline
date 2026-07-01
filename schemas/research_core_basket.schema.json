@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/research_core_basket.schema.json",
+  "title": "ARMILAR_RESEARCH_CORE_V1 basket row",
+  "description": "Logical row contract for the future canonical 60-cell Research Core basket CSV.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "research_core_id",
+    "economy_code",
+    "category_code",
+    "weight",
+    "weight_source",
+    "weight_source_version",
+    "evidence_class",
+    "status"
+  ],
+  "properties": {
+    "research_core_id": {
+      "type": "string",
+      "const": "ARMILAR_RESEARCH_CORE_V1"
+    },
+    "economy_code": {
+      "type": "string",
+      "enum": ["DEU", "ESP", "FRA", "ITA", "PRT"]
+    },
+    "category_code": {
+      "type": "string",
+      "enum": ["CP01", "CP02", "CP03", "CP04", "CP05", "CP06", "CP07", "CP08", "CP09", "CP10", "CP11", "CP12"]
+    },
+    "weight": {
+      "type": "string",
+      "pattern": "^(0|0\\.[0-9]+|1(?:\\.0+)?)$"
+    },
+    "weight_source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "weight_source_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_class": {
+      "type": "string",
+      "enum": [
+        "EXACT_OFFICIAL",
+        "OFFICIAL_DETERMINISTIC_DERIVATION",
+        "EXPERIMENTAL_RESEARCH"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "RESEARCH_ONLY"]
+    }
+  }
+}
