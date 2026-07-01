@@ -1,4 +1,4 @@
-# Next actions after v0.8.5
+# Next actions after v0.8.7
 
 The immediate objective is a validated vertical chain, not further horizontal expansion:
 
@@ -42,10 +42,16 @@ Keep `research_release_allowed=false` and `monetary_release_allowed=false`.
 
 ## v0.8.7
 
-Build the first real, replayable Eurostat HICP vertical series for a fixed declared universe and common interval. No synthetic fixture may be described as an official live release.
+Status: complete.
+
+The first real, replayable Eurostat HICP vertical series has been built for the fixed declared universe and common interval. The official bytes are preserved under `artifacts/v087/eurostat_snapshot`, the replayed economic outputs are under `artifacts/v087/eurostat_vertical`, and `public/latest` remains unchanged. The release remains research-blocked and monetary-blocked.
 
 ## v0.8.8
 
-Run the first minimum economic backtest and identify the three largest measured error sources before expanding coverage or model complexity.
+Status: complete under the declared final-vintage fallback.
 
-`weights_final.csv` remains unused and monetary release remains separately gated.
+The first bounded economic backtest now compares B0 through B3 on a common rolling-origin sample and publishes a quantitative top-three error report. Historical publication vintages, independent CP00 headline data, vintage-aligned FX and imputed economies remain unavailable and are not reconstructed.
+
+## v0.9.0
+
+Use the measured v0.8.8 errors to prioritise the next source and coverage expansion. Preserve repeated provider snapshots so later tests can become genuinely publication-aware. Do not begin nowcast, API or monetary work. Keep both release gates false.

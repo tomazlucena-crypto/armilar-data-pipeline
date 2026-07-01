@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.8.8 - Minimum economic backtest
+
+- adds a bounded rolling-origin completion backtest over the official v0.8.7 Eurostat category panel;
+- compares B0 through B3 on identical single-cell, economy-outage and category-outage cases;
+- reports errors by model, scenario, horizon, economy, category and evidence class;
+- measures construction-weight sensitivity and ranks the three largest measured B3 error sources;
+- labels the run final-vintage pseudo-real-time because historical publication vintages are unavailable;
+- leaves headline, FX and imputed-economy sensitivities explicitly unavailable where inputs do not support them;
+- keeps `research_release_allowed=false` and `monetary_release_allowed=false`.
+
+## 0.8.7 - Eurostat vertical series
+
+- adds the first bounded Eurostat HICP price-to-index vertical chain over official preserved bytes;
+- acquires one bounded JSON-stat response per ECOICOP division and stores raw bytes with SHA-256 receipts;
+- replays a fixed Germany, Spain, France, Italy and Portugal universe from 2021-01 through 2025-12;
+- publishes monthly index rows, category/economy contributions, coverage disclosures and the economic report outside `public/latest`;
+- keeps `research_release_allowed=false` and `monetary_release_allowed=false`.
+
 ## 0.8.6 - Version source, SDMX spike, properties and telemetry
 
 - makes `pyproject.toml` the sole authored project version;

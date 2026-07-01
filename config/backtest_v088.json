@@ -1,0 +1,21 @@
+{
+  "policy_version": "0.8.8",
+  "input_universe_id": "ARM-EUROSTAT-HICP-FIVE-ECONOMY-V0.8.7",
+  "evaluation_start": "2022-01",
+  "evaluation_end": "2025-12",
+  "horizons": [1, 3, 6, 12],
+  "scenarios": ["SINGLE_CELL", "ECONOMY_OUTAGE", "CATEGORY_OUTAGE"],
+  "models": [
+    "B0_GLOBAL_EQUAL_HEADLINE",
+    "B1_ARMILAR_WEIGHTED_HEADLINE",
+    "B2_CATEGORY_CARRY_FORWARD",
+    "B3_HIERARCHICAL_COMPLETION"
+  ],
+  "minimum_history_months": 12,
+  "vintage_mode": "FINAL_VINTAGE_PSEUDO_REAL_TIME",
+  "publication_aware": false,
+  "same_period_donor_assumption": true,
+  "research_release_allowed": false,
+  "monetary_release_allowed": false,
+  "top_source_minimum_cases": 12
+}

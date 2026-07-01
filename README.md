@@ -2,6 +2,16 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.8.8: minimum economic backtest
+
+Version 0.8.8 runs a bounded rolling-origin stress test over the official v0.8.7 Eurostat category panel. It compares four deterministic missing-cell baselines on identical samples, decomposes errors by scenario, horizon, economy, category and evidence class, measures weight sensitivity and ranks the three largest observed B3 error sources.
+
+The input is a single final provider vintage. Historical publication lags and revisions are unavailable, so the result is explicitly `FINAL_VINTAGE_PSEUDO_REAL_TIME` and `publication_aware=false`. Official headline, FX and imputed-economy sensitivities remain unavailable rather than estimated without evidence. `research_release_allowed=false` and `monetary_release_allowed=false`.
+
+## Version 0.8.7: official Eurostat vertical series
+
+Version 0.8.7 preserves and replays the first bounded official Eurostat HICP category panel for Germany, Spain, France, Italy and Portugal from 2021-01 through 2025-12. The fixed-universe output contains 3,600 observations and 60 monthly index values with complete manifests and no `public/latest` mutation.
+
 ## Version 0.8.6: development discipline and telemetry
 
 Version 0.8.6 makes `pyproject.toml` the only authored project version, derives runtime version values from installed metadata, selects `sdmx1` for the v0.8.7 Eurostat/OECD pilot, adds bounded Hypothesis property tests and publishes deterministic development telemetry as a CI artefact. Live SDMX checks are manual and non-PR only; unavailable telemetry metrics are `null` with reasons. `research_release_allowed=false` and `monetary_release_allowed=false`.
