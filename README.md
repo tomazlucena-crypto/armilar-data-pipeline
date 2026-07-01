@@ -2,6 +2,12 @@
 
 Auditable acquisition and construction pipeline for Step 2 of the Armilar Index: the ICP 2021 research weight matrix.
 
+## Version 0.9.4: genuine pre-release forecast backtest
+
+Version 0.9.4 adds a target-leakage-free pre-release forecast backtest on top of the validated v0.9.3 first-published panel. It compares five deterministic forecast baselines on a common sample, separates development and holdout reporting, records paired diagnostics, and keeps both release and promotion gates closed. The v0.9.3 first-published panel remains the canonical input artifact and `public/latest` stays unchanged.
+
+The next milestone is v0.9.5, which will declare the Research Core scope and the vertical roadmap toward shadow production.
+
 ## Version 0.8.8: minimum economic backtest
 
 Version 0.8.8 runs a bounded rolling-origin stress test over the official v0.8.7 Eurostat category panel. It compares four deterministic missing-cell baselines on identical samples, decomposes errors by scenario, horizon, economy, category and evidence class, measures weight sensitivity and ranks the three largest observed B3 error sources.
