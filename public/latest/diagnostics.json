@@ -14,7 +14,7 @@
     "top10_direct_expenditure_share": "0.3826946843860666965182529397",
     "top20_direct_expenditure_share": "0.4466570769862425192515560891"
   },
-  "generated_at": "2026-06-30T21:05:22Z",
+  "generated_at": "2026-07-01T09:33:37Z",
   "inventory_counts": {
     "Classification": 17,
     "Country": 207,
@@ -64,9 +64,9 @@
   },
   "runtime": {
     "github_actions": true,
-    "github_run_id": "28469631031",
+    "github_run_id": "28501025796",
     "github_runner_os": "Linux",
-    "github_sha": "b51aedca6ad578ffd58b7a16f6507d242081e004",
+    "github_sha": "facbc9b4763f86798acaa30142be61dbcd168cfb",
     "implementation": "CPython",
     "machine": "x86_64",
     "platform": "Linux-6.17.0-1018-azure-x86_64-with-glibc2.39",
@@ -119,7 +119,7 @@
       "C_ONLY": 1,
       "D_UNAVAILABLE": 14
     },
-    "pipeline_version": "0.8.6",
+    "pipeline_version": "0.8.8",
     "schema_version": "2.1",
     "source_candidates_access_blocked": 17,
     "source_candidates_acquired_as_datasets": 3,
@@ -139,7 +139,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/BGD/BGD_BBS_PORTAL/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:16:05Z",
+      "retrieved_at": "2026-07-01T07:35:08Z",
       "source_id": "BGD_BBS_PORTAL",
       "source_title": "Bangladesh Bureau of Statistics data portal",
       "source_url": "https://bbs.portal.gov.bd/"
@@ -151,7 +151,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/BGD/BGD_BBS_HIES_2022/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:24:04Z",
+      "retrieved_at": "2026-07-01T07:43:06Z",
       "source_id": "BGD_BBS_HIES_2022",
       "source_title": "Household Income and Expenditure Survey 2022 documentation",
       "source_url": "https://nsds.bbs.gov.bd/en/posts/85/Survey%20documentation%20for%20the%20Household%20Income%20and%20Expenditure%20Survey"
@@ -163,7 +163,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/BRA/BRA_IBGE_CLASSIFICACOES_METODOLOGIA/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:24:04Z",
+      "retrieved_at": "2026-07-01T07:43:20Z",
       "source_id": "BRA_IBGE_CLASSIFICACOES_METODOLOGIA",
       "source_title": "IBGE classifications and methodology",
       "source_url": "https://www.ibge.gov.br/estatisticas/metodos-e-classificacoes/classificacoes-e-listas-estatisticas.html"
@@ -175,7 +175,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/EGY/EGY_CAPMAS_CENTRAL_DATA_CATALOG/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:16:43Z",
+      "retrieved_at": "2026-07-01T07:43:28Z",
       "source_id": "EGY_CAPMAS_CENTRAL_DATA_CATALOG",
       "source_title": "CAPMAS Central Data Catalog",
       "source_url": "https://www.censusinfo.capmas.gov.eg/Metadata-en-v4.2/index.php/catalog/?sort_by=titl&sort_order=desc"
@@ -187,7 +187,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/EGY/EGY_CAPMAS_HIECS_2021/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:17:01Z",
+      "retrieved_at": "2026-07-01T07:43:31Z",
       "source_id": "EGY_CAPMAS_HIECS_2021",
       "source_title": "Household Income, Expenditure and Consumption Survey catalogue entry",
       "source_url": "https://www.censusinfo.capmas.gov.eg/metadata-en-v4.2/index.php/catalog/747/overview"
@@ -199,7 +199,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/IDN/IDN_BPS_STATISTICS_TABLES_EXPENDITURE/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:17:13Z",
+      "retrieved_at": "2026-07-01T07:43:31Z",
       "source_id": "IDN_BPS_STATISTICS_TABLES_EXPENDITURE",
       "source_title": "BPS expenditure statistics table catalogue",
       "source_url": "https://www.bps.go.id/en/statistics-table?subject=531"
@@ -211,7 +211,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/IDN/IDN_BPS_NATIONAL_ACCOUNTS_HOME/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:17:25Z",
+      "retrieved_at": "2026-07-01T07:43:32Z",
       "source_id": "IDN_BPS_NATIONAL_ACCOUNTS_HOME",
       "source_title": "BPS national accounts and supply-use discovery portal",
       "source_url": "https://www.bps.go.id/en"
@@ -223,7 +223,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/IDN/IDN_BPS_GDP_EXPENDITURE_2020_2024/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:17:38Z",
+      "retrieved_at": "2026-07-01T07:43:34Z",
       "source_id": "IDN_BPS_GDP_EXPENDITURE_2020_2024",
       "source_title": "Gross Domestic Product of Indonesia by Expenditure 2020-2024",
       "source_url": "https://www.bps.go.id/en/publication/2025/05/28/2a1c585ebbd574dd91afed67/gross-domestic-product-of-indonesia-by-expenditure--2020-2024.html"
@@ -235,7 +235,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/IND/IND_NSC_NATIONAL_ACCOUNTS_PORTAL/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:17:55Z",
+      "retrieved_at": "2026-07-01T07:43:45Z",
       "source_id": "IND_NSC_NATIONAL_ACCOUNTS_PORTAL",
       "source_title": "National Accounts Statistics portal",
       "source_url": "https://nsc.mospi.gov.in/national-accounts-statistics-0"
@@ -247,7 +247,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_FEDSTAT_HFCE_31414/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:20:21Z",
+      "retrieved_at": "2026-07-01T07:43:52Z",
       "source_id": "RUT_FEDSTAT_HFCE_31414",
       "source_title": "Household final consumption expenditure indicator 31414",
       "source_url": "https://www.fedstat.ru/indicator/31414"
@@ -259,7 +259,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_SUT_2021_XLSX/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:20:37Z",
+      "retrieved_at": "2026-07-01T07:43:54Z",
       "source_id": "RUT_ROSSTAT_SUT_2021_XLSX",
       "source_title": "Base input-output and supply-use tables for 2021",
       "source_url": "https://rosstat.gov.ru/storage/mediabank/Rezultaty_RB_2021.xlsx"
@@ -271,7 +271,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_KIPC_DH_CLASSIFICATION/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:20:52Z",
+      "retrieved_at": "2026-07-01T07:43:55Z",
       "source_id": "RUT_ROSSTAT_KIPC_DH_CLASSIFICATION",
       "source_title": "KIPC-DH classification",
       "source_url": "https://rosstat.gov.ru/storage/mediabank/KIPC_DX.docx"
@@ -283,7 +283,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:21:07Z",
+      "retrieved_at": "2026-07-01T07:44:00Z",
       "source_id": "RUT_ROSSTAT_NATIONAL_ACCOUNTS_2015_2022",
       "source_title": "National Accounts of Russia in 2015-2022",
       "source_url": "https://rosstat.gov.ru/storage/mediabank/Nac-sch_2015-2022.pdf"
@@ -295,7 +295,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/RUT/RUT_ROSSTAT_HBS_2021/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:21:21Z",
+      "retrieved_at": "2026-07-01T07:44:06Z",
       "source_id": "RUT_ROSSTAT_HBS_2021",
       "source_title": "Income expenditure and consumption of households in 2021",
       "source_url": "https://rosstat.gov.ru/bgd/regl/b21_102/"
@@ -307,7 +307,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/VNM/VNM_NSO_PORTAL/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:21:36Z",
+      "retrieved_at": "2026-07-01T07:44:10Z",
       "source_id": "VNM_NSO_PORTAL",
       "source_title": "National Statistics Office of Viet Nam data portal",
       "source_url": "https://www.nso.gov.vn/en/"
@@ -319,7 +319,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/VNM/VNM_NSO_SOCIO_ECONOMIC_2021/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:21:51Z",
+      "retrieved_at": "2026-07-01T07:44:12Z",
       "source_id": "VNM_NSO_SOCIO_ECONOMIC_2021",
       "source_title": "Socio-economic situation in the fourth quarter and 2021",
       "source_url": "https://www.nso.gov.vn/en/data-and-statistics/2022/01/socio-economic-situation-in-the-fourth-quarter-and-2021/"
@@ -331,7 +331,7 @@
       "error_type": "AcquisitionError",
       "failure_receipt": "raw/source_probe/VNM/VNM_NSO_VHLSS_2022/failure_receipt.json",
       "retrieval_status": "ACCESS_BLOCKED",
-      "retrieved_at": "2026-06-30T19:22:06Z",
+      "retrieved_at": "2026-07-01T07:44:13Z",
       "source_id": "VNM_NSO_VHLSS_2022",
       "source_title": "Results of the Viet Nam Household Living Standards Survey 2022",
       "source_url": "https://www.nso.gov.vn/en/default/2024/04/results-of-the-viet-nam-household-living-standards-survey-2022/"
@@ -365,7 +365,7 @@
     "officially_imputed_policy": "EXCLUDED_AND_REPORTED_SEPARATELY_NO_MODELLED_ALLOCATION",
     "participating_economies_expected": 176,
     "participating_economies_mapped": 176,
-    "pipeline_version": "0.8.6",
+    "pipeline_version": "0.8.8",
     "proxy_ppp_categories": [
       "CP04",
       "CP06",
@@ -452,7 +452,7 @@
           "C_ONLY": 1,
           "D_UNAVAILABLE": 14
         },
-        "pipeline_version": "0.8.6",
+        "pipeline_version": "0.8.8",
         "schema_version": "2.1",
         "source_candidates_access_blocked": 17,
         "source_candidates_acquired_as_datasets": 3,
