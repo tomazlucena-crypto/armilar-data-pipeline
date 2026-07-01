@@ -405,11 +405,19 @@ def test_run_summary_keeps_all_boundaries_closed(tmp_path: Path) -> None:
 
 
 class _FakeResponse:
-    def __init__(self, url: str, data: bytes, content_type: str = "text/html") -> None:
-        self.status = 200
+    def __init__(
+        self,
+        url: str,
+        data: bytes = b"",
+        content_type: str = "text/html",
+        *,
+        status: int = 200,
+        headers: dict[str, str] | None = None,
+    ) -> None:
+        self.status = status
         self._url = url
         self._data = data
-        self.headers = {"Content-Type": content_type}
+        self.headers = {"Content-Type": content_type, **(headers or {})}
 
     def __enter__(self):
         return self
@@ -497,7 +505,7 @@ def test_acquire_release_evidence_validates_calendar_pages(tmp_path: Path) -> No
 
     output = tmp_path / "evidence"
     summary = acquire_release_evidence(
-        _policy(tmp_path), registry, output, timeout_seconds=5, opener=opener
+        _policy(tmp_path), registry, output, timeout_seconds=5, opener=opener, min_request_interval_seconds=0
     )
     assert summary["release_event_count"] == 3
     verify_manifest(output)
@@ -520,7 +528,9 @@ def test_acquire_release_evidence_rejects_wrong_calendar_content(tmp_path: Path)
         return _FakeResponse(request.full_url, pages[request.full_url])
 
     with pytest.raises(InformationSetError, match="RELEASE_EVENT_NOT_FOUND"):
-        acquire_release_evidence(_policy(tmp_path), registry, tmp_path / "evidence", opener=opener)
+        acquire_release_evidence(
+            _policy(tmp_path), registry, tmp_path / "evidence", opener=opener, min_request_interval_seconds=0
+        )
 
 
 def test_acquire_release_evidence_accepts_official_dynamic_calendar_shell(tmp_path: Path) -> None:
@@ -542,8 +552,10 @@ def test_acquire_release_evidence_accepts_official_dynamic_calendar_shell(tmp_pa
     def opener(request, timeout=0):
         return _FakeResponse(request.full_url, pages[request.full_url])
 
-    output = tmp_path / "evidence"
-    acquire_release_evidence(_policy(tmp_path), registry, output, opener=opener)
+    output = tmp_path / "dynamic_shell_evidence"
+    acquire_release_evidence(
+        _policy(tmp_path), registry, output, opener=opener, min_request_interval_seconds=0
+    )
     assert (output / "MANIFEST.sha256").is_file()
 
 
@@ -559,3 +571,271 @@ def test_seal_revalidates_calendar_evidence_content(tmp_path: Path) -> None:
     )
     with pytest.raises(InformationSetError, match="RELEASE_DATE_NOT_FOUND"):
         seal_release_snapshot(_policy(tmp_path), registry, evidence, tmp_path / "sealed")
+
+class _FakeClock:
+    def __init__(self) -> None:
+        self.value = 0.0
+        self.sleeps: list[float] = []
+
+    def monotonic(self) -> float:
+        return self.value
+
+    def sleep(self, seconds: float) -> None:
+        self.sleeps.append(seconds)
+        self.value += seconds
+
+
+def _fixed_now():
+    from datetime import datetime, timezone
+
+    return datetime(2026, 7, 1, 12, 0, tzinfo=timezone.utc)
+
+
+def test_acquisition_checkpoints_and_resumes_without_redownloading_valid_pages(tmp_path: Path) -> None:
+    from armilar_prices.information_set_v093 import acquire_release_evidence
+
+    registry, pages = _calendar_registry(tmp_path)
+    urls = list(pages)
+    calls: list[str] = []
+
+    def interrupted(request, timeout=0):
+        calls.append(request.full_url)
+        if request.full_url == urls[0]:
+            return _FakeResponse(request.full_url, pages[request.full_url])
+        return _FakeResponse(request.full_url, status=503)
+
+    output = tmp_path / "resume_evidence"
+    with pytest.raises(InformationSetError, match="RELEASE_EVIDENCE_HTTP_STATUS"):
+        acquire_release_evidence(
+            _policy(tmp_path),
+            registry,
+            output,
+            opener=interrupted,
+            min_request_interval_seconds=0,
+            max_retries=0,
+            now_provider=_fixed_now,
+        )
+
+    partial = json.loads((output / "acquisition_summary.json").read_text(encoding="utf-8"))
+    receipts = list(csv.DictReader((output / "acquisition_receipts.csv").open(newline="", encoding="utf-8")))
+    assert partial["status"] == "RELEASE_EVIDENCE_PARTIAL"
+    assert partial["official_calendar_pages_acquired"] == 1
+    assert partial["missing_reference_periods"] == ["2021-02", "2021-03"]
+    assert partial["resume_supported"] is True
+    assert partial["research_release_allowed"] is False
+    assert partial["monetary_release_allowed"] is False
+    assert len(receipts) == 1
+    assert not (output / "MANIFEST.sha256").exists()
+
+    resumed_calls: list[str] = []
+
+    def resumed(request, timeout=0):
+        resumed_calls.append(request.full_url)
+        return _FakeResponse(request.full_url, pages[request.full_url])
+
+    summary = acquire_release_evidence(
+        _policy(tmp_path),
+        registry,
+        output,
+        opener=resumed,
+        resume=True,
+        min_request_interval_seconds=0,
+        now_provider=_fixed_now,
+    )
+    assert summary["status"] == "RELEASE_EVIDENCE_COMPLETE"
+    assert summary["official_calendar_pages_acquired"] == 3
+    assert urls[0] not in resumed_calls
+    assert resumed_calls == urls[1:]
+    verify_manifest(output)
+
+
+def test_resume_rejects_tampered_existing_page_before_network(tmp_path: Path) -> None:
+    from armilar_prices.information_set_v093 import acquire_release_evidence
+
+    registry, pages = _calendar_registry(tmp_path)
+    urls = list(pages)
+    output = tmp_path / "tampered_resume"
+
+    def interrupted(request, timeout=0):
+        if request.full_url == urls[0]:
+            return _FakeResponse(request.full_url, pages[request.full_url])
+        return _FakeResponse(request.full_url, status=503)
+
+    with pytest.raises(InformationSetError):
+        acquire_release_evidence(
+            _policy(tmp_path), registry, output, opener=interrupted,
+            min_request_interval_seconds=0, max_retries=0, now_provider=_fixed_now,
+        )
+    first_row = next(csv.DictReader((output / "acquisition_receipts.csv").open(newline="", encoding="utf-8")))
+    (output / first_row["raw_file"]).write_bytes(b"tampered")
+    network_calls = 0
+
+    def should_not_run(request, timeout=0):
+        nonlocal network_calls
+        network_calls += 1
+        raise AssertionError("network must not be called")
+
+    with pytest.raises(InformationSetError, match="RELEASE_EVIDENCE_HASH_MISMATCH"):
+        acquire_release_evidence(
+            _policy(tmp_path), registry, output, opener=should_not_run,
+            resume=True, min_request_interval_seconds=0,
+        )
+    assert network_calls == 0
+
+
+def test_retry_after_is_respected_for_429(tmp_path: Path) -> None:
+    from armilar_prices.information_set_v093 import acquire_release_evidence
+
+    registry, pages = _calendar_registry(tmp_path)
+    first_url = next(iter(pages))
+    counts: dict[str, int] = {}
+    clock = _FakeClock()
+
+    def opener(request, timeout=0):
+        counts[request.full_url] = counts.get(request.full_url, 0) + 1
+        if request.full_url == first_url and counts[request.full_url] == 1:
+            return _FakeResponse(request.full_url, status=429, headers={"Retry-After": "7"})
+        return _FakeResponse(request.full_url, pages[request.full_url])
+
+    acquire_release_evidence(
+        _policy(tmp_path), registry, tmp_path / "retry_after", opener=opener,
+        min_request_interval_seconds=0, sleeper=clock.sleep, monotonic=clock.monotonic,
+        now_provider=_fixed_now,
+    )
+    assert counts[first_url] == 2
+    assert 7.0 in clock.sleeps
+
+
+def test_retry_uses_increasing_backoff_without_retry_after(tmp_path: Path) -> None:
+    from armilar_prices.information_set_v093 import acquire_release_evidence
+
+    registry, pages = _calendar_registry(tmp_path)
+    first_url = next(iter(pages))
+    counts: dict[str, int] = {}
+    clock = _FakeClock()
+
+    def opener(request, timeout=0):
+        counts[request.full_url] = counts.get(request.full_url, 0) + 1
+        if request.full_url == first_url and counts[request.full_url] <= 2:
+            return _FakeResponse(request.full_url, status=503)
+        return _FakeResponse(request.full_url, pages[request.full_url])
+
+    acquire_release_evidence(
+        _policy(tmp_path), registry, tmp_path / "backoff", opener=opener,
+        min_request_interval_seconds=0, sleeper=clock.sleep, monotonic=clock.monotonic,
+        now_provider=_fixed_now,
+    )
+    assert counts[first_url] == 3
+    assert clock.sleeps[:2] == [5.0, 10.0]
+
+
+def test_retry_limit_is_five_total_requests_and_partial_state_survives(tmp_path: Path) -> None:
+    from armilar_prices.information_set_v093 import acquire_release_evidence
+
+    registry, _ = _calendar_registry(tmp_path)
+    calls = 0
+    clock = _FakeClock()
+
+    def opener(request, timeout=0):
+        nonlocal calls
+        calls += 1
+        return _FakeResponse(request.full_url, status=503)
+
+    output = tmp_path / "retry_exhausted"
+    with pytest.raises(InformationSetError, match="RELEASE_EVIDENCE_HTTP_STATUS"):
+        acquire_release_evidence(
+            _policy(tmp_path), registry, output, opener=opener,
+            min_request_interval_seconds=0, sleeper=clock.sleep, monotonic=clock.monotonic,
+            now_provider=_fixed_now,
+        )
+    assert calls == 5
+    summary = json.loads((output / "acquisition_summary.json").read_text(encoding="utf-8"))
+    assert summary["status"] == "RELEASE_EVIDENCE_PARTIAL"
+    assert summary["official_calendar_pages_acquired"] == 0
+    assert summary["last_error"].startswith("RELEASE_EVIDENCE_HTTP_STATUS")
+    assert not (output / "MANIFEST.sha256").exists()
+
+
+def test_non_retryable_404_is_not_repeated(tmp_path: Path) -> None:
+    from armilar_prices.information_set_v093 import acquire_release_evidence
+
+    registry, _ = _calendar_registry(tmp_path)
+    calls = 0
+
+    def opener(request, timeout=0):
+        nonlocal calls
+        calls += 1
+        return _FakeResponse(request.full_url, status=404)
+
+    with pytest.raises(InformationSetError, match="RELEASE_EVIDENCE_HTTP_STATUS"):
+        acquire_release_evidence(
+            _policy(tmp_path), registry, tmp_path / "not_found", opener=opener,
+            min_request_interval_seconds=0, now_provider=_fixed_now,
+        )
+    assert calls == 1
+
+
+def test_minimum_request_interval_applies_only_between_network_requests(tmp_path: Path) -> None:
+    from armilar_prices.information_set_v093 import acquire_release_evidence
+
+    registry, pages = _calendar_registry(tmp_path)
+    clock = _FakeClock()
+
+    def opener(request, timeout=0):
+        return _FakeResponse(request.full_url, pages[request.full_url])
+
+    output = tmp_path / "rate_limited"
+    acquire_release_evidence(
+        _policy(tmp_path), registry, output, opener=opener,
+        min_request_interval_seconds=5, sleeper=clock.sleep, monotonic=clock.monotonic,
+        now_provider=_fixed_now,
+    )
+    assert clock.sleeps == [5.0, 5.0]
+
+    def no_network(request, timeout=0):
+        raise AssertionError("complete resume must not issue requests")
+
+    before = list(clock.sleeps)
+    acquire_release_evidence(
+        _policy(tmp_path), registry, output, opener=no_network, resume=True,
+        min_request_interval_seconds=5, sleeper=clock.sleep, monotonic=clock.monotonic,
+        now_provider=_fixed_now,
+    )
+    assert clock.sleeps == before
+
+
+def test_fresh_and_resumed_acquisitions_are_deterministic(tmp_path: Path) -> None:
+    from armilar_prices.information_set_v093 import acquire_release_evidence
+
+    registry, pages = _calendar_registry(tmp_path)
+    urls = list(pages)
+
+    def success(request, timeout=0):
+        return _FakeResponse(request.full_url, pages[request.full_url])
+
+    fresh = tmp_path / "fresh"
+    acquire_release_evidence(
+        _policy(tmp_path), registry, fresh, opener=success,
+        min_request_interval_seconds=0, now_provider=_fixed_now,
+    )
+
+    resumed = tmp_path / "resumed"
+
+    def interrupted(request, timeout=0):
+        if request.full_url == urls[0]:
+            return _FakeResponse(request.full_url, pages[request.full_url])
+        return _FakeResponse(request.full_url, status=503)
+
+    with pytest.raises(InformationSetError):
+        acquire_release_evidence(
+            _policy(tmp_path), registry, resumed, opener=interrupted,
+            min_request_interval_seconds=0, max_retries=0, now_provider=_fixed_now,
+        )
+    acquire_release_evidence(
+        _policy(tmp_path), registry, resumed, opener=success, resume=True,
+        min_request_interval_seconds=0, now_provider=_fixed_now,
+    )
+
+    fresh_files = {p.relative_to(fresh).as_posix(): p.read_bytes() for p in fresh.rglob("*") if p.is_file()}
+    resumed_files = {p.relative_to(resumed).as_posix(): p.read_bytes() for p in resumed.rglob("*") if p.is_file()}
+    assert fresh_files == resumed_files

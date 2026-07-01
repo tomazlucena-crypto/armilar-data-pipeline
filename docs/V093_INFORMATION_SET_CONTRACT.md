@@ -139,3 +139,21 @@ The milestone is complete when:
 ## Remaining boundary
 
 The next modelling milestone may construct a genuine pre-release nowcast. Such a model must prohibit target-period CP00 and category donors and use only information whose release timestamp precedes the forecast origin.
+
+## Operational acquisition contract
+
+The 60-page Eurostat release-calendar acquisition is checkpointed page by page.
+
+- Every valid page is written atomically before its receipt is committed.
+- `acquisition_receipts.csv` and `acquisition_summary.json` are replaced atomically after every accepted page.
+- An interrupted run ends in `RELEASE_EVIDENCE_PARTIAL`, lists the missing periods and never writes a final `MANIFEST.sha256`.
+- `--resume` verifies every existing page, hash, receipt, official URL, release date and reference period before issuing another request.
+- Valid existing pages are never downloaded again.
+- Existing untracked or modified evidence causes a fail-closed error.
+- Requests are separated by at least `--min-request-interval-seconds`, defaulting to five seconds.
+- HTTP 429, 500, 502, 503 and 504 are retried at most four times after the initial request.
+- `Retry-After` is respected when present; otherwise bounded exponential backoff is used, capped at 120 seconds.
+- Other HTTP 4xx responses are not retried.
+- `RELEASE_EVIDENCE_COMPLETE` and the final manifest are produced only after exactly 60 pages pass semantic and hash validation.
+
+Partial evidence cannot unlock panel construction, model comparison, promotion or either release gate.

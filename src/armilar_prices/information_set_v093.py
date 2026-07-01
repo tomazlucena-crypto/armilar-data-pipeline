@@ -21,9 +21,11 @@ import html
 import json
 import re
 import shutil
+import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
+from email.utils import parsedate_to_datetime
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation, getcontext
 from importlib.metadata import PackageNotFoundError, version as package_version
@@ -440,24 +442,235 @@ def _read_release_registry(registry_path: Path, policy: InformationSetPolicy) ->
     return sorted(rows, key=lambda row: row["reference_period"])
 
 
+RECEIPT_FIELDS = (
+    "reference_period",
+    "release_date",
+    "source_url",
+    "final_url",
+    "raw_file",
+    "raw_sha256",
+    "http_status",
+    "content_type",
+    "retrieved_at",
+)
+RETRYABLE_HTTP_STATUSES = frozenset({429, 500, 502, 503, 504})
+MAX_RETRIES_PER_PAGE = 4
+MAX_RETRY_DELAY_SECONDS = 120.0
+
+
+def _header_value(headers: Any, name: str) -> str:
+    if headers is None:
+        return ""
+    try:
+        value = headers.get(name, "")
+    except AttributeError:
+        return ""
+    return str(value).strip()
+
+
+def _retry_after_delay(headers: Any, *, now: datetime) -> float | None:
+    raw = _header_value(headers, "Retry-After")
+    if not raw:
+        return None
+    if re.fullmatch(r"\d+", raw):
+        return min(float(raw), MAX_RETRY_DELAY_SECONDS)
+    try:
+        parsed = parsedate_to_datetime(raw)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    delay = max(0.0, (parsed.astimezone(timezone.utc) - now.astimezone(timezone.utc)).total_seconds())
+    return min(delay, MAX_RETRY_DELAY_SECONDS)
+
+
+def _retry_delay_seconds(attempt_index: int, headers: Any, *, now: datetime) -> float:
+    retry_after = _retry_after_delay(headers, now=now)
+    if retry_after is not None:
+        return retry_after
+    return min(5.0 * (2 ** attempt_index), MAX_RETRY_DELAY_SECONDS)
+
+
+def _read_receipts(path: Path) -> list[dict[str, str]]:
+    if not path.is_file():
+        return []
+    with path.open(newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle)
+        if tuple(reader.fieldnames or ()) != RECEIPT_FIELDS:
+            raise InformationSetError("ACQUISITION_RECEIPT_SCHEMA_INVALID", str(path))
+        rows = [{field: str(row.get(field, "")).strip() for field in RECEIPT_FIELDS} for row in reader]
+    periods = [row["reference_period"] for row in rows]
+    if len(periods) != len(set(periods)):
+        raise InformationSetError("DUPLICATE_ACQUISITION_RECEIPT", str(path))
+    return rows
+
+
+def _validate_receipt(
+    output: Path,
+    registry_row: Mapping[str, str],
+    receipt: Mapping[str, str],
+) -> dict[str, str]:
+    period = registry_row["reference_period"]
+    for field in ("reference_period", "release_date", "source_url", "raw_file"):
+        if str(receipt.get(field, "")) != str(registry_row[field]):
+            raise InformationSetError("ACQUISITION_RECEIPT_MISMATCH", f"{period}: {field}")
+    if receipt.get("http_status") != "200":
+        raise InformationSetError("ACQUISITION_RECEIPT_STATUS_INVALID", period)
+    if receipt.get("content_type") not in {"text/html", "application/xhtml+xml"}:
+        raise InformationSetError("ACQUISITION_RECEIPT_CONTENT_TYPE_INVALID", period)
+    final_url = str(receipt.get("final_url", ""))
+    if not final_url.startswith("https://ec.europa.eu/eurostat/"):
+        raise InformationSetError("RELEASE_EVIDENCE_REDIRECT_UNOFFICIAL", final_url)
+    _parse_aware_datetime(str(receipt.get("retrieved_at", "")), "ACQUISITION_RECEIPT_TIMESTAMP_INVALID")
+    digest = str(receipt.get("raw_sha256", "")).lower()
+    if not SHA256_RE.fullmatch(digest):
+        raise InformationSetError("RELEASE_EVIDENCE_HASH_INVALID", period)
+    target = _resolve_inside(output, registry_row["raw_file"], "RELEASE_EVIDENCE_PATH_INVALID")
+    if not target.is_file():
+        raise InformationSetError("RELEASE_EVIDENCE_MISSING", registry_row["raw_file"])
+    data = target.read_bytes()
+    if _sha256(data) != digest:
+        raise InformationSetError("RELEASE_EVIDENCE_HASH_MISMATCH", registry_row["raw_file"])
+    release = _parse_iso_date(registry_row["release_date"], "RELEASE_DATE_INVALID")
+    _validate_calendar_page(data, period, release)
+    return {field: str(receipt[field]) for field in RECEIPT_FIELDS}
+
+
+def _acquisition_summary(
+    policy: InformationSetPolicy,
+    registry_rows: Sequence[Mapping[str, str]],
+    receipts: Mapping[str, Mapping[str, str]],
+    *,
+    status: str,
+    last_error: str = "",
+) -> dict[str, Any]:
+    valid_periods = sorted(receipts)
+    missing_periods = [row["reference_period"] for row in registry_rows if row["reference_period"] not in receipts]
+    complete = not missing_periods
+    if complete != (status == "RELEASE_EVIDENCE_COMPLETE"):
+        raise InformationSetError("ACQUISITION_STATE_INVALID", status)
+    return {
+        "schema_version": "1.1",
+        "policy_version": policy.policy_version,
+        "provider": policy.provider,
+        "status": status,
+        "release_event_count": len(valid_periods),
+        "official_calendar_pages_acquired": len(valid_periods),
+        "expected_calendar_page_count": len(registry_rows),
+        "valid_reference_periods": valid_periods,
+        "missing_reference_periods": missing_periods,
+        "last_error": last_error,
+        "resume_supported": True,
+        "evidence_validation": "EXACT_HICP_REFERENCE_PERIOD_AND_RELEASE_DATE_PRESENT",
+        "historical_value_vintages_included": False,
+        "publication_aware_model_comparison_allowed": False,
+        "model_promotion_allowed": False,
+        "research_release_allowed": False,
+        "monetary_release_allowed": False,
+    }
+
+
+def _write_acquisition_checkpoint(
+    output: Path,
+    policy: InformationSetPolicy,
+    registry_rows: Sequence[Mapping[str, str]],
+    receipts: Mapping[str, Mapping[str, str]],
+    *,
+    complete: bool,
+    last_error: str = "",
+) -> dict[str, Any]:
+    ordered = [receipts[row["reference_period"]] for row in registry_rows if row["reference_period"] in receipts]
+    _write_csv(output / "acquisition_receipts.csv", RECEIPT_FIELDS, ordered)
+    summary = _acquisition_summary(
+        policy,
+        registry_rows,
+        receipts,
+        status="RELEASE_EVIDENCE_COMPLETE" if complete else "RELEASE_EVIDENCE_PARTIAL",
+        last_error=last_error,
+    )
+    _atomic_write(output / "acquisition_summary.json", _canonical_json(summary))
+    manifest = output / "MANIFEST.sha256"
+    if complete:
+        _write_manifest(output)
+    elif manifest.exists():
+        manifest.unlink()
+    return summary
+
+
+def _load_resume_receipts(
+    output: Path,
+    registry_rows: Sequence[Mapping[str, str]],
+) -> dict[str, dict[str, str]]:
+    registry_by_period = {row["reference_period"]: row for row in registry_rows}
+    receipts: dict[str, dict[str, str]] = {}
+    for receipt in _read_receipts(output / "acquisition_receipts.csv"):
+        period = receipt["reference_period"]
+        registry_row = registry_by_period.get(period)
+        if registry_row is None:
+            raise InformationSetError("ACQUISITION_RECEIPT_PERIOD_UNKNOWN", period)
+        receipts[period] = _validate_receipt(output, registry_row, receipt)
+
+    allowed_metadata = {"acquisition_receipts.csv", "acquisition_summary.json", "MANIFEST.sha256"}
+    tracked_files = {row["raw_file"] for row in receipts.values()}
+    for path in output.rglob("*"):
+        if not path.is_file() or path.name.endswith(".tmp"):
+            continue
+        relative = path.relative_to(output).as_posix()
+        if relative not in allowed_metadata and relative not in tracked_files:
+            raise InformationSetError("RELEASE_EVIDENCE_UNTRACKED_FILE", relative)
+    return receipts
+
+
 def acquire_release_evidence(
     policy_path: Path | str,
     registry_csv: Path | str,
     output_dir: Path | str,
     *,
     timeout_seconds: int = 60,
+    resume: bool = False,
+    min_request_interval_seconds: float = 5.0,
     opener: Callable[..., Any] | None = None,
+    sleeper: Callable[[float], None] = time.sleep,
+    monotonic: Callable[[], float] = time.monotonic,
+    now_provider: Callable[[], datetime] | None = None,
+    max_retries: int = MAX_RETRIES_PER_PAGE,
 ) -> Mapping[str, Any]:
     policy = InformationSetPolicy.load(policy_path)
     registry_path = Path(registry_csv)
     output = Path(output_dir)
-    if output.exists() and any(output.iterdir()):
+    if timeout_seconds <= 0:
+        raise InformationSetError("REQUEST_TIMEOUT_INVALID", str(timeout_seconds))
+    if min_request_interval_seconds < 0:
+        raise InformationSetError("REQUEST_INTERVAL_INVALID", str(min_request_interval_seconds))
+    if max_retries < 0 or max_retries > MAX_RETRIES_PER_PAGE:
+        raise InformationSetError("RETRY_LIMIT_INVALID", str(max_retries))
+    if output.exists() and any(output.iterdir()) and not resume:
         raise InformationSetError("OUTPUT_DIRECTORY_NOT_EMPTY", str(output))
     output.mkdir(parents=True, exist_ok=True)
     rows = _read_release_registry(registry_path, policy)
     fetch = opener or urllib.request.urlopen
-    receipts: list[dict[str, str]] = []
+    now_utc = now_provider or (lambda: datetime.now(timezone.utc))
+    receipts = _load_resume_receipts(output, rows) if resume else {}
+
+    if len(receipts) == len(rows):
+        summary = _write_acquisition_checkpoint(output, policy, rows, receipts, complete=True)
+        verify_manifest(output)
+        return summary
+
+    last_request_at: float | None = None
+
+    def wait_for_request_slot() -> None:
+        nonlocal last_request_at
+        if last_request_at is not None:
+            remaining = min_request_interval_seconds - (monotonic() - last_request_at)
+            if remaining > 0:
+                sleeper(remaining)
+        last_request_at = monotonic()
+
     for row in rows:
+        period = row["reference_period"]
+        if period in receipts:
+            continue
         release = _parse_iso_date(row["release_date"], "RELEASE_DATE_INVALID")
         request = urllib.request.Request(
             row["source_url"],
@@ -468,56 +681,72 @@ def acquire_release_evidence(
             },
         )
         try:
-            with fetch(request, timeout=timeout_seconds) as response:
-                status = int(getattr(response, "status", response.getcode()))
-                data = response.read()
-                content_type = str(response.headers.get("Content-Type", "")).split(";", 1)[0].strip().lower()
-                final_url = str(response.geturl())
-        except (OSError, urllib.error.URLError) as exc:
-            raise InformationSetError("RELEASE_EVIDENCE_DOWNLOAD_FAILED", row["source_url"]) from exc
-        if status != 200:
-            raise InformationSetError("RELEASE_EVIDENCE_HTTP_STATUS", f"{status}: {row['source_url']}")
-        if not final_url.startswith("https://ec.europa.eu/eurostat/"):
-            raise InformationSetError("RELEASE_EVIDENCE_REDIRECT_UNOFFICIAL", final_url)
-        if content_type not in {"text/html", "application/xhtml+xml"}:
-            raise InformationSetError("RELEASE_EVIDENCE_CONTENT_TYPE", content_type)
-        _validate_calendar_page(data, row["reference_period"], release)
-        target = _resolve_inside(output, row["raw_file"], "RELEASE_EVIDENCE_PATH_INVALID")
-        _atomic_write(target, data)
-        receipts.append(
-            {
-                "reference_period": row["reference_period"],
+            for attempt_index in range(max_retries + 1):
+                wait_for_request_slot()
+                response: Any | None = None
+                try:
+                    response = fetch(request, timeout=timeout_seconds)
+                    with response:
+                        status = int(getattr(response, "status", response.getcode()))
+                        headers = getattr(response, "headers", {})
+                        final_url = str(response.geturl())
+                        if status == 200:
+                            data = response.read()
+                            content_type = _header_value(headers, "Content-Type").split(";", 1)[0].strip().lower()
+                            break
+                except urllib.error.HTTPError as exc:
+                    status = int(exc.code)
+                    headers = exc.headers
+                    final_url = str(exc.geturl())
+                except (OSError, urllib.error.URLError) as exc:
+                    raise InformationSetError("RELEASE_EVIDENCE_DOWNLOAD_FAILED", row["source_url"]) from exc
+
+                if status not in RETRYABLE_HTTP_STATUSES or attempt_index >= max_retries:
+                    raise InformationSetError("RELEASE_EVIDENCE_HTTP_STATUS", f"{status}: {row['source_url']}")
+                sleeper(_retry_delay_seconds(attempt_index, headers, now=now_utc()))
+            else:  # pragma: no cover - defensive, loop always exits by break or raise
+                raise InformationSetError("RELEASE_EVIDENCE_RETRY_EXHAUSTED", row["source_url"])
+
+            if not final_url.startswith("https://ec.europa.eu/eurostat/"):
+                raise InformationSetError("RELEASE_EVIDENCE_REDIRECT_UNOFFICIAL", final_url)
+            if content_type not in {"text/html", "application/xhtml+xml"}:
+                raise InformationSetError("RELEASE_EVIDENCE_CONTENT_TYPE", content_type)
+            _validate_calendar_page(data, period, release)
+            target = _resolve_inside(output, row["raw_file"], "RELEASE_EVIDENCE_PATH_INVALID")
+            if target.exists():
+                raise InformationSetError("RELEASE_EVIDENCE_UNTRACKED_FILE", row["raw_file"])
+            _atomic_write(target, data)
+            timestamp = now_utc()
+            if timestamp.tzinfo is None or timestamp.utcoffset() is None:
+                raise InformationSetError("ACQUISITION_TIMESTAMP_INVALID", timestamp.isoformat())
+            receipt = {
+                "reference_period": period,
                 "release_date": row["release_date"],
                 "source_url": row["source_url"],
                 "final_url": final_url,
                 "raw_file": row["raw_file"],
                 "raw_sha256": _sha256(data),
-                "http_status": str(status),
+                "http_status": "200",
                 "content_type": content_type,
-                "retrieved_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                "retrieved_at": timestamp.astimezone(timezone.utc).isoformat().replace("+00:00", "Z"),
             }
-        )
-    _write_csv(
-        output / "acquisition_receipts.csv",
-        [
-            "reference_period", "release_date", "source_url", "final_url",
-            "raw_file", "raw_sha256", "http_status", "content_type", "retrieved_at",
-        ],
-        receipts,
-    )
-    summary = {
-        "schema_version": "1.0",
-        "policy_version": policy.policy_version,
-        "provider": policy.provider,
-        "release_event_count": len(receipts),
-        "official_calendar_pages_acquired": len(receipts),
-        "evidence_validation": "EXACT_HICP_REFERENCE_PERIOD_AND_RELEASE_DATE_PRESENT",
-        "historical_value_vintages_included": False,
-        "research_release_allowed": False,
-        "monetary_release_allowed": False,
-    }
-    _atomic_write(output / "acquisition_summary.json", _canonical_json(summary))
-    _write_manifest(output)
+            receipts[period] = receipt
+            _write_acquisition_checkpoint(
+                output, policy, rows, receipts, complete=(len(receipts) == len(rows))
+            )
+        except InformationSetError as exc:
+            _write_acquisition_checkpoint(
+                output,
+                policy,
+                rows,
+                receipts,
+                complete=False,
+                last_error=str(exc),
+            )
+            raise
+
+    summary = _write_acquisition_checkpoint(output, policy, rows, receipts, complete=True)
+    verify_manifest(output)
     return summary
 
 def seal_release_snapshot(
@@ -923,9 +1152,11 @@ def _parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
     acquire = sub.add_parser("acquire-release-evidence")
     acquire.add_argument("--policy", required=True)
-    acquire.add_argument("--registry-csv", required=True)
+    acquire.add_argument("--registry-csv", "--registry", dest="registry_csv", required=True)
     acquire.add_argument("--output-dir", required=True)
     acquire.add_argument("--timeout-seconds", type=int, default=60)
+    acquire.add_argument("--resume", action="store_true")
+    acquire.add_argument("--min-request-interval-seconds", type=float, default=5.0)
     seal = sub.add_parser("seal-release-snapshot")
     seal.add_argument("--policy", required=True)
     seal.add_argument("--registry-csv", required=True)
@@ -946,7 +1177,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     if args.command == "acquire-release-evidence":
         result = acquire_release_evidence(
-            args.policy, args.registry_csv, args.output_dir, timeout_seconds=args.timeout_seconds
+            args.policy,
+            args.registry_csv,
+            args.output_dir,
+            timeout_seconds=args.timeout_seconds,
+            resume=args.resume,
+            min_request_interval_seconds=args.min_request_interval_seconds,
         )
     elif args.command == "seal-release-snapshot":
         result = seal_release_snapshot(args.policy, args.registry_csv, args.evidence_root, args.output_dir)
