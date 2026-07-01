@@ -1,0 +1,29 @@
+{
+  "policy_version": "0.9.3",
+  "universe_id": "ARM-EUROSTAT-HICP-FIVE-ECONOMY-V0.8.7",
+  "provider": "EUROSTAT",
+  "dataset": "prc_hicp_midx",
+  "source_category": "CP00",
+  "start_period": "2021-01",
+  "end_period": "2025-12",
+  "release_timezone": "Europe/Luxembourg",
+  "availability_precision": "DAY",
+  "minimum_release_lag_days": 1,
+  "maximum_release_lag_days": 31,
+  "required_headline_policy_version": "0.9.0",
+  "required_backtest_policy_version": "0.9.0",
+  "required_input_vintage_mode": "FINAL_VINTAGE_PSEUDO_REAL_TIME",
+  "output_capability": "PUBLICATION_TIMING_AWARE_FINAL_VALUES",
+  "historical_value_vintages_available": true,
+  "publication_aware_model_comparison_allowed": false,
+  "model_promotion_allowed": false,
+  "research_release_allowed": false,
+  "monetary_release_allowed": false,
+  "economy_codes": [
+    "DEU",
+    "ESP",
+    "FRA",
+    "ITA",
+    "PRT"
+  ]
+}
