@@ -1,0 +1,33 @@
+{
+  "policy_version": "0.9.3",
+  "universe_id": "ARMILAR_EUROSTAT_5_ECONOMY_VERTICAL",
+  "provider": "EUROSTAT",
+  "dataset": "prc_hicp_fp",
+  "api_base": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_fp",
+  "frequency": "M",
+  "start_period": "2021-01",
+  "end_period": "2025-12",
+  "categories": [
+    "CP00", "CP01", "CP02", "CP03", "CP04", "CP05", "CP06",
+    "CP07", "CP08", "CP09", "CP10", "CP11", "CP12"
+  ],
+  "economies": [
+    {"armilar_code": "DEU", "eurostat_code": "DE", "name": "Germany"},
+    {"armilar_code": "ESP", "eurostat_code": "ES", "name": "Spain"},
+    {"armilar_code": "FRA", "eurostat_code": "FR", "name": "France"},
+    {"armilar_code": "ITA", "eurostat_code": "IT", "name": "Italy"},
+    {"armilar_code": "PRT", "eurostat_code": "PT", "name": "Portugal"}
+  ],
+  "preferred_unit_label_tokens": ["index", "2015=100"],
+  "preferred_release_label": "Final",
+  "probe_period": "2025-12",
+  "request_timeout_seconds": 120,
+  "max_response_bytes": 50000000,
+  "required_information_set_policy_version": "0.9.3",
+  "required_vertical_policy_version": "0.8.7",
+  "historical_value_vintages_available": true,
+  "publication_aware_model_comparison_allowed": false,
+  "model_promotion_allowed": false,
+  "research_release_allowed": false,
+  "monetary_release_allowed": false
+}

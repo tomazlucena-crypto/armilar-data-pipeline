@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "armilar-data-pipeline"
-version = "0.9.2"
+version = "0.9.3"
 description = "Auditable acquisition and construction pipeline for the ICP 2021 Armilar weight matrix"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -17,6 +17,10 @@ sdmx = ["sdmx1>=2.26,<3"]
 test = ["hypothesis>=6.100,<7", "pytest>=8,<9"]
 
 [project.scripts]
+armilar-information-set-v093 = "armilar_prices.information_set_v093:main"
+armilar-first-published-v093 = "armilar_prices.first_published_v093:main"
+armilar-release-time-backtest-v093 = "armilar_prices.release_time_backtest_v093:main"
+armilar-vintage-sensitivity-v093 = "armilar_prices.vintage_sensitivity_v093:main"
 armilar-temporal-safeguard-v092 = "armilar_prices.temporal_safeguard_v092:main"
 armilar-paired-diagnostics-v091 = "armilar_prices.paired_diagnostics_v091:main"
 armilar-eurostat-headline = "armilar_prices.eurostat_headline_v090:main"
