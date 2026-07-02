@@ -7,13 +7,13 @@ A blocked source or changed structural marker prevents a closed rejection.
 
 | Criterion | Status | Evidence source | SHA-256 | Evidence |
 |---|---|---|---|---|
-| `annual_national_accounts_source_acquired` | `CONFIRMED` | `PAK_PBS_NATIONAL_ACCOUNTS_PAGE` | `16f367f646e40156d6238fb9a9585d935abeaf242464d889414f77c7588d8c92` | The official PBS annual national-accounts page was acquired and confirms demand-side aggregate series. |
+| `annual_national_accounts_source_acquired` | `CONFIRMED` | `PAK_PBS_NATIONAL_ACCOUNTS_PAGE` | `a7784cf74877dc28bb1d45666ae0eb1ff2f948b015e7b3289e17c33acdc00bf3` | The official PBS annual national-accounts page was acquired and confirms demand-side aggregate series. |
 | `machine_readable_2021_22_hfce_aggregate_acquired` | `CONFIRMED` | `PAK_PBS_NATIONAL_ACCOUNTS_XLSX` | `dd77cb5858080e06a565cee5521593ccfccf9eebd164e040bba3f2cb10e240ef` | The official annual-tables workbook contains aggregate household final consumption for fiscal 2021-22. |
 | `reference_period_matches_calendar_2021` | `CONTRADICTED` | `PAK_PBS_NATIONAL_ACCOUNTS_XLSX` | `dd77cb5858080e06a565cee5521593ccfccf9eebd164e040bba3f2cb10e240ef` | The relevant official period is fiscal 2021-22 rather than calendar year 2021. |
-| `twelve_armilar_purposes_available_in_national_accounts` | `CONTRADICTED` | `PAK_PBS_NATIONAL_ACCOUNTS_PAGE` | `16f367f646e40156d6238fb9a9585d935abeaf242464d889414f77c7588d8c92` | The reviewed annual national-accounts source family exposes HFCE as an aggregate GDP component, not twelve purposes. |
-| `hies_is_national_accounts_s14_p31` | `CONTRADICTED` | `PAK_PBS_HIES_2018_19` | `f520b233b92c340afb36d238e025da072eedcbb21c68e05adf07cfd6d1eaa081` | HIES is a household survey and cannot replace national-accounts S14/P31 expenditure. |
-| `hies_reference_period_matches_2021` | `CONTRADICTED` | `PAK_PBS_HIES_2018_19` | `f520b233b92c340afb36d238e025da072eedcbb21c68e05adf07cfd6d1eaa081` | The located detailed HIES tables refer to 2018-19, not 2021. |
-| `exact_armilar_source_available` | `CONTRADICTED` | `PAK_PBS_NATIONAL_ACCOUNTS_PAGE` | `16f367f646e40156d6238fb9a9585d935abeaf242464d889414f77c7588d8c92` | No reviewed PBS source combines calendar 2021, current prices, strict household national accounts and twelve-purpose coverage. |
+| `twelve_armilar_purposes_available_in_national_accounts` | `CONTRADICTED` | `PAK_PBS_NATIONAL_ACCOUNTS_PAGE` | `a7784cf74877dc28bb1d45666ae0eb1ff2f948b015e7b3289e17c33acdc00bf3` | The reviewed annual national-accounts source family exposes HFCE as an aggregate GDP component, not twelve purposes. |
+| `hies_is_national_accounts_s14_p31` | `CONTRADICTED` | `PAK_PBS_HIES_2018_19` | `66d0896892c08dc2a53e5448dee7a1bfa73b0c0275f69c44c746f555bf125cbc` | HIES is a household survey and cannot replace national-accounts S14/P31 expenditure. |
+| `hies_reference_period_matches_2021` | `CONTRADICTED` | `PAK_PBS_HIES_2018_19` | `66d0896892c08dc2a53e5448dee7a1bfa73b0c0275f69c44c746f555bf125cbc` | The located detailed HIES tables refer to 2018-19, not 2021. |
+| `exact_armilar_source_available` | `CONTRADICTED` | `PAK_PBS_NATIONAL_ACCOUNTS_PAGE` | `a7784cf74877dc28bb1d45666ae0eb1ff2f948b015e7b3289e17c33acdc00bf3` | No reviewed PBS source combines calendar 2021, current prices, strict household national accounts and twelve-purpose coverage. |
 
 ## Decision
 
