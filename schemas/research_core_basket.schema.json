@@ -1,9 +1,207 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://armilar.org/schemas/research_core_basket.schema.json",
-  "title": "Armilar Research Core basket row",
-  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "required": ["economy_code", "economy_name", "armilar_category", "raw_world_weight", "fixed_universe_weight", "evidence_class", "method_id", "model_version", "source_ids"],
-  "properties": {"economy_code": {"enum": ["DEU", "ESP", "FRA", "ITA", "PRT"]}}
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "evidence_class": {
+            "const": "EXACT_OFFICIAL"
+          }
+        },
+        "required": [
+          "evidence_class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "derivation": {
+            "const": "DIRECT_SOURCE90_HFCE"
+          },
+          "ppp_scope": {
+            "const": "STRICT_HFCE"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "evidence_class": {
+            "const": "OFFICIAL_DETERMINISTIC_DERIVATION"
+          }
+        },
+        "required": [
+          "evidence_class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "derivation": {
+            "const": "ALCOHOL_PLUS_TOBACCO_EXCLUDING_NARCOTICS"
+          },
+          "ppp_scope": {
+            "const": "STRICT_HFCE_COMPOSITE"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "evidence_class": {
+            "const": "EXPERIMENTAL_RESEARCH"
+          }
+        },
+        "required": [
+          "evidence_class"
+        ]
+      },
+      "then": {
+        "properties": {
+          "derivation": {
+            "const": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP"
+          },
+          "ppp_scope": {
+            "const": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "basket_version": {
+      "const": "0.3.0-draft"
+    },
+    "category_code": {
+      "enum": [
+        "CP01",
+        "CP02",
+        "CP03",
+        "CP04",
+        "CP05",
+        "CP06",
+        "CP07",
+        "CP08",
+        "CP09",
+        "CP10",
+        "CP11",
+        "CP12"
+      ]
+    },
+    "covered_world_weight": {
+      "const": "0.160150831582167491646292"
+    },
+    "derivation": {
+      "enum": [
+        "DIRECT_SOURCE90_HFCE",
+        "ALCOHOL_PLUS_TOBACCO_EXCLUDING_NARCOTICS",
+        "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP"
+      ]
+    },
+    "economy_code": {
+      "enum": [
+        "DEU",
+        "ESP",
+        "FRA",
+        "ITA",
+        "PRT"
+      ]
+    },
+    "economy_name": {
+      "enum": [
+        "Germany",
+        "Spain",
+        "France",
+        "Italy",
+        "Portugal"
+      ]
+    },
+    "evidence_class": {
+      "enum": [
+        "EXACT_OFFICIAL",
+        "OFFICIAL_DETERMINISTIC_DERIVATION",
+        "EXPERIMENTAL_RESEARCH"
+      ]
+    },
+    "fixed_universe_weight": {
+      "pattern": "^(0|[1-9][0-9]*)\\.[0-9]+$",
+      "type": "string"
+    },
+    "normalization_rule": {
+      "const": "FIXED_UNIVERSE_NORMALISE_ONCE"
+    },
+    "numerator_source_file": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "numerator_source_hash": {
+      "pattern": "^[0-9a-f]{64}(\\|[0-9a-f]{64})*$",
+      "type": "string"
+    },
+    "numerator_source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "ppp_scope": {
+      "enum": [
+        "STRICT_HFCE",
+        "STRICT_HFCE_COMPOSITE",
+        "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B"
+      ]
+    },
+    "ppp_source_heading": {
+      "pattern": "^[0-9]+(\\+[0-9]+)*$",
+      "type": "string"
+    },
+    "quality_flags": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "raw_world_weight": {
+      "pattern": "^(0|[1-9][0-9]*)\\.[0-9]+$",
+      "type": "string"
+    },
+    "research_core_id": {
+      "const": "ARMILAR_RESEARCH_CORE_V1"
+    },
+    "rounding_residual_applied": {
+      "const": "0"
+    },
+    "status": {
+      "const": "RESEARCH_ONLY"
+    },
+    "weight_source": {
+      "const": "public/latest/weights_observed_universe.csv"
+    },
+    "weight_source_version": {
+      "const": "0.9.4"
+    }
+  },
+  "required": [
+    "research_core_id",
+    "basket_version",
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "raw_world_weight",
+    "fixed_universe_weight",
+    "covered_world_weight",
+    "normalization_rule",
+    "weight_source",
+    "weight_source_version",
+    "numerator_source_id",
+    "numerator_source_file",
+    "numerator_source_hash",
+    "ppp_source_heading",
+    "ppp_scope",
+    "derivation",
+    "quality_flags",
+    "rounding_residual_applied",
+    "evidence_class",
+    "status"
+  ],
+  "title": "Armilar Research Core V1 basket row, v0.3.0 draft",
+  "type": "object"
 }
