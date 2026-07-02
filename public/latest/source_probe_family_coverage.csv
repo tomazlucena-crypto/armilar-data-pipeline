@@ -30,7 +30,7 @@ access_blocked_count,acquired_dataset_count,acquired_discovery_count,acquired_do
 0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,BRA,Brazil,false,5,0,official_input_output_tables,true
 0,0,1,0,DISCOVERY_ONLY,C_ONLY,D_UNAVAILABLE,BRA_IBGE_SNA_RESOURCE_USE_TABLES,1,0,true,BRA,Brazil,false,6,1,official_structured_publications,false
 0,0,0,0,NOT_INVESTIGATED,,,,0,0,false,BRA,Brazil,false,7,0,survey_or_cpi_class_c_only,true
-1,0,0,0,ACCESS_BLOCKED,D_UNAVAILABLE,D_UNAVAILABLE,BRA_IBGE_CLASSIFICACOES_METODOLOGIA,1,0,false,BRA,Brazil,false,8,1,official_classifications_methodology,false
+0,0,0,0,SOURCE_NOT_MACHINE_READABLE,D_UNAVAILABLE,D_UNAVAILABLE,BRA_IBGE_CLASSIFICACOES_METODOLOGIA,1,1,false,BRA,Brazil,true,8,1,official_classifications_methodology,false
 0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,CHN,China,false,1,0,official_national_accounts_api,true
 0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,CHN,China,false,2,0,official_csv_xls_xlsx,true
 0,0,0,0,NOT_INVESTIGATED,,,,0,0,true,CHN,China,false,3,0,official_statistical_database,true

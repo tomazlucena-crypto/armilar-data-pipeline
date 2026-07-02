@@ -8,9 +8,9 @@
   "economies_with_complete_core_family_probe": 0,
   "economy_audit_state_counts": {
     "ACCESS_BLOCKED": 4,
-    "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 4,
+    "NO_ADMISSIBLE_SOURCE_FOUND_IN_CURRENT_PROBE": 3,
     "OFFICIAL_EXPERIMENTAL_ALLOCATION": 1,
-    "SOURCE_NOT_MACHINE_READABLE": 6
+    "SOURCE_NOT_MACHINE_READABLE": 7
   },
   "economy_class_counts": {
     "A_CANDIDATE": 0,
@@ -20,12 +20,12 @@
   },
   "pipeline_version": "0.9.4",
   "schema_version": "2.1",
-  "source_candidates_access_blocked": 17,
+  "source_candidates_access_blocked": 16,
   "source_candidates_acquired_as_datasets": 3,
   "source_candidates_acquired_as_discovery_only": 9,
   "source_candidates_acquired_as_documentation": 8,
-  "source_candidates_content_validation_failed": 9,
-  "source_candidates_failed": 17,
+  "source_candidates_content_validation_failed": 10,
+  "source_candidates_failed": 16,
   "source_candidates_probed": 46,
   "source_probe_max_workers": 5,
   "uninvestigated_core_family_count": 62
