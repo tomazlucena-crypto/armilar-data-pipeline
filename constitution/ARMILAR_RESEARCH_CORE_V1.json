@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "constitution_id": "ARMILAR_RESEARCH_CORE_V1",
+  "constitution_version": "0.1.0-draft",
+  "constitution_status": "DRAFT",
+  "research_core_id": "ARMILAR_RESEARCH_CORE_V1",
+  "scope": {
+    "claim": "Experimental consumer price index based on fixed Armilar weights and official Eurostat category prices for five euro-area economies, accompanied by a live estimate and uncertainty metrics.",
+    "geographical_scope": "FIVE_EURO_AREA_ECONOMIES",
+    "price_source_scope": "OFFICIAL_EUROSTAT_CATEGORY_PRICES",
+    "weight_policy": "FIXED_ARMILAR_RESEARCH_WEIGHTS",
+    "world_index_claim_allowed": false,
+    "monetary_use_allowed": false
+  },
+  "economies": [
+    "DEU",
+    "ESP",
+    "FRA",
+    "ITA",
+    "PRT"
+  ],
+  "basket_categories": [
+    "CP01",
+    "CP02",
+    "CP03",
+    "CP04",
+    "CP05",
+    "CP06",
+    "CP07",
+    "CP08",
+    "CP09",
+    "CP10",
+    "CP11",
+    "CP12"
+  ],
+  "benchmark_categories": [
+    "CP00"
+  ],
+  "series": {
+    "ARM-O": {
+      "meaning": "Last index calculated only from published official data.",
+      "role": "OFFICIAL",
+      "silent_substitution_allowed": false
+    },
+    "ARM-L": {
+      "meaning": "Live estimate from the last official anchor.",
+      "role": "LIVE_ESTIMATE",
+      "silent_substitution_allowed": false
+    },
+    "ARM-R": {
+      "meaning": "History reconstructed with later official revisions.",
+      "role": "REVISED_HISTORY",
+      "silent_substitution_allowed": false
+    },
+    "ARM-H": {
+      "meaning": "Separate CP00 headline benchmark for comparison and diagnostics.",
+      "role": "HEADLINE_BENCHMARK",
+      "silent_substitution_allowed": false
+    }
+  },
+  "currency_policy": {
+    "current_fx_in_arm_o": false,
+    "current_fx_in_arm_l": false,
+    "informational_fx_layer_allowed": true,
+    "fx_failure_changes_arm_o_or_arm_l": false,
+    "future_fx_proxy_requires_methodological_decision": true,
+    "future_fx_proxy_requires_backtest": true
+  },
+  "release_gates": {
+    "research_release_allowed": false,
+    "model_promotion_allowed": false,
+    "monetary_release_allowed": false,
+    "shadow_production_allowed": false
+  },
+  "pending_decisions": [
+    {"decision_id": "normalization_base", "status": "PENDING_RATIFICATION"},
+    {"decision_id": "official_formula", "status": "PENDING_RATIFICATION"},
+    {"decision_id": "vintage_and_revision_policy", "status": "PENDING_RATIFICATION"},
+    {"decision_id": "precision_and_rounding", "status": "PENDING_RATIFICATION"},
+    {"decision_id": "exact_series_semantics", "status": "PENDING_RATIFICATION"},
+    {"decision_id": "hfce_hicp_conceptual_treatment", "status": "PENDING_RATIFICATION"},
+    {"decision_id": "constitutional_amendment_process", "status": "PENDING_RATIFICATION"}
+  ],
+  "basket_materialization": {
+    "status": "BASKET_MATERIALIZATION_BLOCKED",
+    "expected_cell_count": 60,
+    "required_input": "artifacts/v093/first_published_panel/first_published_observations.csv",
+    "blocking_reason": "The exact 60 v0.9.4 fixed-universe weights and their provenance are preserved in the external v0.9.3 first-published panel artifact, not in the repository. Synthetic test weights are not admissible as basket inputs.",
+    "synthetic_test_weights_allowed": false,
+    "silent_renormalization_allowed": false
+  },
+  "prohibitions": [
+    "SILENT_ECONOMY_EXPANSION",
+    "CATEGORY_ADDITION_WITHOUT_CONSTITUTIONAL_CHANGE",
+    "CP00_IN_WEIGHTED_BASKET",
+    "SILENT_RENORMALIZATION_OF_INCOMPLETE_BASKET",
+    "AUTOMATIC_WEIGHT_CHANGES",
+    "MODEL_REWRITE_OF_OFFICIAL_HISTORY",
+    "AUTOMATIC_GATE_ACTIVATION",
+    "MONETARY_USE",
+    "WORLD_INDEX_CLAIM",
+    "BLOCKCHAIN_ORACLE_USE"
+  ],
+  "source_documents": [
+    "docs/ARMILAR_RESEARCH_CORE_V1_SCOPE.md",
+    "docs/DECISION_RESEARCH_CORE_V1.md",
+    "docs/ROADMAP_V095_TO_V110.md",
+    "docs/FX_METHODOLOGY_V0.8.3.md",
+    "docs/V094_PRE_RELEASE_FORECAST_CONTRACT.md"
+  ]
+}

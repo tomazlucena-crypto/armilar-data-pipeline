@@ -4,11 +4,21 @@
 
 This decision note records the scope for the future Research Core workstream. It does not change runtime behaviour or release gates.
 
+The executable draft contracts are:
+
+- [`constitution/ARMILAR_RESEARCH_CORE_V1.json`](../constitution/ARMILAR_RESEARCH_CORE_V1.json)
+- [`constitution/ARMILAR_RESEARCH_CORE_V1.md`](../constitution/ARMILAR_RESEARCH_CORE_V1.md)
+- [`schemas/research_core_constitution.schema.json`](../schemas/research_core_constitution.schema.json)
+- [`schemas/research_core_basket.schema.json`](../schemas/research_core_basket.schema.json)
+
+The JSON constitution is canonical. Its status is `DRAFT`.
+
 ## Preserved gates
 
 - `research_release_allowed=false`
 - `model_promotion_allowed=false`
 - `monetary_release_allowed=false`
+- `shadow_production_allowed=false`
 
 ## FX decision
 
@@ -29,6 +39,12 @@ It is not yet allowed to claim:
 - monetary policy recommendation;
 - complete HFCE measure;
 - HICP substitute.
+
+## Basket materialisation status
+
+`BASKET_MATERIALIZATION_BLOCKED`
+
+The exact 60 fixed-universe weights used by v0.9.4 must be extracted from the preserved v0.9.3 first-published panel artifact with their original precision and provenance. The synthetic weights used in unit-test fixtures are not admissible. No basket CSV is created until the exact artifact is available.
 
 ## Decisions still pending
 
