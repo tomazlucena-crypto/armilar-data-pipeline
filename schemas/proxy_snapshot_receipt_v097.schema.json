@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arm_l_use_allowed": {
+      "const": false
+    },
+    "attribution": {
+      "type": "string"
+    },
+    "direct_index_use_allowed": {
+      "const": false
+    },
+    "final_url": {
+      "type": "string"
+    },
+    "http_status": {
+      "const": 200
+    },
+    "license_name": {
+      "type": "string"
+    },
+    "license_url": {
+      "type": "string"
+    },
+    "model_training_allowed": {
+      "const": false
+    },
+    "monetary_use_allowed": {
+      "const": false
+    },
+    "official_page_url": {
+      "type": "string"
+    },
+    "publication_time_status": {
+      "type": "string"
+    },
+    "published_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "raw_filename": {
+      "type": "string"
+    },
+    "raw_size_bytes": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "registry_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "registry_version": {
+      "const": "0.9.7"
+    },
+    "requested_url": {
+      "type": "string"
+    },
+    "response_headers": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "retrieved_at": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "shadow_production_allowed": {
+      "const": false
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "registry_version",
+    "source_id",
+    "snapshot_id",
+    "official_page_url",
+    "requested_url",
+    "final_url",
+    "http_status",
+    "response_headers",
+    "raw_filename",
+    "raw_size_bytes",
+    "source_sha256",
+    "registry_sha256",
+    "published_at",
+    "publication_time_status",
+    "retrieved_at",
+    "license_name",
+    "license_url",
+    "attribution",
+    "direct_index_use_allowed",
+    "arm_l_use_allowed",
+    "model_training_allowed",
+    "shadow_production_allowed",
+    "monetary_use_allowed"
+  ],
+  "title": "ARMILAR v0.9.7 proxy snapshot receipt",
+  "type": "object"
+}

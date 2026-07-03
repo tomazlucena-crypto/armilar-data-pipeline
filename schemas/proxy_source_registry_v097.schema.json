@@ -1,0 +1,281 @@
+{
+  "$defs": {
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_hosts": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "arm_l_use_allowed": {
+          "const": false
+        },
+        "attribution": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "authority": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "conceptual_limitations": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "content_type_allowlist": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "data_url": {
+          "pattern": "^https://",
+          "type": "string"
+        },
+        "dataset_name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "direct_index_use_allowed": {
+          "const": false
+        },
+        "expected_lag_days": {
+          "maximum": 366,
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "frequency": {
+          "enum": [
+            "WEEKLY",
+            "MONTHLY",
+            "QUARTERLY"
+          ]
+        },
+        "geographic_scope": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "historical_vintage_support": {
+          "type": "boolean"
+        },
+        "license": {
+          "additionalProperties": false,
+          "properties": {
+            "commercial_reuse_status": {
+              "enum": [
+                "COMMERCIAL_REUSE_ALLOWED_WITH_ATTRIBUTION",
+                "REUSE_ALLOWED_WITH_ATTRIBUTION",
+                "REVIEW_REQUIRED"
+              ]
+            },
+            "name": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "notes": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "url": {
+              "pattern": "^https://",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "url",
+            "commercial_reuse_status",
+            "notes"
+          ],
+          "type": "object"
+        },
+        "max_download_bytes": {
+          "minimum": 1024,
+          "type": "integer"
+        },
+        "model_training_allowed": {
+          "const": false
+        },
+        "monetary_use_allowed": {
+          "const": false
+        },
+        "official_page_url": {
+          "pattern": "^https://",
+          "type": "string"
+        },
+        "parser_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "proxy_domains": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "publication_time_status": {
+          "enum": [
+            "EXACT_TIMESTAMP",
+            "RELEASE_DATE_ONLY",
+            "SNAPSHOT_PAGE_DATE_ONLY",
+            "UNRESOLVED"
+          ]
+        },
+        "purpose": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "raw_extension": {
+          "enum": [
+            ".csv",
+            ".xlsx",
+            ".json"
+          ]
+        },
+        "series_selection": {
+          "type": "object"
+        },
+        "shadow_production_allowed": {
+          "const": false
+        },
+        "source_id": {
+          "pattern": "^[A-Z0-9_]+$",
+          "type": "string"
+        },
+        "source_status": {
+          "enum": [
+            "ACTIVE_RESEARCH_PROXY",
+            "ACTIVE_SENSITIVITY_ONLY",
+            "DEFERRED",
+            "REJECTED"
+          ]
+        },
+        "transport": {
+          "enum": [
+            "HTTP_CSV",
+            "HTTP_XLSX",
+            "EUROSTAT_JSONSTAT"
+          ]
+        }
+      },
+      "required": [
+        "source_id",
+        "authority",
+        "dataset_name",
+        "official_page_url",
+        "data_url",
+        "allowed_hosts",
+        "transport",
+        "raw_extension",
+        "parser_id",
+        "frequency",
+        "proxy_domains",
+        "source_status",
+        "purpose",
+        "geographic_scope",
+        "publication_time_status",
+        "historical_vintage_support",
+        "expected_lag_days",
+        "license",
+        "attribution",
+        "max_download_bytes",
+        "content_type_allowlist",
+        "series_selection",
+        "direct_index_use_allowed",
+        "arm_l_use_allowed",
+        "model_training_allowed",
+        "shadow_production_allowed",
+        "monetary_use_allowed",
+        "conceptual_limitations"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://armilar.org/schemas/proxy_source_registry_v097.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "constitutional_scope": {
+      "const": "RESEARCH_CORE_ENGINE_DEVELOPMENT_ONLY"
+    },
+    "global_invariants": {
+      "additionalProperties": false,
+      "properties": {
+        "arm_l_use_allowed": {
+          "const": false
+        },
+        "direct_index_use_allowed": {
+          "const": false
+        },
+        "live_acquisition_in_ci_allowed": {
+          "const": false
+        },
+        "model_training_allowed": {
+          "const": false
+        },
+        "monetary_use_allowed": {
+          "const": false
+        },
+        "raw_snapshot_required": {
+          "const": true
+        },
+        "replay_required": {
+          "const": true
+        },
+        "shadow_production_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "direct_index_use_allowed",
+        "arm_l_use_allowed",
+        "model_training_allowed",
+        "shadow_production_allowed",
+        "monetary_use_allowed",
+        "live_acquisition_in_ci_allowed",
+        "raw_snapshot_required",
+        "replay_required"
+      ],
+      "type": "object"
+    },
+    "registry_id": {
+      "const": "ARMILAR_PROXY_SOURCE_REGISTRY_V097"
+    },
+    "registry_version": {
+      "const": "0.9.7"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/source"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "registry_id",
+    "registry_version",
+    "constitutional_scope",
+    "global_invariants",
+    "sources"
+  ],
+  "title": "ARMILAR v0.9.7 proxy source registry",
+  "type": "object"
+}

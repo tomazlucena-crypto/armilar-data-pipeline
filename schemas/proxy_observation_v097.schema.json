@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arm_l_use_allowed": {
+      "const": "false"
+    },
+    "direct_index_use_allowed": {
+      "const": "false"
+    },
+    "frequency": {
+      "enum": [
+        "WEEKLY",
+        "MONTHLY",
+        "QUARTERLY"
+      ]
+    },
+    "geography": {
+      "type": "string"
+    },
+    "model_training_allowed": {
+      "const": "false"
+    },
+    "parser_version": {
+      "type": "string"
+    },
+    "period": {
+      "type": "string"
+    },
+    "proxy_domain": {
+      "type": "string"
+    },
+    "publication_time_status": {
+      "type": "string"
+    },
+    "published_at": {
+      "type": "string"
+    },
+    "raw_snapshot_id": {
+      "type": "string"
+    },
+    "registry_sha256": {
+      "type": "string"
+    },
+    "retrieved_at": {
+      "type": "string"
+    },
+    "row_locator": {
+      "type": "string"
+    },
+    "series_id": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "source_sha256": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "proxy_domain",
+    "series_id",
+    "geography",
+    "period",
+    "frequency",
+    "value",
+    "unit",
+    "published_at",
+    "publication_time_status",
+    "retrieved_at",
+    "raw_snapshot_id",
+    "source_sha256",
+    "registry_sha256",
+    "row_locator",
+    "parser_version",
+    "direct_index_use_allowed",
+    "arm_l_use_allowed",
+    "model_training_allowed"
+  ],
+  "title": "ARMILAR v0.9.7 normalized proxy observation",
+  "type": "object"
+}

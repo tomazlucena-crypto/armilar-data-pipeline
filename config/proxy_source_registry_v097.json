@@ -1,0 +1,208 @@
+{
+  "registry_id": "ARMILAR_PROXY_SOURCE_REGISTRY_V097",
+  "registry_version": "0.9.7",
+  "constitutional_scope": "RESEARCH_CORE_ENGINE_DEVELOPMENT_ONLY",
+  "global_invariants": {
+    "direct_index_use_allowed": false,
+    "arm_l_use_allowed": false,
+    "model_training_allowed": false,
+    "shadow_production_allowed": false,
+    "monetary_use_allowed": false,
+    "live_acquisition_in_ci_allowed": false,
+    "raw_snapshot_required": true,
+    "replay_required": true
+  },
+  "sources": [
+    {
+      "source_id": "WORLD_BANK_PINK_SHEET_MONTHLY",
+      "authority": "World Bank Prospects Group",
+      "dataset_name": "World Bank Commodity Price Data (The Pink Sheet), monthly historical workbook",
+      "official_page_url": "https://www.worldbank.org/en/research/commodity-markets",
+      "data_url": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+      "allowed_hosts": ["thedocs.worldbank.org"],
+      "transport": "HTTP_XLSX",
+      "raw_extension": ".xlsx",
+      "parser_id": "world_bank_pink_sheet_xlsx_v1",
+      "frequency": "MONTHLY",
+      "proxy_domains": ["ENERGY", "FOOD", "TRANSPORT"],
+      "source_status": "ACTIVE_RESEARCH_PROXY",
+      "purpose": "Global upstream commodity-price research proxy only",
+      "geographic_scope": "WORLD",
+      "publication_time_status": "SNAPSHOT_PAGE_DATE_ONLY",
+      "historical_vintage_support": false,
+      "expected_lag_days": 7,
+      "license": {
+        "name": "CC BY 4.0 with World Bank dataset terms",
+        "url": "https://datacatalog.worldbank.org/public-licenses",
+        "commercial_reuse_status": "COMMERCIAL_REUSE_ALLOWED_WITH_ATTRIBUTION",
+        "notes": "World Bank-produced open datasets default to CC BY 4.0 unless specifically labelled otherwise; dataset-specific exceptions remain fail-closed."
+      },
+      "attribution": "World Bank Prospects Group, World Bank Commodity Price Data (The Pink Sheet), accessed on the snapshot retrieval date.",
+      "max_download_bytes": 16777216,
+      "content_type_allowlist": [
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/octet-stream"
+      ],
+      "series_selection": {
+        "WB_ENERGY_INDEX": {
+          "aliases": ["Energy", "Energy index"],
+          "proxy_domain": "ENERGY",
+          "unit": "INDEX_2010_100"
+        },
+        "WB_CRUDE_OIL_AVERAGE": {
+          "aliases": ["Crude oil, average", "Crude oil average"],
+          "proxy_domain": "TRANSPORT",
+          "unit": "USD_PER_BARREL"
+        },
+        "WB_NATURAL_GAS_EUROPE": {
+          "aliases": ["Natural gas, Europe", "Natural gas Europe"],
+          "proxy_domain": "ENERGY",
+          "unit": "USD_PER_MMBTU"
+        },
+        "WB_FOOD_INDEX": {
+          "aliases": ["Food", "Food index"],
+          "proxy_domain": "FOOD",
+          "unit": "INDEX_2010_100"
+        }
+      },
+      "direct_index_use_allowed": false,
+      "arm_l_use_allowed": false,
+      "model_training_allowed": false,
+      "shadow_production_allowed": false,
+      "monetary_use_allowed": false,
+      "conceptual_limitations": [
+        "Commodity prices are upstream world-market prices rather than household transaction prices.",
+        "The latest historical workbook does not preserve the first-published vintage of each historical observation.",
+        "The workbook cannot enter an ARM-L information set until release-time archives are independently preserved and backtested."
+      ]
+    },
+    {
+      "source_id": "FAO_FOOD_PRICE_INDEX_MONTHLY",
+      "authority": "Food and Agriculture Organization of the United Nations",
+      "dataset_name": "FAO Food Price Index, nominal monthly indices",
+      "official_page_url": "https://www.fao.org/worldfoodsituation/foodpricesindex/en",
+      "data_url": "https://www.fao.org/media/docs/worldfoodsituationlibraries/default-document-library/food_price_indices_data.csv?download=true&sfvrsn=523ebd2a_81",
+      "allowed_hosts": ["www.fao.org"],
+      "transport": "HTTP_CSV",
+      "raw_extension": ".csv",
+      "parser_id": "fao_ffpi_csv_v1",
+      "frequency": "MONTHLY",
+      "proxy_domains": ["FOOD"],
+      "source_status": "ACTIVE_RESEARCH_PROXY",
+      "purpose": "International food commodity-price research proxy only",
+      "geographic_scope": "WORLD",
+      "publication_time_status": "RELEASE_DATE_ONLY",
+      "historical_vintage_support": false,
+      "expected_lag_days": 7,
+      "license": {
+        "name": "CC BY 4.0 under FAO Statistical Database Terms of Use",
+        "url": "https://www.fao.org/contact-us/terms/db-terms-of-use/en/",
+        "commercial_reuse_status": "COMMERCIAL_REUSE_ALLOWED_WITH_ATTRIBUTION",
+        "notes": "FAO statistical database reuse requires the prescribed attribution and indication of modifications."
+      },
+      "attribution": "FAO. FAO Food Price Index. Accessed on the snapshot retrieval date. Licence: CC BY 4.0.",
+      "max_download_bytes": 4194304,
+      "content_type_allowlist": [
+        "text/csv",
+        "text/plain",
+        "application/octet-stream"
+      ],
+      "series_selection": {},
+      "direct_index_use_allowed": false,
+      "arm_l_use_allowed": false,
+      "model_training_allowed": false,
+      "shadow_production_allowed": false,
+      "monetary_use_allowed": false,
+      "conceptual_limitations": [
+        "The FFPI measures international commodity quotations and does not measure national household retail prices.",
+        "The current CSV is a revised history and does not itself preserve historical first-published vintages.",
+        "A release date for the current snapshot does not establish the publication date of every historical row."
+      ]
+    },
+    {
+      "source_id": "EC_WEEKLY_OIL_BULLETIN_HISTORY",
+      "authority": "European Commission Directorate-General for Energy",
+      "dataset_name": "Weekly Oil Bulletin price developments, 2005 onwards",
+      "official_page_url": "https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en",
+      "data_url": "https://energy.ec.europa.eu/document/download/906e60ca-8b6a-44e7-8589-652854d2fd3f_en?filename=Weekly_Oil_Bulletin_Prices_History_maticni_4web.xlsx",
+      "allowed_hosts": ["energy.ec.europa.eu"],
+      "transport": "HTTP_XLSX",
+      "raw_extension": ".xlsx",
+      "parser_id": "ec_oil_bulletin_xlsx_v1",
+      "frequency": "WEEKLY",
+      "proxy_domains": ["FUELS", "TRANSPORT"],
+      "source_status": "ACTIVE_RESEARCH_PROXY",
+      "purpose": "EU consumer fuel-price research proxy only",
+      "geographic_scope": "EU_MEMBER_STATES",
+      "publication_time_status": "RELEASE_DATE_ONLY",
+      "historical_vintage_support": false,
+      "expected_lag_days": 4,
+      "license": {
+        "name": "European Commission reuse policy under Decision 2011/833/EU",
+        "url": "https://commission.europa.eu/legal-notice_en",
+        "commercial_reuse_status": "REUSE_ALLOWED_WITH_ATTRIBUTION",
+        "notes": "Reuse is authorised subject to source acknowledgement and any dataset-specific exceptions."
+      },
+      "attribution": "Source: European Commission, Directorate-General for Energy, Weekly Oil Bulletin; changes by ARMILAR are identified.",
+      "max_download_bytes": 33554432,
+      "content_type_allowlist": [
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/octet-stream"
+      ],
+      "series_selection": {},
+      "direct_index_use_allowed": false,
+      "arm_l_use_allowed": false,
+      "model_training_allowed": false,
+      "shadow_production_allowed": false,
+      "monetary_use_allowed": false,
+      "conceptual_limitations": [
+        "Coverage is limited to EU countries and petroleum products.",
+        "Fuel prices are relevant mainly to CP07 and parts of CP04 and cannot substitute for complete category prices.",
+        "The current history workbook does not prove the first-published value available on each historical date."
+      ]
+    },
+    {
+      "source_id": "EUROSTAT_OOHPI_QUARTERLY",
+      "authority": "Eurostat",
+      "dataset_name": "Owner-occupied housing price index, quarterly data (prc_hpi_ooq)",
+      "official_page_url": "https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Housing_price_statistics_-_owner-occupied_housing_price_index",
+      "data_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hpi_ooq?lang=en",
+      "allowed_hosts": ["ec.europa.eu"],
+      "transport": "EUROSTAT_JSONSTAT",
+      "raw_extension": ".json",
+      "parser_id": "eurostat_jsonstat_v1",
+      "frequency": "QUARTERLY",
+      "proxy_domains": ["HOUSING_OOH_SENSITIVITY"],
+      "source_status": "ACTIVE_SENSITIVITY_ONLY",
+      "purpose": "OOH sensitivity analysis only; never a direct HFCE imputed-rent replacement",
+      "geographic_scope": "EU_EEA",
+      "publication_time_status": "UNRESOLVED",
+      "historical_vintage_support": false,
+      "expected_lag_days": 95,
+      "license": {
+        "name": "Eurostat free reuse policy",
+        "url": "https://ec.europa.eu/eurostat/help/copyright-notice",
+        "commercial_reuse_status": "REUSE_ALLOWED_WITH_ATTRIBUTION",
+        "notes": "Eurostat data may be reused with acknowledgement unless an identified third-party exception applies."
+      },
+      "attribution": "Source: Eurostat, dataset prc_hpi_ooq; modifications and retrieval date identified by ARMILAR.",
+      "max_download_bytes": 67108864,
+      "content_type_allowlist": [
+        "application/json",
+        "application/json-stat2",
+        "application/octet-stream"
+      ],
+      "series_selection": {},
+      "direct_index_use_allowed": false,
+      "arm_l_use_allowed": false,
+      "model_training_allowed": false,
+      "shadow_production_allowed": false,
+      "monetary_use_allowed": false,
+      "conceptual_limitations": [
+        "OOHPI follows a net-acquisitions framework and is not equivalent to HFCE imputed rent.",
+        "The source is admitted only for the constitutionally required OOH sensitivity analysis.",
+        "The current API response does not preserve first-published historical vintages or exact release timestamps."
+      ]
+    }
+  ]
+}
