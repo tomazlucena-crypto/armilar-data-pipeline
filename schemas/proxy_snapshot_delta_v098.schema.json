@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/proxy_snapshot_delta_v098.schema.json",
+  "title": "ARMILAR v0.9.8 snapshot delta diagnostic",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "snapshot_id",
+    "retrieved_at",
+    "previous_snapshot_id",
+    "previous_retrieved_at",
+    "current_observation_count",
+    "added_count",
+    "reobserved_count",
+    "revised_count",
+    "missing_from_previous_count",
+    "delta_status"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "previous_snapshot_id": {
+      "type": "string"
+    },
+    "previous_retrieved_at": {
+      "type": "string"
+    },
+    "current_observation_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "added_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "reobserved_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "revised_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "missing_from_previous_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "delta_status": {
+      "enum": [
+        "INITIAL_SNAPSHOT",
+        "UNCHANGED_SNAPSHOT",
+        "CONTENT_CHANGED"
+      ]
+    }
+  }
+}

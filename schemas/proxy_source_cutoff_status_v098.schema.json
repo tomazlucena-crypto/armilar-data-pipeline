@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/proxy_source_cutoff_status_v098.schema.json",
+  "title": "ARMILAR v0.9.8 source cutoff freshness status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id",
+    "cutoff",
+    "selected_observation_count",
+    "latest_snapshot_id",
+    "latest_snapshot_at",
+    "age_days",
+    "allowed_age_days",
+    "freshness_status"
+  ],
+  "properties": {
+    "source_id": {
+      "type": "string"
+    },
+    "cutoff": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "selected_observation_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "latest_snapshot_id": {
+      "type": "string"
+    },
+    "latest_snapshot_at": {
+      "type": "string"
+    },
+    "age_days": {
+      "oneOf": [
+        {
+          "type": "string",
+          "maxLength": 0
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        }
+      ]
+    },
+    "allowed_age_days": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "freshness_status": {
+      "enum": [
+        "NO_SNAPSHOT_BY_CUTOFF",
+        "CURRENT_WITHIN_EXPECTED_WINDOW",
+        "STALE_BEYOND_EXPECTED_WINDOW"
+      ]
+    }
+  }
+}

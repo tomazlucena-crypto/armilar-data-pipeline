@@ -24,7 +24,7 @@ def test_v094_production_policy_uses_canonical_universe_and_closed_gates() -> No
 def test_v094_pyproject_version_and_entrypoint() -> None:
     root = Path(__file__).resolve().parents[1]
     payload = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
-    assert payload["project"]["version"] == "0.9.7"
+    assert payload["project"]["version"] == "0.9.8"
     assert payload["project"]["scripts"]["armilar-pre-release-backtest-v094"] == (
         "armilar_prices.pre_release_backtest_v094:main"
     )
