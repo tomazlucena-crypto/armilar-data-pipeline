@@ -1,0 +1,208 @@
+{
+  "$id": "https://armilar.org/schemas/research_core_ratification_proposal.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "const": {
+    "approval_status": "NOT_APPROVED",
+    "decisions": [
+      {
+        "decision_record": "docs/DECISION_RESEARCH_CORE_NORMALIZATION_BASE.md",
+        "executable_contract": {
+          "all_base_months_required": true,
+          "base_definition": "ANNUAL_AVERAGE_OF_12_MONTHLY_OFFICIAL_INDEX_LEVELS",
+          "base_value": "100",
+          "missing_base_month_policy": "FAIL_CLOSED",
+          "reference_year": 2021,
+          "seasonal_adjustment": "NSA",
+          "zero_or_negative_base_policy": "FAIL_CLOSED"
+        },
+        "id": "normalization_base",
+        "status": "PROPOSED",
+        "summary": "Re-reference every economy-category official price series to the arithmetic mean of its twelve 2021 monthly non-seasonally-adjusted index levels, with the annual average equal to 100."
+      },
+      {
+        "decision_record": "docs/DECISION_RESEARCH_CORE_OFFICIAL_FORMULA.md",
+        "executable_contract": {
+          "benchmark_excluded": [
+            "CP00"
+          ],
+          "contribution_formula": "weight_i_c * (price_relative_i_c_t - price_relative_i_c_t_minus_1)",
+          "current_fx_included": false,
+          "formula": "ARM_O_t = SUM_i_c(fixed_universe_weight_i_c * price_relative_i_c_t)",
+          "incomplete_period_policy": "NO_VALUE_FAIL_CLOSED",
+          "index_type": "FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE",
+          "silent_renormalization_allowed": false,
+          "weight_field": "fixed_universe_weight",
+          "weight_sum": "1.000000000000000000000000000",
+          "weighted_categories": [
+            "CP01",
+            "CP02",
+            "CP03",
+            "CP04",
+            "CP05",
+            "CP06",
+            "CP07",
+            "CP08",
+            "CP09",
+            "CP10",
+            "CP11",
+            "CP12"
+          ]
+        },
+        "id": "official_formula",
+        "status": "PROPOSED",
+        "summary": "Use a fixed-weight arithmetic Laspeyres-type index over the 60 Research Core cells, with no current FX, no CP00 and no renormalization of incomplete periods."
+      },
+      {
+        "decision_record": "docs/DECISION_RESEARCH_CORE_VINTAGE_AND_REVISION_POLICY.md",
+        "executable_contract": {
+          "arm_o_vintage_mutability": "IMMUTABLE",
+          "arm_r_policy": "LATEST_REVISED_RECONSTRUCTION_PRESERVING_ARM_O_VINTAGES",
+          "historical_vintage_limitation_must_be_disclosed": true,
+          "information_cutoff_required": true,
+          "later_revision_action": "CREATE_NEW_DATA_VINTAGE",
+          "published_at_required_when_available": true,
+          "raw_snapshot_required": true,
+          "retrieved_at_required": true,
+          "retroactive_overwrite_allowed": false,
+          "revision_id_required_when_available": true
+        },
+        "id": "vintage_and_revision_policy",
+        "status": "PROPOSED",
+        "summary": "Preserve immutable first-published ARM-O vintages and expose later official revisions only through a separate ARM-R reconstruction."
+      },
+      {
+        "decision_record": "docs/DECISION_RESEARCH_CORE_PRECISION_AND_ROUNDING.md",
+        "executable_contract": {
+          "arithmetic_type": "DECIMAL",
+          "canonical_scales": {
+            "contribution_decimal_places": 12,
+            "coverage_share_decimal_places": 12,
+            "index_level_decimal_places": 12,
+            "percentage_rate_decimal_places": 8,
+            "price_relative_decimal_places": 12
+          },
+          "contribution_reconciliation": "CHECK_BEFORE_ROUNDING_AND_PUBLISH_ROUNDING_RESIDUAL_SEPARATELY",
+          "decimal_precision": 28,
+          "display_rounding_is_noncanonical": true,
+          "intermediate_rounding_allowed": false,
+          "rounding_mode": "ROUND_HALF_EVEN",
+          "scientific_notation_allowed": false,
+          "weights_preserve_source_precision": true
+        },
+        "id": "precision_and_rounding",
+        "status": "PROPOSED",
+        "summary": "Use Decimal arithmetic with precision 28 and ROUND_HALF_EVEN, avoid intermediate rounding and publish canonical decimal strings at fixed scales."
+      },
+      {
+        "decision_record": "docs/DECISION_RESEARCH_CORE_SERIES_SEMANTICS.md",
+        "executable_contract": {
+          "ARM-H": {
+            "economy_weight_definition": "SUM_OF_RESEARCH_CORE_CATEGORY_WEIGHTS_BY_ECONOMY",
+            "meaning": "INDEPENDENT_CP00_HEADLINE_BENCHMARK",
+            "requires_complete_five_economy_cp00_grid": true,
+            "weighted_basket_member": false
+          },
+          "ARM-L": {
+            "approved_model_or_proxy_required_for_updates": true,
+            "bounds_and_quality_required": true,
+            "may_backfill_arm_o_or_arm_r": false,
+            "meaning": "LIVE_RESEARCH_ESTIMATE_ANCHORED_TO_LATEST_ARM_O",
+            "no_approved_model_policy": "EXPLICIT_CARRY_FORWARD_BASELINE"
+          },
+          "ARM-O": {
+            "carry_forward_allowed": false,
+            "may_be_described_as_official_statistic": false,
+            "meaning": "FIRST_PUBLISHED_OFFICIAL_SOURCE_RESEARCH_INDEX",
+            "proxies_allowed": false,
+            "requires_complete_60_cell_grid": true
+          },
+          "ARM-R": {
+            "may_replace_arm_o": false,
+            "meaning": "LATEST_REVISED_OFFICIAL_SOURCE_RECONSTRUCTION",
+            "preserves_arm_o_vintages": true,
+            "proxies_allowed": false
+          },
+          "silent_substitution_allowed": false
+        },
+        "id": "exact_series_semantics",
+        "status": "PROPOSED",
+        "summary": "Keep ARM-O, ARM-R, ARM-H and ARM-L separate, with explicit source, vintage and fallback rules and no silent substitution."
+      },
+      {
+        "decision_record": "docs/DECISION_RESEARCH_CORE_HFCE_HICP_TREATMENT.md",
+        "executable_contract": {
+          "accepted_use": "ENGINE_DEVELOPMENT_AND_INTERNAL_RESEARCH_ONLY",
+          "alignment_status": "KNOWN_PARTIAL_SCOPE_MISMATCH",
+          "automatic_weight_adjustment_allowed": false,
+          "complete_hfce_claim_allowed": false,
+          "imputed_rent_substitution_allowed": false,
+          "price_concept": "HICP_HOUSEHOLD_FINAL_MONETARY_CONSUMPTION",
+          "quantification_report_required_before_research_release": true,
+          "release_disclosure_required": true,
+          "separate_amendment_required_before_monetary_eligibility": true,
+          "weight_concept": "ARMILAR_HFCE_PPP_2021",
+          "world_index_claim_allowed": false
+        },
+        "id": "hfce_hicp_conceptual_treatment",
+        "status": "PROPOSED",
+        "summary": "Accept the known HFCE-weight/HICP-price scope mismatch only for bounded engine development, disclose it in every release and keep all release and monetary gates closed until quantified."
+      },
+      {
+        "decision_record": "docs/DECISION_RESEARCH_CORE_AMENDMENT_PROCESS.md",
+        "executable_contract": {
+          "backtest_required_for_numerical_change": true,
+          "canonical_hash_required": true,
+          "change_classes": {
+            "CONSTITUTIONAL_MAJOR": "BASKET_FORMULA_BASE_WEIGHT_SCOPE_OR_SERIES_SEMANTICS_CHANGE",
+            "EDITORIAL_PATCH": "NO_NUMERICAL_OR_SEMANTIC_OUTPUT_CHANGE",
+            "RESEARCH_MINOR": "BACKWARD_COMPATIBLE_OPERATIONAL_OR_INTERFACE_CHANGE"
+          },
+          "decision_record_required": true,
+          "emergency_power_limited_to_freeze": true,
+          "explicit_human_approval_required": true,
+          "gates_default_to_false_after_amendment": true,
+          "impact_analysis_required": true,
+          "prior_versions_preserved": true,
+          "retroactive_history_rewrite_allowed": false,
+          "schema_and_test_update_required": true
+        },
+        "id": "constitutional_amendment_process",
+        "status": "PROPOSED",
+        "summary": "Require versioned decision records, impact analysis, tests, hashes and explicit human approval for every constitutional amendment, while preserving all prior versions."
+      }
+    ],
+    "prohibitions": [
+      "SELF_APPROVAL_BY_CHECKER",
+      "AUTOMATIC_RATIFICATION",
+      "AUTOMATIC_GATE_ACTIVATION",
+      "SILENT_CHANGE_TO_CANONICAL_CONSTITUTION",
+      "V096_IMPLEMENTATION_IN_PROPOSAL_PR"
+    ],
+    "proposal_id": "ARMILAR_RESEARCH_CORE_V1_RATIFICATION_PROPOSAL",
+    "proposal_status": "PROPOSED",
+    "proposal_version": "0.1.0",
+    "ratification_effect": {
+      "does_not_enable_monetary_use": true,
+      "does_not_enable_research_release": true,
+      "does_not_enable_shadow_production": true,
+      "does_not_start_v096": true,
+      "next_constitution_status": "RATIFIED_FOR_ENGINE_DEVELOPMENT",
+      "next_constitution_version": "1.0.0-research",
+      "pending_decisions_after_ratification": 0,
+      "release_gates_unchanged": {
+        "model_promotion_allowed": false,
+        "monetary_release_allowed": false,
+        "research_release_allowed": false,
+        "shadow_production_allowed": false,
+        "world_claim_allowed": false
+      }
+    },
+    "release_gates_must_remain_false": true,
+    "required_human_approval": true,
+    "target_constitution_id": "ARMILAR_RESEARCH_CORE_V1",
+    "target_constitution_sha256": "e5f1747c24b9e5cab5ffc894b472543e4e2ee3e3b8429ecd6be94475645b714f",
+    "target_constitution_version": "0.3.0-draft"
+  },
+  "description": "Closed executable proposal. It cannot ratify itself or activate any release gate.",
+  "title": "ARMILAR Research Core V1 ratification proposal"
+}

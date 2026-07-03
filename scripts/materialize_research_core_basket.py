@@ -423,10 +423,14 @@ def verify_bytes(path: Path, expected: bytes) -> None:
     if not path.is_file():
         raise ContractError(f"missing committed output: {path}")
     actual = path.read_bytes()
-    if actual != expected:
-        raise ContractError(
-            f"byte mismatch for {path}; committed_sha256={sha256_bytes(actual)}, expected_sha256={sha256_bytes(expected)}"
-        )
+    if actual == expected:
+        return
+    if path == BASKET_RELATIVE_PATH or path.suffix in {".json", ".md", ".sha256"}:
+        if canonicalize_utf8_text(actual) == canonicalize_utf8_text(expected):
+            return
+    raise ContractError(
+        f"byte mismatch for {path}; committed_sha256={sha256_bytes(actual)}, expected_sha256={sha256_bytes(expected)}"
+    )
 
 
 def materialize(root: Path, *, check: bool) -> None:

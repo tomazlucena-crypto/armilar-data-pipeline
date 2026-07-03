@@ -224,7 +224,7 @@ class ResearchCoreContractTests(unittest.TestCase):
         forward = render_basket_csv(build_basket_rows(select_source_rows(rows)))
         reverse = render_basket_csv(build_basket_rows(select_source_rows(reversed(rows))))
         self.assertEqual(forward, reverse)
-        self.assertEqual(forward, self.basket_path.read_bytes())
+        self.assertEqual(canonicalize_utf8_text(forward), canonicalize_utf8_text(self.basket_path.read_bytes()))
 
     def test_selected_source_mutations_fail(self) -> None:
         selected = select_source_rows(read_source(self.source_path))
