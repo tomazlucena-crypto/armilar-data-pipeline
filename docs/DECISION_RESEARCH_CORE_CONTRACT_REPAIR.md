@@ -22,13 +22,13 @@ The materializer now generates only:
 
 The constitution, schemas and decision records are authored and reviewed. The materializer validates them before generating outputs.
 
-The constitutional weight input is an immutable snapshot checked into `constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv`. `public/latest/weights_observed_universe.csv` is a mutable operational pointer and is not a constitutional input.
+The constitutional weight input is an immutable snapshot checked into `constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv`. The original working-tree bytes keep their upstream raw SHA-256 as provenance metadata, while the committed constitutional snapshot is validated canonically as UTF-8 without BOM with LF line endings. `public/latest/weights_observed_universe.csv` is a mutable operational pointer and is not a constitutional input.
 
 The basket restores per-cell source files, hashes, PPP headings, PPP scope, derivation, quality flags and rounding-residual state. Evidence classification is based only on `ppp_scope` and `derivation`.
 
 The manifest covers the basket, source, constitution, schemas, script, normalization configuration and decision records. It excludes itself.
 
-Text inputs covered by the manifest are hashed from a canonical UTF-8 representation without BOM, with CRLF and isolated CR normalized to LF. The source weights CSV retains its raw-byte SHA-256 invariant. This removes Windows/Linux checkout differences without changing visible or economic content.
+Text inputs covered by the manifest are hashed from a canonical UTF-8 representation without BOM, with CRLF and isolated CR normalized to LF. The upstream raw hash remains provenance metadata only; the constitutional snapshot hash is the enforced canonical invariant. This removes Windows/Linux checkout differences without changing visible or economic content.
 
 The manifest explicitly includes the immutable snapshot and excludes `public/latest/weights_observed_universe.csv`.
 

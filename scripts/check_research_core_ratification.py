@@ -18,7 +18,7 @@ PROXY_ANNEX_SCHEMA_RELATIVE_PATH = Path("schemas/research_core_proxy_exposure.sc
 CONSTITUTION_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.json")
 BASKET_RELATIVE_PATH = Path("basket/ARMILAR_RESEARCH_CORE_V1.csv")
 
-EXPECTED_CONSTITUTION_HASH = "22f305445f7b64d53789239ff5074fbca1ec9d4d5e41aea28f9a0b978a6c3802"
+EXPECTED_CONSTITUTION_HASH = "3e97eb4ca423f14203c92092d310527d9bc1fbcdcfb6438e46e01401d1496734"
 EXPECTED_BASKET_HASH = "5f6d3e515f4e703d47e10234af5187a0d4cdb5ba0f1acded3d516b3e1baaae1c"
 EXPECTED_PROXY_TOTAL = "0.589731681350816432896035605"
 EXPECTED_ECONOMIES = ("DEU", "ESP", "FRA", "ITA", "PRT")
@@ -204,6 +204,16 @@ def validate(root: Path) -> dict[str, Any]:
         raise RatificationProposalError("constitutional snapshot policy is invalid")
     if materialization.get("mutable_public_latest_allowed_as_constitutional_input") is not False:
         raise RatificationProposalError("public/latest must not be constitutional input")
+    if materialization.get("upstream_raw_sha256") != "743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83":
+        raise RatificationProposalError("upstream raw provenance hash is invalid")
+    if materialization.get("constitutional_snapshot_sha256") != "51ed567c1eea6badd077d2bd1fe1f4009a7ce1b542e16971c79c389a4370042f":
+        raise RatificationProposalError("constitutional snapshot hash is invalid")
+    if materialization.get("constitutional_snapshot_hash_policy") != "UTF8_WITHOUT_BOM_LF":
+        raise RatificationProposalError("constitutional snapshot hash policy is invalid")
+    if materialization.get("upstream_raw_hash_is_provenance_metadata") is not True:
+        raise RatificationProposalError("upstream raw hash must remain provenance metadata")
+    if materialization.get("constitutional_snapshot_hash_is_enforced") is not True:
+        raise RatificationProposalError("constitutional snapshot hash must be enforced")
 
     decisions = _decision_map(proposal)
     for item in decisions.values():

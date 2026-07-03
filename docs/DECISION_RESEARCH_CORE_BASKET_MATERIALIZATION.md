@@ -8,7 +8,9 @@ Materialize the 60-cell `ARMILAR_RESEARCH_CORE_V1` basket exclusively from the i
 
 - Source pipeline version: `0.9.4`
 - Source rows: `744`
-- Source SHA-256: `743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83`
+- Upstream raw SHA-256 provenance: `743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83`
+- Constitutional snapshot SHA-256: `51ed567c1eea6badd077d2bd1fe1f4009a7ce1b542e16971c79c389a4370042f`
+- Snapshot hash policy: `UTF8_WITHOUT_BOM_LF`
 - Source global weight sum: `1.000000000000000000000000`
 
 ## Selection
@@ -42,5 +44,7 @@ Expected counts are 30 exact official cells, 5 official deterministic derivation
 ## Limitations
 
 The 25 experimental cells remain explicit. The basket is `RESEARCH_ONLY`, cannot support monetary use and does not remove the HFCE/HICP conceptual mismatch.
+
+The upstream raw hash remains provenance metadata for the original working-tree bytes, while the constitutional snapshot is hashed canonically as UTF-8 without BOM with LF line endings. Git checkout line-ending differences do not change the snapshot meaning. Only visible content changes invalidate the snapshot.
 
 `public/latest` remains a mutable operational pointer and is not a constitutional input.
