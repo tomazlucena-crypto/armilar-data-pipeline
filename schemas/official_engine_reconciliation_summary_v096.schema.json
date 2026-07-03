@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARMILAR official engine v0.9.6 reconciliation summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "old_run_id", "new_run_id", "period_count",
+    "revised_period_count", "cell_row_count", "cell_revision_count",
+    "max_absolute_revision_index_points", "research_release_allowed",
+    "shadow_production_allowed", "monetary_release_allowed", "release_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "RECONCILED"},
+    "old_run_id": {"type": "string", "minLength": 3},
+    "new_run_id": {"type": "string", "minLength": 3},
+    "period_count": {"type": "integer", "minimum": 1},
+    "revised_period_count": {"type": "integer", "minimum": 0},
+    "cell_row_count": {"type": "integer", "minimum": 1},
+    "cell_revision_count": {"type": "integer", "minimum": 0},
+    "max_absolute_revision_index_points": {"type": "string", "pattern": "^[0-9]+\\.[0-9]{12}$"},
+    "research_release_allowed": {"const": false},
+    "shadow_production_allowed": {"const": false},
+    "monetary_release_allowed": {"const": false},
+    "release_gates": {
+      "const": {
+        "research_release_allowed": false,
+        "model_promotion_allowed": false,
+        "shadow_production_allowed": false,
+        "monetary_release_allowed": false,
+        "world_claim_allowed": false
+      }
+    }
+  }
+}

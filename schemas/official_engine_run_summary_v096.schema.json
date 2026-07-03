@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARMILAR official engine v0.9.6 run summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "engine_version",
+    "run_id",
+    "series_kind",
+    "vintage_id",
+    "cutoff_at",
+    "created_at",
+    "status",
+    "policy_id",
+    "policy_version",
+    "constitution_id",
+    "constitution_version",
+    "constitution_sha256",
+    "ratification_record_sha256",
+    "reference_year",
+    "reference_average",
+    "precision",
+    "rounding",
+    "period_count",
+    "economy_count",
+    "category_count",
+    "weight_cell_count",
+    "research_core_weight_cell_count",
+    "weight_evidence_class_counts",
+    "weight_evidence_class_totals",
+    "experimental_proxy_cell_count",
+    "experimental_proxy_weight_total",
+    "experimental_proxy_disclosure_required",
+    "index_row_count",
+    "normalised_observation_count",
+    "formula",
+    "fx_treatment",
+    "input_hashes",
+    "ooh_sensitivity_required",
+    "ooh_sensitivity_completed",
+    "release_gates"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "engine_version": {
+      "const": "0.9.6"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "series_kind": {
+      "enum": [
+        "ARM-O",
+        "ARM-R",
+        "ARM-H"
+      ]
+    },
+    "vintage_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cutoff_at": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "status": {
+      "const": "COMPLETE"
+    },
+    "policy_id": {
+      "const": "ARMILAR_OFFICIAL_ENGINE_V096"
+    },
+    "policy_version": {
+      "const": "0.9.6"
+    },
+    "constitution_id": {
+      "const": "ARMILAR_RESEARCH_CORE_V1"
+    },
+    "constitution_version": {
+      "const": "1.0.0-research"
+    },
+    "constitution_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ratification_record_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "reference_year": {
+      "const": 2021
+    },
+    "reference_average": {
+      "const": "100"
+    },
+    "precision": {
+      "const": 28
+    },
+    "rounding": {
+      "const": "ROUND_HALF_EVEN"
+    },
+    "period_count": {
+      "type": "integer",
+      "minimum": 12
+    },
+    "economy_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "category_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "weight_cell_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "index_row_count": {
+      "type": "integer",
+      "minimum": 12
+    },
+    "normalised_observation_count": {
+      "type": "integer",
+      "minimum": 12
+    },
+    "formula": {
+      "enum": [
+        "ARITHMETIC_LASPEYRES_FIXED_REAL_HFCE_PPP_WEIGHTS",
+        "ARITHMETIC_HEADLINE_CP00_WITH_DERIVED_ECONOMY_WEIGHTS"
+      ]
+    },
+    "fx_treatment": {
+      "const": "EXCLUDED_FROM_PRIMARY_INDEX"
+    },
+    "input_hashes": {
+      "type": "object"
+    },
+    "ooh_sensitivity_required": {
+      "const": true
+    },
+    "ooh_sensitivity_completed": {
+      "const": false
+    },
+    "release_gates": {
+      "const": {
+        "research_release_allowed": false,
+        "model_promotion_allowed": false,
+        "shadow_production_allowed": false,
+        "monetary_release_allowed": false,
+        "world_claim_allowed": false
+      }
+    },
+    "research_core_weight_cell_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "weight_evidence_class_counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "weight_evidence_class_totals": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "experimental_proxy_cell_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "experimental_proxy_weight_total": {
+      "type": "string"
+    },
+    "experimental_proxy_disclosure_required": {
+      "const": true
+    }
+  }
+}

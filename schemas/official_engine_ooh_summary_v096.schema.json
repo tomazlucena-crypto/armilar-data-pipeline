@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARMILAR official engine v0.9.6 OOH scenario harness summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "run_id", "scenario_count", "period_count",
+    "evidence_status", "uses_official_oohpi",
+    "constitutional_ooh_requirement_satisfied", "external_release_authorised",
+    "shadow_production_authorised", "monetary_release_authorised", "release_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "OOH_SCENARIO_HARNESS_COMPLETED"},
+    "run_id": {"type": "string", "minLength": 3},
+    "scenario_count": {"type": "integer", "minimum": 1},
+    "period_count": {"type": "integer", "minimum": 1},
+    "evidence_status": {"const": "SCENARIO_NOT_EVIDENCE"},
+    "uses_official_oohpi": {"const": false},
+    "constitutional_ooh_requirement_satisfied": {"const": false},
+    "external_release_authorised": {"const": false},
+    "shadow_production_authorised": {"const": false},
+    "monetary_release_authorised": {"const": false},
+    "release_gates": {
+      "const": {
+        "research_release_allowed": false,
+        "model_promotion_allowed": false,
+        "shadow_production_allowed": false,
+        "monetary_release_allowed": false,
+        "world_claim_allowed": false
+      }
+    }
+  }
+}

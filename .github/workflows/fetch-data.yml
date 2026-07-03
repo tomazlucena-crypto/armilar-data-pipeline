@@ -41,10 +41,13 @@ jobs:
       - name: Install package
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e ".[test]"
+          python -m pip install -e ".[test,temporal]"
 
       - name: Run unit tests
         run: python -m pytest -q
+
+      - name: Validate v0.9.6 official engine contract
+        run: python scripts/check_official_engine_v096.py --root .
 
       - name: Compile Python sources
         run: python -m compileall -q src
