@@ -30,12 +30,18 @@
     "normalization_rounding": "ROUND_HALF_EVEN",
     "normalization_rule": "FIXED_UNIVERSE_NORMALISE_ONCE",
     "silent_renormalization_allowed": false,
-    "source_input": "public/latest/weights_observed_universe.csv",
-    "source_input_sha256": "743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83",
+    "source_input": "constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv",
+    "upstream_raw_sha256": "743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83",
+    "constitutional_snapshot_sha256": "51ed567c1eea6badd077d2bd1fe1f4009a7ce1b542e16971c79c389a4370042f",
+    "constitutional_snapshot_hash_policy": "UTF8_WITHOUT_BOM_LF",
     "source_pipeline_version": "0.9.4",
     "source_weight_sum": "1.000000000000000000000000",
     "status": "BASKET_MATERIALIZED_FROM_EXISTING_V094_INPUTS",
-    "synthetic_test_weights_allowed": false
+    "synthetic_test_weights_allowed": false,
+    "upstream_raw_hash_is_provenance_metadata": true,
+    "constitutional_snapshot_hash_is_enforced": true,
+    "source_snapshot_policy": "IMMUTABLE_CONSTITUTIONAL_INPUT",
+    "mutable_public_latest_allowed_as_constitutional_input": false
   },
   "benchmark_categories": [
     "CP00"

@@ -32,7 +32,9 @@ from scripts.materialize_research_core_basket import (
     SOURCE_GLOBAL_SUM,
     SOURCE_RELATIVE_PATH,
     SOURCE_ROW_COUNT,
-    SOURCE_SHA256,
+    SNAPSHOT_CANONICAL_SHA256,
+    SOURCE_SNAPSHOT_HASH_POLICY,
+    UPSTREAM_RAW_SHA256,
     TARGET_CATEGORIES,
     TARGET_ECONOMIES,
     TARGET_NORMALIZED_SUM,
@@ -54,6 +56,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class ResearchCoreContractTests(unittest.TestCase):
     def setUp(self) -> None:
         self.source_path = ROOT / SOURCE_RELATIVE_PATH
+        self.legacy_source_path = ROOT / Path("public/latest/weights_observed_universe.csv")
         self.basket_path = ROOT / BASKET_RELATIVE_PATH
         self.manifest_path = ROOT / MANIFEST_RELATIVE_PATH
         self.constitution_path = ROOT / CONSTITUTION_RELATIVE_PATH
@@ -92,7 +95,7 @@ class ResearchCoreContractTests(unittest.TestCase):
         )
 
     def test_source_contract(self) -> None:
-        self.assertEqual(hashlib.sha256(self.source_path.read_bytes()).hexdigest(), SOURCE_SHA256)
+        self.assertEqual(manifest_digest(self.source_path, SOURCE_RELATIVE_PATH), SNAPSHOT_CANONICAL_SHA256)
         rows = read_source(self.source_path)
         self.assertEqual(len(rows), SOURCE_ROW_COUNT)
         self.assertEqual(sum((Decimal(row["weight"]) for row in rows), Decimal("0")), SOURCE_GLOBAL_SUM)
@@ -165,7 +168,13 @@ class ResearchCoreContractTests(unittest.TestCase):
         self.assertTrue(all(item["status"] == "PENDING_RATIFICATION" for item in constitution["pending_decisions"]))
         self.assertFalse(constitution["currency_policy"]["current_fx_in_ARM_O"])
         self.assertFalse(constitution["currency_policy"]["current_fx_in_ARM_L"])
-        self.assertEqual(constitution["basket_materialization"]["evidence_class_counts"], EXPECTED_EVIDENCE_COUNTS)
+        materialization = constitution["basket_materialization"]
+        self.assertEqual(materialization["evidence_class_counts"], EXPECTED_EVIDENCE_COUNTS)
+        self.assertEqual(materialization["upstream_raw_sha256"], UPSTREAM_RAW_SHA256)
+        self.assertEqual(materialization["constitutional_snapshot_sha256"], SNAPSHOT_CANONICAL_SHA256)
+        self.assertEqual(materialization["constitutional_snapshot_hash_policy"], SOURCE_SNAPSHOT_HASH_POLICY)
+        self.assertTrue(materialization["upstream_raw_hash_is_provenance_metadata"])
+        self.assertTrue(materialization["constitutional_snapshot_hash_is_enforced"])
         for relative_path in constitution["source_documents"]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -188,7 +197,10 @@ class ResearchCoreContractTests(unittest.TestCase):
         lines = self.manifest_path.read_text(encoding="utf-8").splitlines()
         expected_paths = [path.as_posix() for path in MANIFEST_PATHS]
         self.assertEqual([line.split("  ", 1)[1] for line in lines], expected_paths)
+        self.assertIn(SOURCE_RELATIVE_PATH.as_posix(), expected_paths)
+        self.assertNotIn("public/latest/weights_observed_universe.csv", expected_paths)
         self.assertNotIn(MANIFEST_RELATIVE_PATH.as_posix(), expected_paths)
+        self.assertEqual(manifest_digest(self.source_path, SOURCE_RELATIVE_PATH), SNAPSHOT_CANONICAL_SHA256)
         for line in lines:
             digest, relative_path = line.split("  ", 1)
             self.assertEqual(len(digest), 64)
@@ -213,8 +225,13 @@ class ResearchCoreContractTests(unittest.TestCase):
         changed = hashlib.sha256(canonicalize_utf8_text(b"alpha\ngamma\n")).hexdigest()
         self.assertNotEqual(original, changed)
 
-    def test_source_hash_remains_raw_bytes(self) -> None:
-        self.assertEqual(manifest_digest(self.source_path, SOURCE_RELATIVE_PATH), SOURCE_SHA256)
+    def test_source_snapshot_is_immutable_and_canonical(self) -> None:
+        self.assertTrue(self.source_path.is_file())
+        self.assertEqual(manifest_digest(self.source_path, SOURCE_RELATIVE_PATH), SNAPSHOT_CANONICAL_SHA256)
+        with self.source_path.open("r", encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), SOURCE_ROW_COUNT)
+        self.assertEqual(sum((Decimal(row["weight"]) for row in rows), Decimal("0")), SOURCE_GLOBAL_SUM)
 
     def test_materializer_check_mode(self) -> None:
         self.assertEqual(materialize_main(["--root", str(ROOT), "--check"]), 0)
@@ -224,7 +241,34 @@ class ResearchCoreContractTests(unittest.TestCase):
         forward = render_basket_csv(build_basket_rows(select_source_rows(rows)))
         reverse = render_basket_csv(build_basket_rows(select_source_rows(reversed(rows))))
         self.assertEqual(forward, reverse)
-        self.assertEqual(forward, self.basket_path.read_bytes())
+        self.assertEqual(canonicalize_utf8_text(forward), canonicalize_utf8_text(self.basket_path.read_bytes()))
+
+    def test_public_latest_mutation_does_not_change_basket(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_contract_repo(root)
+            public_latest = root / "public/latest/weights_observed_universe.csv"
+            public_latest.parent.mkdir(parents=True, exist_ok=True)
+            public_latest.write_text("tampered\n", encoding="utf-8", newline="\n")
+            self.assertEqual(materialize_main(["--root", str(root)]), 0)
+            self.assertEqual((root / BASKET_RELATIVE_PATH).read_bytes(), self.basket_path.read_bytes())
+
+    def test_snapshot_mutation_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_contract_repo(root)
+            snapshot = root / SOURCE_RELATIVE_PATH
+            snapshot.write_text(snapshot.read_text(encoding="utf-8") + "tamper\n", encoding="utf-8", newline="\n")
+            with self.assertRaises(ContractError):
+                materialize_main(["--root", str(root)])
+
+    def test_snapshot_removal_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_contract_repo(root)
+            (root / SOURCE_RELATIVE_PATH).unlink()
+            with self.assertRaises(ContractError):
+                materialize_main(["--root", str(root)])
 
     def test_selected_source_mutations_fail(self) -> None:
         selected = select_source_rows(read_source(self.source_path))
@@ -258,6 +302,10 @@ class ResearchCoreContractTests(unittest.TestCase):
             "basket_state": lambda payload: payload["basket_materialization"].__setitem__("status", "RATIFIED"),
             "synthetic_allowed": lambda payload: payload["basket_materialization"].__setitem__("synthetic_test_weights_allowed", True),
             "renormalization_allowed": lambda payload: payload["basket_materialization"].__setitem__("silent_renormalization_allowed", True),
+            "upstream_hash_changed": lambda payload: payload["basket_materialization"].__setitem__("upstream_raw_sha256", "0" * 64),
+            "snapshot_hash_changed": lambda payload: payload["basket_materialization"].__setitem__("constitutional_snapshot_sha256", "0" * 64),
+            "snapshot_policy_changed": lambda payload: payload["basket_materialization"].__setitem__("constitutional_snapshot_hash_policy", "UTF8_WITHOUT_BOM_CRLF"),
+            "snapshot_enforcement_disabled": lambda payload: payload["basket_materialization"].__setitem__("constitutional_snapshot_hash_is_enforced", False),
             "constitution_ratified": lambda payload: payload.__setitem__("constitution_status", "RATIFIED"),
         }
         for name, mutator in mutations.items():
@@ -274,7 +322,10 @@ class ResearchCoreContractTests(unittest.TestCase):
             self.copy_contract_repo(root)
             self.assertEqual(materialize_main(["--root", str(root)]), 0)
             self.assertEqual(materialize_main(["--root", str(root), "--check"]), 0)
-            self.assertEqual((root / BASKET_RELATIVE_PATH).read_bytes(), self.basket_path.read_bytes())
+            self.assertEqual(
+                canonicalize_utf8_text((root / BASKET_RELATIVE_PATH).read_bytes()),
+                canonicalize_utf8_text(self.basket_path.read_bytes()),
+            )
             temporary_files = list(root.rglob("*.tmp"))
             self.assertEqual(temporary_files, [])
 

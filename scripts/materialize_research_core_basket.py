@@ -13,7 +13,7 @@ from decimal import Decimal, ROUND_HALF_EVEN, localcontext
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
-SOURCE_RELATIVE_PATH = Path("public/latest/weights_observed_universe.csv")
+SOURCE_RELATIVE_PATH = Path("constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv")
 BASKET_RELATIVE_PATH = Path("basket/ARMILAR_RESEARCH_CORE_V1.csv")
 MANIFEST_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.sha256")
 CONSTITUTION_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.json")
@@ -27,7 +27,9 @@ SCOPE_RELATIVE_PATH = Path("docs/ARMILAR_RESEARCH_CORE_V1_SCOPE.md")
 SCRIPT_RELATIVE_PATH = Path("scripts/materialize_research_core_basket.py")
 CONFIG_RELATIVE_PATH = Path("config/eurostat_vertical_v087.json")
 
-SOURCE_SHA256 = "743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83"
+UPSTREAM_RAW_SHA256 = "743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83"
+SNAPSHOT_CANONICAL_SHA256 = "51ed567c1eea6badd077d2bd1fe1f4009a7ce1b542e16971c79c389a4370042f"
+SOURCE_SNAPSHOT_HASH_POLICY = "UTF8_WITHOUT_BOM_LF"
 SOURCE_ROW_COUNT = 744
 SOURCE_GLOBAL_SUM = Decimal("1.000000000000000000000000")
 TARGET_ECONOMIES = ("DEU", "ESP", "FRA", "ITA", "PRT")
@@ -161,10 +163,7 @@ def sha256_file(path: Path) -> str:
 
 
 def manifest_input_bytes(path: Path, relative_path: Path) -> bytes:
-    payload = path.read_bytes()
-    if relative_path == SOURCE_RELATIVE_PATH:
-        return payload
-    return canonicalize_utf8_text(payload)
+    return canonicalize_utf8_text(path.read_bytes())
 
 
 def manifest_digest(path: Path, relative_path: Path) -> str:
@@ -181,9 +180,9 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 def read_source(path: Path) -> list[dict[str, str]]:
     if not path.is_file():
         raise ContractError(f"missing source file: {path}")
-    actual_hash = sha256_file(path)
-    if actual_hash != SOURCE_SHA256:
-        raise ContractError(f"unexpected source SHA-256: {actual_hash}")
+    actual_hash = sha256_bytes(canonicalize_utf8_text(path.read_bytes()))
+    if actual_hash != SNAPSHOT_CANONICAL_SHA256:
+        raise ContractError(f"unexpected source canonical SHA-256: {actual_hash}")
 
     with path.open("r", encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -362,7 +361,13 @@ def validate_static_contracts(root: Path) -> None:
         "status": "BASKET_MATERIALIZED_FROM_EXISTING_V094_INPUTS",
         "expected_cell_count": 60,
         "source_input": SOURCE_RELATIVE_PATH.as_posix(),
-        "source_input_sha256": SOURCE_SHA256,
+        "source_snapshot_policy": "IMMUTABLE_CONSTITUTIONAL_INPUT",
+        "mutable_public_latest_allowed_as_constitutional_input": False,
+        "upstream_raw_sha256": UPSTREAM_RAW_SHA256,
+        "constitutional_snapshot_sha256": SNAPSHOT_CANONICAL_SHA256,
+        "constitutional_snapshot_hash_policy": SOURCE_SNAPSHOT_HASH_POLICY,
+        "upstream_raw_hash_is_provenance_metadata": True,
+        "constitutional_snapshot_hash_is_enforced": True,
         "source_pipeline_version": WEIGHT_SOURCE_VERSION,
         "source_weight_sum": format(SOURCE_GLOBAL_SUM, "f"),
         "covered_world_weight": format(TARGET_RAW_SUM, "f"),
@@ -423,10 +428,14 @@ def verify_bytes(path: Path, expected: bytes) -> None:
     if not path.is_file():
         raise ContractError(f"missing committed output: {path}")
     actual = path.read_bytes()
-    if actual != expected:
-        raise ContractError(
-            f"byte mismatch for {path}; committed_sha256={sha256_bytes(actual)}, expected_sha256={sha256_bytes(expected)}"
-        )
+    if actual == expected:
+        return
+    if path.suffix in {".csv", ".json", ".md", ".sha256"}:
+        if canonicalize_utf8_text(actual) == canonicalize_utf8_text(expected):
+            return
+    raise ContractError(
+        f"byte mismatch for {path}; committed_sha256={sha256_bytes(actual)}, expected_sha256={sha256_bytes(expected)}"
+    )
 
 
 def materialize(root: Path, *, check: bool) -> None:

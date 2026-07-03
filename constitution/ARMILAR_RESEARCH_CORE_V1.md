@@ -38,7 +38,12 @@ The primary aggregation is `PPP_WEIGHTED_LOCAL_PRICE_RELATIVES`. Current FX is e
 
 ## Basket materialization
 
-The basket contains 60 cells from `public/latest/weights_observed_universe.csv`, source SHA-256 `743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83`.
+The basket contains 60 cells from the immutable constitutional snapshot `constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv`.
+
+- Upstream raw SHA-256 provenance: `743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83`
+- Constitutional snapshot SHA-256: `51ed567c1eea6badd077d2bd1fe1f4009a7ce1b542e16971c79c389a4370042f`
+- Snapshot hash policy: `UTF8_WITHOUT_BOM_LF`
+- `public/latest/weights_observed_universe.csv` remains mutable and is not constitutional input.
 
 - Selected raw-world weight: `0.160150831582167491646292`
 - Normalization: `FIXED_UNIVERSE_NORMALISE_ONCE`
