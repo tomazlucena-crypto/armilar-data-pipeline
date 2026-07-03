@@ -14,7 +14,7 @@ dependencies = []
 
 [project.optional-dependencies]
 sdmx = ["sdmx1>=2.26,<3"]
-test = ["hypothesis>=6.100,<7", "pytest>=8,<9"]
+test = ["hypothesis>=6.100,<7", "pytest>=8,<9", "tzdata>=2024.1"]
 
 [project.scripts]
 armilar-pre-release-backtest-v094 = "armilar_prices.pre_release_backtest_v094:main"
