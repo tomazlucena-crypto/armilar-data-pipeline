@@ -1,0 +1,174 @@
+{
+  "basket_categories": [
+    "CP01",
+    "CP02",
+    "CP03",
+    "CP04",
+    "CP05",
+    "CP06",
+    "CP07",
+    "CP08",
+    "CP09",
+    "CP10",
+    "CP11",
+    "CP12"
+  ],
+  "basket_materialization": {
+    "covered_world_weight": "0.160150831582167491646292",
+    "eligibility": "RESEARCH_ONLY",
+    "evidence_class_counts": {
+      "EXACT_OFFICIAL": 30,
+      "EXPERIMENTAL_RESEARCH": 25,
+      "OFFICIAL_DETERMINISTIC_DERIVATION": 5
+    },
+    "evidence_classification_basis": "SOURCE_PPP_SCOPE_AND_DERIVATION",
+    "expected_cell_count": 60,
+    "fixed_universe_weight_sum": "1.000000000000000000000000000",
+    "materialized_basket": "basket/ARMILAR_RESEARCH_CORE_V1.csv",
+    "normalization_decimal_precision": 28,
+    "normalization_policy": "config/eurostat_vertical_v087.json",
+    "normalization_rounding": "ROUND_HALF_EVEN",
+    "normalization_rule": "FIXED_UNIVERSE_NORMALISE_ONCE",
+    "silent_renormalization_allowed": false,
+    "source_input": "constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv",
+    "upstream_raw_sha256": "743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83",
+    "constitutional_snapshot_sha256": "51ed567c1eea6badd077d2bd1fe1f4009a7ce1b542e16971c79c389a4370042f",
+    "constitutional_snapshot_hash_policy": "UTF8_WITHOUT_BOM_LF",
+    "source_pipeline_version": "0.9.4",
+    "source_weight_sum": "1.000000000000000000000000",
+    "status": "BASKET_MATERIALIZED_FROM_EXISTING_V094_INPUTS",
+    "synthetic_test_weights_allowed": false,
+    "upstream_raw_hash_is_provenance_metadata": true,
+    "constitutional_snapshot_hash_is_enforced": true,
+    "source_snapshot_policy": "IMMUTABLE_CONSTITUTIONAL_INPUT",
+    "mutable_public_latest_allowed_as_constitutional_input": false
+  },
+  "benchmark_categories": [
+    "CP00"
+  ],
+  "canonicalization": {
+    "csv_encoding": "UTF-8_WITHOUT_BOM",
+    "csv_line_endings": "LF",
+    "csv_row_order": "CONSTITUTION_ECONOMY_ORDER_THEN_ASCENDING_CATEGORY",
+    "hash_algorithm": "SHA-256",
+    "json_encoding": "UTF-8_WITHOUT_BOM",
+    "json_indentation_spaces": 2,
+    "json_key_order": "LEXICOGRAPHIC",
+    "json_line_endings": "LF",
+    "manifest": "constitution/ARMILAR_RESEARCH_CORE_V1.sha256",
+    "manifest_includes_self": false
+  },
+  "constitution_id": "ARMILAR_RESEARCH_CORE_V1",
+  "constitution_status": "DRAFT",
+  "constitution_version": "0.3.0-draft",
+  "currency_policy": {
+    "current_fx_in_ARM_L": false,
+    "current_fx_in_ARM_O": false,
+    "future_fx_proxy_requires_decision_and_backtest": true,
+    "informational_common_currency_layer_allowed": true,
+    "primary_index_aggregation": "PPP_WEIGHTED_LOCAL_PRICE_RELATIVES",
+    "source_policy": "config/eurostat_vertical_v087.json"
+  },
+  "economies": [
+    "DEU",
+    "ESP",
+    "FRA",
+    "ITA",
+    "PRT"
+  ],
+  "pending_decisions": [
+    {
+      "id": "normalization_base",
+      "status": "PENDING_RATIFICATION"
+    },
+    {
+      "id": "official_formula",
+      "status": "PENDING_RATIFICATION"
+    },
+    {
+      "id": "vintage_and_revision_policy",
+      "status": "PENDING_RATIFICATION"
+    },
+    {
+      "id": "precision_and_rounding",
+      "status": "PENDING_RATIFICATION"
+    },
+    {
+      "id": "exact_series_semantics",
+      "status": "PENDING_RATIFICATION"
+    },
+    {
+      "id": "hfce_hicp_conceptual_treatment",
+      "status": "PENDING_RATIFICATION"
+    },
+    {
+      "id": "constitutional_amendment_process",
+      "status": "PENDING_RATIFICATION"
+    }
+  ],
+  "prohibitions": [
+    "SILENT_ECONOMY_EXPANSION",
+    "SILENT_CATEGORY_EXPANSION",
+    "CP00_IN_WEIGHTED_BASKET",
+    "SILENT_INCOMPLETE_BASKET_RENORMALIZATION",
+    "AUTOMATIC_WEIGHT_CHANGES",
+    "MODEL_REWRITES_OFFICIAL_HISTORY",
+    "AUTOMATIC_GATE_ACTIVATION",
+    "MONETARY_USE",
+    "WORLD_INDEX_CLAIM",
+    "BLOCKCHAIN_ORACLE_CLAIM",
+    "PROMOTION_OF_EXPERIMENTAL_CELLS_TO_OFFICIAL"
+  ],
+  "release_gates": {
+    "model_promotion_allowed": false,
+    "monetary_release_allowed": false,
+    "research_release_allowed": false,
+    "shadow_production_allowed": false,
+    "world_claim_allowed": false
+  },
+  "research_core_id": "ARMILAR_RESEARCH_CORE_V1",
+  "schema_version": "1.2",
+  "scope": {
+    "concept_alignment_status": "PARTIAL_HFMCE_HFCE_SCOPE_MISMATCH",
+    "geographical_claim": "FIVE_ECONOMY_EURO_AREA_RESEARCH_CORE",
+    "monetary_use_allowed": false,
+    "price_concept": "HICP_HOUSEHOLD_FINAL_MONETARY_CONSUMPTION",
+    "price_source_family": "EUROSTAT_HICP",
+    "product_type": "EXPERIMENTAL_RESEARCH_PRICE_INDEX",
+    "weight_concept": "ARMILAR_HFCE_PPP_2021",
+    "world_claim_allowed": false
+  },
+  "series": {
+    "ARM-H": {
+      "may_replace_other_series": false,
+      "provisional_semantics": "CP00 diagnostic benchmark excluded from the weighted CP01-CP12 basket.",
+      "role": "INDEPENDENT_CP00_HEADLINE_BENCHMARK",
+      "status": "PENDING_RATIFICATION"
+    },
+    "ARM-L": {
+      "may_replace_other_series": false,
+      "provisional_semantics": "Research estimate between official releases; no implementation exists in v0.9.5.",
+      "role": "LIVE_ESTIMATE_FROM_LAST_OFFICIAL_ANCHOR",
+      "status": "PENDING_RATIFICATION"
+    },
+    "ARM-O": {
+      "may_replace_other_series": false,
+      "provisional_semantics": "Index calculated from official category observations available for the declared vintage.",
+      "role": "OFFICIAL_FIRST_PUBLISHED_RESEARCH_INDEX",
+      "status": "PENDING_RATIFICATION"
+    },
+    "ARM-R": {
+      "may_replace_other_series": false,
+      "provisional_semantics": "Reconstructed history using later official revisions while preserving original vintages.",
+      "role": "LATEST_REVISED_RECONSTRUCTION",
+      "status": "PENDING_RATIFICATION"
+    }
+  },
+  "source_documents": [
+    "docs/ARMILAR_RESEARCH_CORE_V1_SCOPE.md",
+    "docs/DECISION_RESEARCH_CORE_V1.md",
+    "docs/DECISION_RESEARCH_CORE_BASKET_MATERIALIZATION.md",
+    "docs/DECISION_RESEARCH_CORE_CONTRACT_REPAIR.md",
+    "config/eurostat_vertical_v087.json"
+  ]
+}

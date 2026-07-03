@@ -1,69 +1,51 @@
-# ARMILAR_RESEARCH_CORE_V1 Constitution
+# ARMILAR Research Core V1 constitution
 
-The canonical source is `constitution/ARMILAR_RESEARCH_CORE_V1.json`.
+## Canonical state
 
-## Status
+- constitution id: `ARMILAR_RESEARCH_CORE_V1`
+- constitution version: `1.0.0-research`
+- constitution status: `RATIFIED_FOR_ENGINE_DEVELOPMENT`
+- canonical SHA-256: `5d0b6eb1a0f8111c3d8c3d5a8d8f70ed05789a9de82c1d68dab4233ea3f135e6`
+- approved proposal version: `0.2.0`
+- approved proposal SHA-256: `24f5df7e31ff604db11a43457f98e6fab16d27713d3761e4c595fb1a752bc674`
+- predecessor constitution SHA-256: `3e97eb4ca423f14203c92092d310527d9bc1fbcdcfb6438e46e01401d1496734`
+- approval date: `2026-07-03` with date-only precision
+- scope: Research Core engine development only
 
-- Constitution: `DRAFT`
-- Constitution version: `0.3.0-draft`
-- Schema version: `1.2`
-- Basket: `BASKET_MATERIALIZED_FROM_EXISTING_V094_INPUTS`
-- Eligibility: `RESEARCH_ONLY`
-- Release, promotion, shadow, monetary and world-claim gates: `false`
+## Human approval preserved verbatim
 
-## Research Core scope
+> Aprovo as sete decisões metodológicas da proposta ARMILAR_RESEARCH_CORE_V1 para ratificação exclusiva como constituição de desenvolvimento do Research Core, mantendo fechados todos os gates de release, model promotion, shadow production e utilização monetária.
 
-The Research Core is an experimental five-economy euro-area price index using fixed Armilar 2021 HFCE-PPP weights and official Eurostat HICP category observations.
+## Ratified methodological decisions
 
-Economies: `DEU`, `ESP`, `FRA`, `ITA`, `PRT`.
+1. `normalization_base`: `RATIFIED_FOR_ENGINE_DEVELOPMENT` - Re-reference every economy-category official price series to the arithmetic mean of its twelve 2021 monthly non-seasonally-adjusted index levels, with the annual average equal to 100.
+2. `official_formula`: `RATIFIED_FOR_ENGINE_DEVELOPMENT` - Use a fixed-weight arithmetic Laspeyres-type index with PPP-adjusted 2021 expenditure weights over the 60 Research Core cells, preserving explicit AIC-PPP proxy exceptions.
+3. `vintage_and_revision_policy`: `RATIFIED_FOR_ENGINE_DEVELOPMENT` - Preserve immutable first-published ARM-O vintages and expose later official revisions only through a separate ARM-R reconstruction.
+4. `precision_and_rounding`: `RATIFIED_FOR_ENGINE_DEVELOPMENT` - Use Decimal arithmetic with precision 28 and ROUND_HALF_EVEN, avoid intermediate rounding and publish canonical decimal strings at fixed scales.
+5. `exact_series_semantics`: `RATIFIED_FOR_ENGINE_DEVELOPMENT` - Keep ARM-O, ARM-R, ARM-H and ARM-L separate; make every ARM-L release reproducible from an immutable, cutoff-bound information set and a versioned per-cell source registry.
+6. `hfce_hicp_conceptual_treatment`: `RATIFIED_FOR_ENGINE_DEVELOPMENT` - Treat the HFCE-weight/HICP-price mismatch and the 58.97% AIC-PPP proxy exposure as material research limitations, and require an OOH sensitivity analysis before external or shadow release.
+7. `constitutional_amendment_process`: `RATIFIED_FOR_ENGINE_DEVELOPMENT` - Distinguish evidence-only patches, numerical weight revisions, basket scope changes and constitutional method changes, preserving every prior release and requiring explicit approval.
 
-Weighted categories: `CP01` to `CP12`.
+## Fixed Research Core
 
-`CP00` is an independent headline benchmark and is excluded from the weighted basket.
+- economies: `DEU`, `ESP`, `FRA`, `ITA`, `PRT`
+- weighted categories: `CP01` to `CP12`
+- separate benchmark: `CP00`
+- basket cells: `60`
+- basket SHA-256: `5f6d3e515f4e703d47e10234af5187a0d4cdb5ba0f1acded3d516b3e1baaae1c`
+- immutable weight snapshot SHA-256: `51ed567c1eea6badd077d2bd1fe1f4009a7ce1b542e16971c79c389a4370042f`
+- AIC-PPP experimental proxy exposure: `0.589731681350816432896035605`
 
-The Research Core must not be described as a world index, a complete HFCE index, a monetary-policy input or a blockchain oracle.
+## Release gates
 
-## Series
+- `model_promotion_allowed=false`
+- `monetary_release_allowed=false`
+- `research_release_allowed=false`
+- `shadow_production_allowed=false`
+- `world_claim_allowed=false`
 
-- `ARM-O`: provisional official first-published research series.
-- `ARM-L`: provisional live estimate from the last official anchor.
-- `ARM-R`: provisional revised reconstruction preserving original vintages.
-- `ARM-H`: independent CP00 headline benchmark.
+The ratification authorises implementation of the official engine. It does not authorise v0.9.6 outputs, public research release, model promotion, shadow production, monetary use, a world-index claim or a blockchain oracle claim.
 
-The exact semantics remain pending ratification. No series may silently replace another.
+## Binding limitations
 
-## Currency policy
-
-The primary aggregation is `PPP_WEIGHTED_LOCAL_PRICE_RELATIVES`. Current FX is excluded from `ARM-O` and `ARM-L`. A separate informational common-currency layer may be produced. Any future use of FX as a proxy requires a separate decision and backtest.
-
-## Basket materialization
-
-The basket contains 60 cells from the immutable constitutional snapshot `constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv`.
-
-- Upstream raw SHA-256 provenance: `743e9b35b079b784ef9a2ccadf3a61ae267005a0f768313541b9ea2be671df83`
-- Constitutional snapshot SHA-256: `51ed567c1eea6badd077d2bd1fe1f4009a7ce1b542e16971c79c389a4370042f`
-- Snapshot hash policy: `UTF8_WITHOUT_BOM_LF`
-- `public/latest/weights_observed_universe.csv` remains mutable and is not constitutional input.
-
-- Selected raw-world weight: `0.160150831582167491646292`
-- Normalization: `FIXED_UNIVERSE_NORMALISE_ONCE`
-- Decimal precision: `28`
-- Rounding: `ROUND_HALF_EVEN`
-- Fixed-universe sum: `1.000000000000000000000000000`
-- Exact official cells: `30`
-- Official deterministic derivations: `5`
-- Experimental research cells: `25`
-
-Evidence classes are derived from the preserved `ppp_scope` and `derivation` fields. Category codes alone are never used to infer evidence.
-
-## Pending ratification
-
-1. normalization base;
-2. official formula;
-3. vintage and revision policy;
-4. precision and rounding;
-5. exact series semantics;
-6. HFCE/HICP conceptual treatment;
-7. constitutional amendment process.
-
-Materialization does not ratify any of these decisions.
+The 25 AIC-PPP proxy cells remain experimental. The HFCE-weight and HICP-price scope mismatch remains material. The declared OOH sensitivity analysis remains mandatory before external research release or shadow production. ARM-L requires a separately approved, versioned release schedule and an approved model or explicit carry-forward baseline.
