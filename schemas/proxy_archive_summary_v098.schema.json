@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/proxy_archive_summary_v098.schema.json",
+  "title": "ARMILAR v0.9.8 proxy archive summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "snapshot_count",
+    "snapshot_observation_count",
+    "distinct_observation_count",
+    "value_version_count",
+    "revision_event_count",
+    "source_count",
+    "archive_start_at",
+    "archive_end_at",
+    "input_ledger_sha256",
+    "policy_sha256",
+    "historical_first_published_claim_allowed",
+    "direct_index_use_allowed",
+    "arm_l_use_allowed",
+    "model_training_allowed",
+    "shadow_production_allowed",
+    "monetary_use_allowed",
+    "snapshot_delta_count",
+    "archive_lineage_sha256",
+    "lineage_mode",
+    "parent_archive_manifest_sha256",
+    "appended_snapshot_count"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "contract_version": {
+      "const": "0.9.8"
+    },
+    "status": {
+      "const": "FIRST_SEEN_PROXY_ARCHIVE_VALID"
+    },
+    "snapshot_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "snapshot_observation_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "distinct_observation_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "value_version_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "revision_event_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "archive_start_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "archive_end_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "input_ledger_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policy_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "historical_first_published_claim_allowed": {
+      "const": false
+    },
+    "direct_index_use_allowed": {
+      "const": false
+    },
+    "arm_l_use_allowed": {
+      "const": false
+    },
+    "model_training_allowed": {
+      "const": false
+    },
+    "shadow_production_allowed": {
+      "const": false
+    },
+    "monetary_use_allowed": {
+      "const": false
+    },
+    "snapshot_delta_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "archive_lineage_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "lineage_mode": {
+      "enum": [
+        "ROOT",
+        "SUCCESSOR"
+      ]
+    },
+    "parent_archive_manifest_sha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      ]
+    },
+    "appended_snapshot_count": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

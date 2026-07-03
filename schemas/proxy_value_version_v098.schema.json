@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/proxy_value_version_v098.schema.json",
+  "title": "ARMILAR v0.9.8 first-seen proxy value version",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "observation_key", "version_sequence", "source_id", "series_id", "proxy_domain",
+    "geography", "period", "frequency", "unit", "value", "available_at",
+    "availability_basis", "first_snapshot_id", "first_source_sha256",
+    "direct_index_use_allowed", "arm_l_use_allowed", "model_training_allowed"
+  ],
+  "properties": {
+    "observation_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "version_sequence": {"type": "integer", "minimum": 1},
+    "source_id": {"type": "string"},
+    "series_id": {"type": "string"},
+    "proxy_domain": {"type": "string"},
+    "geography": {"type": "string"},
+    "period": {"type": "string"},
+    "frequency": {"enum": ["WEEKLY", "MONTHLY", "QUARTERLY"]},
+    "unit": {"type": "string"},
+    "value": {"type": "string", "pattern": "^-?[0-9]+(?:\\.[0-9]+)?$"},
+    "available_at": {"type": "string", "format": "date-time"},
+    "availability_basis": {"enum": ["FIRST_VERIFIED_RETRIEVAL", "REVISION_FIRST_VERIFIED_RETRIEVAL"]},
+    "first_snapshot_id": {"type": "string"},
+    "first_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "direct_index_use_allowed": {"const": false},
+    "arm_l_use_allowed": {"const": false},
+    "model_training_allowed": {"const": false}
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "contract_id": "ARMILAR_PROXY_INFORMATION_SET_V098",
+  "contract_version": "0.9.8",
+  "upstream_registry_version": "0.9.7",
+  "constitutional_scope": "RESEARCH_CORE_ENGINE_DEVELOPMENT_ONLY",
+  "availability_policy": {
+    "clock": "FIRST_VERIFIED_RETRIEVAL",
+    "retroactive_availability_forbidden": true,
+    "snapshot_level_publication_date_is_row_evidence": false,
+    "latest_revised_history_before_archive_start_forbidden": true,
+    "revision_available_only_when_first_seen": true,
+    "same_value_reobservation_is_not_revision": true
+  },
+  "archive_policy": {
+    "verify_snapshot_manifest": true,
+    "deterministic_replay_required": true,
+    "verify_snapshot_ledger": true,
+    "preserve_all_snapshot_observations": true,
+    "preserve_all_distinct_value_versions": true,
+    "preserve_revision_events": true,
+    "append_only_output": true,
+    "preserve_snapshot_deltas": true,
+    "successor_archive_lineage_required_when_extending": true,
+    "predecessor_content_must_be_preserved": true
+  },
+  "quality_policy": {
+    "maximum_unexplained_clock_regression_seconds": 0,
+    "reject_duplicate_snapshot_ids": true,
+    "reject_conflicting_rows_within_snapshot": true,
+    "reject_unknown_sources": true,
+    "continuity_statuses": [
+      "SINGLE_SNAPSHOT",
+      "CONTIGUOUS_WITHIN_EXPECTED_LAG",
+      "GAPPED_ARCHIVE"
+    ],
+    "continuity_gap_multiplier": 3,
+    "snapshot_delta_statuses": [
+      "INITIAL_SNAPSHOT",
+      "UNCHANGED_SNAPSHOT",
+      "CONTENT_CHANGED"
+    ],
+    "cutoff_freshness_statuses": [
+      "NO_SNAPSHOT_BY_CUTOFF",
+      "CURRENT_WITHIN_EXPECTED_WINDOW",
+      "STALE_BEYOND_EXPECTED_WINDOW"
+    ]
+  },
+  "output_gates": {
+    "direct_index_use_allowed": false,
+    "arm_l_use_allowed": false,
+    "model_training_allowed": false,
+    "shadow_production_allowed": false,
+    "monetary_use_allowed": false,
+    "historical_first_published_claim_allowed": false
+  }
+}

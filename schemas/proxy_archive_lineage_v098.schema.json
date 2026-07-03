@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/proxy_archive_lineage_v098.schema.json",
+  "title": "ARMILAR v0.9.8 archive lineage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_version",
+    "lineage_mode",
+    "parent_archive_manifest_sha256",
+    "parent_archive_summary_sha256",
+    "parent_snapshot_count",
+    "appended_snapshot_count",
+    "predecessor_content_preserved"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "contract_version": {
+      "const": "0.9.8"
+    },
+    "lineage_mode": {
+      "enum": [
+        "ROOT",
+        "SUCCESSOR"
+      ]
+    },
+    "parent_archive_manifest_sha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      ]
+    },
+    "parent_archive_summary_sha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      ]
+    },
+    "parent_snapshot_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "appended_snapshot_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "predecessor_content_preserved": {
+      "const": true
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/proxy_revision_event_v098.schema.json",
+  "title": "ARMILAR v0.9.8 proxy revision event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "observation_key", "source_id", "series_id", "geography", "period", "unit",
+    "old_version_sequence", "new_version_sequence", "old_value", "new_value",
+    "revision_first_seen_at", "snapshot_id"
+  ],
+  "properties": {
+    "observation_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_id": {"type": "string"},
+    "series_id": {"type": "string"},
+    "geography": {"type": "string"},
+    "period": {"type": "string"},
+    "unit": {"type": "string"},
+    "old_version_sequence": {"type": "integer", "minimum": 1},
+    "new_version_sequence": {"type": "integer", "minimum": 2},
+    "old_value": {"type": "string"},
+    "new_value": {"type": "string"},
+    "revision_first_seen_at": {"type": "string", "format": "date-time"},
+    "snapshot_id": {"type": "string"}
+  }
+}

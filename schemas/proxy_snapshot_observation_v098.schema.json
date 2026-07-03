@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/proxy_snapshot_observation_v098.schema.json",
+  "title": "ARMILAR v0.9.8 verified snapshot observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source_id", "snapshot_id", "retrieved_at", "observation_key", "series_id",
+    "proxy_domain", "geography", "period", "frequency", "value", "unit",
+    "source_sha256", "registry_sha256", "row_locator"
+  ],
+  "properties": {
+    "source_id": {"type": "string", "pattern": "^[A-Z0-9_]+$"},
+    "snapshot_id": {"type": "string", "minLength": 1},
+    "retrieved_at": {"type": "string", "format": "date-time"},
+    "observation_key": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "series_id": {"type": "string", "minLength": 1},
+    "proxy_domain": {"type": "string", "minLength": 1},
+    "geography": {"type": "string", "minLength": 1},
+    "period": {"type": "string", "minLength": 1},
+    "frequency": {"enum": ["WEEKLY", "MONTHLY", "QUARTERLY"]},
+    "value": {"type": "string", "pattern": "^-?[0-9]+(?:\\.[0-9]+)?$"},
+    "unit": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "registry_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "row_locator": {"type": "string", "minLength": 1}
+  }
+}

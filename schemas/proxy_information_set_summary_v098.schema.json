@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/proxy_information_set_summary_v098.schema.json",
+  "title": "ARMILAR v0.9.8 proxy information-set summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "cutoff",
+    "archive_manifest_sha256",
+    "selected_observation_count",
+    "source_count",
+    "first_available_at",
+    "last_available_at",
+    "historical_first_published_claim_allowed",
+    "direct_index_use_allowed",
+    "arm_l_use_allowed",
+    "model_training_allowed",
+    "shadow_production_allowed",
+    "monetary_use_allowed",
+    "archive_source_count",
+    "current_source_count",
+    "stale_source_count",
+    "no_snapshot_source_count"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "contract_version": {
+      "const": "0.9.8"
+    },
+    "status": {
+      "const": "POINT_IN_TIME_RESEARCH_INPUT_ONLY"
+    },
+    "cutoff": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "archive_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "selected_observation_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "source_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "first_available_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_available_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "historical_first_published_claim_allowed": {
+      "const": false
+    },
+    "direct_index_use_allowed": {
+      "const": false
+    },
+    "arm_l_use_allowed": {
+      "const": false
+    },
+    "model_training_allowed": {
+      "const": false
+    },
+    "shadow_production_allowed": {
+      "const": false
+    },
+    "monetary_use_allowed": {
+      "const": false
+    },
+    "archive_source_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "current_source_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stale_source_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "no_snapshot_source_count": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}
