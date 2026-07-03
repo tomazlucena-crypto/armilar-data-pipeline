@@ -425,7 +425,7 @@ def verify_bytes(path: Path, expected: bytes) -> None:
     actual = path.read_bytes()
     if actual == expected:
         return
-    if path == BASKET_RELATIVE_PATH or path.suffix in {".json", ".md", ".sha256"}:
+    if path.suffix in {".csv", ".json", ".md", ".sha256"}:
         if canonicalize_utf8_text(actual) == canonicalize_utf8_text(expected):
             return
     raise ContractError(

@@ -274,7 +274,10 @@ class ResearchCoreContractTests(unittest.TestCase):
             self.copy_contract_repo(root)
             self.assertEqual(materialize_main(["--root", str(root)]), 0)
             self.assertEqual(materialize_main(["--root", str(root), "--check"]), 0)
-            self.assertEqual((root / BASKET_RELATIVE_PATH).read_bytes(), self.basket_path.read_bytes())
+            self.assertEqual(
+                canonicalize_utf8_text((root / BASKET_RELATIVE_PATH).read_bytes()),
+                canonicalize_utf8_text(self.basket_path.read_bytes()),
+            )
             temporary_files = list(root.rglob("*.tmp"))
             self.assertEqual(temporary_files, [])
 

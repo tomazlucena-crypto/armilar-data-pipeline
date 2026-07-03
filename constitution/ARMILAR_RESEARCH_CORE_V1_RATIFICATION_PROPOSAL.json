@@ -19,15 +19,70 @@
     {
       "decision_record": "docs/DECISION_RESEARCH_CORE_OFFICIAL_FORMULA.md",
       "executable_contract": {
+        "basket_scope": {
+          "basket_id": "ARMILAR_RESEARCH_CORE_V1",
+          "categories": [
+            "CP01",
+            "CP02",
+            "CP03",
+            "CP04",
+            "CP05",
+            "CP06",
+            "CP07",
+            "CP08",
+            "CP09",
+            "CP10",
+            "CP11",
+            "CP12"
+          ],
+          "economies": [
+            "DEU",
+            "ESP",
+            "FRA",
+            "ITA",
+            "PRT"
+          ],
+          "economies_and_categories_fixed_within_basket_version": true,
+          "new_economy_or_category_requires_new_basket_version": true,
+          "prior_series_must_be_preserved": true
+        },
         "benchmark_excluded": [
           "CP00"
         ],
-        "contribution_formula": "weight_i_c * (price_relative_i_c_t - price_relative_i_c_t_minus_1)",
+        "contribution_formula": "fixed_universe_weight_i_c * (price_relative_i_c_t - price_relative_i_c_t_minus_1)",
         "current_fx_included": false,
         "formula": "ARM_O_t = SUM_i_c(fixed_universe_weight_i_c * price_relative_i_c_t)",
         "incomplete_period_policy": "NO_VALUE_FAIL_CLOSED",
-        "index_type": "FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE",
+        "index_type": "FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE_PPP_ADJUSTED",
+        "proxy_exposure": {
+          "categories": [
+            "CP04",
+            "CP06",
+            "CP09",
+            "CP10",
+            "CP12"
+          ],
+          "cell_count": 25,
+          "disclosure_required_in_every_coverage_report": true,
+          "economies": [
+            "DEU",
+            "ESP",
+            "FRA",
+            "ITA",
+            "PRT"
+          ],
+          "fixed_universe_weight_total": "0.589731681350816432896035605",
+          "may_be_claimed_as_exact_hfce_ppp": false
+        },
         "silent_renormalization_allowed": false,
+        "weight_definition": {
+          "common_unit": "ICP_2021_COMPARABLE_PPP_VOLUME_UNIT",
+          "fixed_within_basket_version": true,
+          "nominal_current_period_weights_allowed": false,
+          "proxy_exception": "AIC_PPP_PROXY_IDENTIFIED_PER_CELL",
+          "proxy_exposure_annex": "constitution/ARMILAR_RESEARCH_CORE_V1_PROXY_EXPOSURE.json",
+          "target_concept": "HFCE_2021_REAL_EXPENDITURE_PPP_ADJUSTED"
+        },
         "weight_field": "fixed_universe_weight",
         "weight_sum": "1.000000000000000000000000000",
         "weighted_categories": [
@@ -47,7 +102,7 @@
       },
       "id": "official_formula",
       "status": "PROPOSED",
-      "summary": "Use a fixed-weight arithmetic Laspeyres-type index over the 60 Research Core cells, with no current FX, no CP00 and no renormalization of incomplete periods."
+      "summary": "Use a fixed-weight arithmetic Laspeyres-type index with PPP-adjusted 2021 expenditure weights over the 60 Research Core cells, preserving explicit AIC-PPP proxy exceptions."
     },
     {
       "decision_record": "docs/DECISION_RESEARCH_CORE_VINTAGE_AND_REVISION_POLICY.md",
@@ -100,11 +155,35 @@
           "weighted_basket_member": false
         },
         "ARM-L": {
+          "anchor_arm_o_vintage_required": true,
           "approved_model_or_proxy_required_for_updates": true,
           "bounds_and_quality_required": true,
+          "historical_release_mutability": "IMMUTABLE",
+          "information_set": {
+            "eligibility_rule": "PUBLISHED_AT_LTE_INFORMATION_CUTOFF_AND_RETRIEVED_AT_LTE_RETRIEVAL_CUTOFF",
+            "information_cutoff_required": true,
+            "late_arrival_policy": "NEXT_RELEASE_ONLY",
+            "model_version_required": true,
+            "published_at_required": true,
+            "quality_state_required": true,
+            "raw_snapshot_ids_required": true,
+            "retrieval_cutoff_required": true,
+            "retrieved_at_required": true,
+            "same_information_set_same_model_same_basket_same_output": true,
+            "source_precedence": "CELL_SPECIFIC_VERSIONED_SOURCE_REGISTRY",
+            "source_registry_version_required": true
+          },
           "may_backfill_arm_o_or_arm_r": false,
           "meaning": "LIVE_RESEARCH_ESTIMATE_ANCHORED_TO_LATEST_ARM_O",
-          "no_approved_model_policy": "EXPLICIT_CARRY_FORWARD_BASELINE"
+          "no_approved_model_policy": "EXPLICIT_CARRY_FORWARD_BASELINE",
+          "official_observation_arrival": "PRESERVE_ARM_L_RECONCILE_AND_PROMOTE_ARM_O_AS_CURRENT_OFFICIAL",
+          "retroactive_revision_to_match_arm_o_allowed": false,
+          "schedule_policy": {
+            "constitutional_clock_time_fixed": false,
+            "initial_contract_id": "ARM_L_RELEASE_SCHEDULE_V1",
+            "schedule_must_be_approved_before_first_arm_l_release": true,
+            "versioned_release_schedule_contract_required": true
+          }
         },
         "ARM-O": {
           "carry_forward_allowed": false,
@@ -123,26 +202,47 @@
       },
       "id": "exact_series_semantics",
       "status": "PROPOSED",
-      "summary": "Keep ARM-O, ARM-R, ARM-H and ARM-L separate, with explicit source, vintage and fallback rules and no silent substitution."
+      "summary": "Keep ARM-O, ARM-R, ARM-H and ARM-L separate; make every ARM-L release reproducible from an immutable, cutoff-bound information set and a versioned per-cell source registry."
     },
     {
       "decision_record": "docs/DECISION_RESEARCH_CORE_HFCE_HICP_TREATMENT.md",
       "executable_contract": {
         "accepted_use": "ENGINE_DEVELOPMENT_AND_INTERNAL_RESEARCH_ONLY",
-        "alignment_status": "KNOWN_PARTIAL_SCOPE_MISMATCH",
+        "alignment_status": "KNOWN_MATERIAL_PARTIAL_SCOPE_MISMATCH",
         "automatic_weight_adjustment_allowed": false,
         "complete_hfce_claim_allowed": false,
         "imputed_rent_substitution_allowed": false,
+        "ooh_sensitivity_requirement": {
+          "comparison": "STANDARD_HICP_VS_STANDARD_HICP_PLUS_AVAILABLE_EUROSTAT_OOHPI",
+          "does_not_measure_complete_hfce_hicp_gap": true,
+          "economies": [
+            "DEU",
+            "ESP",
+            "FRA",
+            "ITA",
+            "PRT"
+          ],
+          "may_not_be_presented_as_imputed_rent_equivalence": true,
+          "must_document_frequency_alignment": true,
+          "must_document_ooh_approach": true,
+          "must_document_publication_lag": true,
+          "must_document_weights": true,
+          "required_before_external_research_release": true,
+          "required_before_shadow_production": true
+        },
         "price_concept": "HICP_HOUSEHOLD_FINAL_MONETARY_CONSUMPTION",
+        "proxy_exposure_annex_required": true,
+        "proxy_exposure_weight_total": "0.589731681350816432896035605",
         "quantification_report_required_before_research_release": true,
         "release_disclosure_required": true,
         "separate_amendment_required_before_monetary_eligibility": true,
-        "weight_concept": "ARMILAR_HFCE_PPP_2021",
+        "weight_concept_target": "HFCE_2021_REAL_EXPENDITURE_PPP_ADJUSTED",
+        "weight_implementation_limitation": "25_CELLS_USE_AIC_PPP_PROXY",
         "world_index_claim_allowed": false
       },
       "id": "hfce_hicp_conceptual_treatment",
       "status": "PROPOSED",
-      "summary": "Accept the known HFCE-weight/HICP-price scope mismatch only for bounded engine development, disclose it in every release and keep all release and monetary gates closed until quantified."
+      "summary": "Treat the HFCE-weight/HICP-price mismatch and the 58.97% AIC-PPP proxy exposure as material research limitations, and require an OOH sensitivity analysis before external or shadow release."
     },
     {
       "decision_record": "docs/DECISION_RESEARCH_CORE_AMENDMENT_PROCESS.md",
@@ -150,9 +250,43 @@
         "backtest_required_for_numerical_change": true,
         "canonical_hash_required": true,
         "change_classes": {
-          "CONSTITUTIONAL_MAJOR": "BASKET_FORMULA_BASE_WEIGHT_SCOPE_OR_SERIES_SEMANTICS_CHANGE",
-          "EDITORIAL_PATCH": "NO_NUMERICAL_OR_SEMANTIC_OUTPUT_CHANGE",
-          "RESEARCH_MINOR": "BACKWARD_COMPATIBLE_OPERATIONAL_OR_INTERFACE_CHANGE"
+          "BASKET_SCOPE_CHANGE": {
+            "constitutional_amendment_required": true,
+            "full_backtest_required": true,
+            "new_basket_version_required": true,
+            "new_series_required": true,
+            "prior_series_preserved": true
+          },
+          "CONSTITUTIONAL_METHOD_CHANGE": {
+            "full_backtest_required": true,
+            "new_constitution_version_required": true,
+            "new_series_required_when_comparability_breaks": true,
+            "prior_series_preserved": true
+          },
+          "EDITORIAL_PATCH": {
+            "new_manifest_required": true,
+            "numerical_change_allowed": false,
+            "semantic_change_allowed": false
+          },
+          "EVIDENCE_METADATA_PATCH": {
+            "basket_version_may_remain": true,
+            "evidence_before_after_required": true,
+            "new_manifest_required": true,
+            "numerical_weight_change_allowed": false,
+            "patch_id_required": true
+          },
+          "NUMERICAL_WEIGHT_PATCH": {
+            "arm_o_rewrite_allowed": false,
+            "arm_r_reconstruction_allowed": true,
+            "backtest_required": true,
+            "category_change_allowed": false,
+            "explicit_human_approval_required": true,
+            "formula_or_base_change_allowed": false,
+            "impact_report_required": true,
+            "new_basket_revision_required": true,
+            "prior_weights_preserved": true,
+            "universe_change_allowed": false
+          }
         },
         "decision_record_required": true,
         "emergency_power_limited_to_freeze": true,
@@ -160,12 +294,18 @@
         "gates_default_to_false_after_amendment": true,
         "impact_analysis_required": true,
         "prior_versions_preserved": true,
+        "proxy_to_exact_transition": {
+          "changed_numeric_weight_same_scope": "NUMERICAL_WEIGHT_PATCH",
+          "new_economy_or_category": "BASKET_SCOPE_CHANGE",
+          "same_numeric_weight": "EVIDENCE_METADATA_PATCH",
+          "silent_upgrade_allowed": false
+        },
         "retroactive_history_rewrite_allowed": false,
         "schema_and_test_update_required": true
       },
       "id": "constitutional_amendment_process",
       "status": "PROPOSED",
-      "summary": "Require versioned decision records, impact analysis, tests, hashes and explicit human approval for every constitutional amendment, while preserving all prior versions."
+      "summary": "Distinguish evidence-only patches, numerical weight revisions, basket scope changes and constitutional method changes, preserving every prior release and requiring explicit approval."
     }
   ],
   "prohibitions": [
@@ -173,11 +313,14 @@
     "AUTOMATIC_RATIFICATION",
     "AUTOMATIC_GATE_ACTIVATION",
     "SILENT_CHANGE_TO_CANONICAL_CONSTITUTION",
+    "SILENT_PROXY_TO_EXACT_UPGRADE",
+    "SILENT_BASKET_SCOPE_EXPANSION",
+    "RETROACTIVE_ARM_L_REWRITE",
     "V096_IMPLEMENTATION_IN_PROPOSAL_PR"
   ],
   "proposal_id": "ARMILAR_RESEARCH_CORE_V1_RATIFICATION_PROPOSAL",
   "proposal_status": "PROPOSED",
-  "proposal_version": "0.1.0",
+  "proposal_version": "0.2.0",
   "ratification_effect": {
     "does_not_enable_monetary_use": true,
     "does_not_enable_research_release": true,

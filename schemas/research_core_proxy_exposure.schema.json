@@ -1,0 +1,278 @@
+{
+  "$id": "https://armilar.org/schemas/research_core_proxy_exposure.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "const": {
+    "annex_id": "ARMILAR_RESEARCH_CORE_V1_PROXY_EXPOSURE",
+    "annex_version": "0.1.0",
+    "basket_path": "basket/ARMILAR_RESEARCH_CORE_V1.csv",
+    "basket_sha256_raw": "e6b85bbf24f0105cf491036a9ffed47245f53d844e455ec4b643cf6e8f86d10f",
+    "categories": [
+      "CP04",
+      "CP06",
+      "CP09",
+      "CP10",
+      "CP12"
+    ],
+    "cell_count": 25,
+    "cells": [
+      {
+        "category_code": "CP04",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "DEU",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.099035821702119028139616439",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.015860669202017632720924"
+      },
+      {
+        "category_code": "CP06",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "DEU",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.030430165646768788269531050",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.004873416333513127111189"
+      },
+      {
+        "category_code": "CP09",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "DEU",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.028410792191327484658114691",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.004550011995349247286846"
+      },
+      {
+        "category_code": "CP10",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "DEU",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.004424522714022709684711876",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.000708590992004925599033"
+      },
+      {
+        "category_code": "CP12",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "DEU",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.051258863886809190401088783",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.008209149677429625994794"
+      },
+      {
+        "category_code": "CP04",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ESP",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.043403142280818415880694505",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.006951049329552203134588"
+      },
+      {
+        "category_code": "CP06",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ESP",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.009175870554814070393376997",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.001469523299843797968559"
+      },
+      {
+        "category_code": "CP09",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ESP",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.008907773582770129359089059",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.001426587346826299701670"
+      },
+      {
+        "category_code": "CP10",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ESP",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.004284455432012082811397934",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.000686159100313469736211"
+      },
+      {
+        "category_code": "CP12",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ESP",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.017358436989726532399558344",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.002779968118871360347747"
+      },
+      {
+        "category_code": "CP04",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "FRA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.077942282634537932465287727",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.012482521379333582359873"
+      },
+      {
+        "category_code": "CP06",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "FRA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.019219382469615860759567445",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.003078000085004712034752"
+      },
+      {
+        "category_code": "CP09",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "FRA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.016840868122590612944165267",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.002697079034398502487882"
+      },
+      {
+        "category_code": "CP10",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "FRA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.002580625766877074099030963",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.000413289362567732121389"
+      },
+      {
+        "category_code": "CP12",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "FRA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.036217052317142038277040799",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.005800191046045163477395"
+      },
+      {
+        "category_code": "CP04",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ITA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.067165727568445109272533888",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.010756647123907796771002"
+      },
+      {
+        "category_code": "CP06",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ITA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.012040462697760985941669830",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.001928290113680489704954"
+      },
+      {
+        "category_code": "CP09",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ITA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.012359829243851795445159534",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.001979436931616457469454"
+      },
+      {
+        "category_code": "CP10",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ITA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.003883449490711993219911102",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.000621937665344870544778"
+      },
+      {
+        "category_code": "CP12",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "ITA",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.026090868413935573671769821",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.004178474273192689523410"
+      },
+      {
+        "category_code": "CP04",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "PRT",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.008863673189302821835673691",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.001419524632139409615017"
+      },
+      {
+        "category_code": "CP06",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "PRT",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.003366354393050576418371942",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.000539124455447332531426"
+      },
+      {
+        "category_code": "CP09",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "PRT",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.001421583351516690023902527",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.000227667755908762631616"
+      },
+      {
+        "category_code": "CP10",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "PRT",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.001110098845891888742660820",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.000177783253307990378889"
+      },
+      {
+        "category_code": "CP12",
+        "derivation": "STRICT_S14_P31DC_NUMERATOR_DIVIDED_BY_ACTUAL_CONSUMPTION_PPP",
+        "economy_code": "PRT",
+        "evidence_class": "EXPERIMENTAL_RESEARCH",
+        "fixed_universe_weight": "0.003939577864397047782110571",
+        "ppp_scope": "ACTUAL_CONSUMPTION_PROXY_RATIFIED_OPTION_B",
+        "raw_world_weight": "0.000630926671065886679713"
+      }
+    ],
+    "disclosure_rules": {
+      "all_research_outputs_must_identify_proxy_categories": true,
+      "all_research_outputs_must_report_proxy_weight_share": true,
+      "complete_hfce_exactness_claim_allowed": false,
+      "proxy_cells_may_be_described_as_exact": false
+    },
+    "economies": [
+      "DEU",
+      "ESP",
+      "FRA",
+      "ITA",
+      "PRT"
+    ],
+    "evidence_class": "EXPERIMENTAL_RESEARCH",
+    "fixed_universe_weight_by_category": {
+      "CP04": "0.296410647375223307593806250",
+      "CP06": "0.074232235762010281782517264",
+      "CP09": "0.067940846492056712430431078",
+      "CP10": "0.016283152249515748557712695",
+      "CP12": "0.134864799472010382531568318"
+    },
+    "fixed_universe_weight_by_economy": {
+      "DEU": "0.213560166141047201153062839",
+      "ESP": "0.083129678840141230844116839",
+      "FRA": "0.152800211310763518545092201",
+      "ITA": "0.121540337414705457551044175",
+      "PRT": "0.018701287644159024802719551"
+    },
+    "fixed_universe_weight_total": "0.589731681350816432896035605",
+    "proposal_version": "0.2.0",
+    "proxy_basis": "ACTUAL_CONSUMPTION_PPP_USED_AS_RATIFIED_OPTION_B_PROXY_FOR_HFCE_NUMERATOR"
+  },
+  "description": "Closed machine-readable annex derived from the committed 60-cell basket.",
+  "title": "ARMILAR Research Core V1 proxy exposure annex"
+}
