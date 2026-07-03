@@ -38,8 +38,10 @@ from scripts.materialize_research_core_basket import (
     TARGET_NORMALIZED_SUM,
     TARGET_RAW_SUM,
     build_basket_rows,
+    canonicalize_utf8_text,
     classify_evidence,
     main as materialize_main,
+    manifest_digest,
     read_source,
     render_basket_csv,
     select_source_rows,
@@ -190,7 +192,29 @@ class ResearchCoreContractTests(unittest.TestCase):
         for line in lines:
             digest, relative_path = line.split("  ", 1)
             self.assertEqual(len(digest), 64)
-            self.assertEqual(digest, hashlib.sha256((ROOT / relative_path).read_bytes()).hexdigest())
+            self.assertEqual(digest, manifest_digest(ROOT / relative_path, Path(relative_path)))
+
+    def test_manifest_text_hash_is_line_ending_independent(self) -> None:
+        lf = b"alpha\nbeta\n"
+        crlf = b"alpha\r\nbeta\r\n"
+        cr = b"alpha\rbeta\r"
+        self.assertEqual(canonicalize_utf8_text(lf), b"alpha\nbeta\n")
+        self.assertEqual(canonicalize_utf8_text(lf), canonicalize_utf8_text(crlf))
+        self.assertEqual(canonicalize_utf8_text(lf), canonicalize_utf8_text(cr))
+        self.assertEqual(
+            hashlib.sha256(canonicalize_utf8_text(lf)).hexdigest(),
+            hashlib.sha256(canonicalize_utf8_text(crlf)).hexdigest(),
+        )
+
+    def test_manifest_text_hash_rejects_bom_and_detects_visible_changes(self) -> None:
+        with self.assertRaises(ContractError):
+            canonicalize_utf8_text(b"\xef\xbb\xbfalpha\n")
+        original = hashlib.sha256(canonicalize_utf8_text(b"alpha\nbeta\n")).hexdigest()
+        changed = hashlib.sha256(canonicalize_utf8_text(b"alpha\ngamma\n")).hexdigest()
+        self.assertNotEqual(original, changed)
+
+    def test_source_hash_remains_raw_bytes(self) -> None:
+        self.assertEqual(manifest_digest(self.source_path, SOURCE_RELATIVE_PATH), SOURCE_SHA256)
 
     def test_materializer_check_mode(self) -> None:
         self.assertEqual(materialize_main(["--root", str(ROOT), "--check"]), 0)

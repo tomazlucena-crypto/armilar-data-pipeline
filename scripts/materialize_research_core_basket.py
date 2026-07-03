@@ -142,8 +142,33 @@ def sha256_bytes(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+UTF8_BOM = b"\xef\xbb\xbf"
+
+
+def canonicalize_utf8_text(payload: bytes) -> bytes:
+    """Return a cross-platform canonical representation for manifest hashing."""
+    if payload.startswith(UTF8_BOM):
+        raise ContractError("UTF-8 BOM is not permitted in canonical manifest inputs")
+    try:
+        text = payload.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ContractError("manifest text input is not valid UTF-8") from exc
+    return text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+
+
 def sha256_file(path: Path) -> str:
     return sha256_bytes(path.read_bytes())
+
+
+def manifest_input_bytes(path: Path, relative_path: Path) -> bytes:
+    payload = path.read_bytes()
+    if relative_path == SOURCE_RELATIVE_PATH:
+        return payload
+    return canonicalize_utf8_text(payload)
+
+
+def manifest_digest(path: Path, relative_path: Path) -> str:
+    return sha256_bytes(manifest_input_bytes(path, relative_path))
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
@@ -374,7 +399,7 @@ def render_manifest(root: Path, basket_bytes: bytes) -> bytes:
             absolute_path = root / relative_path
             if not absolute_path.is_file():
                 raise ContractError(f"manifest input missing: {relative_path.as_posix()}")
-            digest = sha256_file(absolute_path)
+            digest = manifest_digest(absolute_path, relative_path)
         lines.append(f"{digest}  {relative_path.as_posix()}")
     return ("\n".join(lines) + "\n").encode("utf-8")
 

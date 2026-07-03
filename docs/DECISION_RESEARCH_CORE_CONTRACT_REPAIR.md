@@ -26,6 +26,8 @@ The basket restores per-cell source files, hashes, PPP headings, PPP scope, deri
 
 The manifest covers the basket, source, constitution, schemas, script, normalization configuration and decision records. It excludes itself.
 
+Text inputs covered by the manifest are hashed from a canonical UTF-8 representation without BOM, with CRLF and isolated CR normalized to LF. The source weights CSV retains its raw-byte SHA-256 invariant. This removes Windows/Linux checkout differences without changing visible or economic content.
+
 ## Consequences
 
 The Research Core remains `DRAFT` and `RESEARCH_ONLY`. All seven methodological decisions and all release gates remain unchanged. Ratification is postponed until these repaired contracts pass the complete repository suite.
