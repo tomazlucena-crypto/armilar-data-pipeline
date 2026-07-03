@@ -46,11 +46,14 @@ jobs:
       - name: Run unit tests
         run: python -m pytest -q
 
-      - name: Validate v0.9.6 official engine contract
-        run: python scripts/check_official_engine_v096.py --root .
-
       - name: Validate v0.9.7 proxy registry and acquisition
         run: python scripts/check_proxy_registry_v097.py --root .
+
+      - name: Validate Research Core ratification
+        run: python scripts/check_research_core_ratification.py --root .
+
+      - name: Validate Research Core constitution
+        run: python scripts/check_research_core_constitution.py --root .
 
       - name: Compile Python sources
         run: python -m compileall -q src
