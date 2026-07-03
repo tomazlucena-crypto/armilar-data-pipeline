@@ -19,6 +19,18 @@ MANIFEST_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.sha256")
 CONSTITUTION_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.json")
 CONSTITUTION_MD_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.md")
 CONSTITUTION_SCHEMA_RELATIVE_PATH = Path("schemas/research_core_constitution.schema.json")
+
+RATIFICATION_RECORD_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1_RATIFICATION_RECORD.json")
+
+RATIFICATION_RECORD_MD_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1_RATIFICATION_RECORD.md")
+
+RATIFICATION_RECORD_SCHEMA_RELATIVE_PATH = Path("schemas/research_core_ratification_record.schema.json")
+
+RATIFICATION_DECISION_RELATIVE_PATH = Path("docs/DECISION_RESEARCH_CORE_CONSTITUTION_RATIFICATION.md")
+
+RATIFIED_CHECKER_RELATIVE_PATH = Path("scripts/check_research_core_constitution.py")
+
+DRAFT_ARCHIVE_RELATIVE_PATH = Path("constitution/archive/ARMILAR_RESEARCH_CORE_V1_0.3.0-draft.json")
 BASKET_SCHEMA_RELATIVE_PATH = Path("schemas/research_core_basket.schema.json")
 DECISION_RELATIVE_PATH = Path("docs/DECISION_RESEARCH_CORE_BASKET_MATERIALIZATION.md")
 REPAIR_DECISION_RELATIVE_PATH = Path("docs/DECISION_RESEARCH_CORE_CONTRACT_REPAIR.md")
@@ -96,8 +108,14 @@ MANIFEST_PATHS = tuple(
             BASKET_RELATIVE_PATH,
             CONSTITUTION_RELATIVE_PATH,
             CONSTITUTION_MD_RELATIVE_PATH,
+            RATIFICATION_RECORD_RELATIVE_PATH,
+            RATIFICATION_RECORD_MD_RELATIVE_PATH,
+            DRAFT_ARCHIVE_RELATIVE_PATH,
             SOURCE_RELATIVE_PATH,
             CONSTITUTION_SCHEMA_RELATIVE_PATH,
+            RATIFICATION_RECORD_SCHEMA_RELATIVE_PATH,
+            RATIFICATION_DECISION_RELATIVE_PATH,
+            RATIFIED_CHECKER_RELATIVE_PATH,
             BASKET_SCHEMA_RELATIVE_PATH,
             SCRIPT_RELATIVE_PATH,
             DECISION_RELATIVE_PATH,
@@ -333,12 +351,12 @@ def validate_static_contracts(root: Path) -> None:
 
     if config.get("normalization_rule") != NORMALIZATION_RULE:
         raise ContractError("normalization policy no longer matches the ratified pilot rule")
-    if constitution.get("constitution_status") != "DRAFT":
-        raise ContractError("constitution must remain DRAFT in v0.9.5-04")
-    if constitution.get("constitution_version") != BASKET_VERSION:
-        raise ContractError("constitution and basket draft versions must match")
-    if constitution.get("schema_version") != "1.2":
-        raise ContractError("unexpected constitution schema version")
+    if constitution.get("constitution_status") != "RATIFIED_FOR_ENGINE_DEVELOPMENT":
+        raise ContractError("constitution must be ratified for engine development")
+    if constitution.get("constitution_version") != "1.0.0-research":
+        raise ContractError("unexpected ratified constitution version")
+    if constitution.get("schema_version") != "1.3":
+        raise ContractError("unexpected ratified constitution schema version")
     if constitution.get("economies") != list(TARGET_ECONOMIES):
         raise ContractError("constitution economy universe mismatch")
     if constitution.get("basket_categories") != list(TARGET_CATEGORIES):
@@ -349,10 +367,20 @@ def validate_static_contracts(root: Path) -> None:
     if not isinstance(release_gates, dict) or not release_gates or any(release_gates.values()):
         raise ContractError("all release gates must remain false")
     pending = constitution.get("pending_decisions")
-    if not isinstance(pending, list) or len(pending) != 7:
-        raise ContractError("exactly seven decisions must remain pending")
-    if any(item.get("status") != "PENDING_RATIFICATION" for item in pending if isinstance(item, dict)):
-        raise ContractError("all decisions must remain pending ratification")
+    if pending != []:
+        raise ContractError("ratified constitution must have zero pending decisions")
+    ratified = constitution.get("ratified_decisions")
+    if not isinstance(ratified, list) or len(ratified) != 7:
+        raise ContractError("exactly seven decisions must be ratified")
+    if any(item.get("status") != "RATIFIED_FOR_ENGINE_DEVELOPMENT" for item in ratified if isinstance(item, dict)):
+        raise ContractError("all canonical decisions must be ratified for engine development")
+    ratification = constitution.get("ratification")
+    if not isinstance(ratification, dict):
+        raise ContractError("ratification metadata is missing")
+    if ratification.get("ratification_record") != RATIFICATION_RECORD_RELATIVE_PATH.as_posix():
+        raise ContractError("ratification record path mismatch")
+    if ratification.get("does_not_start_v096") is not True:
+        raise ContractError("ratification must not start v0.9.6")
 
     materialization = constitution.get("basket_materialization")
     if not isinstance(materialization, dict):

@@ -155,17 +155,22 @@ class ResearchCoreContractTests(unittest.TestCase):
     def test_constitution_contract(self) -> None:
         validate_static_contracts(ROOT)
         constitution = self.load_constitution()
-        self.assertEqual(constitution["constitution_status"], "DRAFT")
-        self.assertEqual(constitution["constitution_version"], "0.3.0-draft")
-        self.assertEqual(constitution["schema_version"], "1.2")
+        self.assertEqual(constitution["constitution_status"], "RATIFIED_FOR_ENGINE_DEVELOPMENT")
+        self.assertEqual(constitution["constitution_version"], "1.0.0-research")
+        self.assertEqual(constitution["schema_version"], "1.3")
         self.assertEqual(constitution["economies"], list(TARGET_ECONOMIES))
         self.assertEqual(constitution["basket_categories"], list(TARGET_CATEGORIES))
         self.assertEqual(constitution["benchmark_categories"], ["CP00"])
         self.assertEqual(set(constitution["series"]), {"ARM-O", "ARM-L", "ARM-R", "ARM-H"})
         self.assertTrue(all(not series["may_replace_other_series"] for series in constitution["series"].values()))
         self.assertFalse(any(constitution["release_gates"].values()))
-        self.assertEqual(len(constitution["pending_decisions"]), 7)
-        self.assertTrue(all(item["status"] == "PENDING_RATIFICATION" for item in constitution["pending_decisions"]))
+        self.assertEqual(constitution["pending_decisions"], [])
+        self.assertEqual(len(constitution["ratified_decisions"]), 7)
+        self.assertTrue(all(item["status"] == "RATIFIED_FOR_ENGINE_DEVELOPMENT" for item in constitution["ratified_decisions"]))
+        self.assertTrue(all(item["status"] == "RATIFIED_FOR_ENGINE_DEVELOPMENT" for item in constitution["series"].values()))
+        self.assertTrue(all("provisional_semantics" not in item for item in constitution["series"].values()))
+        semantics = next(item["executable_contract"] for item in constitution["ratified_decisions"] if item["id"] == "exact_series_semantics")
+        self.assertTrue(all(constitution["series"][series_id]["semantics"] == semantics[series_id] for series_id in constitution["series"]))
         self.assertFalse(constitution["currency_policy"]["current_fx_in_ARM_O"])
         self.assertFalse(constitution["currency_policy"]["current_fx_in_ARM_L"])
         materialization = constitution["basket_materialization"]
@@ -296,8 +301,8 @@ class ResearchCoreContractTests(unittest.TestCase):
             "sixth_economy": lambda payload: payload["economies"].append("AUT"),
             "cp13": lambda payload: payload["basket_categories"].append("CP13"),
             "cp00_weighted": lambda payload: payload["basket_categories"].append("CP00"),
-            "decision_removed": lambda payload: payload["pending_decisions"].pop(),
-            "decision_ratified": lambda payload: payload["pending_decisions"][0].__setitem__("status", "RATIFIED"),
+            "ratified_decision_removed": lambda payload: payload["ratified_decisions"].pop(),
+            "ratified_decision_status_changed": lambda payload: payload["ratified_decisions"][0].__setitem__("status", "PROPOSED"),
             "cell_count": lambda payload: payload["basket_materialization"].__setitem__("expected_cell_count", 59),
             "basket_state": lambda payload: payload["basket_materialization"].__setitem__("status", "RATIFIED"),
             "synthetic_allowed": lambda payload: payload["basket_materialization"].__setitem__("synthetic_test_weights_allowed", True),
@@ -306,7 +311,7 @@ class ResearchCoreContractTests(unittest.TestCase):
             "snapshot_hash_changed": lambda payload: payload["basket_materialization"].__setitem__("constitutional_snapshot_sha256", "0" * 64),
             "snapshot_policy_changed": lambda payload: payload["basket_materialization"].__setitem__("constitutional_snapshot_hash_policy", "UTF8_WITHOUT_BOM_CRLF"),
             "snapshot_enforcement_disabled": lambda payload: payload["basket_materialization"].__setitem__("constitutional_snapshot_hash_is_enforced", False),
-            "constitution_ratified": lambda payload: payload.__setitem__("constitution_status", "RATIFIED"),
+            "constitution_reverted_to_draft": lambda payload: payload.__setitem__("constitution_status", "DRAFT"),
         }
         for name, mutator in mutations.items():
             with self.subTest(name=name), tempfile.TemporaryDirectory() as temporary_directory:
