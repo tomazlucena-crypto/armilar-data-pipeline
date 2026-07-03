@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARMILAR official engine v0.9.6 Parquet export summary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "canonical_source_manifest_sha256",
+    "file_count", "canonical_storage", "release_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "PARQUET_DERIVED_VIEW_EXPORTED"},
+    "canonical_source_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "file_count": {"const": 5},
+    "canonical_storage": {"const": false},
+    "release_gates": {
+      "const": {
+        "research_release_allowed": false,
+        "model_promotion_allowed": false,
+        "shadow_production_allowed": false,
+        "monetary_release_allowed": false,
+        "world_claim_allowed": false
+      }
+    }
+  }
+}

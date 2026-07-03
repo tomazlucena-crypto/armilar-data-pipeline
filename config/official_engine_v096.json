@@ -1,0 +1,37 @@
+{
+  "policy_id": "ARMILAR_OFFICIAL_ENGINE_V096",
+  "policy_version": "0.9.6",
+  "constitution_id": "ARMILAR_RESEARCH_CORE_V1",
+  "constitution_version": "1.0.0-research",
+  "constitution_sha256": "5d0b6eb1a0f8111c3d8c3d5a8d8f70ed05789a9de82c1d68dab4233ea3f135e6",
+  "ratification_record_sha256": "365dbf0fe8d42996d805c3961dab90fb2bc8f26935bff5b4c775592f9177d561",
+  "reference_year": 2021,
+  "reference_average": "100",
+  "categories": [
+    "CP01",
+    "CP02",
+    "CP03",
+    "CP04",
+    "CP05",
+    "CP06",
+    "CP07",
+    "CP08",
+    "CP09",
+    "CP10",
+    "CP11",
+    "CP12"
+  ],
+  "start_period": "2021-01",
+  "end_period": "2025-12",
+  "precision": 28,
+  "rounding": "ROUND_HALF_EVEN",
+  "fixed_weight_column": "fixed_universe_weight",
+  "release_gates": {
+    "research_release_allowed": false,
+    "model_promotion_allowed": false,
+    "shadow_production_allowed": false,
+    "monetary_release_allowed": false,
+    "world_claim_allowed": false
+  },
+  "ooh_sensitivity_required": true
+}

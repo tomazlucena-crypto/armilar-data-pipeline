@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "scenarios": [
+    {
+      "scenario_id": "OOH_CP04_LOWER_095",
+      "cp04_multiplier": "0.95",
+      "interpretation": "Mechanical lower-bound scenario; not an empirical OOH estimate."
+    },
+    {
+      "scenario_id": "OOH_CP04_NEUTRAL_100",
+      "cp04_multiplier": "1.00",
+      "interpretation": "No mechanical adjustment to the observed CP04 contribution."
+    },
+    {
+      "scenario_id": "OOH_CP04_UPPER_105",
+      "cp04_multiplier": "1.05",
+      "interpretation": "Mechanical upper-bound scenario; not an empirical OOH estimate."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arm_l_use_allowed": {
+      "const": false
+    },
+    "direct_index_use_allowed": {
+      "const": false
+    },
+    "first_period": {
+      "type": "string"
+    },
+    "frequency": {
+      "type": "string"
+    },
+    "geography_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "historical_vintage_support": {
+      "type": "boolean"
+    },
+    "information_set_ready": {
+      "const": false
+    },
+    "last_period": {
+      "type": "string"
+    },
+    "model_training_allowed": {
+      "const": false
+    },
+    "monetary_use_allowed": {
+      "const": false
+    },
+    "normalized_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "observation_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "parser_id": {
+      "type": "string"
+    },
+    "parser_version": {
+      "const": "0.9.7"
+    },
+    "period_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "proxy_domains": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "publication_time_status": {
+      "type": "string"
+    },
+    "published_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "registry_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "registry_version": {
+      "const": "0.9.7"
+    },
+    "retrieved_at": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "series_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "shadow_production_allowed": {
+      "const": false
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "registry_version",
+    "source_id",
+    "snapshot_id",
+    "parser_id",
+    "parser_version",
+    "frequency",
+    "observation_count",
+    "series_count",
+    "geography_count",
+    "period_count",
+    "first_period",
+    "last_period",
+    "proxy_domains",
+    "published_at",
+    "publication_time_status",
+    "retrieved_at",
+    "historical_vintage_support",
+    "information_set_ready",
+    "direct_index_use_allowed",
+    "arm_l_use_allowed",
+    "model_training_allowed",
+    "shadow_production_allowed",
+    "monetary_use_allowed",
+    "source_sha256",
+    "registry_sha256",
+    "normalized_sha256"
+  ],
+  "title": "ARMILAR v0.9.7 proxy normalization summary",
+  "type": "object"
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARMILAR v0.9.6 temporal ledger entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sequence", "previous_hash", "payload", "entry_hash"],
+  "properties": {
+    "sequence": {"type": "integer", "minimum": 1},
+    "previous_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "entry_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "series_kind",
+        "vintage_id",
+        "cutoff_at",
+        "created_at",
+        "run_manifest_sha256",
+        "run_summary_sha256",
+        "constitution_sha256",
+        "ratification_record_sha256"
+      ],
+      "properties": {
+        "run_id": {"type": "string"},
+        "series_kind": {"enum": ["ARM-O", "ARM-R", "ARM-H"]},
+        "vintage_id": {"type": "string"},
+        "cutoff_at": {"type": "string"},
+        "created_at": {"type": "string"},
+        "run_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "run_summary_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "constitution_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "ratification_record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}
