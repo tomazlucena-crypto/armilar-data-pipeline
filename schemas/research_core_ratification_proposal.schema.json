@@ -56,7 +56,7 @@
           "current_fx_included": false,
           "formula": "ARM_O_t = SUM_i_c(fixed_universe_weight_i_c * price_relative_i_c_t)",
           "incomplete_period_policy": "NO_VALUE_FAIL_CLOSED",
-          "index_type": "FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE_PPP_ADJUSTED",
+          "index_type": "PPP_ADJUSTED_FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE",
           "proxy_exposure": {
             "categories": [
               "CP04",
@@ -174,7 +174,8 @@
               "retrieved_at_required": true,
               "same_information_set_same_model_same_basket_same_output": true,
               "source_precedence": "CELL_SPECIFIC_VERSIONED_SOURCE_REGISTRY",
-              "source_registry_version_required": true
+              "source_registry_version_required": true,
+              "uncertainty_bounds_required": true
             },
             "may_backfill_arm_o_or_arm_r": false,
             "meaning": "LIVE_RESEARCH_ESTIMATE_ANCHORED_TO_LATEST_ARM_O",
@@ -241,7 +242,9 @@
           "separate_amendment_required_before_monetary_eligibility": true,
           "weight_concept_target": "HFCE_2021_REAL_EXPENDITURE_PPP_ADJUSTED",
           "weight_implementation_limitation": "25_CELLS_USE_AIC_PPP_PROXY",
-          "world_index_claim_allowed": false
+          "world_index_claim_allowed": false,
+          "oohpi_vs_hfce_distinction_required": true,
+          "hfce_income_imputed_rent_distinction_required": true
         },
         "id": "hfce_hicp_conceptual_treatment",
         "status": "PROPOSED",
@@ -258,7 +261,8 @@
               "full_backtest_required": true,
               "new_basket_version_required": true,
               "new_series_required": true,
-              "prior_series_preserved": true
+              "prior_series_preserved": true,
+              "economies_and_categories_fixed_within_basket_version": true
             },
             "CONSTITUTIONAL_METHOD_CHANGE": {
               "full_backtest_required": true,
@@ -301,7 +305,8 @@
             "changed_numeric_weight_same_scope": "NUMERICAL_WEIGHT_PATCH",
             "new_economy_or_category": "BASKET_SCOPE_CHANGE",
             "same_numeric_weight": "EVIDENCE_METADATA_PATCH",
-            "silent_upgrade_allowed": false
+            "silent_upgrade_allowed": false,
+            "silent_proxy_to_exact_promotion_allowed": false
           },
           "retroactive_history_rewrite_allowed": false,
           "schema_and_test_update_required": true

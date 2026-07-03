@@ -206,7 +206,7 @@ def validate(root: Path) -> dict[str, Any]:
             raise RatificationProposalError(f"incomplete decision: {item.get('id')}")
 
     formula = decisions["official_formula"]["executable_contract"]
-    if formula.get("index_type") != "FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE_PPP_ADJUSTED":
+    if formula.get("index_type") != "PPP_ADJUSTED_FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE":
         raise RatificationProposalError("PPP-adjusted Laspeyres-type definition is missing")
     weight_definition = formula.get("weight_definition", {})
     if weight_definition.get("target_concept") != "HFCE_2021_REAL_EXPENDITURE_PPP_ADJUSTED":
@@ -250,6 +250,10 @@ def validate(root: Path) -> dict[str, Any]:
     treatment = decisions["hfce_hicp_conceptual_treatment"]["executable_contract"]
     if treatment.get("proxy_exposure_weight_total") != EXPECTED_PROXY_TOTAL:
         raise RatificationProposalError("HFCE/HICP decision omits proxy exposure")
+    if treatment.get("oohpi_vs_hfce_distinction_required") is not True:
+        raise RatificationProposalError("OOHPI distinction is missing")
+    if treatment.get("hfce_income_imputed_rent_distinction_required") is not True:
+        raise RatificationProposalError("HFCE income/imputed-rent distinction is missing")
     ooh = treatment.get("ooh_sensitivity_requirement", {})
     if ooh.get("required_before_external_research_release") is not True:
         raise RatificationProposalError("OOH sensitivity is not required before external release")
@@ -269,9 +273,17 @@ def validate(root: Path) -> dict[str, Any]:
     }
     if set(classes) != expected_classes:
         raise RatificationProposalError("change classes are incomplete")
+    if amendment.get("explicit_human_approval_required") is not True:
+        raise RatificationProposalError("human approval is required")
+    if amendment.get("prior_versions_preserved") is not True:
+        raise RatificationProposalError("prior versions must be preserved")
+    if amendment.get("gates_default_to_false_after_amendment") is not True:
+        raise RatificationProposalError("gates must default false after amendment")
     transition = amendment.get("proxy_to_exact_transition", {})
     if transition.get("silent_upgrade_allowed") is not False:
         raise RatificationProposalError("silent proxy-to-exact upgrade is forbidden")
+    if transition.get("silent_proxy_to_exact_promotion_allowed") is not False:
+        raise RatificationProposalError("silent proxy-to-exact promotion is forbidden")
     if transition.get("same_numeric_weight") != "EVIDENCE_METADATA_PATCH":
         raise RatificationProposalError("evidence-only transition is invalid")
     if transition.get("changed_numeric_weight_same_scope") != "NUMERICAL_WEIGHT_PATCH":
@@ -305,6 +317,9 @@ def validate(root: Path) -> dict[str, Any]:
     for path in (PROPOSAL_MD_RELATIVE_PATH, PROXY_ANNEX_MD_RELATIVE_PATH):
         if not (root / path).is_file():
             raise RatificationProposalError(f"human-readable file is missing: {path}")
+    for path in (PROPOSAL_RELATIVE_PATH, PROPOSAL_MD_RELATIVE_PATH, PROXY_ANNEX_RELATIVE_PATH, PROXY_ANNEX_MD_RELATIVE_PATH, PROPOSAL_SCHEMA_RELATIVE_PATH, PROXY_ANNEX_SCHEMA_RELATIVE_PATH):
+        if not (root / path).is_file():
+            raise RatificationProposalError(f"proposal asset is missing: {path}")
     return proposal
 
 

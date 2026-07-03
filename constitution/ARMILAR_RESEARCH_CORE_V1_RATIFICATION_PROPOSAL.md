@@ -17,13 +17,13 @@ This proposal closes the specification of seven methodological decisions. It doe
 
 ## Clarifications added in version 0.2.0
 
-1. The official formula is a fixed-weight arithmetic Laspeyres-type index using 2021 real-expenditure weights converted to a common comparable unit through ICP PPPs.
+1. The official formula is a PPP-adjusted fixed-weight arithmetic Laspeyres-type index using 2021 real-expenditure weights converted to a common comparable unit through ICP PPPs.
 2. The basket contains 25 AIC-PPP proxy cells, concentrated in CP04, CP06, CP09, CP10 and CP12 across all five economies. They represent `0.589731681350816432896035605` of fixed-universe weight.
 3. An OOH sensitivity analysis is mandatory before external research release or shadow production. It is not represented as a complete measurement of the HFCE/HICP gap.
-4. ARM-L requires an immutable information set, versioned per-cell source registry, explicit cutoffs, raw snapshots, model version, quality state and uncertainty.
+4. ARM-L requires an immutable information set, versioned per-cell source registry, explicit cutoffs, raw snapshots, model version, quality state and uncertainty bounds.
 5. The concrete ARM-L publication clock belongs to a separately approved operational schedule contract rather than the constitution.
-6. Economies and categories are fixed within a basket version. Adding or removing either creates a new basket version and a new series.
-7. Proxy-to-exact improvements are classified as evidence metadata patches, numerical weight patches or basket scope changes according to their numerical and scope effects.
+6. Economies and categories are fixed within a basket version. Adding or removing either creates a new basket version and a new series. Proxy-to-exact promotion is forbidden.
+7. Proxy-to-exact improvements are classified as evidence metadata patches, numerical weight patches or basket scope changes according to their numerical and scope effects. ARM-O is never rewritten; ARM-R may reconstruct under a new revision.
 
 ## Proposed decisions
 

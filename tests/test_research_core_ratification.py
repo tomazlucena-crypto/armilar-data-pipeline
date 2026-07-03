@@ -89,7 +89,7 @@ class RatificationProposalTests(unittest.TestCase):
     def test_ppp_weight_and_fixed_scope_contract(self) -> None:
         proposal = self.load_json(ROOT, PROPOSAL_RELATIVE_PATH)
         formula = self.decision(proposal, "official_formula")["executable_contract"]
-        self.assertEqual(formula["index_type"], "FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE_PPP_ADJUSTED")
+        self.assertEqual(formula["index_type"], "PPP_ADJUSTED_FIXED_WEIGHT_ARITHMETIC_LASPEYRES_TYPE")
         self.assertEqual(formula["weight_definition"]["target_concept"], "HFCE_2021_REAL_EXPENDITURE_PPP_ADJUSTED")
         self.assertEqual(formula["weight_definition"]["proxy_exception"], "AIC_PPP_PROXY_IDENTIFIED_PER_CELL")
         self.assertTrue(formula["basket_scope"]["economies_and_categories_fixed_within_basket_version"])
@@ -104,6 +104,7 @@ class RatificationProposalTests(unittest.TestCase):
         self.assertEqual(info["late_arrival_policy"], "NEXT_RELEASE_ONLY")
         self.assertEqual(info["source_precedence"], "CELL_SPECIFIC_VERSIONED_SOURCE_REGISTRY")
         self.assertTrue(info["same_information_set_same_model_same_basket_same_output"])
+        self.assertTrue(info["uncertainty_bounds_required"])
         self.assertFalse(arm_l["retroactive_revision_to_match_arm_o_allowed"])
         self.assertTrue(arm_l["schedule_policy"]["versioned_release_schedule_contract_required"])
         self.assertFalse(arm_l["schedule_policy"]["constitutional_clock_time_fixed"])
@@ -116,6 +117,9 @@ class RatificationProposalTests(unittest.TestCase):
         self.assertTrue(ooh["required_before_shadow_production"])
         self.assertTrue(ooh["does_not_measure_complete_hfce_hicp_gap"])
         self.assertTrue(ooh["may_not_be_presented_as_imputed_rent_equivalence"])
+        hfce = self.decision(proposal, "hfce_hicp_conceptual_treatment")["executable_contract"]
+        self.assertTrue(hfce["oohpi_vs_hfce_distinction_required"])
+        self.assertTrue(hfce["hfce_income_imputed_rent_distinction_required"])
         self.assertEqual(treatment["proxy_exposure_weight_total"], EXPECTED_PROXY_TOTAL)
 
     def test_patch_classes_cover_proxy_to_exact_transition(self) -> None:
@@ -136,6 +140,8 @@ class RatificationProposalTests(unittest.TestCase):
         self.assertEqual(transition["changed_numeric_weight_same_scope"], "NUMERICAL_WEIGHT_PATCH")
         self.assertEqual(transition["new_economy_or_category"], "BASKET_SCOPE_CHANGE")
         self.assertFalse(transition["silent_upgrade_allowed"])
+        self.assertFalse(transition["silent_proxy_to_exact_promotion_allowed"])
+        self.assertTrue(amendment["change_classes"]["BASKET_SCOPE_CHANGE"]["economies_and_categories_fixed_within_basket_version"])
 
     def test_schemas_are_closed_over_exact_payloads(self) -> None:
         proposal = self.load_json(ROOT, PROPOSAL_RELATIVE_PATH)
@@ -199,6 +205,19 @@ class RatificationProposalTests(unittest.TestCase):
                 self.mutate(root, relative, mutator)
                 with self.assertRaises(RatificationProposalError):
                     validate(root)
+
+
+    def test_proxy_annex_missing_or_modified_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.copy_fixture(root)
+            (root / PROXY_ANNEX_RELATIVE_PATH).unlink()
+            with self.assertRaises(RatificationProposalError):
+                validate(root)
+
+    def test_manifest_must_include_proxy_annex(self) -> None:
+        lines = (ROOT / PROPOSAL_MANIFEST_RELATIVE_PATH).read_text(encoding="utf-8").splitlines()
+        self.assertIn(PROXY_ANNEX_RELATIVE_PATH.as_posix(), {line.split(" ", 1)[1] for line in lines})
 
     def test_manifest_detects_visible_tampering(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
