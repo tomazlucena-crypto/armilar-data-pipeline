@@ -345,6 +345,6 @@
   "release_gates_must_remain_false": true,
   "required_human_approval": true,
   "target_constitution_id": "ARMILAR_RESEARCH_CORE_V1",
-  "target_constitution_sha256": "e5f1747c24b9e5cab5ffc894b472543e4e2ee3e3b8429ecd6be94475645b714f",
+  "target_constitution_sha256": "22f305445f7b64d53789239ff5074fbca1ec9d4d5e41aea28f9a0b978a6c3802",
   "target_constitution_version": "0.3.0-draft"
 }

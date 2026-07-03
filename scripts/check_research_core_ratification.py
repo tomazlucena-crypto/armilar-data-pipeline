@@ -18,8 +18,8 @@ PROXY_ANNEX_SCHEMA_RELATIVE_PATH = Path("schemas/research_core_proxy_exposure.sc
 CONSTITUTION_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.json")
 BASKET_RELATIVE_PATH = Path("basket/ARMILAR_RESEARCH_CORE_V1.csv")
 
-EXPECTED_CONSTITUTION_HASH = "e5f1747c24b9e5cab5ffc894b472543e4e2ee3e3b8429ecd6be94475645b714f"
-EXPECTED_BASKET_HASH = "e6b85bbf24f0105cf491036a9ffed47245f53d844e455ec4b643cf6e8f86d10f"
+EXPECTED_CONSTITUTION_HASH = "22f305445f7b64d53789239ff5074fbca1ec9d4d5e41aea28f9a0b978a6c3802"
+EXPECTED_BASKET_HASH = "5f6d3e515f4e703d47e10234af5187a0d4cdb5ba0f1acded3d516b3e1baaae1c"
 EXPECTED_PROXY_TOTAL = "0.589731681350816432896035605"
 EXPECTED_ECONOMIES = ("DEU", "ESP", "FRA", "ITA", "PRT")
 EXPECTED_CATEGORIES = tuple(f"CP{i:02d}" for i in range(1, 13))
@@ -194,6 +194,16 @@ def validate(root: Path) -> dict[str, Any]:
     pending_ids = tuple(item.get("id") for item in pending)
     if pending_ids != EXPECTED_DECISIONS or any(item.get("status") != "PENDING_RATIFICATION" for item in pending):
         raise RatificationProposalError("canonical pending decisions changed")
+
+    materialization = constitution.get("basket_materialization")
+    if not isinstance(materialization, dict):
+        raise RatificationProposalError("basket materialization is missing")
+    if materialization.get("source_input") != "constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv":
+        raise RatificationProposalError("constitutional input must be the immutable snapshot")
+    if materialization.get("source_snapshot_policy") != "IMMUTABLE_CONSTITUTIONAL_INPUT":
+        raise RatificationProposalError("constitutional snapshot policy is invalid")
+    if materialization.get("mutable_public_latest_allowed_as_constitutional_input") is not False:
+        raise RatificationProposalError("public/latest must not be constitutional input")
 
     decisions = _decision_map(proposal)
     for item in decisions.values():

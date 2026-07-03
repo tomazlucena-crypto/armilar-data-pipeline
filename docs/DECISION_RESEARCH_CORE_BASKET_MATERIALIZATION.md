@@ -2,7 +2,7 @@
 
 ## Decision
 
-Materialize the 60-cell `ARMILAR_RESEARCH_CORE_V1` basket exclusively from `public/latest/weights_observed_universe.csv`.
+Materialize the 60-cell `ARMILAR_RESEARCH_CORE_V1` basket exclusively from the immutable constitutional snapshot `constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv`.
 
 ## Source
 
@@ -42,3 +42,5 @@ Expected counts are 30 exact official cells, 5 official deterministic derivation
 ## Limitations
 
 The 25 experimental cells remain explicit. The basket is `RESEARCH_ONLY`, cannot support monetary use and does not remove the HFCE/HICP conceptual mismatch.
+
+`public/latest` remains a mutable operational pointer and is not a constitutional input.

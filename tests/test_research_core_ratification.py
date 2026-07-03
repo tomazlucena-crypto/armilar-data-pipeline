@@ -74,6 +74,10 @@ class RatificationProposalTests(unittest.TestCase):
         self.assertEqual(digest(path), EXPECTED_CONSTITUTION_HASH)
         constitution = self.load_json(ROOT, CONSTITUTION_RELATIVE_PATH)
         self.assertEqual(constitution["constitution_status"], "DRAFT")
+        materialization = constitution["basket_materialization"]
+        self.assertEqual(materialization["source_input"], "constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv")
+        self.assertEqual(materialization["source_snapshot_policy"], "IMMUTABLE_CONSTITUTIONAL_INPUT")
+        self.assertFalse(materialization["mutable_public_latest_allowed_as_constitutional_input"])
         self.assertEqual(len(constitution["pending_decisions"]), 7)
         self.assertTrue(all(item["status"] == "PENDING_RATIFICATION" for item in constitution["pending_decisions"]))
         self.assertFalse(any(constitution["release_gates"].values()))

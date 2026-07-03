@@ -5,7 +5,7 @@ The immediate objective is to obtain explicit approval or rejection of the seven
 ## Completed
 
 1. repair and validate the v0.9.5-04 executable contracts;
-2. preserve the 60-cell basket, source provenance and cross-platform canonical hashes;
+2. preserve the 60-cell basket, source provenance and cross-platform canonical hashes via an immutable constitutional snapshot;
 3. draft seven executable methodological decision records;
 4. create a closed ratification proposal and fail-closed checker;
 5. define PPP-adjusted fixed weights and explicit AIC-PPP exceptions;
@@ -25,6 +25,7 @@ The immediate objective is to obtain explicit approval or rejection of the seven
 - human approval: required;
 - approval status: `NOT_APPROVED`;
 - basket: `BASKET_MATERIALIZED_FROM_EXISTING_V094_INPUTS`;
+- constitutional input snapshot: `constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv`;
 - eligibility: `RESEARCH_ONLY`;
 - proxy cells: `25`;
 - proxy fixed-universe weight: `0.589731681350816432896035605`;

@@ -2,7 +2,7 @@
   "annex_id": "ARMILAR_RESEARCH_CORE_V1_PROXY_EXPOSURE",
   "annex_version": "0.1.0",
   "basket_path": "basket/ARMILAR_RESEARCH_CORE_V1.csv",
-  "basket_sha256_raw": "e6b85bbf24f0105cf491036a9ffed47245f53d844e455ec4b643cf6e8f86d10f",
+  "basket_sha256_raw": "5f6d3e515f4e703d47e10234af5187a0d4cdb5ba0f1acded3d516b3e1baaae1c",
   "categories": [
     "CP04",
     "CP06",

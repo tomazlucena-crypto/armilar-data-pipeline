@@ -54,6 +54,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class ResearchCoreContractTests(unittest.TestCase):
     def setUp(self) -> None:
         self.source_path = ROOT / SOURCE_RELATIVE_PATH
+        self.legacy_source_path = ROOT / Path("public/latest/weights_observed_universe.csv")
         self.basket_path = ROOT / BASKET_RELATIVE_PATH
         self.manifest_path = ROOT / MANIFEST_RELATIVE_PATH
         self.constitution_path = ROOT / CONSTITUTION_RELATIVE_PATH
@@ -188,6 +189,8 @@ class ResearchCoreContractTests(unittest.TestCase):
         lines = self.manifest_path.read_text(encoding="utf-8").splitlines()
         expected_paths = [path.as_posix() for path in MANIFEST_PATHS]
         self.assertEqual([line.split("  ", 1)[1] for line in lines], expected_paths)
+        self.assertIn(SOURCE_RELATIVE_PATH.as_posix(), expected_paths)
+        self.assertNotIn("public/latest/weights_observed_universe.csv", expected_paths)
         self.assertNotIn(MANIFEST_RELATIVE_PATH.as_posix(), expected_paths)
         for line in lines:
             digest, relative_path = line.split("  ", 1)
@@ -213,8 +216,13 @@ class ResearchCoreContractTests(unittest.TestCase):
         changed = hashlib.sha256(canonicalize_utf8_text(b"alpha\ngamma\n")).hexdigest()
         self.assertNotEqual(original, changed)
 
-    def test_source_hash_remains_raw_bytes(self) -> None:
+    def test_source_snapshot_is_immutable_and_raw_bytes(self) -> None:
+        self.assertTrue(self.source_path.is_file())
         self.assertEqual(manifest_digest(self.source_path, SOURCE_RELATIVE_PATH), SOURCE_SHA256)
+        with self.source_path.open("r", encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertEqual(len(rows), SOURCE_ROW_COUNT)
+        self.assertEqual(sum((Decimal(row["weight"]) for row in rows), Decimal("0")), SOURCE_GLOBAL_SUM)
 
     def test_materializer_check_mode(self) -> None:
         self.assertEqual(materialize_main(["--root", str(ROOT), "--check"]), 0)
@@ -225,6 +233,33 @@ class ResearchCoreContractTests(unittest.TestCase):
         reverse = render_basket_csv(build_basket_rows(select_source_rows(reversed(rows))))
         self.assertEqual(forward, reverse)
         self.assertEqual(canonicalize_utf8_text(forward), canonicalize_utf8_text(self.basket_path.read_bytes()))
+
+    def test_public_latest_mutation_does_not_change_basket(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_contract_repo(root)
+            public_latest = root / "public/latest/weights_observed_universe.csv"
+            public_latest.parent.mkdir(parents=True, exist_ok=True)
+            public_latest.write_text("tampered\n", encoding="utf-8", newline="\n")
+            self.assertEqual(materialize_main(["--root", str(root)]), 0)
+            self.assertEqual((root / BASKET_RELATIVE_PATH).read_bytes(), self.basket_path.read_bytes())
+
+    def test_snapshot_mutation_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_contract_repo(root)
+            snapshot = root / SOURCE_RELATIVE_PATH
+            snapshot.write_text(snapshot.read_text(encoding="utf-8") + "tamper\n", encoding="utf-8", newline="\n")
+            with self.assertRaises(ContractError):
+                materialize_main(["--root", str(root)])
+
+    def test_snapshot_removal_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_contract_repo(root)
+            (root / SOURCE_RELATIVE_PATH).unlink()
+            with self.assertRaises(ContractError):
+                materialize_main(["--root", str(root)])
 
     def test_selected_source_mutations_fail(self) -> None:
         selected = select_source_rows(read_source(self.source_path))

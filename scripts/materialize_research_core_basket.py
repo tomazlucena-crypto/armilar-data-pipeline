@@ -13,7 +13,7 @@ from decimal import Decimal, ROUND_HALF_EVEN, localcontext
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
-SOURCE_RELATIVE_PATH = Path("public/latest/weights_observed_universe.csv")
+SOURCE_RELATIVE_PATH = Path("constitution/inputs/ARMILAR_RESEARCH_CORE_V1_WEIGHTS_OBSERVED_UNIVERSE_V094.csv")
 BASKET_RELATIVE_PATH = Path("basket/ARMILAR_RESEARCH_CORE_V1.csv")
 MANIFEST_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.sha256")
 CONSTITUTION_RELATIVE_PATH = Path("constitution/ARMILAR_RESEARCH_CORE_V1.json")
@@ -362,6 +362,8 @@ def validate_static_contracts(root: Path) -> None:
         "status": "BASKET_MATERIALIZED_FROM_EXISTING_V094_INPUTS",
         "expected_cell_count": 60,
         "source_input": SOURCE_RELATIVE_PATH.as_posix(),
+        "source_snapshot_policy": "IMMUTABLE_CONSTITUTIONAL_INPUT",
+        "mutable_public_latest_allowed_as_constitutional_input": False,
         "source_input_sha256": SOURCE_SHA256,
         "source_pipeline_version": WEIGHT_SOURCE_VERSION,
         "source_weight_sum": format(SOURCE_GLOBAL_SUM, "f"),
