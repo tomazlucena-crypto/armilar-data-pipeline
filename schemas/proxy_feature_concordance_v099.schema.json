@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "concordance_approval_claim_allowed": {
+      "const": "false"
+    },
+    "concordance_status": {
+      "enum": [
+        "INSUFFICIENT_OVERLAP",
+        "NO_VARIATION",
+        "DESCRIPTIVE_ONLY"
+      ]
+    },
+    "direction_agreement_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "direction_agreement_ratio": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "direction_disagreement_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "first_overlap_period": {
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "last_overlap_period": {
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "left_series_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "left_source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "left_stream_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "maximum_absolute_spread": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "mean_absolute_spread": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "model_ready_claim_allowed": {
+      "const": "false"
+    },
+    "overlap_period_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "pearson_correlation": {
+      "type": "string"
+    },
+    "right_series_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "right_source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "right_stream_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "target_category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "target_economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "transformation": {
+      "enum": [
+        "PERIOD_CHANGE_PCT",
+        "YEAR_OVER_YEAR_PCT"
+      ]
+    }
+  },
+  "required": [
+    "target_economy_code",
+    "target_category_code",
+    "transformation",
+    "left_stream_id",
+    "right_stream_id",
+    "left_source_id",
+    "left_series_id",
+    "right_source_id",
+    "right_series_id",
+    "overlap_period_count",
+    "first_overlap_period",
+    "last_overlap_period",
+    "direction_agreement_count",
+    "direction_disagreement_count",
+    "direction_agreement_ratio",
+    "mean_absolute_spread",
+    "maximum_absolute_spread",
+    "pearson_correlation",
+    "concordance_status",
+    "concordance_approval_claim_allowed",
+    "model_ready_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 cross-source feature concordance row",
+  "type": "object"
+}

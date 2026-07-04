@@ -1,0 +1,317 @@
+{
+  "category_mappings": [
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "WB_FOOD_INDEX_TO_CP01",
+      "required_proxy_domain": "FOOD",
+      "series_match": {
+        "type": "EXACT",
+        "value": "WB_FOOD_INDEX"
+      },
+      "source_id": "WORLD_BANK_PINK_SHEET_MONTHLY",
+      "target_armilar_category": "ARM01",
+      "target_category_code": "CP01",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "WB_ENERGY_INDEX_TO_CP04",
+      "required_proxy_domain": "ENERGY",
+      "series_match": {
+        "type": "EXACT",
+        "value": "WB_ENERGY_INDEX"
+      },
+      "source_id": "WORLD_BANK_PINK_SHEET_MONTHLY",
+      "target_armilar_category": "ARM04",
+      "target_category_code": "CP04",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "WB_NATURAL_GAS_EUROPE_TO_CP04",
+      "required_proxy_domain": "ENERGY",
+      "series_match": {
+        "type": "EXACT",
+        "value": "WB_NATURAL_GAS_EUROPE"
+      },
+      "source_id": "WORLD_BANK_PINK_SHEET_MONTHLY",
+      "target_armilar_category": "ARM04",
+      "target_category_code": "CP04",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "WB_CRUDE_OIL_TO_CP07",
+      "required_proxy_domain": "TRANSPORT",
+      "series_match": {
+        "type": "EXACT",
+        "value": "WB_CRUDE_OIL_AVERAGE"
+      },
+      "source_id": "WORLD_BANK_PINK_SHEET_MONTHLY",
+      "target_armilar_category": "ARM06",
+      "target_category_code": "CP07",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "FAO_FFPI_TO_CP01",
+      "required_proxy_domain": "FOOD",
+      "series_match": {
+        "type": "EXACT",
+        "value": "FAO_FFPI"
+      },
+      "source_id": "FAO_FOOD_PRICE_INDEX_MONTHLY",
+      "target_armilar_category": "ARM01",
+      "target_category_code": "CP01",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "FAO_MEAT_TO_CP01",
+      "required_proxy_domain": "FOOD",
+      "series_match": {
+        "type": "EXACT",
+        "value": "FAO_MEAT"
+      },
+      "source_id": "FAO_FOOD_PRICE_INDEX_MONTHLY",
+      "target_armilar_category": "ARM01",
+      "target_category_code": "CP01",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "FAO_DAIRY_TO_CP01",
+      "required_proxy_domain": "FOOD",
+      "series_match": {
+        "type": "EXACT",
+        "value": "FAO_DAIRY"
+      },
+      "source_id": "FAO_FOOD_PRICE_INDEX_MONTHLY",
+      "target_armilar_category": "ARM01",
+      "target_category_code": "CP01",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "FAO_CEREALS_TO_CP01",
+      "required_proxy_domain": "FOOD",
+      "series_match": {
+        "type": "EXACT",
+        "value": "FAO_CEREALS"
+      },
+      "source_id": "FAO_FOOD_PRICE_INDEX_MONTHLY",
+      "target_armilar_category": "ARM01",
+      "target_category_code": "CP01",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "FAO_OILS_TO_CP01",
+      "required_proxy_domain": "FOOD",
+      "series_match": {
+        "type": "EXACT",
+        "value": "FAO_OILS"
+      },
+      "source_id": "FAO_FOOD_PRICE_INDEX_MONTHLY",
+      "target_armilar_category": "ARM01",
+      "target_category_code": "CP01",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "MONTHLY_DIRECT",
+      "allowed_frequency": "MONTHLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "FAO_SUGAR_TO_CP01",
+      "required_proxy_domain": "FOOD",
+      "series_match": {
+        "type": "EXACT",
+        "value": "FAO_SUGAR"
+      },
+      "source_id": "FAO_FOOD_PRICE_INDEX_MONTHLY",
+      "target_armilar_category": "ARM01",
+      "target_category_code": "CP01",
+      "target_scope": "GLOBAL_BROADCAST"
+    },
+    {
+      "aggregation_method": "WEEKLY_MEAN_TO_MONTH",
+      "allowed_frequency": "WEEKLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "EC_DIESEL_TO_CP07",
+      "required_proxy_domain": "TRANSPORT",
+      "series_match": {
+        "type": "EXACT",
+        "value": "EC_OIL_DIESEL"
+      },
+      "source_id": "EC_WEEKLY_OIL_BULLETIN_HISTORY",
+      "target_armilar_category": "ARM06",
+      "target_category_code": "CP07",
+      "target_scope": "SOURCE_GEOGRAPHY"
+    },
+    {
+      "aggregation_method": "WEEKLY_MEAN_TO_MONTH",
+      "allowed_frequency": "WEEKLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "EC_PETROL95_TO_CP07",
+      "required_proxy_domain": "TRANSPORT",
+      "series_match": {
+        "type": "EXACT",
+        "value": "EC_OIL_PETROL_95"
+      },
+      "source_id": "EC_WEEKLY_OIL_BULLETIN_HISTORY",
+      "target_armilar_category": "ARM06",
+      "target_category_code": "CP07",
+      "target_scope": "SOURCE_GEOGRAPHY"
+    },
+    {
+      "aggregation_method": "WEEKLY_MEAN_TO_MONTH",
+      "allowed_frequency": "WEEKLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "EC_LPG_TO_CP07",
+      "required_proxy_domain": "TRANSPORT",
+      "series_match": {
+        "type": "EXACT",
+        "value": "EC_OIL_LPG"
+      },
+      "source_id": "EC_WEEKLY_OIL_BULLETIN_HISTORY",
+      "target_armilar_category": "ARM06",
+      "target_category_code": "CP07",
+      "target_scope": "SOURCE_GEOGRAPHY"
+    },
+    {
+      "aggregation_method": "WEEKLY_MEAN_TO_MONTH",
+      "allowed_frequency": "WEEKLY",
+      "feature_role": "PRIMARY_RESEARCH_DRIVER",
+      "mapping_evidence": "PARTIAL_COST_DRIVER",
+      "mapping_id": "EC_HEATING_OIL_TO_CP04",
+      "required_proxy_domain": "FUELS",
+      "series_match": {
+        "type": "EXACT",
+        "value": "EC_OIL_HEATING_OIL"
+      },
+      "source_id": "EC_WEEKLY_OIL_BULLETIN_HISTORY",
+      "target_armilar_category": "ARM04",
+      "target_category_code": "CP04",
+      "target_scope": "SOURCE_GEOGRAPHY"
+    },
+    {
+      "aggregation_method": "QUARTER_END_DIRECT",
+      "allowed_frequency": "QUARTERLY",
+      "feature_role": "SENSITIVITY_ONLY",
+      "mapping_evidence": "SENSITIVITY_ONLY",
+      "mapping_id": "EUROSTAT_OOHPI_TO_CP04_SENSITIVITY",
+      "required_proxy_domain": "HOUSING_OOH_SENSITIVITY",
+      "series_match": {
+        "type": "PREFIX",
+        "value": "EUROSTAT_OOHPI_"
+      },
+      "source_id": "EUROSTAT_OOHPI_QUARTERLY",
+      "target_armilar_category": "ARM04",
+      "target_category_code": "CP04",
+      "target_scope": "SOURCE_GEOGRAPHY"
+    }
+  ],
+  "constitutional_scope": "RESEARCH_CORE_ENGINE_DEVELOPMENT_ONLY",
+  "contract_id": "ARMILAR_PROXY_FEATURE_MAPPING_V099",
+  "contract_version": "0.9.9",
+  "diagnostic_policy": {
+    "availability_lag_diagnostic_days": 90,
+    "concordance_complete_periods_only": true,
+    "concordance_min_overlap_periods": 6,
+    "long_history_min_complete_periods": 24,
+    "multi_source_min_complete_periods": 12,
+    "no_aggregate_risk_score": true,
+    "no_automatic_eligibility_promotion": true,
+    "no_eligibility_from_risk_flags": true,
+    "no_feature_selection": true,
+    "no_model_scoring": true,
+    "no_quality_weighting": true,
+    "provenance_concentration_diagnostic_percent": 75
+  },
+  "geography_aliases": {
+    "DE": "DEU",
+    "DEU": "DEU",
+    "ES": "ESP",
+    "ESP": "ESP",
+    "FR": "FRA",
+    "FRA": "FRA",
+    "FRANCE": "FRA",
+    "GERMANY": "DEU",
+    "IT": "ITA",
+    "ITA": "ITA",
+    "ITALY": "ITA",
+    "PORTUGAL": "PRT",
+    "PRT": "PRT",
+    "PT": "PRT",
+    "SPAIN": "ESP"
+  },
+  "mapping_policy": {
+    "global_features_broadcast_only_to_basket_economies": true,
+    "no_carry_forward": true,
+    "no_future_periods": true,
+    "no_silent_rule_overlap": true,
+    "no_value_imputation": true,
+    "outside_research_core_retained_in_audit": true,
+    "sensitivity_features_excluded_from_primary_coverage": true,
+    "source_freshness_propagated": true,
+    "unmapped_series_retained_in_audit": true,
+    "unresolved_geography_retained_in_audit": true
+  },
+  "output_gates": {
+    "arm_l_use_allowed": false,
+    "backtest_eligibility_claim_allowed": false,
+    "concordance_approval_claim_allowed": false,
+    "direct_index_use_allowed": false,
+    "model_ready_claim_allowed": false,
+    "model_training_allowed": false,
+    "monetary_use_allowed": false,
+    "price_coverage_claim_allowed": false,
+    "shadow_production_allowed": false
+  },
+  "transformation_policy": {
+    "decimal_precision": 28,
+    "exact_calendar_lag_required": true,
+    "monthly_aggregation": "IDENTITY",
+    "output_decimal_places": 12,
+    "quarterly_aggregation": "QUARTER_END_MONTH_ONLY",
+    "target_frequency": "MONTHLY",
+    "transformations": [
+      "LEVEL",
+      "PERIOD_CHANGE_PCT",
+      "YEAR_OVER_YEAR_PCT"
+    ],
+    "weekly_aggregation": "ARITHMETIC_MEAN_BY_CALENDAR_MONTH",
+    "zero_denominator_policy": "OMIT_TRANSFORMATION"
+  },
+  "upstream_information_set_version": "0.9.8"
+}

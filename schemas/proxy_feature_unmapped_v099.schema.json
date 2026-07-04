@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "frequency": {
+      "type": "string"
+    },
+    "geography": {
+      "type": "string"
+    },
+    "observation_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "proxy_domain": {
+      "type": "string"
+    },
+    "reason": {
+      "enum": [
+        "UNMAPPED_SERIES",
+        "PROXY_DOMAIN_MISMATCH",
+        "FREQUENCY_MISMATCH",
+        "UNRESOLVED_GEOGRAPHY",
+        "OUTSIDE_RESEARCH_CORE"
+      ]
+    },
+    "series_id": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_id",
+    "series_id",
+    "proxy_domain",
+    "geography",
+    "frequency",
+    "reason",
+    "observation_count"
+  ],
+  "title": "Armilar v0.9.9 unmapped observation audit row",
+  "type": "object"
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "backtest_eligibility_claim_allowed": {
+      "const": "false"
+    },
+    "category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "complete_multi_source_period_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "complete_primary_period_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "current_source_present": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "diagnostic_class": {
+      "enum": [
+        "NO_PRIMARY_FEATURE",
+        "PRIMARY_PARTIAL_ONLY",
+        "PRIMARY_STALE_HISTORY",
+        "PRIMARY_SHORT_HISTORY",
+        "PRIMARY_LONG_HISTORY",
+        "PRIMARY_LONG_MULTI_SOURCE_HISTORY"
+      ]
+    },
+    "distinct_primary_source_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "distinct_primary_stream_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "economy_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "first_complete_primary_period": {
+      "type": "string"
+    },
+    "fixed_universe_weight": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "last_complete_primary_period": {
+      "type": "string"
+    },
+    "longest_contiguous_primary_months": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "model_ready_claim_allowed": {
+      "const": "false"
+    },
+    "period_change_available": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "stale_source_only": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "year_over_year_available": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    }
+  },
+  "required": [
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "fixed_universe_weight",
+    "distinct_primary_stream_count",
+    "distinct_primary_source_count",
+    "first_complete_primary_period",
+    "last_complete_primary_period",
+    "complete_primary_period_count",
+    "complete_multi_source_period_count",
+    "longest_contiguous_primary_months",
+    "period_change_available",
+    "year_over_year_available",
+    "current_source_present",
+    "stale_source_only",
+    "diagnostic_class",
+    "backtest_eligibility_claim_allowed",
+    "model_ready_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 cell research diagnostics row",
+  "type": "object"
+}

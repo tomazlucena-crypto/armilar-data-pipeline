@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "complete_primary_stream_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "current_primary_source_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "economy_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "fixed_universe_weight": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "partial_primary_stream_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "period_status": {
+      "enum": [
+        "PRIMARY_COMPLETE_FROM_CURRENT_SOURCE",
+        "PRIMARY_COMPLETE_FROM_STALE_SOURCE",
+        "PRIMARY_PARTIAL_ONLY",
+        "SENSITIVITY_ONLY",
+        "NO_FEATURE"
+      ]
+    },
+    "price_coverage_claim_allowed": {
+      "const": "false"
+    },
+    "primary_source_ids": {
+      "type": "string"
+    },
+    "primary_stream_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "sensitivity_source_ids": {
+      "type": "string"
+    },
+    "sensitivity_stream_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "stale_primary_source_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "target_period": {
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "target_period",
+    "fixed_universe_weight",
+    "primary_stream_count",
+    "sensitivity_stream_count",
+    "current_primary_source_count",
+    "stale_primary_source_count",
+    "complete_primary_stream_count",
+    "partial_primary_stream_count",
+    "primary_source_ids",
+    "sensitivity_source_ids",
+    "period_status",
+    "price_coverage_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 cell-period feature coverage row",
+  "type": "object"
+}

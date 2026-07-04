@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "distinct_source_geography_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "feature_role": {
+      "type": "string"
+    },
+    "first_source_period": {
+      "type": "string"
+    },
+    "last_source_period": {
+      "type": "string"
+    },
+    "mapped_target_observation_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "mapping_id": {
+      "type": "string"
+    },
+    "matched_input_observation_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "series_match_type": {
+      "type": "string"
+    },
+    "series_match_value": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "target_armilar_category": {
+      "type": "string"
+    },
+    "target_category_code": {
+      "type": "string"
+    },
+    "target_scope": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "mapping_id",
+    "source_id",
+    "series_match_type",
+    "series_match_value",
+    "target_scope",
+    "target_category_code",
+    "target_armilar_category",
+    "feature_role",
+    "first_source_period",
+    "last_source_period",
+    "matched_input_observation_count",
+    "mapped_target_observation_count",
+    "distinct_source_geography_count"
+  ],
+  "title": "Armilar v0.9.9 mapping audit row",
+  "type": "object"
+}

@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "added_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "arm_l_use_allowed": {
+      "const": false
+    },
+    "backtest_eligibility_claim_allowed": {
+      "const": false
+    },
+    "cell_revision_stability_count": {
+      "const": 60
+    },
+    "cell_with_value_revisions_count": {
+      "maximum": 60,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "comparison_decision_use_allowed": {
+      "const": false
+    },
+    "contract_version": {
+      "const": "0.9.9"
+    },
+    "coverage_delta_count": {
+      "const": 60
+    },
+    "coverage_status_changed_cell_count": {
+      "maximum": 60,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "direct_index_use_allowed": {
+      "const": false
+    },
+    "earlier_cutoff": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "earlier_feature_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "feature_delta_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "feature_mapping_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "later_cutoff": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "later_feature_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "metadata_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "model_ready_claim_allowed": {
+      "const": false
+    },
+    "model_training_allowed": {
+      "const": false
+    },
+    "monetary_use_allowed": {
+      "const": false
+    },
+    "output_decimal_places": {
+      "maximum": 18,
+      "minimum": 6,
+      "type": "integer"
+    },
+    "price_coverage_claim_allowed": {
+      "const": false
+    },
+    "provenance_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "removed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "research_core_basket_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "shadow_production_allowed": {
+      "const": false
+    },
+    "status": {
+      "const": "POINT_IN_TIME_PROXY_FEATURE_COMPARISON_V099_VALID"
+    },
+    "stream_revision_stability_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "stream_with_value_revisions_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "unchanged_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "value_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "earlier_cutoff",
+    "later_cutoff",
+    "earlier_feature_manifest_sha256",
+    "later_feature_manifest_sha256",
+    "feature_mapping_policy_sha256",
+    "research_core_basket_sha256",
+    "output_decimal_places",
+    "feature_delta_count",
+    "added_feature_count",
+    "removed_feature_count",
+    "value_changed_feature_count",
+    "provenance_changed_feature_count",
+    "metadata_changed_feature_count",
+    "unchanged_feature_count",
+    "coverage_delta_count",
+    "coverage_status_changed_cell_count",
+    "direct_index_use_allowed",
+    "arm_l_use_allowed",
+    "model_training_allowed",
+    "shadow_production_allowed",
+    "monetary_use_allowed",
+    "price_coverage_claim_allowed",
+    "model_ready_claim_allowed",
+    "backtest_eligibility_claim_allowed",
+    "comparison_decision_use_allowed",
+    "stream_revision_stability_count",
+    "stream_with_value_revisions_count",
+    "cell_revision_stability_count",
+    "cell_with_value_revisions_count"
+  ],
+  "title": "Armilar v0.9.9 feature comparison summary",
+  "type": "object"
+}

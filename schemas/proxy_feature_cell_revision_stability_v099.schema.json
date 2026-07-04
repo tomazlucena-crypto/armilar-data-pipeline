@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "added_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "comparison_decision_use_allowed": {
+      "const": "false"
+    },
+    "distinct_stream_variant_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "earlier_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "economy_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "fixed_universe_weight": {
+      "type": "string"
+    },
+    "later_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "metadata_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "model_ready_claim_allowed": {
+      "const": "false"
+    },
+    "overlap_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "provenance_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "removed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "stability_status": {
+      "enum": [
+        "NO_FEATURES_IN_EITHER_PANEL",
+        "NO_OVERLAPPING_FEATURES",
+        "VALUE_REVISIONS_OBSERVED",
+        "NON_VALUE_CHANGES_OBSERVED",
+        "ADDITIONS_OR_REMOVALS_WITH_STABLE_OVERLAP",
+        "STABLE_ON_OVERLAP"
+      ]
+    },
+    "streams_with_value_revisions": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "unchanged_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "value_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "fixed_universe_weight",
+    "distinct_stream_variant_count",
+    "streams_with_value_revisions",
+    "earlier_feature_count",
+    "later_feature_count",
+    "overlap_feature_count",
+    "added_feature_count",
+    "removed_feature_count",
+    "value_changed_feature_count",
+    "provenance_changed_feature_count",
+    "metadata_changed_feature_count",
+    "unchanged_feature_count",
+    "stability_status",
+    "comparison_decision_use_allowed",
+    "model_ready_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 cell revision stability row",
+  "type": "object"
+}

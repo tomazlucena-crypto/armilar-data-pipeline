@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "backtest_eligibility_claim_allowed": {
+      "const": "false"
+    },
+    "complete_level_period_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "expected_period_step_months": {
+      "enum": [
+        1,
+        3
+      ],
+      "type": "integer"
+    },
+    "feature_role": {
+      "enum": [
+        "PRIMARY_RESEARCH_DRIVER",
+        "SENSITIVITY_ONLY"
+      ]
+    },
+    "first_target_period": {
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "history_span_months": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "last_target_period": {
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "latest_feature_age_days": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "longest_gap_months_beyond_expected": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "missing_expected_period_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "model_ready_claim_allowed": {
+      "const": "false"
+    },
+    "native_frequency": {
+      "enum": [
+        "WEEKLY",
+        "MONTHLY",
+        "QUARTERLY"
+      ]
+    },
+    "observed_level_period_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "partial_level_period_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "period_change_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "research_diagnostic_status": {
+      "enum": [
+        "SENSITIVITY_HISTORY",
+        "NO_COMPLETE_HISTORY",
+        "SHORT_HISTORY",
+        "LONG_CONTIGUOUS_HISTORY_WITH_CHANGES",
+        "LONG_HISTORY_WITH_GAPS_OR_NO_CHANGES"
+      ]
+    },
+    "series_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_freshness_status": {
+      "enum": [
+        "CURRENT_WITHIN_EXPECTED_WINDOW",
+        "STALE_BEYOND_EXPECTED_WINDOW"
+      ]
+    },
+    "source_geography": {
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "stream_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "target_category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "target_economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "year_over_year_count": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "stream_id",
+    "mapping_id",
+    "source_id",
+    "series_id",
+    "source_geography",
+    "target_economy_code",
+    "target_category_code",
+    "feature_role",
+    "native_frequency",
+    "source_freshness_status",
+    "expected_period_step_months",
+    "first_target_period",
+    "last_target_period",
+    "observed_level_period_count",
+    "complete_level_period_count",
+    "partial_level_period_count",
+    "missing_expected_period_count",
+    "longest_gap_months_beyond_expected",
+    "history_span_months",
+    "period_change_count",
+    "year_over_year_count",
+    "latest_feature_age_days",
+    "research_diagnostic_status",
+    "backtest_eligibility_claim_allowed",
+    "model_ready_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 feature stream history diagnostic row",
+  "type": "object"
+}
