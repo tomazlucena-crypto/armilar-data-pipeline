@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "distinct_primary_source_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "distinct_primary_stream_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "dominant_source_above_diagnostic_threshold": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "economy_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "fixed_universe_weight": {
+      "type": "string"
+    },
+    "largest_source_observation_share": {
+      "type": "string"
+    },
+    "largest_stream_observation_share": {
+      "type": "string"
+    },
+    "model_ready_claim_allowed": {
+      "const": "false"
+    },
+    "primary_level_observation_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "provenance_concentration_status": {
+      "enum": [
+        "NO_PRIMARY_LEVEL_OBSERVATION",
+        "SINGLE_SOURCE_AND_STREAM_DEPENDENCY",
+        "SINGLE_SOURCE_MULTIPLE_STREAMS",
+        "MULTI_SOURCE_WITH_DOMINANT_SOURCE",
+        "MULTI_SOURCE_DISTRIBUTED_OBSERVATIONS"
+      ]
+    },
+    "quality_weighting_allowed": {
+      "const": "false"
+    },
+    "sensitivity_level_observation_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "single_source_dependency": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "single_stream_dependency": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "source_observation_hhi": {
+      "type": "string"
+    },
+    "stream_observation_hhi": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "fixed_universe_weight",
+    "primary_level_observation_count",
+    "sensitivity_level_observation_count",
+    "distinct_primary_source_count",
+    "distinct_primary_stream_count",
+    "largest_source_observation_share",
+    "source_observation_hhi",
+    "largest_stream_observation_share",
+    "stream_observation_hhi",
+    "single_source_dependency",
+    "single_stream_dependency",
+    "dominant_source_above_diagnostic_threshold",
+    "provenance_concentration_status",
+    "quality_weighting_allowed",
+    "model_ready_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 cell provenance concentration row",
+  "type": "object"
+}

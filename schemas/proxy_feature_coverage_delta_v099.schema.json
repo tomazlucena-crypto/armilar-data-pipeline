@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "coverage_status_changed": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "earlier_coverage_status": {
+      "type": "string"
+    },
+    "earlier_latest_primary_target_period": {
+      "type": "string"
+    },
+    "earlier_primary_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "economy_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "fixed_universe_weight": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "later_coverage_status": {
+      "type": "string"
+    },
+    "later_latest_primary_target_period": {
+      "type": "string"
+    },
+    "later_primary_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "primary_feature_count_delta": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "fixed_universe_weight",
+    "earlier_coverage_status",
+    "later_coverage_status",
+    "earlier_primary_feature_count",
+    "later_primary_feature_count",
+    "primary_feature_count_delta",
+    "earlier_latest_primary_target_period",
+    "later_latest_primary_target_period",
+    "coverage_status_changed"
+  ],
+  "title": "Armilar v0.9.9 cell coverage comparison row",
+  "type": "object"
+}

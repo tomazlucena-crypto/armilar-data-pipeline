@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "backtest_eligibility_claim_allowed": {
+      "const": "false"
+    },
+    "category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "descriptive_flag_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "dominant_source_concentration": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "economy_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "fixed_universe_weight": {
+      "type": "string"
+    },
+    "history_gaps_present": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "long_first_seen_lag_present": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "model_ready_claim_allowed": {
+      "const": "false"
+    },
+    "negative_first_seen_lag_present": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "no_multi_source_overlap": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "no_primary_feature": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "period_change_unavailable": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "risk_profile_status": {
+      "enum": [
+        "NO_PRIMARY_FEATURE",
+        "DESCRIPTIVE_FLAGS_PRESENT",
+        "DESCRIPTIVE_FLAGS_ABSENT_IN_CURRENT_PANEL"
+      ]
+    },
+    "short_history": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "single_source_dependency": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "single_stream_dependency": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "stale_source_only": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "year_over_year_unavailable": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    }
+  },
+  "required": [
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "fixed_universe_weight",
+    "no_primary_feature",
+    "stale_source_only",
+    "single_source_dependency",
+    "single_stream_dependency",
+    "dominant_source_concentration",
+    "short_history",
+    "history_gaps_present",
+    "period_change_unavailable",
+    "year_over_year_unavailable",
+    "no_multi_source_overlap",
+    "negative_first_seen_lag_present",
+    "long_first_seen_lag_present",
+    "descriptive_flag_count",
+    "risk_profile_status",
+    "backtest_eligibility_claim_allowed",
+    "model_ready_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 descriptive cell research risk flags row",
+  "type": "object"
+}

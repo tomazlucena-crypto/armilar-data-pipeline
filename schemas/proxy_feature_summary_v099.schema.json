@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arm_l_use_allowed": {
+      "const": false
+    },
+    "availability_profile_beyond_diagnostic_window_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "availability_profile_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "availability_profile_with_negative_lag_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "backtest_eligibility_claim_allowed": {
+      "const": false
+    },
+    "cell_period_coverage_row_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "cell_period_with_complete_primary_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "cell_research_diagnostic_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "cell_with_descriptive_risk_flags_count": {
+      "maximum": 60,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "concordance_approval_claim_allowed": {
+      "const": false
+    },
+    "concordance_pair_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "concordance_pair_with_sufficient_overlap_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "contract_version": {
+      "const": "0.9.9"
+    },
+    "cutoff": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "diagnostic_availability_lag_days": {
+      "maximum": 3650,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "diagnostic_concordance_complete_periods_only": {
+      "const": true
+    },
+    "diagnostic_concordance_min_overlap_periods": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "diagnostic_long_history_min_complete_periods": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "diagnostic_multi_source_min_complete_periods": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "diagnostic_provenance_concentration_percent": {
+      "maximum": 100,
+      "minimum": 50,
+      "type": "integer"
+    },
+    "direct_index_use_allowed": {
+      "const": false
+    },
+    "dominant_source_concentration_cell_count": {
+      "maximum": 60,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "feature_mapping_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "feature_stream_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "feature_stream_with_long_history_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "feature_value_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "input_observation_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "level_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "long_history_cell_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "mapped_input_observation_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "mapping_rule_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "mapping_rule_with_matches_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "model_ready_claim_allowed": {
+      "const": false
+    },
+    "model_training_allowed": {
+      "const": false
+    },
+    "monetary_use_allowed": {
+      "const": false
+    },
+    "multi_source_long_history_cell_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "no_mapped_feature_cell_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "output_decimal_places": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "period_change_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "price_coverage_claim_allowed": {
+      "const": false
+    },
+    "primary_any_weight_coverage": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "primary_feature_value_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "primary_source_current_cell_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "primary_source_current_weight_coverage": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "primary_source_stale_cell_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "primary_source_stale_weight_coverage": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "provenance_concentration_cell_count": {
+      "const": 60
+    },
+    "research_core_basket_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "research_core_cell_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "research_risk_flag_cell_count": {
+      "const": 60
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "sensitivity_feature_value_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "sensitivity_only_cell_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "sensitivity_only_weight_coverage": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "shadow_production_allowed": {
+      "const": false
+    },
+    "single_source_dependency_cell_count": {
+      "maximum": 60,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "status": {
+      "const": "POINT_IN_TIME_PROXY_FEATURE_PANEL_V099_VALID"
+    },
+    "unmapped_group_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "unmapped_input_observation_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "upstream_information_set_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "year_over_year_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "cutoff",
+    "upstream_information_set_manifest_sha256",
+    "feature_mapping_policy_sha256",
+    "research_core_basket_sha256",
+    "input_observation_count",
+    "mapped_input_observation_count",
+    "unmapped_input_observation_count",
+    "feature_value_count",
+    "level_feature_count",
+    "period_change_feature_count",
+    "year_over_year_feature_count",
+    "primary_feature_value_count",
+    "sensitivity_feature_value_count",
+    "mapping_rule_count",
+    "mapping_rule_with_matches_count",
+    "unmapped_group_count",
+    "research_core_cell_count",
+    "primary_source_current_cell_count",
+    "primary_source_stale_cell_count",
+    "sensitivity_only_cell_count",
+    "no_mapped_feature_cell_count",
+    "primary_any_weight_coverage",
+    "primary_source_current_weight_coverage",
+    "primary_source_stale_weight_coverage",
+    "sensitivity_only_weight_coverage",
+    "direct_index_use_allowed",
+    "arm_l_use_allowed",
+    "model_training_allowed",
+    "shadow_production_allowed",
+    "monetary_use_allowed",
+    "price_coverage_claim_allowed",
+    "model_ready_claim_allowed",
+    "output_decimal_places",
+    "diagnostic_long_history_min_complete_periods",
+    "diagnostic_multi_source_min_complete_periods",
+    "diagnostic_concordance_min_overlap_periods",
+    "diagnostic_concordance_complete_periods_only",
+    "feature_stream_count",
+    "feature_stream_with_long_history_count",
+    "cell_period_coverage_row_count",
+    "cell_period_with_complete_primary_count",
+    "concordance_pair_count",
+    "concordance_pair_with_sufficient_overlap_count",
+    "cell_research_diagnostic_count",
+    "long_history_cell_count",
+    "multi_source_long_history_cell_count",
+    "backtest_eligibility_claim_allowed",
+    "concordance_approval_claim_allowed",
+    "diagnostic_availability_lag_days",
+    "diagnostic_provenance_concentration_percent",
+    "availability_profile_count",
+    "availability_profile_with_negative_lag_count",
+    "availability_profile_beyond_diagnostic_window_count",
+    "provenance_concentration_cell_count",
+    "single_source_dependency_cell_count",
+    "dominant_source_concentration_cell_count",
+    "research_risk_flag_cell_count",
+    "cell_with_descriptive_risk_flags_count"
+  ],
+  "title": "Armilar v0.9.9 feature panel summary",
+  "type": "object"
+}

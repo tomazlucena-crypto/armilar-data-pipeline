@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "added_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "comparison_decision_use_allowed": {
+      "const": "false"
+    },
+    "earlier_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "later_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "maximum_absolute_value_revision": {
+      "type": "string"
+    },
+    "mean_absolute_value_revision": {
+      "type": "string"
+    },
+    "metadata_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "model_ready_claim_allowed": {
+      "const": "false"
+    },
+    "overlap_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "provenance_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "removed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "series_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_geography": {
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "stability_status": {
+      "enum": [
+        "NO_OVERLAPPING_FEATURES",
+        "VALUE_REVISIONS_OBSERVED",
+        "NON_VALUE_CHANGES_OBSERVED",
+        "ADDITIONS_OR_REMOVALS_WITH_STABLE_OVERLAP",
+        "STABLE_ON_OVERLAP"
+      ]
+    },
+    "stream_variant_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "target_category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "target_economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "transformation": {
+      "enum": [
+        "LEVEL",
+        "PERIOD_CHANGE_PCT",
+        "YEAR_OVER_YEAR_PCT"
+      ]
+    },
+    "unchanged_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "unit": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "value_changed_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "value_revision_ratio_on_overlap": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "stream_variant_id",
+    "mapping_id",
+    "source_id",
+    "series_id",
+    "source_geography",
+    "target_economy_code",
+    "target_category_code",
+    "transformation",
+    "unit",
+    "earlier_feature_count",
+    "later_feature_count",
+    "overlap_feature_count",
+    "added_feature_count",
+    "removed_feature_count",
+    "value_changed_feature_count",
+    "provenance_changed_feature_count",
+    "metadata_changed_feature_count",
+    "unchanged_feature_count",
+    "value_revision_ratio_on_overlap",
+    "mean_absolute_value_revision",
+    "maximum_absolute_value_revision",
+    "stability_status",
+    "comparison_decision_use_allowed",
+    "model_ready_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 stream revision stability row",
+  "type": "object"
+}

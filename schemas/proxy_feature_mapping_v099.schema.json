@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category_mappings": {
+      "items": {
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "constitutional_scope": {
+      "const": "RESEARCH_CORE_ENGINE_DEVELOPMENT_ONLY"
+    },
+    "contract_id": {
+      "const": "ARMILAR_PROXY_FEATURE_MAPPING_V099"
+    },
+    "contract_version": {
+      "const": "0.9.9"
+    },
+    "diagnostic_policy": {
+      "additionalProperties": false,
+      "properties": {
+        "availability_lag_diagnostic_days": {
+          "maximum": 3650,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "concordance_complete_periods_only": {
+          "const": true
+        },
+        "concordance_min_overlap_periods": {
+          "maximum": 240,
+          "minimum": 2,
+          "type": "integer"
+        },
+        "long_history_min_complete_periods": {
+          "maximum": 240,
+          "minimum": 2,
+          "type": "integer"
+        },
+        "multi_source_min_complete_periods": {
+          "maximum": 240,
+          "minimum": 2,
+          "type": "integer"
+        },
+        "no_aggregate_risk_score": {
+          "const": true
+        },
+        "no_automatic_eligibility_promotion": {
+          "const": true
+        },
+        "no_eligibility_from_risk_flags": {
+          "const": true
+        },
+        "no_feature_selection": {
+          "const": true
+        },
+        "no_model_scoring": {
+          "const": true
+        },
+        "no_quality_weighting": {
+          "const": true
+        },
+        "provenance_concentration_diagnostic_percent": {
+          "maximum": 100,
+          "minimum": 50,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "long_history_min_complete_periods",
+        "multi_source_min_complete_periods",
+        "concordance_min_overlap_periods",
+        "concordance_complete_periods_only",
+        "no_automatic_eligibility_promotion",
+        "no_quality_weighting",
+        "no_feature_selection",
+        "no_model_scoring",
+        "availability_lag_diagnostic_days",
+        "provenance_concentration_diagnostic_percent",
+        "no_aggregate_risk_score",
+        "no_eligibility_from_risk_flags"
+      ],
+      "type": "object"
+    },
+    "geography_aliases": {
+      "additionalProperties": {
+        "pattern": "^[A-Z0-9]{3}$",
+        "type": "string"
+      },
+      "minProperties": 1,
+      "type": "object"
+    },
+    "mapping_policy": {
+      "type": "object"
+    },
+    "output_gates": {
+      "additionalProperties": false,
+      "properties": {
+        "arm_l_use_allowed": {
+          "const": false
+        },
+        "backtest_eligibility_claim_allowed": {
+          "const": false
+        },
+        "concordance_approval_claim_allowed": {
+          "const": false
+        },
+        "direct_index_use_allowed": {
+          "const": false
+        },
+        "model_ready_claim_allowed": {
+          "const": false
+        },
+        "model_training_allowed": {
+          "const": false
+        },
+        "monetary_use_allowed": {
+          "const": false
+        },
+        "price_coverage_claim_allowed": {
+          "const": false
+        },
+        "shadow_production_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "direct_index_use_allowed",
+        "arm_l_use_allowed",
+        "model_training_allowed",
+        "shadow_production_allowed",
+        "monetary_use_allowed",
+        "price_coverage_claim_allowed",
+        "model_ready_claim_allowed",
+        "backtest_eligibility_claim_allowed",
+        "concordance_approval_claim_allowed"
+      ],
+      "type": "object"
+    },
+    "transformation_policy": {
+      "type": "object"
+    },
+    "upstream_information_set_version": {
+      "const": "0.9.8"
+    }
+  },
+  "required": [
+    "contract_id",
+    "contract_version",
+    "upstream_information_set_version",
+    "constitutional_scope",
+    "mapping_policy",
+    "geography_aliases",
+    "category_mappings",
+    "transformation_policy",
+    "diagnostic_policy",
+    "output_gates"
+  ],
+  "title": "Armilar v0.9.9 proxy feature mapping policy",
+  "type": "object"
+}

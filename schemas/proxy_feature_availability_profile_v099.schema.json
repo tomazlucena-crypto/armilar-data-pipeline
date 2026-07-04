@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "availability_profile_status": {
+      "enum": [
+        "NO_COMPLETE_PERIOD",
+        "NEGATIVE_FIRST_SEEN_LAG_PRESENT",
+        "SOME_FIRST_SEEN_LAGS_BEYOND_DIAGNOSTIC_WINDOW",
+        "ALL_FIRST_SEEN_LAGS_WITHIN_DIAGNOSTIC_WINDOW"
+      ]
+    },
+    "backtest_eligibility_claim_allowed": {
+      "const": "false"
+    },
+    "beyond_diagnostic_window_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "complete_level_period_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "feature_role": {
+      "enum": [
+        "PRIMARY_RESEARCH_DRIVER",
+        "SENSITIVITY_ONLY"
+      ]
+    },
+    "first_complete_target_period": {
+      "type": "string"
+    },
+    "last_complete_target_period": {
+      "type": "string"
+    },
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "maximum_first_seen_lag_days": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "median_first_seen_lag_days": {
+      "type": "string"
+    },
+    "minimum_first_seen_lag_days": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "model_ready_claim_allowed": {
+      "const": "false"
+    },
+    "negative_first_seen_lag_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "partial_level_period_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "series_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_geography": {
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "stream_id": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "target_category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "target_economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "stream_id",
+    "mapping_id",
+    "source_id",
+    "series_id",
+    "source_geography",
+    "target_economy_code",
+    "target_category_code",
+    "feature_role",
+    "complete_level_period_count",
+    "partial_level_period_count",
+    "first_complete_target_period",
+    "last_complete_target_period",
+    "minimum_first_seen_lag_days",
+    "median_first_seen_lag_days",
+    "maximum_first_seen_lag_days",
+    "negative_first_seen_lag_count",
+    "beyond_diagnostic_window_count",
+    "availability_profile_status",
+    "backtest_eligibility_claim_allowed",
+    "model_ready_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 feature availability profile row",
+  "type": "object"
+}

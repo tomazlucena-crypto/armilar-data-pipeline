@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "comparison_key_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "delta_status": {
+      "enum": [
+        "ADDED",
+        "REMOVED",
+        "VALUE_CHANGED",
+        "PROVENANCE_CHANGED",
+        "METADATA_CHANGED",
+        "UNCHANGED"
+      ]
+    },
+    "earlier_component_observation_keys_sha256": {
+      "type": "string"
+    },
+    "earlier_feature_age_days": {
+      "type": "string"
+    },
+    "earlier_feature_id": {
+      "type": "string"
+    },
+    "earlier_latest_available_at": {
+      "type": "string"
+    },
+    "earlier_period_completeness_status": {
+      "type": "string"
+    },
+    "earlier_source_freshness_status": {
+      "type": "string"
+    },
+    "earlier_value": {
+      "type": "string"
+    },
+    "later_component_observation_keys_sha256": {
+      "type": "string"
+    },
+    "later_feature_age_days": {
+      "type": "string"
+    },
+    "later_feature_id": {
+      "type": "string"
+    },
+    "later_latest_available_at": {
+      "type": "string"
+    },
+    "later_period_completeness_status": {
+      "type": "string"
+    },
+    "later_source_freshness_status": {
+      "type": "string"
+    },
+    "later_value": {
+      "type": "string"
+    },
+    "mapping_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "series_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_geography": {
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "target_category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "target_economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "target_period": {
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "transformation": {
+      "enum": [
+        "LEVEL",
+        "PERIOD_CHANGE_PCT",
+        "YEAR_OVER_YEAR_PCT"
+      ]
+    },
+    "unit": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "value_delta": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "comparison_key_sha256",
+    "delta_status",
+    "mapping_id",
+    "source_id",
+    "series_id",
+    "source_geography",
+    "target_economy_code",
+    "target_category_code",
+    "target_period",
+    "transformation",
+    "unit",
+    "earlier_feature_id",
+    "later_feature_id",
+    "earlier_value",
+    "later_value",
+    "value_delta",
+    "earlier_component_observation_keys_sha256",
+    "later_component_observation_keys_sha256",
+    "earlier_latest_available_at",
+    "later_latest_available_at",
+    "earlier_source_freshness_status",
+    "later_source_freshness_status",
+    "earlier_period_completeness_status",
+    "later_period_completeness_status",
+    "earlier_feature_age_days",
+    "later_feature_age_days"
+  ],
+  "title": "Armilar v0.9.9 feature comparison delta row",
+  "type": "object"
+}

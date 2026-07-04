@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "armilar-data-pipeline"
-version = "0.9.8"
+version = "0.9.9"
 description = "Auditable acquisition and construction pipeline for the ICP 2021 Armilar weight matrix"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -40,6 +40,7 @@ armilar-prices = "armilar_prices.cli:main"
 armilar-official-engine-v096 = "armilar_prices.official_engine_v096:main"
 armilar-proxies-v097 = "armilar_proxies.registry_v097:main"
 armilar-proxy-information-v098 = "armilar_proxies.information_set_v098:main"
+armilar-proxy-features-v099 = "armilar_proxies.feature_panel_v099:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

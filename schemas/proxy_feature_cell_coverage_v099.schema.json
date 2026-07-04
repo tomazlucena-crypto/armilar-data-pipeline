@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category_code": {
+      "pattern": "^CP(0[1-9]|1[0-2])$",
+      "type": "string"
+    },
+    "coverage_status": {
+      "enum": [
+        "PRIMARY_FEATURE_FROM_CURRENT_SOURCE",
+        "PRIMARY_FEATURE_FROM_STALE_SOURCE",
+        "SENSITIVITY_ONLY",
+        "NO_MAPPED_FEATURE"
+      ]
+    },
+    "current_primary_source_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "economy_code": {
+      "pattern": "^[A-Z0-9]{3}$",
+      "type": "string"
+    },
+    "economy_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "fixed_universe_weight": {
+      "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+      "type": "string"
+    },
+    "latest_primary_target_period": {
+      "type": "string"
+    },
+    "latest_sensitivity_target_period": {
+      "type": "string"
+    },
+    "maximum_primary_feature_age_days": {
+      "oneOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "const": ""
+        }
+      ]
+    },
+    "minimum_primary_feature_age_days": {
+      "oneOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "const": ""
+        }
+      ]
+    },
+    "price_coverage_claim_allowed": {
+      "const": "false"
+    },
+    "primary_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "primary_source_ids": {
+      "type": "string"
+    },
+    "sensitivity_feature_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "sensitivity_source_ids": {
+      "type": "string"
+    },
+    "stale_primary_source_count": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "economy_code",
+    "economy_name",
+    "category_code",
+    "fixed_universe_weight",
+    "primary_feature_count",
+    "sensitivity_feature_count",
+    "current_primary_source_count",
+    "stale_primary_source_count",
+    "primary_source_ids",
+    "sensitivity_source_ids",
+    "latest_primary_target_period",
+    "latest_sensitivity_target_period",
+    "minimum_primary_feature_age_days",
+    "maximum_primary_feature_age_days",
+    "coverage_status",
+    "price_coverage_claim_allowed"
+  ],
+  "title": "Armilar v0.9.9 Research Core feature coverage row",
+  "type": "object"
+}

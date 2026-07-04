@@ -364,8 +364,8 @@ def test_workflow_uses_current_checker_only_when_present() -> None:
     if not workflow.exists():
         pytest.skip("workflow is unavailable in the isolated overlay test")
     text = workflow.read_text(encoding="utf-8")
-    assert "python scripts/check_proxy_information_set_v098.py --root ." in text
-    assert "python scripts/check_proxy_registry_v097.py --root ." not in text
+    assert "python scripts/check_proxy_features_v099.py --root ." in text
+    assert "python scripts/check_proxy_information_set_v098.py --root ." not in text
     assert "python scripts/check_research_core_constitution.py --root ." in text
 
 
