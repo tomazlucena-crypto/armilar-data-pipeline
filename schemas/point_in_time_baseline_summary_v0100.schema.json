@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "alignment_manifest_sha256": {},
+    "alignment_status": {},
+    "available_prediction_count": {},
+    "baseline_evaluation_status": {
+      "enum": [
+        "BASELINES_EVALUATED",
+        "NO_ELIGIBLE_CASES_BASELINES_NOT_EVALUATED"
+      ]
+    },
+    "baseline_ids": {},
+    "contract_version": {
+      "const": "0.10.0"
+    },
+    "created_at": {},
+    "diagnostic_only": {},
+    "forecast_case_count": {},
+    "gates": {
+      "additionalProperties": false,
+      "properties": {
+        "arm_l_use_allowed": {
+          "const": false
+        },
+        "backtest_execution_claim_allowed": {
+          "const": false
+        },
+        "feature_selection_allowed": {
+          "const": false
+        },
+        "model_selection_allowed": {
+          "const": false
+        },
+        "model_training_allowed": {
+          "const": false
+        },
+        "monetary_use_allowed": {
+          "const": false
+        },
+        "out_of_sample_claim_allowed": {
+          "const": false
+        },
+        "shadow_production_allowed": {
+          "const": false
+        },
+        "target_archive_claim_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "target_archive_claim_allowed",
+        "backtest_execution_claim_allowed",
+        "out_of_sample_claim_allowed",
+        "feature_selection_allowed",
+        "model_training_allowed",
+        "model_selection_allowed",
+        "arm_l_use_allowed",
+        "shadow_production_allowed",
+        "monetary_use_allowed"
+      ],
+      "type": "object"
+    },
+    "metric_row_count": {},
+    "policy_id": {
+      "const": "ARMILAR_POINT_IN_TIME_BACKTEST_PROTOCOL_V0100"
+    },
+    "policy_version": {
+      "const": "0.10.0"
+    },
+    "prediction_row_count": {},
+    "readiness_row_count": {},
+    "readiness_status_counts": {},
+    "schema_version": {
+      "const": "1.0"
+    },
+    "status": {
+      "const": "FROZEN_BASELINE_PROTOCOL_V0100_VALID"
+    },
+    "target_archive_manifest_sha256": {}
+  },
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "created_at",
+    "policy_id",
+    "policy_version",
+    "alignment_status",
+    "alignment_manifest_sha256",
+    "target_archive_manifest_sha256",
+    "forecast_case_count",
+    "prediction_row_count",
+    "available_prediction_count",
+    "metric_row_count",
+    "readiness_row_count",
+    "readiness_status_counts",
+    "baseline_ids",
+    "diagnostic_only",
+    "gates",
+    "baseline_evaluation_status"
+  ],
+  "title": "ARMILAR v0.10.0 baseline summary",
+  "type": "object"
+}

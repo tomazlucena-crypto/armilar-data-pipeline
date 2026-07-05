@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aligned_feature_count": {
+      "type": "string"
+    },
+    "all_gates_closed": {
+      "const": "true"
+    },
+    "case_count": {
+      "type": "string"
+    },
+    "cutoff": {
+      "type": "string"
+    },
+    "feature_bundle_manifest_sha256": {
+      "type": "string"
+    },
+    "feature_value_count": {
+      "type": "string"
+    },
+    "target_count_by_cutoff": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "cutoff",
+    "feature_bundle_manifest_sha256",
+    "feature_value_count",
+    "case_count",
+    "aligned_feature_count",
+    "target_count_by_cutoff",
+    "all_gates_closed"
+  ],
+  "title": "ARMILAR v0.10.0 cutoff inventory",
+  "type": "object"
+}

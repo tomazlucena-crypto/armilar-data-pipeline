@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "absolute_error": {
+      "type": "string"
+    },
+    "arm_l_use_allowed": {
+      "const": "false"
+    },
+    "baseline_id": {
+      "enum": [
+        "ZERO_CHANGE",
+        "LAST_OBSERVED_TARGET",
+        "SEASONAL_12M"
+      ]
+    },
+    "baseline_source_target_id": {
+      "type": "string"
+    },
+    "category_code": {
+      "type": "string"
+    },
+    "cutoff": {
+      "type": "string"
+    },
+    "diagnostic_only": {
+      "const": "true"
+    },
+    "economy_code": {
+      "type": "string"
+    },
+    "error": {
+      "type": "string"
+    },
+    "forecast_case_id": {
+      "type": "string"
+    },
+    "horizon_months": {
+      "type": "string"
+    },
+    "model_selection_allowed": {
+      "const": "false"
+    },
+    "model_training_allowed": {
+      "const": "false"
+    },
+    "prediction_available": {
+      "type": "string"
+    },
+    "prediction_id": {
+      "type": "string"
+    },
+    "prediction_value": {
+      "type": "string"
+    },
+    "prediction_value_unrounded": {
+      "type": "string"
+    },
+    "squared_error": {
+      "type": "string"
+    },
+    "target_metric": {
+      "type": "string"
+    },
+    "target_period": {
+      "type": "string"
+    },
+    "target_value": {
+      "type": "string"
+    },
+    "target_value_unrounded": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "prediction_id",
+    "forecast_case_id",
+    "baseline_id",
+    "cutoff",
+    "horizon_months",
+    "target_period",
+    "economy_code",
+    "category_code",
+    "target_metric",
+    "prediction_value",
+    "prediction_value_unrounded",
+    "target_value",
+    "target_value_unrounded",
+    "error",
+    "absolute_error",
+    "squared_error",
+    "baseline_source_target_id",
+    "prediction_available",
+    "diagnostic_only",
+    "model_training_allowed",
+    "model_selection_allowed",
+    "arm_l_use_allowed"
+  ],
+  "title": "ARMILAR v0.10.0 baseline prediction",
+  "type": "object"
+}

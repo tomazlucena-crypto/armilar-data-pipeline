@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidate_status": {
+      "enum": [
+        "TARGET_NOT_IN_ARCHIVE",
+        "TARGET_ALREADY_KNOWN_AT_CUTOFF",
+        "ELIGIBLE_FUTURE_TARGET"
+      ]
+    },
+    "category_code": {
+      "type": "string"
+    },
+    "cutoff": {
+      "type": "string"
+    },
+    "economy_code": {
+      "type": "string"
+    },
+    "horizon_months": {
+      "type": "string"
+    },
+    "origin_period": {
+      "type": "string"
+    },
+    "primary_feature_count": {
+      "type": "string"
+    },
+    "sensitivity_feature_count": {
+      "type": "string"
+    },
+    "target_known_at_cutoff": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    },
+    "target_metric": {
+      "type": "string"
+    },
+    "target_period": {
+      "type": "string"
+    },
+    "target_present": {
+      "enum": [
+        "true",
+        "false"
+      ]
+    }
+  },
+  "required": [
+    "cutoff",
+    "origin_period",
+    "horizon_months",
+    "target_period",
+    "economy_code",
+    "category_code",
+    "target_metric",
+    "target_present",
+    "target_known_at_cutoff",
+    "primary_feature_count",
+    "sensitivity_feature_count",
+    "candidate_status"
+  ],
+  "title": "ARMILAR v0.10.0 candidate audit row",
+  "type": "object"
+}

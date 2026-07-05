@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aligned_feature_count": {},
+    "alignment_readiness_status": {
+      "enum": [
+        "ELIGIBLE_CASES_AVAILABLE",
+        "NO_ELIGIBLE_FUTURE_TARGETS"
+      ]
+    },
+    "backtest_claim_threshold_met": {},
+    "candidate_audit_row_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "candidate_eligible_future_target_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "candidate_missing_target_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "candidate_target_already_known_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "case_with_primary_feature_count": {},
+    "case_with_sensitivity_feature_count": {},
+    "contract_version": {
+      "const": "0.10.0"
+    },
+    "created_at": {},
+    "distinct_cutoff_count": {},
+    "forecast_case_count": {},
+    "gates": {
+      "additionalProperties": false,
+      "properties": {
+        "arm_l_use_allowed": {
+          "const": false
+        },
+        "backtest_execution_claim_allowed": {
+          "const": false
+        },
+        "feature_selection_allowed": {
+          "const": false
+        },
+        "model_selection_allowed": {
+          "const": false
+        },
+        "model_training_allowed": {
+          "const": false
+        },
+        "monetary_use_allowed": {
+          "const": false
+        },
+        "out_of_sample_claim_allowed": {
+          "const": false
+        },
+        "shadow_production_allowed": {
+          "const": false
+        },
+        "target_archive_claim_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "target_archive_claim_allowed",
+        "backtest_execution_claim_allowed",
+        "out_of_sample_claim_allowed",
+        "feature_selection_allowed",
+        "model_training_allowed",
+        "model_selection_allowed",
+        "arm_l_use_allowed",
+        "shadow_production_allowed",
+        "monetary_use_allowed"
+      ],
+      "type": "object"
+    },
+    "horizon_counts": {},
+    "leakage_audit_row_count": {},
+    "leakage_failure_count": {},
+    "metric_counts": {},
+    "minimum_distinct_cutoffs_for_claim": {},
+    "policy_id": {
+      "const": "ARMILAR_POINT_IN_TIME_BACKTEST_PROTOCOL_V0100"
+    },
+    "policy_version": {
+      "const": "0.10.0"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "status": {
+      "const": "POINT_IN_TIME_TARGET_ALIGNMENT_V0100_VALID"
+    },
+    "target_archive_manifest_sha256": {},
+    "target_archive_status": {}
+  },
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "created_at",
+    "policy_id",
+    "policy_version",
+    "target_archive_status",
+    "target_archive_manifest_sha256",
+    "distinct_cutoff_count",
+    "forecast_case_count",
+    "aligned_feature_count",
+    "leakage_audit_row_count",
+    "leakage_failure_count",
+    "case_with_primary_feature_count",
+    "case_with_sensitivity_feature_count",
+    "metric_counts",
+    "horizon_counts",
+    "minimum_distinct_cutoffs_for_claim",
+    "backtest_claim_threshold_met",
+    "gates",
+    "candidate_audit_row_count",
+    "candidate_missing_target_count",
+    "candidate_target_already_known_count",
+    "candidate_eligible_future_target_count",
+    "alignment_readiness_status"
+  ],
+  "title": "ARMILAR v0.10.0 alignment summary",
+  "type": "object"
+}

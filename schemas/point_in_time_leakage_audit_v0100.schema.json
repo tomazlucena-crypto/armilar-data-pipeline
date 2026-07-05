@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cutoff": {
+      "type": "string"
+    },
+    "feature_id": {
+      "type": "string"
+    },
+    "feature_known_at_cutoff": {
+      "const": "true"
+    },
+    "feature_latest_available_at": {
+      "type": "string"
+    },
+    "feature_period_not_after_origin": {
+      "const": "true"
+    },
+    "feature_target_period": {
+      "type": "string"
+    },
+    "forecast_case_id": {
+      "type": "string"
+    },
+    "leakage_status": {
+      "const": "PASS"
+    },
+    "origin_period": {
+      "type": "string"
+    },
+    "target_available_at": {
+      "type": "string"
+    },
+    "target_not_known_at_cutoff": {
+      "const": "true"
+    }
+  },
+  "required": [
+    "forecast_case_id",
+    "feature_id",
+    "cutoff",
+    "target_available_at",
+    "feature_latest_available_at",
+    "feature_target_period",
+    "origin_period",
+    "target_not_known_at_cutoff",
+    "feature_known_at_cutoff",
+    "feature_period_not_after_origin",
+    "leakage_status"
+  ],
+  "title": "ARMILAR v0.10.0 leakage audit",
+  "type": "object"
+}

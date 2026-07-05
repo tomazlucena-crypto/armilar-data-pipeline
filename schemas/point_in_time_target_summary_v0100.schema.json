@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arm_o_cutoff_at": {},
+    "arm_o_manifest_sha256": {},
+    "arm_o_run_id": {},
+    "arm_o_vintage_id": {},
+    "cell_count": {},
+    "contract_version": {
+      "const": "0.10.0"
+    },
+    "created_at": {},
+    "earliest_target_period": {},
+    "evaluation_only": {},
+    "gates": {
+      "additionalProperties": false,
+      "properties": {
+        "arm_l_use_allowed": {
+          "const": false
+        },
+        "backtest_execution_claim_allowed": {
+          "const": false
+        },
+        "feature_selection_allowed": {
+          "const": false
+        },
+        "model_selection_allowed": {
+          "const": false
+        },
+        "model_training_allowed": {
+          "const": false
+        },
+        "monetary_use_allowed": {
+          "const": false
+        },
+        "out_of_sample_claim_allowed": {
+          "const": false
+        },
+        "shadow_production_allowed": {
+          "const": false
+        },
+        "target_archive_claim_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "target_archive_claim_allowed",
+        "backtest_execution_claim_allowed",
+        "out_of_sample_claim_allowed",
+        "feature_selection_allowed",
+        "model_training_allowed",
+        "model_selection_allowed",
+        "arm_l_use_allowed",
+        "shadow_production_allowed",
+        "monetary_use_allowed"
+      ],
+      "type": "object"
+    },
+    "latest_target_period": {},
+    "metric_counts": {},
+    "policy_id": {
+      "const": "ARMILAR_POINT_IN_TIME_BACKTEST_PROTOCOL_V0100"
+    },
+    "policy_version": {
+      "const": "0.10.0"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "status": {
+      "const": "ARM_O_TARGET_ARCHIVE_V0100_VALID"
+    },
+    "target_count": {}
+  },
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "created_at",
+    "policy_id",
+    "policy_version",
+    "arm_o_run_id",
+    "arm_o_vintage_id",
+    "arm_o_cutoff_at",
+    "arm_o_manifest_sha256",
+    "target_count",
+    "cell_count",
+    "metric_counts",
+    "earliest_target_period",
+    "latest_target_period",
+    "evaluation_only",
+    "gates"
+  ],
+  "title": "ARMILAR v0.10.0 target summary",
+  "type": "object"
+}
