@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/arm_o_materialization_bridge_policy_v0101.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "policy_id", "policy_version", "source_policy_version",
+    "official_engine_version", "target_protocol_version",
+    "availability_semantics", "require_official_snapshot",
+    "require_exact_grid", "require_replay", "require_ledger",
+    "require_target_archive", "gates"
+  ],
+  "properties": {
+    "policy_id": {"const": "ARMILAR_ARM_O_MATERIALIZATION_BRIDGE_V0101"},
+    "policy_version": {"const": "0.10.1"},
+    "source_policy_version": {"const": "0.8.7"},
+    "official_engine_version": {"const": "0.9.6"},
+    "target_protocol_version": {"const": "0.10.0"},
+    "availability_semantics": {"const": "FIRST_VERIFIED_ARMILAR_RETRIEVAL_NOT_OFFICIAL_PUBLICATION_TIME"},
+    "require_official_snapshot": {"const": true},
+    "require_exact_grid": {"const": true},
+    "require_replay": {"const": true},
+    "require_ledger": {"const": true},
+    "require_target_archive": {"const": true},
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "historical_publication_time_claim_allowed", "research_release_allowed",
+        "backtest_execution_claim_allowed", "model_training_allowed",
+        "arm_l_use_allowed", "shadow_production_allowed", "monetary_use_allowed"
+      ],
+      "properties": {
+        "historical_publication_time_claim_allowed": {"const": false},
+        "research_release_allowed": {"const": false},
+        "backtest_execution_claim_allowed": {"const": false},
+        "model_training_allowed": {"const": false},
+        "arm_l_use_allowed": {"const": false},
+        "shadow_production_allowed": {"const": false},
+        "monetary_use_allowed": {"const": false}
+      }
+    }
+  }
+}
