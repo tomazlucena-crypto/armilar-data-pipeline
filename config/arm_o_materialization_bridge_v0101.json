@@ -1,0 +1,22 @@
+{
+  "policy_id": "ARMILAR_ARM_O_MATERIALIZATION_BRIDGE_V0101",
+  "policy_version": "0.10.1",
+  "source_policy_version": "0.8.7",
+  "official_engine_version": "0.9.6",
+  "target_protocol_version": "0.10.0",
+  "availability_semantics": "FIRST_VERIFIED_ARMILAR_RETRIEVAL_NOT_OFFICIAL_PUBLICATION_TIME",
+  "require_official_snapshot": true,
+  "require_exact_grid": true,
+  "require_replay": true,
+  "require_ledger": true,
+  "require_target_archive": true,
+  "gates": {
+    "historical_publication_time_claim_allowed": false,
+    "research_release_allowed": false,
+    "backtest_execution_claim_allowed": false,
+    "model_training_allowed": false,
+    "arm_l_use_allowed": false,
+    "shadow_production_allowed": false,
+    "monetary_use_allowed": false
+  }
+}
