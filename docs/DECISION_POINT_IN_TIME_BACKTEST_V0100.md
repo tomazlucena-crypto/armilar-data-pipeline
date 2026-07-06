@@ -1,6 +1,6 @@
 # Decision: freeze point-in-time targets and baseline protocol before modelling
 
-**Version:** 0.10.0  
+**Version:** 0.10.0
 **Status:** development contract only
 
 ## Decision
