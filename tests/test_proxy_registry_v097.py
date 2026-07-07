@@ -6,6 +6,7 @@ import hashlib
 import io
 import json
 import sys
+import tomllib
 from pathlib import Path
 
 import openpyxl
@@ -128,20 +129,37 @@ def test_registry_rejects_missing_mandatory_domain() -> None:
         validate_registry(registry)
 
 
-def test_workflow_runs_v097_checker_and_constitution_but_not_v096_checker() -> None:
-    workflow = yaml.safe_load((ROOT / ".github/workflows/fetch-data.yml").read_text(encoding="utf-8"))
+def test_workflow_runs_current_checker_and_constitution_only() -> None:
+    workflow = yaml.safe_load(
+        (ROOT / ".github/workflows/fetch-data.yml").read_text(encoding="utf-8")
+    )
     build_steps = workflow["jobs"]["build-step2"]["steps"]
-    commands = [step.get("run") for step in build_steps if isinstance(step, dict) and "run" in step]
-    assert "python scripts/check_point_in_time_backtest_v0100.py --root ." in commands
-    assert "python scripts/check_research_core_constitution.py --root ." in commands
-    assert "python scripts/check_official_engine_v096.py --root ." not in commands
-    assert "python scripts/check_research_core_ratification.py --root ." in commands
-    v0100_step = next(step for step in build_steps if step.get("run") == "python scripts/check_point_in_time_backtest_v0100.py --root .")
-    assert v0100_step["name"] == "Validate v0.10.0 point-in-time target alignment and baseline protocol"
-    check_cmd = "python scripts/check_point_in_time_backtest_v0100.py --root ."
-    assert check_cmd in commands
-    assert "python scripts/check_proxy_features_v099.py --root ." not in commands
+    commands = [
+        step.get("run")
+        for step in build_steps
+        if isinstance(step, dict) and "run" in step
+    ]
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    version = project["project"]["version"]
+    current_suffix = "v" + version.replace(".", "")
+    versioned_commands = [
+        command
+        for command in commands
+        if isinstance(command, str)
+        and command.startswith("python scripts/check_")
+        and "_v" in command
+        and command.endswith(".py --root .")
+    ]
 
+    assert len(versioned_commands) == 1
+    assert f"_{current_suffix}.py --root ." in versioned_commands[0]
+    assert "python scripts/check_research_core_constitution.py --root ." in commands
+    assert "python scripts/check_research_core_ratification.py --root ." in commands
+
+    current_step = next(
+        step for step in build_steps if step.get("run") == versioned_commands[0]
+    )
+    assert current_step["name"].startswith(f"Validate v{version} ")
 
 def test_registry_rejects_utf8_bom(tmp_path: Path) -> None:
     path = tmp_path / "registry.json"
