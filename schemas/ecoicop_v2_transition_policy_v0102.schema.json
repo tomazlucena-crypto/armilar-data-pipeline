@@ -1,0 +1,265 @@
+{
+  "$id": "https://armilar.example/schemas/ecoicop_v2_transition_policy_v0102.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "back_series_automatic_substitution_allowed": {
+      "const": false
+    },
+    "constitution_path": {
+      "const": "constitution/ARMILAR_RESEARCH_CORE_V1.json"
+    },
+    "direct_extension_allowed": {
+      "const": false
+    },
+    "drop_new_division_allowed": {
+      "const": false
+    },
+    "first_live_reference_period": {
+      "const": "2026-01"
+    },
+    "gates": {
+      "additionalProperties": false,
+      "properties": {
+        "arm_l_use_allowed": {
+          "const": false
+        },
+        "arm_o_2026_extension_allowed": {
+          "const": false
+        },
+        "backtest_execution_claim_allowed": {
+          "const": false
+        },
+        "classification_transition_ratified": {
+          "const": false
+        },
+        "model_training_allowed": {
+          "const": false
+        },
+        "monetary_use_allowed": {
+          "const": false
+        },
+        "research_release_allowed": {
+          "const": false
+        },
+        "shadow_production_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "classification_transition_ratified",
+        "arm_o_2026_extension_allowed",
+        "backtest_execution_claim_allowed",
+        "research_release_allowed",
+        "model_training_allowed",
+        "arm_l_use_allowed",
+        "shadow_production_allowed",
+        "monetary_use_allowed"
+      ],
+      "type": "object"
+    },
+    "legacy_categories": {
+      "items": false,
+      "maxItems": 12,
+      "minItems": 12,
+      "prefixItems": [
+        {
+          "const": "CP01"
+        },
+        {
+          "const": "CP02"
+        },
+        {
+          "const": "CP03"
+        },
+        {
+          "const": "CP04"
+        },
+        {
+          "const": "CP05"
+        },
+        {
+          "const": "CP06"
+        },
+        {
+          "const": "CP07"
+        },
+        {
+          "const": "CP08"
+        },
+        {
+          "const": "CP09"
+        },
+        {
+          "const": "CP10"
+        },
+        {
+          "const": "CP11"
+        },
+        {
+          "const": "CP12"
+        }
+      ],
+      "type": "array"
+    },
+    "legacy_classification": {
+      "const": "ECOICOP_V1_PRE_2026"
+    },
+    "legacy_dataset": {
+      "const": "prc_hicp_midx"
+    },
+    "legacy_end_period": {
+      "const": "2025-12"
+    },
+    "legacy_source_policy_path": {
+      "const": "config/eurostat_vertical_v087.json"
+    },
+    "materially_revised_divisions": {
+      "const": [
+        "CP08",
+        "CP09"
+      ]
+    },
+    "new_division": {
+      "const": "CP13"
+    },
+    "official_evidence": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "claim": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "evidence_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "url": {
+            "pattern": "^https://ec\\.europa\\.eu/eurostat/",
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence_id",
+          "url",
+          "claim"
+        ],
+        "type": "object"
+      },
+      "minItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "policy_id": {
+      "const": "ARMILAR_ECOICOP_V2_TRANSITION_AUDIT_V0102"
+    },
+    "policy_version": {
+      "const": "0.10.2"
+    },
+    "replacement_back_series_end_period": {
+      "const": "2025-12"
+    },
+    "replacement_back_series_start_period": {
+      "const": "1996-01"
+    },
+    "replacement_classification": {
+      "const": "ECOICOP_V2_FROM_2026"
+    },
+    "replacement_dataset": {
+      "const": "prc_hicp_minr"
+    },
+    "replacement_divisions": {
+      "items": false,
+      "maxItems": 13,
+      "minItems": 13,
+      "prefixItems": [
+        {
+          "const": "CP01"
+        },
+        {
+          "const": "CP02"
+        },
+        {
+          "const": "CP03"
+        },
+        {
+          "const": "CP04"
+        },
+        {
+          "const": "CP05"
+        },
+        {
+          "const": "CP06"
+        },
+        {
+          "const": "CP07"
+        },
+        {
+          "const": "CP08"
+        },
+        {
+          "const": "CP09"
+        },
+        {
+          "const": "CP10"
+        },
+        {
+          "const": "CP11"
+        },
+        {
+          "const": "CP12"
+        },
+        {
+          "const": "CP13"
+        }
+      ],
+      "type": "array"
+    },
+    "replacement_reference_base": {
+      "const": "2025=100"
+    },
+    "required_next_decision": {
+      "const": "EXPLICIT_CONSTITUTIONAL_TRANSITION_DECISION_AND_BACKTEST"
+    },
+    "same_code_semantic_equivalence_assumed": {
+      "const": false
+    },
+    "silent_category_expansion_allowed": {
+      "const": false
+    },
+    "split_legacy_division": {
+      "const": "CP12"
+    }
+  },
+  "required": [
+    "policy_id",
+    "policy_version",
+    "constitution_path",
+    "legacy_source_policy_path",
+    "legacy_dataset",
+    "replacement_dataset",
+    "legacy_classification",
+    "replacement_classification",
+    "legacy_end_period",
+    "replacement_reference_base",
+    "replacement_back_series_start_period",
+    "replacement_back_series_end_period",
+    "first_live_reference_period",
+    "legacy_categories",
+    "replacement_divisions",
+    "materially_revised_divisions",
+    "split_legacy_division",
+    "new_division",
+    "direct_extension_allowed",
+    "same_code_semantic_equivalence_assumed",
+    "drop_new_division_allowed",
+    "silent_category_expansion_allowed",
+    "back_series_automatic_substitution_allowed",
+    "required_next_decision",
+    "official_evidence",
+    "gates"
+  ],
+  "title": "ARMILAR ECOICOP v2 transition policy v0.10.2",
+  "type": "object"
+}
