@@ -1,0 +1,88 @@
+{
+  "back_series_automatic_substitution_allowed": false,
+  "constitution_path": "constitution/ARMILAR_RESEARCH_CORE_V1.json",
+  "direct_extension_allowed": false,
+  "drop_new_division_allowed": false,
+  "first_live_reference_period": "2026-01",
+  "gates": {
+    "arm_l_use_allowed": false,
+    "arm_o_2026_extension_allowed": false,
+    "backtest_execution_claim_allowed": false,
+    "classification_transition_ratified": false,
+    "model_training_allowed": false,
+    "monetary_use_allowed": false,
+    "research_release_allowed": false,
+    "shadow_production_allowed": false
+  },
+  "legacy_categories": [
+    "CP01",
+    "CP02",
+    "CP03",
+    "CP04",
+    "CP05",
+    "CP06",
+    "CP07",
+    "CP08",
+    "CP09",
+    "CP10",
+    "CP11",
+    "CP12"
+  ],
+  "legacy_classification": "ECOICOP_V1_PRE_2026",
+  "legacy_dataset": "prc_hicp_midx",
+  "legacy_end_period": "2025-12",
+  "legacy_source_policy_path": "config/eurostat_vertical_v087.json",
+  "materially_revised_divisions": [
+    "CP08",
+    "CP09"
+  ],
+  "new_division": "CP13",
+  "official_evidence": [
+    {
+      "claim": "ECOICOP version 2 applies from January 2026, adds division 13, materially revises divisions 08 and 09, and provides harmonised back series for 1996-2025.",
+      "evidence_id": "EUROSTAT_HICP_2026_QA",
+      "url": "https://ec.europa.eu/eurostat/documents/272892/11336726/HICP%2Bimprovements%2B-%2BQuestions%2Band%2BAnswers-2026-EN.pdf/dff14a89-9f65-8371-e143-488231305710?t=1766052045691"
+    },
+    {
+      "claim": "Eurostat HICP metadata governs the classification, reference-period and dissemination transition.",
+      "evidence_id": "EUROSTAT_HICP_ESMS",
+      "url": "https://ec.europa.eu/eurostat/cache/metadata/en/prc_hicp_esms.htm"
+    },
+    {
+      "claim": "The 2026 release adopts ECOICOP version 2, re-references indices to 2025=100 and archives the old ECOICOP version 1 datasets.",
+      "evidence_id": "EUROSTAT_HICP_DATABASE_INFORMATION",
+      "url": "https://ec.europa.eu/eurostat/web/hicp/information-data"
+    },
+    {
+      "claim": "The legacy prc_hicp_midx dataset is discontinued and replaced by prc_hicp_minr.",
+      "evidence_id": "EUROSTAT_LEGACY_DATASET_NOTICE",
+      "url": "https://ec.europa.eu/eurostat/databrowser/product/page/PRC_HICP_MIDX"
+    }
+  ],
+  "policy_id": "ARMILAR_ECOICOP_V2_TRANSITION_AUDIT_V0102",
+  "policy_version": "0.10.2",
+  "replacement_back_series_end_period": "2025-12",
+  "replacement_back_series_start_period": "1996-01",
+  "replacement_classification": "ECOICOP_V2_FROM_2026",
+  "replacement_dataset": "prc_hicp_minr",
+  "replacement_divisions": [
+    "CP01",
+    "CP02",
+    "CP03",
+    "CP04",
+    "CP05",
+    "CP06",
+    "CP07",
+    "CP08",
+    "CP09",
+    "CP10",
+    "CP11",
+    "CP12",
+    "CP13"
+  ],
+  "replacement_reference_base": "2025=100",
+  "required_next_decision": "EXPLICIT_CONSTITUTIONAL_TRANSITION_DECISION_AND_BACKTEST",
+  "same_code_semantic_equivalence_assumed": false,
+  "silent_category_expansion_allowed": false,
+  "split_legacy_division": "CP12"
+}
