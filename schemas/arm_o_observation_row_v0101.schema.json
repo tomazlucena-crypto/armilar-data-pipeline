@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/arm_o_observation_row_v0101.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "series_id", "economy_code", "category_code", "period", "value",
+    "published_at", "retrieved_at", "vintage_id", "revision_sequence",
+    "raw_snapshot_id", "source_sha256", "evidence_class"
+  ],
+  "properties": {
+    "series_id": {"type": "string", "minLength": 1},
+    "economy_code": {"enum": ["DEU", "ESP", "FRA", "ITA", "PRT"]},
+    "category_code": {"pattern": "^CP(0[1-9]|1[0-2])$"},
+    "period": {"pattern": "^20(21|22|23|24|25)-(0[1-9]|1[0-2])$"},
+    "value": {"type": "string"},
+    "published_at": {"type": "string"},
+    "retrieved_at": {"type": "string"},
+    "vintage_id": {"type": "string", "minLength": 1},
+    "revision_sequence": {"const": "0"},
+    "raw_snapshot_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "evidence_class": {"const": "OFFICIAL_CATEGORY_FIRST_SEEN_AT_VERIFIED_RETRIEVAL"}
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.example/schemas/arm_o_observation_bridge_summary_v0101.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "contract_version", "status", "created_at", "policy_id",
+    "policy_version", "source_policy_version", "source_universe_id",
+    "source_snapshot_retrieved_at", "source_snapshot_manifest_sha256",
+    "source_snapshot_tree_manifest_sha256", "source_vertical_manifest_sha256",
+    "availability_semantics", "historical_publication_time_claim_allowed",
+    "observation_count", "economy_count", "category_count", "period_count",
+    "start_period", "end_period", "vintage_id", "evidence_class", "gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "contract_version": {"const": "0.10.1"},
+    "status": {"const": "VERIFIED_V087_TO_V096_OBSERVATION_BRIDGE"},
+    "created_at": {"type": "string"},
+    "policy_id": {"const": "ARMILAR_ARM_O_MATERIALIZATION_BRIDGE_V0101"},
+    "policy_version": {"const": "0.10.1"},
+    "source_policy_version": {"const": "0.8.7"},
+    "source_universe_id": {"type": "string", "minLength": 1},
+    "source_snapshot_retrieved_at": {"type": "string"},
+    "source_snapshot_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_snapshot_tree_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_vertical_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "availability_semantics": {"const": "FIRST_VERIFIED_ARMILAR_RETRIEVAL_NOT_OFFICIAL_PUBLICATION_TIME"},
+    "historical_publication_time_claim_allowed": {"const": false},
+    "observation_count": {"const": 3600},
+    "economy_count": {"const": 5},
+    "category_count": {"const": 12},
+    "period_count": {"const": 60},
+    "start_period": {"const": "2021-01"},
+    "end_period": {"const": "2025-12"},
+    "vintage_id": {"type": "string", "minLength": 1},
+    "evidence_class": {"const": "OFFICIAL_CATEGORY_FIRST_SEEN_AT_VERIFIED_RETRIEVAL"},
+    "gates": {"type": "object"}
+  }
+}

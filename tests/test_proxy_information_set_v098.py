@@ -3,9 +3,11 @@ from __future__ import annotations
 import csv
 import json
 import shutil
+import tomllib
 from pathlib import Path
 
 import pytest
+import yaml
 
 from armilar_proxies.acquisition_v097 import acquire_source
 from armilar_proxies.archive_builder_v098 import (
@@ -360,14 +362,33 @@ def test_cli_help() -> None:
     assert exc.value.code == 0
 
 def test_workflow_uses_current_checker_only_when_present() -> None:
-    workflow = ROOT / ".github" / "workflows" / "fetch-data.yml"
-    if not workflow.exists():
+    workflow_path = ROOT / ".github" / "workflows" / "fetch-data.yml"
+    if not workflow_path.exists():
         pytest.skip("workflow is unavailable in the isolated overlay test")
-    text = workflow.read_text(encoding="utf-8")
-    assert "python scripts/check_point_in_time_backtest_v0100.py --root ." in text
-    assert "python scripts/check_proxy_features_v099.py --root ." not in text
-    assert "python scripts/check_research_core_constitution.py --root ." in text
 
+    workflow = yaml.safe_load(workflow_path.read_text(encoding="utf-8"))
+    build_steps = workflow["jobs"]["build-step2"]["steps"]
+    commands = [
+        step.get("run")
+        for step in build_steps
+        if isinstance(step, dict) and "run" in step
+    ]
+    project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    version = project["project"]["version"]
+    current_suffix = "v" + version.replace(".", "")
+    versioned_commands = [
+        command
+        for command in commands
+        if isinstance(command, str)
+        and command.startswith("python scripts/check_")
+        and "_v" in command
+        and command.endswith(".py --root .")
+    ]
+
+    assert len(versioned_commands) == 1
+    assert f"_{current_suffix}.py --root ." in versioned_commands[0]
+    assert "python scripts/check_research_core_constitution.py --root ." in commands
+    assert "python scripts/check_research_core_ratification.py --root ." in commands
 
 def test_multi_source_archive_and_cutoff(tmp_path: Path) -> None:
     snapshots = tmp_path / "snapshots"
