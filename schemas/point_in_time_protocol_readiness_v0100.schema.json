@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "backtest_claim_allowed": {
+      "const": "false"
+    },
+    "case_count": {
+      "type": "string"
+    },
+    "category_code": {
+      "type": "string"
+    },
+    "complete_baseline_case_count": {
+      "type": "string"
+    },
+    "distinct_cutoff_count": {
+      "type": "string"
+    },
+    "economy_code": {
+      "type": "string"
+    },
+    "horizon_months": {
+      "type": "string"
+    },
+    "minimum_cases_required": {
+      "type": "string"
+    },
+    "minimum_distinct_cutoffs_required": {
+      "type": "string"
+    },
+    "model_training_allowed": {
+      "const": "false"
+    },
+    "primary_feature_case_count": {
+      "type": "string"
+    },
+    "readiness_status": {
+      "type": "string"
+    },
+    "target_metric": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "economy_code",
+    "category_code",
+    "target_metric",
+    "horizon_months",
+    "distinct_cutoff_count",
+    "case_count",
+    "primary_feature_case_count",
+    "complete_baseline_case_count",
+    "minimum_distinct_cutoffs_required",
+    "minimum_cases_required",
+    "readiness_status",
+    "backtest_claim_allowed",
+    "model_training_allowed"
+  ],
+  "title": "ARMILAR v0.10.0 protocol readiness",
+  "type": "object"
+}

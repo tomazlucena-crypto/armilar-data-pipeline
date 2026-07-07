@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "category_code": {
+      "type": "string"
+    },
+    "cutoff": {
+      "type": "string"
+    },
+    "economy_code": {
+      "type": "string"
+    },
+    "feature_id": {
+      "type": "string"
+    },
+    "feature_known_at_cutoff": {
+      "const": "true"
+    },
+    "feature_lag_months": {
+      "type": "string"
+    },
+    "feature_latest_available_at": {
+      "type": "string"
+    },
+    "feature_period_not_after_origin": {
+      "const": "true"
+    },
+    "feature_role": {
+      "type": "string"
+    },
+    "feature_target_period": {
+      "type": "string"
+    },
+    "feature_unit": {
+      "type": "string"
+    },
+    "feature_value": {
+      "type": "string"
+    },
+    "forecast_case_id": {
+      "type": "string"
+    },
+    "horizon_months": {
+      "type": "string"
+    },
+    "mapping_evidence": {
+      "type": "string"
+    },
+    "mapping_id": {
+      "type": "string"
+    },
+    "model_training_allowed": {
+      "const": "false"
+    },
+    "origin_period": {
+      "type": "string"
+    },
+    "period_completeness_status": {
+      "type": "string"
+    },
+    "series_id": {
+      "type": "string"
+    },
+    "source_freshness_status": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "target_metric": {
+      "type": "string"
+    },
+    "target_period": {
+      "type": "string"
+    },
+    "transformation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "forecast_case_id",
+    "cutoff",
+    "origin_period",
+    "horizon_months",
+    "target_period",
+    "economy_code",
+    "category_code",
+    "target_metric",
+    "feature_id",
+    "mapping_id",
+    "source_id",
+    "series_id",
+    "feature_role",
+    "mapping_evidence",
+    "transformation",
+    "feature_target_period",
+    "feature_lag_months",
+    "feature_value",
+    "feature_unit",
+    "feature_latest_available_at",
+    "feature_known_at_cutoff",
+    "feature_period_not_after_origin",
+    "period_completeness_status",
+    "source_freshness_status",
+    "model_training_allowed"
+  ],
+  "title": "ARMILAR v0.10.0 aligned feature",
+  "type": "object"
+}

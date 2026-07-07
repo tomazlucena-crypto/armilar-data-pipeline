@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arm_l_use_allowed": {
+      "const": "false"
+    },
+    "arm_o_cutoff_at": {
+      "type": "string"
+    },
+    "arm_o_manifest_sha256": {
+      "type": "string"
+    },
+    "arm_o_run_id": {
+      "type": "string"
+    },
+    "arm_o_vintage_id": {
+      "type": "string"
+    },
+    "category_code": {
+      "type": "string"
+    },
+    "current_source_published_at": {
+      "type": "string"
+    },
+    "current_source_vintage_id": {
+      "type": "string"
+    },
+    "economy_code": {
+      "type": "string"
+    },
+    "evaluation_only": {
+      "const": "true"
+    },
+    "lag_source_published_at": {
+      "type": "string"
+    },
+    "lag_source_vintage_id": {
+      "type": "string"
+    },
+    "model_training_allowed": {
+      "const": "false"
+    },
+    "target_archive_claim_allowed": {
+      "const": "false"
+    },
+    "target_available_at": {
+      "type": "string"
+    },
+    "target_id": {
+      "type": "string"
+    },
+    "target_metric": {
+      "enum": [
+        "MONTHLY_CHANGE_PCT",
+        "YEAR_OVER_YEAR_CHANGE_PCT"
+      ]
+    },
+    "target_period": {
+      "type": "string"
+    },
+    "target_value": {
+      "type": "string"
+    },
+    "target_value_unrounded": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "target_id",
+    "economy_code",
+    "category_code",
+    "target_period",
+    "target_metric",
+    "target_value",
+    "target_value_unrounded",
+    "target_available_at",
+    "current_source_published_at",
+    "lag_source_published_at",
+    "current_source_vintage_id",
+    "lag_source_vintage_id",
+    "arm_o_run_id",
+    "arm_o_vintage_id",
+    "arm_o_cutoff_at",
+    "arm_o_manifest_sha256",
+    "evaluation_only",
+    "target_archive_claim_allowed",
+    "model_training_allowed",
+    "arm_l_use_allowed"
+  ],
+  "title": "ARMILAR v0.10.0 target row",
+  "type": "object"
+}

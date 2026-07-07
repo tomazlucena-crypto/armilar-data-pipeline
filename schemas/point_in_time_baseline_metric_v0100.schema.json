@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "baseline_id": {
+      "type": "string"
+    },
+    "case_count": {
+      "type": "string"
+    },
+    "category_code": {
+      "type": "string"
+    },
+    "coverage_rate": {
+      "type": "string"
+    },
+    "diagnostic_only": {
+      "const": "true"
+    },
+    "horizon_months": {
+      "type": "string"
+    },
+    "mae": {
+      "type": "string"
+    },
+    "mean_error": {
+      "type": "string"
+    },
+    "missing_prediction_count": {
+      "type": "string"
+    },
+    "model_selection_allowed": {
+      "const": "false"
+    },
+    "out_of_sample_claim_allowed": {
+      "const": "false"
+    },
+    "prediction_count": {
+      "type": "string"
+    },
+    "rmse": {
+      "type": "string"
+    },
+    "target_metric": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "baseline_id",
+    "target_metric",
+    "horizon_months",
+    "category_code",
+    "case_count",
+    "prediction_count",
+    "missing_prediction_count",
+    "coverage_rate",
+    "mean_error",
+    "mae",
+    "rmse",
+    "diagnostic_only",
+    "model_selection_allowed",
+    "out_of_sample_claim_allowed"
+  ],
+  "title": "ARMILAR v0.10.0 baseline metric",
+  "type": "object"
+}

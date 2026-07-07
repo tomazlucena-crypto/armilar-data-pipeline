@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accepted_feature_roles": {
+      "const": [
+        "PRIMARY_RESEARCH_DRIVER",
+        "SENSITIVITY_ONLY"
+      ]
+    },
+    "accepted_transformations": {
+      "const": [
+        "LEVEL",
+        "PERIOD_CHANGE_PCT",
+        "YEAR_OVER_YEAR_PCT"
+      ]
+    },
+    "baselines": {
+      "const": [
+        "ZERO_CHANGE",
+        "LAST_OBSERVED_TARGET",
+        "SEASONAL_12M"
+      ]
+    },
+    "gates": {
+      "additionalProperties": false,
+      "properties": {
+        "arm_l_use_allowed": {
+          "const": false
+        },
+        "backtest_execution_claim_allowed": {
+          "const": false
+        },
+        "feature_selection_allowed": {
+          "const": false
+        },
+        "model_selection_allowed": {
+          "const": false
+        },
+        "model_training_allowed": {
+          "const": false
+        },
+        "monetary_use_allowed": {
+          "const": false
+        },
+        "out_of_sample_claim_allowed": {
+          "const": false
+        },
+        "shadow_production_allowed": {
+          "const": false
+        },
+        "target_archive_claim_allowed": {
+          "const": false
+        }
+      },
+      "required": [
+        "target_archive_claim_allowed",
+        "backtest_execution_claim_allowed",
+        "out_of_sample_claim_allowed",
+        "feature_selection_allowed",
+        "model_training_allowed",
+        "model_selection_allowed",
+        "arm_l_use_allowed",
+        "shadow_production_allowed",
+        "monetary_use_allowed"
+      ],
+      "type": "object"
+    },
+    "horizons_months": {
+      "const": [
+        0,
+        1,
+        3
+      ]
+    },
+    "minimum_cases_per_cell_metric_horizon_for_claim": {
+      "minimum": 12,
+      "type": "integer"
+    },
+    "minimum_distinct_cutoffs_for_claim": {
+      "minimum": 12,
+      "type": "integer"
+    },
+    "output_decimal_places": {
+      "const": 12
+    },
+    "policy_id": {
+      "const": "ARMILAR_POINT_IN_TIME_BACKTEST_PROTOCOL_V0100"
+    },
+    "policy_version": {
+      "const": "0.10.0"
+    },
+    "target_metrics": {
+      "const": [
+        "MONTHLY_CHANGE_PCT",
+        "YEAR_OVER_YEAR_CHANGE_PCT"
+      ]
+    }
+  },
+  "required": [
+    "policy_id",
+    "policy_version",
+    "target_metrics",
+    "horizons_months",
+    "baselines",
+    "accepted_feature_roles",
+    "accepted_transformations",
+    "minimum_distinct_cutoffs_for_claim",
+    "minimum_cases_per_cell_metric_horizon_for_claim",
+    "output_decimal_places",
+    "gates"
+  ],
+  "title": "ARMILAR v0.10.0 frozen protocol",
+  "type": "object"
+}

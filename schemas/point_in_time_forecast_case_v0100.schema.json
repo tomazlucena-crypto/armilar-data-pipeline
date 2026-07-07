@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arm_l_use_allowed": {
+      "const": "false"
+    },
+    "backtest_execution_claim_allowed": {
+      "const": "false"
+    },
+    "case_status": {
+      "const": "POINT_IN_TIME_DIAGNOSTIC_CASE"
+    },
+    "category_code": {
+      "type": "string"
+    },
+    "cutoff": {
+      "type": "string"
+    },
+    "economy_code": {
+      "type": "string"
+    },
+    "feature_bundle_manifest_sha256": {
+      "type": "string"
+    },
+    "forecast_case_id": {
+      "type": "string"
+    },
+    "horizon_months": {
+      "type": "string"
+    },
+    "latest_primary_feature_period": {
+      "type": "string"
+    },
+    "latest_sensitivity_feature_period": {
+      "type": "string"
+    },
+    "model_training_allowed": {
+      "const": "false"
+    },
+    "origin_period": {
+      "type": "string"
+    },
+    "primary_feature_count": {
+      "type": "string"
+    },
+    "sensitivity_feature_count": {
+      "type": "string"
+    },
+    "target_archive_manifest_sha256": {
+      "type": "string"
+    },
+    "target_available_at": {
+      "type": "string"
+    },
+    "target_known_at_cutoff": {
+      "const": "false"
+    },
+    "target_metric": {
+      "type": "string"
+    },
+    "target_period": {
+      "type": "string"
+    },
+    "target_value": {
+      "type": "string"
+    },
+    "target_value_unrounded": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "forecast_case_id",
+    "cutoff",
+    "origin_period",
+    "horizon_months",
+    "target_period",
+    "economy_code",
+    "category_code",
+    "target_metric",
+    "target_value",
+    "target_value_unrounded",
+    "target_available_at",
+    "target_known_at_cutoff",
+    "feature_bundle_manifest_sha256",
+    "target_archive_manifest_sha256",
+    "primary_feature_count",
+    "sensitivity_feature_count",
+    "latest_primary_feature_period",
+    "latest_sensitivity_feature_period",
+    "case_status",
+    "backtest_execution_claim_allowed",
+    "model_training_allowed",
+    "arm_l_use_allowed"
+  ],
+  "title": "ARMILAR v0.10.0 forecast case",
+  "type": "object"
+}

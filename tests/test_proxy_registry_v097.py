@@ -132,15 +132,15 @@ def test_workflow_runs_v097_checker_and_constitution_but_not_v096_checker() -> N
     workflow = yaml.safe_load((ROOT / ".github/workflows/fetch-data.yml").read_text(encoding="utf-8"))
     build_steps = workflow["jobs"]["build-step2"]["steps"]
     commands = [step.get("run") for step in build_steps if isinstance(step, dict) and "run" in step]
-    assert "python scripts/check_proxy_features_v099.py --root ." in commands
+    assert "python scripts/check_point_in_time_backtest_v0100.py --root ." in commands
     assert "python scripts/check_research_core_constitution.py --root ." in commands
     assert "python scripts/check_official_engine_v096.py --root ." not in commands
     assert "python scripts/check_research_core_ratification.py --root ." in commands
-    v099_step = next(step for step in build_steps if step.get("run") == "python scripts/check_proxy_features_v099.py --root .")
-    assert v099_step["name"] == "Validate v0.9.9 point-in-time proxy feature panel"
-    check_cmd = "python scripts/check_proxy_features_v099.py --root ."
+    v0100_step = next(step for step in build_steps if step.get("run") == "python scripts/check_point_in_time_backtest_v0100.py --root .")
+    assert v0100_step["name"] == "Validate v0.10.0 point-in-time target alignment and baseline protocol"
+    check_cmd = "python scripts/check_point_in_time_backtest_v0100.py --root ."
     assert check_cmd in commands
-    assert "python scripts/check_proxy_registry_v097.py --root ." not in commands
+    assert "python scripts/check_proxy_features_v099.py --root ." not in commands
 
 
 def test_registry_rejects_utf8_bom(tmp_path: Path) -> None:
