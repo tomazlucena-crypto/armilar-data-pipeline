@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "coverage_contract": {
+      "type": "object"
+    },
+    "dataset_contracts": {
+      "maxItems": 6,
+      "minItems": 6,
+      "type": "array"
+    },
+    "gates": {
+      "type": "object"
+    },
+    "next_milestone": {
+      "type": "string"
+    },
+    "normalized_observation_contract": {
+      "type": "object"
+    },
+    "output_files": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "period_policy": {
+      "type": "object"
+    },
+    "policy_id": {
+      "const": "ARMILAR_ECOICOP_V1_V2_DUAL_PANEL_V0104"
+    },
+    "policy_version": {
+      "const": "0.10.4"
+    },
+    "predecessor_status": {
+      "const": "ECOICOP_V2_BACKTEST_PROTOCOL_V0103_VALID"
+    },
+    "raw_receipt_contract": {
+      "type": "object"
+    },
+    "scope": {
+      "type": "object"
+    },
+    "status": {
+      "const": "ECOICOP_V1_V2_DUAL_PANEL_ACQUISITION_CONTRACT_V0104_VALID"
+    },
+    "universe": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "policy_id",
+    "policy_version",
+    "status",
+    "predecessor_status",
+    "scope",
+    "universe",
+    "period_policy",
+    "dataset_contracts",
+    "raw_receipt_contract",
+    "normalized_observation_contract",
+    "coverage_contract",
+    "output_files",
+    "gates",
+    "next_milestone"
+  ],
+  "title": "ARMILAR ECOICOP v1/v2 dual panel acquisition policy v0.10.4",
+  "type": "object"
+}

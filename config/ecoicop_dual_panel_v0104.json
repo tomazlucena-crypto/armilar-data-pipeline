@@ -1,0 +1,244 @@
+{
+  "coverage_contract": {
+    "complete_replay_required": true,
+    "required_dimensions": [
+      "dataset_role",
+      "economy",
+      "category_or_division",
+      "period"
+    ],
+    "required_statuses": [
+      "OBSERVED",
+      "MISSING_IN_PROVIDER",
+      "NOT_APPLICABLE",
+      "QUARANTINED",
+      "REPLAY_ONLY"
+    ],
+    "silent_gap_filling_allowed": false
+  },
+  "dataset_contracts": [
+    {
+      "classification": "ECOICOP_V1_PRE_2026",
+      "dataset_code": "prc_hicp_midx",
+      "panel_kind": "legacy_published_series",
+      "provider": "EUROSTAT",
+      "required_for_v0104_replay": true,
+      "required_units": [
+        "I15"
+      ],
+      "role": "LEGACY_MONTHLY_INDEX",
+      "time_window": "2021-01:2025-12"
+    },
+    {
+      "classification": "ECOICOP_V1_PRE_2026",
+      "dataset_code": "prc_hicp_inw",
+      "panel_kind": "legacy_weight_series",
+      "provider": "EUROSTAT",
+      "required_for_v0104_replay": true,
+      "required_units": [
+        "PC"
+      ],
+      "role": "LEGACY_ITEM_WEIGHTS",
+      "time_window": "2021:2025"
+    },
+    {
+      "classification": "ECOICOP_V2_FROM_2026",
+      "dataset_code": "prc_hicp_minr",
+      "panel_kind": "replacement_retro_series",
+      "provider": "EUROSTAT",
+      "required_for_v0104_replay": true,
+      "required_units": [
+        "I15",
+        "I25"
+      ],
+      "role": "REPLACEMENT_MONTHLY_INDEX_AND_RATES",
+      "time_window": "2021-01:2025-12"
+    },
+    {
+      "classification": "ECOICOP_V2_FROM_2026",
+      "dataset_code": "prc_hicp_iw",
+      "panel_kind": "replacement_weight_series",
+      "provider": "EUROSTAT",
+      "required_for_v0104_replay": true,
+      "required_units": [
+        "PC"
+      ],
+      "role": "REPLACEMENT_ITEM_WEIGHTS",
+      "time_window": "2021:2025"
+    },
+    {
+      "classification": "ECOICOP_V1_TO_ECOICOP_V2",
+      "dataset_code": "ECOICOP_V1_V2_CORRESPONDENCE",
+      "panel_kind": "classification_metadata",
+      "provider": "EUROSTAT_SHOWVOC",
+      "required_for_v0104_replay": true,
+      "required_units": [
+        "NOT_APPLICABLE"
+      ],
+      "role": "CLASSIFICATION_AND_CORRESPONDENCE",
+      "time_window": "NOT_APPLICABLE"
+    },
+    {
+      "classification": "COUNTRY_SPECIFIC_HICP_METADATA",
+      "dataset_code": "prc_hicp_esms",
+      "panel_kind": "compilation_metadata",
+      "provider": "EUROSTAT",
+      "required_for_v0104_replay": true,
+      "required_units": [
+        "NOT_APPLICABLE"
+      ],
+      "role": "COUNTRY_COMPILATION_METADATA",
+      "time_window": "NOT_APPLICABLE"
+    }
+  ],
+  "gates": {
+    "arm_o_2026_extension_allowed": false,
+    "backtest_execution_claim_allowed": false,
+    "classification_transition_ratified": false,
+    "ecoicop_v1_v2_dual_panel_verified": false,
+    "model_training_allowed": false,
+    "monetary_use_allowed": false,
+    "research_release_allowed": false
+  },
+  "next_milestone": "V0105_EXECUTE_TRANSITION_BACKTEST_AFTER_PANEL_VERIFICATION",
+  "normalized_observation_contract": {
+    "forbidden_fields": [
+      "transition_strategy",
+      "selected_mapping",
+      "arm_o_2026_value",
+      "monetary_value"
+    ],
+    "no_live_2026_rule": "2026 observations may be stored only as current replacement evidence and must not create ARM-O targets in v0.10.4",
+    "required_fields": [
+      "panel_kind",
+      "dataset_role",
+      "economy",
+      "source_code",
+      "armilar_code",
+      "period",
+      "unit",
+      "value",
+      "base_period",
+      "classification",
+      "is_retro_series",
+      "is_first_published",
+      "receipt_id",
+      "raw_sha256",
+      "quality_flags"
+    ]
+  },
+  "output_files": [
+    "acquisition_request_register.csv",
+    "dataset_receipt_contract.csv",
+    "dual_panel_coverage_contract.csv",
+    "dual_panel_lineage_contract.csv",
+    "dual_panel_summary.json",
+    "normalised_observation_contract.csv",
+    "MANIFEST.sha256"
+  ],
+  "period_policy": {
+    "committed_live_2026_observations_allowed": false,
+    "current_2026_data_acquisition_milestone": "V0107_AFTER_CONSTITUTIONAL_RATIFICATION",
+    "first_current_replacement_period": "2026-01",
+    "legacy_period_end": "2025-12",
+    "legacy_period_start": "2021-01",
+    "replacement_back_series_end": "2025-12",
+    "replacement_back_series_start": "2021-01"
+  },
+  "policy_id": "ARMILAR_ECOICOP_V1_V2_DUAL_PANEL_V0104",
+  "policy_version": "0.10.4",
+  "predecessor_mapping": "config/ecoicop_v1_v2_mapping_candidates_v0103.json",
+  "predecessor_policy": "config/ecoicop_v2_backtest_protocol_v0103.json",
+  "predecessor_status": "ECOICOP_V2_BACKTEST_PROTOCOL_V0103_VALID",
+  "raw_receipt_contract": {
+    "hash_algorithm": "sha256",
+    "immutability_rule": "RAW_BYTES_NEVER_OVERWRITTEN",
+    "required_fields": [
+      "receipt_id",
+      "dataset_role",
+      "provider",
+      "dataset_code",
+      "request_url",
+      "retrieved_at",
+      "http_status",
+      "raw_path",
+      "raw_sha256",
+      "byte_count",
+      "content_type",
+      "classification",
+      "time_window",
+      "query_fingerprint"
+    ],
+    "timestamp_semantics": "UTC_RETRIEVAL_TIME"
+  },
+  "scope": {
+    "define_acquisition_and_replay_contract": true,
+    "execute_transition_backtest": false,
+    "extend_arm_o_to_2026": false,
+    "materialize_committed_official_panel": false,
+    "publish_live_outputs_in_pr": false,
+    "ratify_classification_transition": false,
+    "select_transition_strategy": false
+  },
+  "status": "ECOICOP_V1_V2_DUAL_PANEL_ACQUISITION_CONTRACT_V0104_VALID",
+  "universe": {
+    "economies": [
+      {
+        "armilar_code": "DEU",
+        "eurostat_code": "DE",
+        "name": "Germany"
+      },
+      {
+        "armilar_code": "ESP",
+        "eurostat_code": "ES",
+        "name": "Spain"
+      },
+      {
+        "armilar_code": "FRA",
+        "eurostat_code": "FR",
+        "name": "France"
+      },
+      {
+        "armilar_code": "ITA",
+        "eurostat_code": "IT",
+        "name": "Italy"
+      },
+      {
+        "armilar_code": "PRT",
+        "eurostat_code": "PT",
+        "name": "Portugal"
+      }
+    ],
+    "legacy_categories": [
+      "CP01",
+      "CP02",
+      "CP03",
+      "CP04",
+      "CP05",
+      "CP06",
+      "CP07",
+      "CP08",
+      "CP09",
+      "CP10",
+      "CP11",
+      "CP12"
+    ],
+    "replacement_divisions": [
+      "CP01",
+      "CP02",
+      "CP03",
+      "CP04",
+      "CP05",
+      "CP06",
+      "CP07",
+      "CP08",
+      "CP09",
+      "CP10",
+      "CP11",
+      "CP12",
+      "CP13"
+    ],
+    "source": "config/eurostat_vertical_v087.json",
+    "universe_id": "ARM-EUROSTAT-HICP-FIVE-ECONOMY-ECOICOP-V1-V2-DUAL-PANEL-V0104"
+  }
+}

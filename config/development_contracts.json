@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "roadmap_version": "v0.8.6-to-v1.0.0",
-  "reviewed_on": "2026-06-30",
+  "reviewed_on": "2026-07-09",
   "allowed_statuses": [
     "PLANNED",
     "IN_PROGRESS",
@@ -323,6 +323,58 @@
         "MLflow",
         "Kalman nowcast",
         "API",
+        "monetary release"
+      ]
+    },
+    {
+      "contract_id": "V104-C01-ECOICOP-DUAL-PANEL",
+      "milestone": "0.10.4",
+      "status": "COMPLETE",
+      "objective": "Define the executable acquisition and replay contract for the official ECOICOP v1/v2 dual panel without committing live outputs in a pull request.",
+      "inputs": [
+        "v0.10.3 transition backtest protocol",
+        "Eurostat five-economy ARM-O universe",
+        "official legacy and replacement dataset register",
+        "classification correspondence requirements"
+      ],
+      "outputs": [
+        "dual-panel policy",
+        "acquisition request register scaffold",
+        "raw receipt contract",
+        "normalised observation contract",
+        "coverage contract",
+        "lineage contract",
+        "checker and tests"
+      ],
+      "invariants": [
+        "no committed empirical observations",
+        "no live 2026 ARM-O target",
+        "all gates closed",
+        "no selected transition strategy",
+        "every future observation requires immutable raw receipt provenance"
+      ],
+      "failure_states": [
+        "UNDECLARED_DATASET_ROLE",
+        "LIVE_OUTPUT_IN_PR",
+        "RAW_RECEIPT_HASH_MISSING",
+        "SILENT_COVERAGE_GAP",
+        "PREDECESSOR_PROTOCOL_INVALID"
+      ],
+      "success_condition": "The v0.10.4 checker validates the policy, predecessor protocol, deterministic scaffold, zero committed observations and closed gates.",
+      "stop_condition": "Stop before official provider acquisition, empirical backtest execution, strategy selection or constitutional ratification.",
+      "fallback_condition": "If official acquisition cannot run, keep the verification gate closed and publish only the acquisition failure evidence outside the PR.",
+      "acceptance_tests": [
+        "policy validation",
+        "request register completeness",
+        "deterministic scaffold build and replay",
+        "manifest hash verification",
+        "predecessor v0.10.3 checker"
+      ],
+      "out_of_scope": [
+        "official byte acquisition in PR",
+        "transition backtest metrics",
+        "ARM-O 2026 extension",
+        "model training",
         "monetary release"
       ]
     }

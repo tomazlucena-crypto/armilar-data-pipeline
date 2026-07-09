@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "committed_observation_count": {
+      "const": 0
+    },
+    "dataset_contract_count": {
+      "minimum": 6,
+      "type": "integer"
+    },
+    "economy_count": {
+      "minimum": 5,
+      "type": "integer"
+    },
+    "gate_count_open": {
+      "const": 0
+    },
+    "legacy_category_count": {
+      "minimum": 12,
+      "type": "integer"
+    },
+    "live_2026_observation_count": {
+      "const": 0
+    },
+    "next_milestone": {
+      "type": "string"
+    },
+    "output_file_count": {
+      "minimum": 7,
+      "type": "integer"
+    },
+    "policy_version": {
+      "const": "0.10.4"
+    },
+    "replacement_division_count": {
+      "minimum": 13,
+      "type": "integer"
+    },
+    "request_count": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "status": {
+      "const": "ECOICOP_V1_V2_DUAL_PANEL_ACQUISITION_CONTRACT_V0104_VALID"
+    }
+  },
+  "required": [
+    "status",
+    "policy_version",
+    "dataset_contract_count",
+    "economy_count",
+    "legacy_category_count",
+    "replacement_division_count",
+    "request_count",
+    "committed_observation_count",
+    "live_2026_observation_count",
+    "gate_count_open",
+    "output_file_count",
+    "next_milestone"
+  ],
+  "title": "ARMILAR ECOICOP v1/v2 dual panel scaffold summary v0.10.4",
+  "type": "object"
+}
