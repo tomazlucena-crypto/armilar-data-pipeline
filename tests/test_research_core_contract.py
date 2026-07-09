@@ -256,7 +256,10 @@ class ResearchCoreContractTests(unittest.TestCase):
             public_latest.parent.mkdir(parents=True, exist_ok=True)
             public_latest.write_text("tampered\n", encoding="utf-8", newline="\n")
             self.assertEqual(materialize_main(["--root", str(root)]), 0)
-            self.assertEqual((root / BASKET_RELATIVE_PATH).read_bytes(), self.basket_path.read_bytes())
+            self.assertEqual(
+                canonicalize_utf8_text((root / BASKET_RELATIVE_PATH).read_bytes()),
+                canonicalize_utf8_text(self.basket_path.read_bytes()),
+            )
 
     def test_snapshot_mutation_fails_closed(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:

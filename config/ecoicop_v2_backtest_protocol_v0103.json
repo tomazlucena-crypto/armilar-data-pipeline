@@ -1,0 +1,474 @@
+{
+  "policy_id": "ARMILAR_ECOICOP_V2_BACKTEST_PROTOCOL_V0103",
+  "policy_version": "0.10.3",
+  "status": "ECOICOP_V2_BACKTEST_PROTOCOL_V0103_VALID",
+  "predecessor": {
+    "policy_path": "config/ecoicop_v2_transition_v0102.json",
+    "policy_sha256": "8ae44a982a2ae88fa6e33c23bb95437dc4f91e0f17896190d2bbbfbaa6ff5557",
+    "checker_status": "ECOICOP_V2_TRANSITION_V0102_VALID",
+    "commit": "215bba966f2a376d2cd4370297512d440b0dbb7d"
+  },
+  "constitutional_constraints": {
+    "constitution_path": "constitution/ARMILAR_RESEARCH_CORE_V1.json",
+    "classification_transition_ratified": false,
+    "arm_o_2026_extension_allowed": false,
+    "backtest_execution_claim_allowed": false,
+    "model_training_allowed": false,
+    "research_release_allowed": false,
+    "monetary_use_allowed": false
+  },
+  "scope": {
+    "acquire_live_data": false,
+    "acquire_2026_observations": false,
+    "execute_empirical_backtest": false,
+    "select_transition_strategy": false,
+    "amend_constitution": false,
+    "extend_arm_o": false,
+    "generate_2026_targets": false,
+    "define_protocol_only": true
+  },
+  "declared_universe": {
+    "economies": [
+      "DE",
+      "ES",
+      "FR",
+      "IT",
+      "PT"
+    ],
+    "legacy_panel_start": "2021-01",
+    "legacy_panel_end": "2025-12",
+    "candidate_dual_panel_earliest_start": "1996-01",
+    "candidate_dual_panel_latest_end": "2025-12",
+    "first_live_reference_period": "2026-01",
+    "category_grain": "ECOICOP_DIVISION",
+    "legacy_category_count": 12,
+    "replacement_category_count": 13
+  },
+  "dataset_contracts": [
+    {
+      "role": "LEGACY_MONTHLY_INDEX",
+      "provider": "EUROSTAT",
+      "dataset_code": "prc_hicp_midx",
+      "classification": "ECOICOP_V1_PRE_2026",
+      "time_semantics": "ORIGINALLY_PUBLISHED_OR_ARCHIVED_LEGACY_SERIES",
+      "permitted_period_start": "1996-01",
+      "permitted_period_end": "2025-12",
+      "required_units": [
+        "I15"
+      ],
+      "acquisition_milestone": "V0104",
+      "use_in_v0103": "METADATA_ONLY"
+    },
+    {
+      "role": "LEGACY_ITEM_WEIGHTS",
+      "provider": "EUROSTAT",
+      "dataset_code": "prc_hicp_inw",
+      "classification": "ECOICOP_V1_PRE_2026",
+      "time_semantics": "ORIGINALLY_PUBLISHED_OR_ARCHIVED_LEGACY_WEIGHTS",
+      "permitted_period_start": "1996",
+      "permitted_period_end": "2025",
+      "required_units": [
+        "PC"
+      ],
+      "acquisition_milestone": "V0104",
+      "use_in_v0103": "METADATA_ONLY"
+    },
+    {
+      "role": "REPLACEMENT_MONTHLY_INDEX_AND_RATES",
+      "provider": "EUROSTAT",
+      "dataset_code": "prc_hicp_minr",
+      "classification": "ECOICOP_V2_FROM_2026",
+      "time_semantics": "RETROSPECTIVE_BACK_SERIES_1996_2025_AND_CURRENT_SERIES_FROM_2026",
+      "permitted_period_start": "1996-01",
+      "permitted_period_end": "OPEN",
+      "required_units": [
+        "I15",
+        "I25"
+      ],
+      "acquisition_milestone": "V0104_OR_LATER",
+      "use_in_v0103": "METADATA_ONLY"
+    },
+    {
+      "role": "REPLACEMENT_ITEM_WEIGHTS",
+      "provider": "EUROSTAT",
+      "dataset_code": "prc_hicp_iw",
+      "classification": "ECOICOP_V2_FROM_2026",
+      "time_semantics": "RETROSPECTIVE_OR_CURRENT_WEIGHT_SERIES",
+      "permitted_period_start": "1996",
+      "permitted_period_end": "OPEN",
+      "required_units": [
+        "PC"
+      ],
+      "acquisition_milestone": "V0104_OR_LATER",
+      "use_in_v0103": "METADATA_ONLY"
+    },
+    {
+      "role": "REPLACEMENT_FIRST_PUBLISHED_DATA",
+      "provider": "EUROSTAT",
+      "dataset_code": "prc_hicp_fpd",
+      "classification": "ECOICOP_V2_FROM_2026",
+      "time_semantics": "FIRST_RELEASED_DATA",
+      "permitted_period_start": "2026-01",
+      "permitted_period_end": "OPEN",
+      "required_units": [
+        "I15",
+        "I25"
+      ],
+      "acquisition_milestone": "V0107_OR_LATER",
+      "use_in_v0103": "REGISTERED_NOT_ACQUIRED"
+    },
+    {
+      "role": "CLASSIFICATION_AND_CORRESPONDENCE",
+      "provider": "EUROSTAT_SHOWVOC",
+      "dataset_code": "ECOICOP_V1_V2_CORRESPONDENCE",
+      "classification": "ECOICOP_V1_TO_ECOICOP_V2",
+      "time_semantics": "NORMATIVE_CLASSIFICATION_METADATA",
+      "permitted_period_start": "NOT_APPLICABLE",
+      "permitted_period_end": "NOT_APPLICABLE",
+      "required_units": [
+        "NOT_APPLICABLE"
+      ],
+      "acquisition_milestone": "V0104",
+      "use_in_v0103": "REGISTERED_NOT_ACQUIRED"
+    },
+    {
+      "role": "COUNTRY_COMPILATION_METADATA",
+      "provider": "EUROSTAT",
+      "dataset_code": "prc_hicp_esms",
+      "classification": "COUNTRY_SPECIFIC_HICP_METADATA",
+      "time_semantics": "DOCUMENTS_BACK_SERIES_COMPILATION_AND_LINKING_METHODS",
+      "permitted_period_start": "NOT_APPLICABLE",
+      "permitted_period_end": "NOT_APPLICABLE",
+      "required_units": [
+        "NOT_APPLICABLE"
+      ],
+      "acquisition_milestone": "V0104",
+      "use_in_v0103": "REGISTERED_NOT_ACQUIRED"
+    }
+  ],
+  "transformation_dimensions": [
+    {
+      "dimension_id": "CLASSIFICATION",
+      "isolated": true,
+      "required_comparison": "ECOICOP_V1_VS_ECOICOP_V2_AT_COMMON_PRICE_AND_WEIGHT_BASIS",
+      "silent_combination_forbidden": true
+    },
+    {
+      "dimension_id": "INDEX_REFERENCE_BASE",
+      "isolated": true,
+      "required_comparison": "2015_100_VS_2025_100_AFTER_EXPLICIT_REBASING_TO_COMMON_ANCHOR",
+      "silent_combination_forbidden": true
+    },
+    {
+      "dimension_id": "WEIGHTS",
+      "isolated": true,
+      "required_comparison": "LEGACY_WEIGHTS_VS_RECONSTRUCTED_OR_CURRENT_V2_WEIGHTS",
+      "silent_combination_forbidden": true
+    },
+    {
+      "dimension_id": "PRODUCT_COVERAGE",
+      "isolated": true,
+      "required_comparison": "COMMON_PRODUCT_SCOPE_VS_CHANGED_PRODUCT_SCOPE_INCLUDING_GAMES_OF_CHANCE",
+      "silent_combination_forbidden": true
+    },
+    {
+      "dimension_id": "RETROSPECTIVE_RECONSTRUCTION",
+      "isolated": true,
+      "required_comparison": "ORIGINALLY_PUBLISHED_INFORMATION_VS_LATER_RECONSTRUCTED_BACK_SERIES",
+      "silent_combination_forbidden": true
+    },
+    {
+      "dimension_id": "LINKING_METHOD",
+      "isolated": true,
+      "required_comparison": "MONTHLY_LINKING_VS_ANNUAL_LINKING_AND_ANY_DOCUMENTED_LEVEL_SHIFT",
+      "silent_combination_forbidden": true
+    }
+  ],
+  "strategies": [
+    {
+      "strategy_id": "T0",
+      "name": "LEGACY_CLASSIFICATION_NO_TRANSITION",
+      "description": "Keep the frozen ECOICOP v1 series through 2025 as the historical comparator. This strategy cannot by itself extend ARM-O into 2026.",
+      "output_category_count": 12,
+      "uses_reconstructed_back_series": false,
+      "preserves_legacy_history": true,
+      "extends_to_2026": false,
+      "constitutional_decision_required": false,
+      "automatic_selection_allowed": false
+    },
+    {
+      "strategy_id": "T1",
+      "name": "FULL_ECOICOP_V2_ADOPTION",
+      "description": "Use the provider-native ECOICOP v2 structure with thirteen divisions and an explicit link to the current series.",
+      "output_category_count": 13,
+      "uses_reconstructed_back_series": true,
+      "preserves_legacy_history": false,
+      "extends_to_2026": true,
+      "constitutional_decision_required": true,
+      "automatic_selection_allowed": false
+    },
+    {
+      "strategy_id": "T2",
+      "name": "CONSTITUTIONAL_BRIDGE_TO_TWELVE_ARMILAR_CATEGORIES",
+      "description": "Map ECOICOP v2 to the frozen twelve-category Armilar structure using only evidence-backed deterministic correspondence and aggregation rules.",
+      "output_category_count": 12,
+      "uses_reconstructed_back_series": true,
+      "preserves_legacy_history": true,
+      "extends_to_2026": true,
+      "constitutional_decision_required": true,
+      "automatic_selection_allowed": false
+    },
+    {
+      "strategy_id": "T3",
+      "name": "PARALLEL_COMPARABLE_AND_PROVIDER_NATIVE_SERIES",
+      "description": "Maintain a twelve-category comparable Armilar series alongside a thirteen-division provider-native ECOICOP v2 series with explicit lineage and no silent substitution.",
+      "output_category_count": 13,
+      "uses_reconstructed_back_series": true,
+      "preserves_legacy_history": true,
+      "extends_to_2026": true,
+      "constitutional_decision_required": true,
+      "automatic_selection_allowed": false
+    }
+  ],
+  "metrics": [
+    {
+      "metric_id": "LEVEL_DISCONTINUITY_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "LINK_PERIOD"
+      ],
+      "formula": "10000 * (linked_level / counterfactual_common_basis_level - 1)",
+      "direction": "LOWER_ABSOLUTE_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "MONTHLY_INFLATION_DIFFERENCE_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "CATEGORY",
+        "PERIOD"
+      ],
+      "formula": "10000 * (monthly_rate_strategy - monthly_rate_comparator)",
+      "direction": "LOWER_ABSOLUTE_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "ANNUAL_INFLATION_DIFFERENCE_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "CATEGORY",
+        "PERIOD"
+      ],
+      "formula": "10000 * (annual_rate_strategy - annual_rate_comparator)",
+      "direction": "LOWER_ABSOLUTE_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "CONTRIBUTION_L1_DIFFERENCE_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "PERIOD"
+      ],
+      "formula": "10000 * sum(abs(category_contribution_strategy - category_contribution_comparator))",
+      "direction": "LOWER_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "ECONOMY_RMSE_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "HORIZON"
+      ],
+      "formula": "root_mean_square(monthly_inflation_difference_bp)",
+      "direction": "LOWER_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "CATEGORY_RMSE_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "CATEGORY",
+        "HORIZON"
+      ],
+      "formula": "root_mean_square(monthly_inflation_difference_bp)",
+      "direction": "LOWER_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "WORLD_AGGREGATE_RMSE_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "HORIZON"
+      ],
+      "formula": "root_mean_square(world_monthly_inflation_difference_bp)",
+      "direction": "LOWER_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "LINK_PERIOD_SENSITIVITY_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "CATEGORY"
+      ],
+      "formula": "max(result_across_allowed_link_periods) - min(result_across_allowed_link_periods)",
+      "direction": "LOWER_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "CP08_IMPACT_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "PERIOD"
+      ],
+      "formula": "contribution_difference_attributable_to_CP08",
+      "direction": "REPORT_ABSOLUTE_AND_SIGNED",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "CP09_IMPACT_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "PERIOD"
+      ],
+      "formula": "contribution_difference_attributable_to_CP09",
+      "direction": "REPORT_ABSOLUTE_AND_SIGNED",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "CP13_IMPACT_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "PERIOD"
+      ],
+      "formula": "contribution_difference_attributable_to_CP13_or_its_bridge_allocation",
+      "direction": "REPORT_ABSOLUTE_AND_SIGNED",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "BACK_SERIES_DEPENDENCE_BP",
+      "unit": "BASIS_POINTS",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "CATEGORY",
+        "PERIOD"
+      ],
+      "formula": "10000 * (result_using_reconstructed_back_series - result_using_originally_published_information)",
+      "direction": "LOWER_ABSOLUTE_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "DIRECTLY_COMPARABLE_WEIGHT_SHARE",
+      "unit": "SHARE_0_1",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "PERIOD"
+      ],
+      "formula": "sum(weight_of_cells_with_proven_common_scope) / sum(all_in_scope_weights)",
+      "direction": "HIGHER_IS_BETTER",
+      "required_for_completion": true
+    },
+    {
+      "metric_id": "EXCLUDED_OR_UNRESOLVED_WEIGHT_SHARE",
+      "unit": "SHARE_0_1",
+      "grain": [
+        "STRATEGY",
+        "ECONOMY",
+        "PERIOD"
+      ],
+      "formula": "sum(weight_of_excluded_or_unresolved_cells) / sum(all_in_scope_weights)",
+      "direction": "LOWER_IS_BETTER",
+      "required_for_completion": true
+    }
+  ],
+  "completion_gates": [
+    {
+      "gate_id": "G1_OFFICIAL_INPUTS_PRESERVED",
+      "condition": "All raw provider responses, queries, metadata, retrieval timestamps and SHA-256 hashes required by v0.10.4 exist and replay exactly.",
+      "opens_transition": false
+    },
+    {
+      "gate_id": "G2_TIME_SEMANTICS_SEPARATED",
+      "condition": "Originally published legacy data, retrospectively reconstructed v2 back series and current 2026 data are stored and labelled as distinct information sets.",
+      "opens_transition": false
+    },
+    {
+      "gate_id": "G3_COMMON_SAMPLE_COMPLETE",
+      "condition": "Every strategy is evaluated on the same declared economies, periods and admissible cells, with exclusions reported rather than renormalised silently.",
+      "opens_transition": false
+    },
+    {
+      "gate_id": "G4_ALL_REQUIRED_METRICS_COMPUTED",
+      "condition": "Every metric marked required_for_completion is produced at every declared grain with finite values or an explicit ineligible reason.",
+      "opens_transition": false
+    },
+    {
+      "gate_id": "G5_DIMENSIONS_ISOLATED",
+      "condition": "Classification, reference base, weights, product coverage, retrospective reconstruction and linking method are tested separately before combined scenarios.",
+      "opens_transition": false
+    },
+    {
+      "gate_id": "G6_NO_AUTOMATIC_WINNER",
+      "condition": "Results identify trade-offs and Pareto-dominance where present, but no strategy is ratified automatically by code.",
+      "opens_transition": false
+    }
+  ],
+  "decision_output_contract": {
+    "automatic_winner_allowed": false,
+    "required_sections": [
+      "COMMON_SAMPLE_AND_EXCLUSIONS",
+      "RESULTS_BY_STRATEGY",
+      "RESULTS_BY_ECONOMY",
+      "RESULTS_BY_CATEGORY",
+      "CP08_CP09_CP13_IMPACT",
+      "LINK_PERIOD_SENSITIVITY",
+      "BACK_SERIES_DEPENDENCE",
+      "UNRESOLVED_UNCERTAINTY",
+      "CONDITIONS_FOR_CONSTITUTIONAL_DECISION"
+    ],
+    "next_milestone_after_protocol": "V0104_DUAL_PANEL_ACQUISITION_AND_VERIFICATION"
+  },
+  "prohibitions": [
+    "NO_LIVE_2026_ACQUISITION_IN_V0103",
+    "NO_EMPIRICAL_BACKTEST_CLAIM_IN_V0103",
+    "NO_CONSTITUTIONAL_TRANSITION_DECISION_IN_V0103",
+    "NO_ARM_O_EXTENSION_IN_V0103",
+    "NO_MODEL_TRAINING_IN_V0103",
+    "NO_SILENT_REBASING",
+    "NO_SILENT_CATEGORY_RENORMALISATION",
+    "NO_RETROSPECTIVE_SERIES_PRESENTED_AS_HISTORICALLY_AVAILABLE_INFORMATION",
+    "NO_AUTOMATIC_SAME_CODE_EQUIVALENCE",
+    "NO_AUTOMATIC_DROP_OF_CP13"
+  ],
+  "gates": {
+    "classification_transition_ratified": false,
+    "arm_o_2026_extension_allowed": false,
+    "backtest_execution_claim_allowed": false,
+    "model_training_allowed": false,
+    "arm_l_use_allowed": false,
+    "shadow_production_allowed": false,
+    "research_release_allowed": false,
+    "monetary_use_allowed": false
+  }
+}
