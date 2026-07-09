@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.invalid/schemas/ecoicop_v2_backtest_summary_v0103.schema.json",
+  "title": "ARMILAR ECOICOP v2 backtest protocol summary v0.10.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "policy_version",
+    "created_at",
+    "policy_sha256",
+    "mapping_sha256",
+    "strategy_count",
+    "mapping_row_count",
+    "automatic_mapping_count",
+    "required_metric_count",
+    "dataset_contract_count",
+    "transformation_dimension_count",
+    "completion_gate_count",
+    "empirical_observation_count",
+    "live_2026_observation_count",
+    "open_gate_count",
+    "classification_transition_ratified",
+    "arm_o_2026_extension_allowed",
+    "backtest_execution_claim_allowed",
+    "automatic_winner_allowed",
+    "next_milestone"
+  ],
+  "properties": {
+    "status": {
+      "const": "ECOICOP_V2_BACKTEST_PROTOCOL_V0103_VALID"
+    },
+    "policy_version": {
+      "const": "0.10.3"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "mapping_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "strategy_count": {
+      "const": 4
+    },
+    "mapping_row_count": {
+      "const": 13
+    },
+    "automatic_mapping_count": {
+      "const": 0
+    },
+    "required_metric_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "dataset_contract_count": {
+      "type": "integer",
+      "minimum": 7
+    },
+    "transformation_dimension_count": {
+      "type": "integer",
+      "minimum": 6
+    },
+    "completion_gate_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "empirical_observation_count": {
+      "const": 0
+    },
+    "live_2026_observation_count": {
+      "const": 0
+    },
+    "open_gate_count": {
+      "const": 0
+    },
+    "classification_transition_ratified": {
+      "const": false
+    },
+    "arm_o_2026_extension_allowed": {
+      "const": false
+    },
+    "backtest_execution_claim_allowed": {
+      "const": false
+    },
+    "automatic_winner_allowed": {
+      "const": false
+    },
+    "next_milestone": {
+      "const": "V0104_DUAL_PANEL_ACQUISITION_AND_VERIFICATION"
+    }
+  }
+}

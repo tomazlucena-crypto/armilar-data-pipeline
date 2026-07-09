@@ -1,0 +1,495 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.invalid/schemas/ecoicop_v2_backtest_protocol_v0103.schema.json",
+  "title": "ARMILAR ECOICOP v2 backtest protocol v0.10.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "policy_id",
+    "policy_version",
+    "status",
+    "predecessor",
+    "constitutional_constraints",
+    "scope",
+    "declared_universe",
+    "dataset_contracts",
+    "transformation_dimensions",
+    "strategies",
+    "metrics",
+    "completion_gates",
+    "decision_output_contract",
+    "prohibitions",
+    "gates"
+  ],
+  "properties": {
+    "policy_id": {
+      "const": "ARMILAR_ECOICOP_V2_BACKTEST_PROTOCOL_V0103"
+    },
+    "policy_version": {
+      "const": "0.10.3"
+    },
+    "status": {
+      "const": "ECOICOP_V2_BACKTEST_PROTOCOL_V0103_VALID"
+    },
+    "predecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_path",
+        "policy_sha256",
+        "checker_status",
+        "commit"
+      ],
+      "properties": {
+        "policy_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "checker_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        }
+      }
+    },
+    "constitutional_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "constitution_path",
+        "classification_transition_ratified",
+        "arm_o_2026_extension_allowed",
+        "backtest_execution_claim_allowed",
+        "model_training_allowed",
+        "research_release_allowed",
+        "monetary_use_allowed"
+      ],
+      "properties": {
+        "constitution_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "classification_transition_ratified": {
+          "type": "boolean"
+        },
+        "arm_o_2026_extension_allowed": {
+          "type": "boolean"
+        },
+        "backtest_execution_claim_allowed": {
+          "type": "boolean"
+        },
+        "model_training_allowed": {
+          "type": "boolean"
+        },
+        "research_release_allowed": {
+          "type": "boolean"
+        },
+        "monetary_use_allowed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "acquire_live_data",
+        "acquire_2026_observations",
+        "execute_empirical_backtest",
+        "select_transition_strategy",
+        "amend_constitution",
+        "extend_arm_o",
+        "generate_2026_targets",
+        "define_protocol_only"
+      ],
+      "properties": {
+        "acquire_live_data": {
+          "type": "boolean"
+        },
+        "acquire_2026_observations": {
+          "type": "boolean"
+        },
+        "execute_empirical_backtest": {
+          "type": "boolean"
+        },
+        "select_transition_strategy": {
+          "type": "boolean"
+        },
+        "amend_constitution": {
+          "type": "boolean"
+        },
+        "extend_arm_o": {
+          "type": "boolean"
+        },
+        "generate_2026_targets": {
+          "type": "boolean"
+        },
+        "define_protocol_only": {
+          "type": "boolean"
+        }
+      }
+    },
+    "declared_universe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "economies",
+        "legacy_panel_start",
+        "legacy_panel_end",
+        "candidate_dual_panel_earliest_start",
+        "candidate_dual_panel_latest_end",
+        "first_live_reference_period",
+        "category_grain",
+        "legacy_category_count",
+        "replacement_category_count"
+      ],
+      "properties": {
+        "economies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "uniqueItems": true
+        },
+        "legacy_panel_start": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}$"
+        },
+        "legacy_panel_end": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}$"
+        },
+        "candidate_dual_panel_earliest_start": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}$"
+        },
+        "candidate_dual_panel_latest_end": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}$"
+        },
+        "first_live_reference_period": {
+          "const": "2026-01"
+        },
+        "category_grain": {
+          "const": "ECOICOP_DIVISION"
+        },
+        "legacy_category_count": {
+          "const": 12
+        },
+        "replacement_category_count": {
+          "const": 13
+        }
+      }
+    },
+    "dataset_contracts": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "provider",
+          "dataset_code",
+          "classification",
+          "time_semantics",
+          "permitted_period_start",
+          "permitted_period_end",
+          "required_units",
+          "acquisition_milestone",
+          "use_in_v0103"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "provider": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dataset_code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "classification": {
+            "type": "string",
+            "minLength": 1
+          },
+          "time_semantics": {
+            "type": "string",
+            "minLength": 1
+          },
+          "permitted_period_start": {
+            "type": "string",
+            "minLength": 1
+          },
+          "permitted_period_end": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_units": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "acquisition_milestone": {
+            "type": "string",
+            "minLength": 1
+          },
+          "use_in_v0103": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "transformation_dimensions": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dimension_id",
+          "isolated",
+          "required_comparison",
+          "silent_combination_forbidden"
+        ],
+        "properties": {
+          "dimension_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "isolated": {
+            "type": "boolean"
+          },
+          "required_comparison": {
+            "type": "string",
+            "minLength": 1
+          },
+          "silent_combination_forbidden": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "strategies": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "strategy_id",
+          "name",
+          "description",
+          "output_category_count",
+          "uses_reconstructed_back_series",
+          "preserves_legacy_history",
+          "extends_to_2026",
+          "constitutional_decision_required",
+          "automatic_selection_allowed"
+        ],
+        "properties": {
+          "strategy_id": {
+            "type": "string",
+            "pattern": "^T[0-3]$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "output_category_count": {
+            "type": "integer",
+            "enum": [
+              12,
+              13
+            ]
+          },
+          "uses_reconstructed_back_series": {
+            "type": "boolean"
+          },
+          "preserves_legacy_history": {
+            "type": "boolean"
+          },
+          "extends_to_2026": {
+            "type": "boolean"
+          },
+          "constitutional_decision_required": {
+            "type": "boolean"
+          },
+          "automatic_selection_allowed": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "metric_id",
+          "unit",
+          "grain",
+          "formula",
+          "direction",
+          "required_for_completion"
+        ],
+        "properties": {
+          "metric_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1
+          },
+          "grain": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "formula": {
+            "type": "string",
+            "minLength": 1
+          },
+          "direction": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_for_completion": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "completion_gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gate_id",
+          "condition",
+          "opens_transition"
+        ],
+        "properties": {
+          "gate_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "condition": {
+            "type": "string",
+            "minLength": 1
+          },
+          "opens_transition": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "decision_output_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "automatic_winner_allowed",
+        "required_sections",
+        "next_milestone_after_protocol"
+      ],
+      "properties": {
+        "automatic_winner_allowed": {
+          "type": "boolean"
+        },
+        "required_sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "next_milestone_after_protocol": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "prohibitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification_transition_ratified",
+        "arm_o_2026_extension_allowed",
+        "backtest_execution_claim_allowed",
+        "model_training_allowed",
+        "arm_l_use_allowed",
+        "shadow_production_allowed",
+        "research_release_allowed",
+        "monetary_use_allowed"
+      ],
+      "properties": {
+        "classification_transition_ratified": {
+          "type": "boolean"
+        },
+        "arm_o_2026_extension_allowed": {
+          "type": "boolean"
+        },
+        "backtest_execution_claim_allowed": {
+          "type": "boolean"
+        },
+        "model_training_allowed": {
+          "type": "boolean"
+        },
+        "arm_l_use_allowed": {
+          "type": "boolean"
+        },
+        "shadow_production_allowed": {
+          "type": "boolean"
+        },
+        "research_release_allowed": {
+          "type": "boolean"
+        },
+        "monetary_use_allowed": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

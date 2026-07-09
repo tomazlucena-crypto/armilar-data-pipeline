@@ -1,0 +1,232 @@
+{
+  "mapping_id": "ARMILAR_ECOICOP_V1_V2_MAPPING_CANDIDATES_V0103",
+  "mapping_version": "0.10.3",
+  "source_classification": "ECOICOP_V1_PRE_2026",
+  "target_classification": "ECOICOP_V2_FROM_2026",
+  "grain": "DIVISION_WITH_ITEM_LEVEL_PROOF_REQUIRED",
+  "allowed_states": [
+    "EXACT_EQUIVALENCE",
+    "DETERMINISTIC_AGGREGATION",
+    "SPLIT_REQUIRES_EVIDENCE",
+    "MATERIAL_RECLASSIFICATION",
+    "NO_VALID_AUTOMATIC_MAPPING"
+  ],
+  "state_semantics": {
+    "EXACT_EQUIVALENCE": "May be used only after the official item-level correspondence proves identical scope and the index and weight reconciliation tests pass.",
+    "DETERMINISTIC_AGGREGATION": "A reproducible item-level correspondence may produce the target division without discretionary allocation, subject to weight and price-relative reconciliation.",
+    "SPLIT_REQUIRES_EVIDENCE": "A legacy division contributes to more than one replacement division and requires observed item-level weights or another constitutionally ratified allocation rule.",
+    "MATERIAL_RECLASSIFICATION": "The division boundary or content changed materially; same-code matching is invalid and a detailed bridge plus empirical test is required.",
+    "NO_VALID_AUTOMATIC_MAPPING": "No evidence-backed automatic relationship is available; the cell remains unresolved until an explicit decision or new evidence exists."
+  },
+  "rows": [
+    {
+      "mapping_key": "CP01_TO_CP01",
+      "legacy_codes": [
+        "CP01"
+      ],
+      "replacement_code": "CP01",
+      "state": "DETERMINISTIC_AGGREGATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "WEIGHT_PRESERVATION",
+        "PRICE_RELATIVE_RECONCILIATION"
+      ],
+      "reason": "The division code persists, but item-level correspondence and reconciliation are required before any equivalence claim."
+    },
+    {
+      "mapping_key": "CP02_TO_CP02",
+      "legacy_codes": [
+        "CP02"
+      ],
+      "replacement_code": "CP02",
+      "state": "DETERMINISTIC_AGGREGATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "WEIGHT_PRESERVATION",
+        "PRICE_RELATIVE_RECONCILIATION"
+      ],
+      "reason": "The division code persists, but item-level correspondence and reconciliation are required before any equivalence claim."
+    },
+    {
+      "mapping_key": "CP03_TO_CP03",
+      "legacy_codes": [
+        "CP03"
+      ],
+      "replacement_code": "CP03",
+      "state": "DETERMINISTIC_AGGREGATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "WEIGHT_PRESERVATION",
+        "PRICE_RELATIVE_RECONCILIATION"
+      ],
+      "reason": "The division code persists, but item-level correspondence and reconciliation are required before any equivalence claim."
+    },
+    {
+      "mapping_key": "CP04_TO_CP04",
+      "legacy_codes": [
+        "CP04"
+      ],
+      "replacement_code": "CP04",
+      "state": "DETERMINISTIC_AGGREGATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "WEIGHT_PRESERVATION",
+        "PRICE_RELATIVE_RECONCILIATION"
+      ],
+      "reason": "The division code persists, but item-level correspondence and reconciliation are required before any equivalence claim."
+    },
+    {
+      "mapping_key": "CP05_TO_CP05",
+      "legacy_codes": [
+        "CP05"
+      ],
+      "replacement_code": "CP05",
+      "state": "DETERMINISTIC_AGGREGATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "WEIGHT_PRESERVATION",
+        "PRICE_RELATIVE_RECONCILIATION"
+      ],
+      "reason": "The division code persists, but item-level correspondence and reconciliation are required before any equivalence claim."
+    },
+    {
+      "mapping_key": "CP06_TO_CP06",
+      "legacy_codes": [
+        "CP06"
+      ],
+      "replacement_code": "CP06",
+      "state": "DETERMINISTIC_AGGREGATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "WEIGHT_PRESERVATION",
+        "PRICE_RELATIVE_RECONCILIATION"
+      ],
+      "reason": "The division code persists, but item-level correspondence and reconciliation are required before any equivalence claim."
+    },
+    {
+      "mapping_key": "CP07_TO_CP07",
+      "legacy_codes": [
+        "CP07"
+      ],
+      "replacement_code": "CP07",
+      "state": "MATERIAL_RECLASSIFICATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "ORIGINAL_AND_RECONSTRUCTED_WEIGHTS",
+        "PRICE_RELATIVE_RECONCILIATION",
+        "PRODUCT_SCOPE_AUDIT"
+      ],
+      "reason": "ECOICOP v2 transport explicitly adds transport of goods and delivery fees, changing the division boundary."
+    },
+    {
+      "mapping_key": "CP08_TO_CP08",
+      "legacy_codes": [
+        "CP08"
+      ],
+      "replacement_code": "CP08",
+      "state": "MATERIAL_RECLASSIFICATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "ORIGINAL_AND_RECONSTRUCTED_WEIGHTS",
+        "PRICE_RELATIVE_RECONCILIATION",
+        "PRODUCT_SCOPE_AUDIT"
+      ],
+      "reason": "Eurostat identifies division 08 as extensively revised."
+    },
+    {
+      "mapping_key": "CP09_TO_CP09",
+      "legacy_codes": [
+        "CP09"
+      ],
+      "replacement_code": "CP09",
+      "state": "MATERIAL_RECLASSIFICATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "ORIGINAL_AND_RECONSTRUCTED_WEIGHTS",
+        "PRICE_RELATIVE_RECONCILIATION",
+        "PRODUCT_SCOPE_AUDIT"
+      ],
+      "reason": "Eurostat identifies division 09 as extensively revised and HICP product coverage adds games of chance from 2026."
+    },
+    {
+      "mapping_key": "CP10_TO_CP10",
+      "legacy_codes": [
+        "CP10"
+      ],
+      "replacement_code": "CP10",
+      "state": "DETERMINISTIC_AGGREGATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "WEIGHT_PRESERVATION",
+        "PRICE_RELATIVE_RECONCILIATION"
+      ],
+      "reason": "The division code persists, but item-level correspondence and reconciliation are required before any equivalence claim."
+    },
+    {
+      "mapping_key": "CP11_TO_CP11",
+      "legacy_codes": [
+        "CP11"
+      ],
+      "replacement_code": "CP11",
+      "state": "DETERMINISTIC_AGGREGATION",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "WEIGHT_PRESERVATION",
+        "PRICE_RELATIVE_RECONCILIATION"
+      ],
+      "reason": "The division code persists, but item-level correspondence and reconciliation are required before any equivalence claim."
+    },
+    {
+      "mapping_key": "CP12_TO_CP12",
+      "legacy_codes": [
+        "CP12"
+      ],
+      "replacement_code": "CP12",
+      "state": "SPLIT_REQUIRES_EVIDENCE",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "ORIGINAL_AND_RECONSTRUCTED_WEIGHTS",
+        "LEGACY_CP12_RECONCILIATION",
+        "CONSTITUTIONAL_TREATMENT_OF_CP13"
+      ],
+      "reason": "Legacy CP12 is divided across replacement CP12 and CP13; observed item-level weights and indices are required to preserve the legacy boundary."
+    },
+    {
+      "mapping_key": "CP12_TO_CP13",
+      "legacy_codes": [
+        "CP12"
+      ],
+      "replacement_code": "CP13",
+      "state": "SPLIT_REQUIRES_EVIDENCE",
+      "automatic_use_allowed": false,
+      "evidence_required": [
+        "OFFICIAL_ITEM_LEVEL_CORRESPONDENCE",
+        "ORIGINAL_AND_RECONSTRUCTED_WEIGHTS",
+        "LEGACY_CP12_RECONCILIATION",
+        "CONSTITUTIONAL_TREATMENT_OF_CP13"
+      ],
+      "reason": "Replacement CP13 has no standalone legacy division and receives content formerly included in legacy CP12; it cannot be dropped or allocated automatically."
+    }
+  ],
+  "global_rules": {
+    "same_code_is_not_proof": true,
+    "item_level_correspondence_required": true,
+    "weight_preservation_required": true,
+    "price_relative_reconciliation_required": true,
+    "automatic_use_allowed": false,
+    "cp13_drop_allowed": false,
+    "silent_category_expansion_allowed": false
+  }
+}

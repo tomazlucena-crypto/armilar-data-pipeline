@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://armilar.invalid/schemas/ecoicop_v1_v2_mapping_candidates_v0103.schema.json",
+  "title": "ARMILAR ECOICOP v1-v2 mapping candidates v0.10.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mapping_id",
+    "mapping_version",
+    "source_classification",
+    "target_classification",
+    "grain",
+    "allowed_states",
+    "state_semantics",
+    "rows",
+    "global_rules"
+  ],
+  "properties": {
+    "mapping_id": {
+      "const": "ARMILAR_ECOICOP_V1_V2_MAPPING_CANDIDATES_V0103"
+    },
+    "mapping_version": {
+      "const": "0.10.3"
+    },
+    "source_classification": {
+      "const": "ECOICOP_V1_PRE_2026"
+    },
+    "target_classification": {
+      "const": "ECOICOP_V2_FROM_2026"
+    },
+    "grain": {
+      "const": "DIVISION_WITH_ITEM_LEVEL_PROOF_REQUIRED"
+    },
+    "allowed_states": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "EXACT_EQUIVALENCE",
+          "DETERMINISTIC_AGGREGATION",
+          "SPLIT_REQUIRES_EVIDENCE",
+          "MATERIAL_RECLASSIFICATION",
+          "NO_VALID_AUTOMATIC_MAPPING"
+        ]
+      }
+    },
+    "state_semantics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "EXACT_EQUIVALENCE",
+        "DETERMINISTIC_AGGREGATION",
+        "SPLIT_REQUIRES_EVIDENCE",
+        "MATERIAL_RECLASSIFICATION",
+        "NO_VALID_AUTOMATIC_MAPPING"
+      ],
+      "properties": {
+        "EXACT_EQUIVALENCE": {
+          "type": "string",
+          "minLength": 1
+        },
+        "DETERMINISTIC_AGGREGATION": {
+          "type": "string",
+          "minLength": 1
+        },
+        "SPLIT_REQUIRES_EVIDENCE": {
+          "type": "string",
+          "minLength": 1
+        },
+        "MATERIAL_RECLASSIFICATION": {
+          "type": "string",
+          "minLength": 1
+        },
+        "NO_VALID_AUTOMATIC_MAPPING": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mapping_key",
+          "legacy_codes",
+          "replacement_code",
+          "state",
+          "automatic_use_allowed",
+          "evidence_required",
+          "reason"
+        ],
+        "properties": {
+          "mapping_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "legacy_codes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^CP(0[1-9]|1[0-2])$"
+            },
+            "uniqueItems": true
+          },
+          "replacement_code": {
+            "type": "string",
+            "pattern": "^CP(0[1-9]|1[0-3])$"
+          },
+          "state": {
+            "enum": [
+              "EXACT_EQUIVALENCE",
+              "DETERMINISTIC_AGGREGATION",
+              "SPLIT_REQUIRES_EVIDENCE",
+              "MATERIAL_RECLASSIFICATION",
+              "NO_VALID_AUTOMATIC_MAPPING"
+            ]
+          },
+          "automatic_use_allowed": {
+            "type": "boolean"
+          },
+          "evidence_required": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "global_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "same_code_is_not_proof",
+        "item_level_correspondence_required",
+        "weight_preservation_required",
+        "price_relative_reconciliation_required",
+        "automatic_use_allowed",
+        "cp13_drop_allowed",
+        "silent_category_expansion_allowed"
+      ],
+      "properties": {
+        "same_code_is_not_proof": {
+          "type": "boolean"
+        },
+        "item_level_correspondence_required": {
+          "type": "boolean"
+        },
+        "weight_preservation_required": {
+          "type": "boolean"
+        },
+        "price_relative_reconciliation_required": {
+          "type": "boolean"
+        },
+        "automatic_use_allowed": {
+          "type": "boolean"
+        },
+        "cp13_drop_allowed": {
+          "type": "boolean"
+        },
+        "silent_category_expansion_allowed": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
