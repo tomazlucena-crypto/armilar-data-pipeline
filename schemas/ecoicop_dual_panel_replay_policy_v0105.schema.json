@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "gates": {
+      "additionalProperties": {
+        "const": false
+      },
+      "type": "object"
+    },
+    "policy_id": {
+      "const": "ARMILAR_ECOICOP_DUAL_PANEL_REPLAY_V0105"
+    },
+    "policy_version": {
+      "const": "0.10.5"
+    },
+    "predecessor_status": {
+      "const": "ECOICOP_V1_V2_DUAL_PANEL_ACQUISITION_CONTRACT_V0104_VALID"
+    },
+    "required_artifact_files": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 6,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "ECOICOP_V1_V2_DUAL_PANEL_REPLAY_VERIFIER_V0105_VALID"
+    }
+  },
+  "required": [
+    "policy_id",
+    "policy_version",
+    "status",
+    "predecessor_status",
+    "predecessor_policy",
+    "scope",
+    "artifact_boundary",
+    "required_artifact_files",
+    "raw_receipts_contract",
+    "normalised_observations_contract",
+    "coverage_contract",
+    "lineage_contract",
+    "panel_summary_contract",
+    "gates",
+    "next_milestone"
+  ],
+  "title": "ARMILAR ECOICOP dual-panel replay policy v0.10.5",
+  "type": "object"
+}
