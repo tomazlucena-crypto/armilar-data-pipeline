@@ -1,0 +1,146 @@
+{
+  "artifact_boundary": {
+    "artifact_may_be_generated_by_non_pr_live_run": true,
+    "artifact_must_be_replayable_without_network": true,
+    "external_artifact_required_for_panel_verification": true,
+    "official_bytes_committed_in_code_pr": false,
+    "public_latest_modification_allowed": false,
+    "raw_bytes_never_overwritten": true
+  },
+  "coverage_contract": {
+    "allowed_statuses": [
+      "OBSERVED",
+      "MISSING",
+      "QUARANTINED"
+    ],
+    "minimum_missing_coverage_policy": "MISSING_MUST_BE_EXPLICIT_NOT_IMPUTED",
+    "required_fields": [
+      "coverage_id",
+      "economy",
+      "armilar_code",
+      "classification",
+      "category_or_division",
+      "period",
+      "dataset_role",
+      "coverage_status",
+      "observation_id"
+    ]
+  },
+  "gates": {
+    "arm_o_2026_extension_allowed": false,
+    "backtest_execution_claim_allowed": false,
+    "classification_transition_ratified": false,
+    "ecoicop_v1_v2_dual_panel_verified": false,
+    "model_training_allowed": false,
+    "monetary_use_allowed": false,
+    "research_release_allowed": false
+  },
+  "lineage_contract": {
+    "may_rewrite_history_allowed_values": [
+      "false"
+    ],
+    "required_fields": [
+      "lineage_id",
+      "observation_id",
+      "receipt_id",
+      "transformation_step",
+      "input_sha256",
+      "output_sha256",
+      "may_rewrite_history"
+    ]
+  },
+  "next_milestone": "V0106_MATERIALIZE_AND_VERIFY_EXTERNAL_DUAL_PANEL_BEFORE_BACKTEST",
+  "normalised_observations_contract": {
+    "allowed_quality_statuses": [
+      "OBSERVED_OFFICIAL",
+      "MISSING",
+      "QUARANTINED"
+    ],
+    "forbidden_fields": [
+      "transition_strategy",
+      "selected_strategy",
+      "arm_o_2026_value",
+      "monetary_value",
+      "research_release_allowed"
+    ],
+    "required_fields": [
+      "observation_id",
+      "receipt_id",
+      "dataset_role",
+      "economy",
+      "armilar_code",
+      "classification",
+      "category_or_division",
+      "period",
+      "unit",
+      "value",
+      "source_period_type",
+      "parser_version",
+      "quality_status"
+    ]
+  },
+  "panel_summary_contract": {
+    "contract_only_status": "ECOICOP_V1_V2_DUAL_PANEL_REPLAY_VERIFIER_V0105_VALID",
+    "required_fields": [
+      "status",
+      "policy_version",
+      "created_at",
+      "policy_sha256",
+      "predecessor_status",
+      "external_artifact",
+      "receipt_count",
+      "observation_count",
+      "coverage_row_count",
+      "lineage_row_count",
+      "live_2026_observation_count",
+      "panel_verified_gate_open",
+      "transition_backtest_executed",
+      "selected_strategy"
+    ],
+    "required_status_for_real_panel": "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ARTIFACT_REPLAY_VALID"
+  },
+  "policy_id": "ARMILAR_ECOICOP_DUAL_PANEL_REPLAY_V0105",
+  "policy_version": "0.10.5",
+  "predecessor_policy": "config/ecoicop_dual_panel_v0104.json",
+  "predecessor_status": "ECOICOP_V1_V2_DUAL_PANEL_ACQUISITION_CONTRACT_V0104_VALID",
+  "raw_receipts_contract": {
+    "hash_algorithm": "sha256",
+    "minimum_required_for_real_panel_verification": 1,
+    "raw_path_semantics": "relative_to_external_artifact_root",
+    "required_fields": [
+      "receipt_id",
+      "dataset_role",
+      "provider",
+      "dataset_code",
+      "request_url",
+      "retrieved_at",
+      "http_status",
+      "raw_path",
+      "raw_sha256",
+      "byte_count",
+      "content_type",
+      "classification",
+      "time_window",
+      "query_fingerprint"
+    ]
+  },
+  "required_artifact_files": [
+    "PANEL_MANIFEST.sha256",
+    "panel_summary.json",
+    "raw_receipts.csv",
+    "normalised_observations.csv",
+    "dual_panel_coverage.csv",
+    "dual_panel_lineage.csv"
+  ],
+  "scope": {
+    "define_external_panel_replay_verifier": true,
+    "execute_transition_backtest": false,
+    "extend_arm_o_to_2026": false,
+    "materialize_committed_official_panel": false,
+    "publish_live_outputs_in_pr": false,
+    "ratify_classification_transition": false,
+    "select_transition_strategy": false,
+    "verify_committed_official_panel": false
+  },
+  "status": "ECOICOP_V1_V2_DUAL_PANEL_REPLAY_VERIFIER_V0105_VALID"
+}

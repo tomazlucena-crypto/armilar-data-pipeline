@@ -377,6 +377,57 @@
         "model training",
         "monetary release"
       ]
+    },
+    {
+      "contract_id": "V105-C01-ECOICOP-DUAL-PANEL-REPLAY-VERIFIER",
+      "milestone": "0.10.5",
+      "status": "COMPLETE",
+      "objective": "Define the offline replay verifier that a future external ECOICOP v1/v2 dual-panel artifact must satisfy before transition backtesting.",
+      "inputs": [
+        "config/ecoicop_dual_panel_v0104.json",
+        "v0.10.4 acquisition contract",
+        "future non-PR external dual-panel artifact"
+      ],
+      "outputs": [
+        "config/ecoicop_dual_panel_replay_v0105.json",
+        "src/armilar_backtest/ecoicop_dual_panel_replay_v0105.py",
+        "scripts/check_ecoicop_dual_panel_replay_v0105.py",
+        "tests/test_ecoicop_dual_panel_replay_v0105.py",
+        "docs/ECOICOP_DUAL_PANEL_REPLAY_V0105_CONTRACT.md"
+      ],
+      "invariants": [
+        "no official provider bytes committed in the code PR",
+        "no public/latest modification",
+        "no live 2026 observation accepted",
+        "no transition backtest executed",
+        "no transition strategy selected",
+        "all research and monetary gates remain false"
+      ],
+      "failure_states": [
+        "EXTERNAL_ARTIFACT_MANIFEST_MISMATCH",
+        "RAW_RECEIPT_HASH_MISMATCH",
+        "OBSERVATION_WITHOUT_RECEIPT",
+        "COVERAGE_WITHOUT_EXPLICIT_STATUS",
+        "LINEAGE_REWRITES_HISTORY",
+        "BACKTEST_PREMATURELY_EXECUTED"
+      ],
+      "success_condition": "The v0.10.5 checker validates the policy, v0.10.4 predecessor, reproducible contract scaffold and fixture-level external artifact replay rules.",
+      "stop_condition": "Stop after the replay verifier is defined and tested; do not acquire or commit official panel bytes and do not execute the transition backtest.",
+      "fallback_condition": "If a real panel cannot yet be acquired, keep the verified-panel gate closed and require a future external artifact to pass this verifier.",
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_dual_panel_replay_v0105.py",
+        "python scripts/check_ecoicop_dual_panel_replay_v0105.py --root .",
+        "python scripts/validate_development_contracts.py",
+        "git diff --name-only HEAD -- public/latest"
+      ],
+      "out_of_scope": [
+        "live Eurostat acquisition",
+        "official panel materialisation in PR",
+        "transition backtest execution",
+        "constitutional ratification",
+        "ARM-O 2026 extension",
+        "monetary use"
+      ]
     }
   ]
 }

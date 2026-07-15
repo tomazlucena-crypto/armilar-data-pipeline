@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "coverage_row_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "lineage_row_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "live_2026_observation_count": {
+      "const": 0
+    },
+    "observation_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "panel_verified_gate_open": {
+      "const": false
+    },
+    "policy_version": {
+      "const": "0.10.5"
+    },
+    "receipt_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "selected_strategy": {
+      "const": "NONE"
+    },
+    "status": {
+      "type": "string"
+    },
+    "transition_backtest_executed": {
+      "const": false
+    }
+  },
+  "required": [
+    "status",
+    "policy_version",
+    "created_at",
+    "policy_sha256",
+    "predecessor_status",
+    "external_artifact",
+    "receipt_count",
+    "observation_count",
+    "coverage_row_count",
+    "lineage_row_count",
+    "live_2026_observation_count",
+    "panel_verified_gate_open",
+    "transition_backtest_executed",
+    "selected_strategy"
+  ],
+  "title": "ARMILAR ECOICOP dual-panel replay summary v0.10.5",
+  "type": "object"
+}
