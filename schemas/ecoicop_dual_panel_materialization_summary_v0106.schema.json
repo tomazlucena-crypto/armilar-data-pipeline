@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "policy_version": {
+      "const": "0.10.6"
+    },
+    "status": {
+      "enum": [
+        "ECOICOP_V1_V2_DUAL_PANEL_MATERIALIZATION_RUNNER_V0106_VALID",
+        "ECOICOP_V1_V2_DUAL_PANEL_MATERIALIZED_ARTIFACT_REPLAY_VALID"
+      ]
+    }
+  },
+  "required": [
+    "status",
+    "policy_version",
+    "created_at",
+    "staging_receipt_count",
+    "materialized_receipt_count",
+    "materialized_observation_count",
+    "materialized_artifact_status",
+    "panel_verified_gate_open",
+    "transition_backtest_executed",
+    "selected_strategy"
+  ],
+  "title": "ARMILAR ECOICOP dual-panel materialization summary v0.10.6",
+  "type": "object"
+}
