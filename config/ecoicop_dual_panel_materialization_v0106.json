@@ -1,0 +1,103 @@
+{
+  "gates": {
+    "arm_o_2026_extension_allowed": false,
+    "backtest_execution_claim_allowed": false,
+    "classification_transition_ratified": false,
+    "ecoicop_v1_v2_dual_panel_verified": false,
+    "model_training_allowed": false,
+    "monetary_use_allowed": false,
+    "research_release_allowed": false
+  },
+  "materialized_artifact_contract": {
+    "forbidden_summary_values": {
+      "panel_verified_gate_open": true,
+      "transition_backtest_executed": true
+    },
+    "must_pass_replay_verifier_status": "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ARTIFACT_REPLAY_VALID",
+    "raw_output_directory": "raw",
+    "replay_policy_version": "0.10.5",
+    "required_manifest": "PANEL_MANIFEST.sha256",
+    "selected_strategy_must_equal": "NONE"
+  },
+  "next_milestone": "V0107_RUN_EXTERNAL_DUAL_PANEL_ACQUISITION_AND_ATTACH_VERIFIED_ARTIFACT",
+  "policy_id": "ARMILAR_ECOICOP_DUAL_PANEL_MATERIALIZATION_V0106",
+  "policy_version": "0.10.6",
+  "predecessor_policy": "config/ecoicop_dual_panel_replay_v0105.json",
+  "predecessor_status": "ECOICOP_V1_V2_DUAL_PANEL_REPLAY_VERIFIER_V0105_VALID",
+  "scope": {
+    "acquire_live_provider_bytes_in_pr": false,
+    "commit_official_bytes_in_pr": false,
+    "define_offline_materialization_runner": true,
+    "execute_transition_backtest": false,
+    "extend_arm_o_to_2026": false,
+    "materialize_from_staged_official_bytes": true,
+    "open_dual_panel_verified_gate": false,
+    "publish_live_outputs_in_pr": false,
+    "ratify_classification_transition": false,
+    "select_transition_strategy": false,
+    "verify_materialized_artifact_with_v0105_replay": true,
+    "verify_real_official_panel_in_pr": false
+  },
+  "staging_contract": {
+    "allowed_coverage_statuses": [
+      "OBSERVED",
+      "MISSING",
+      "QUARANTINED"
+    ],
+    "allowed_quality_statuses": [
+      "OBSERVED_OFFICIAL",
+      "MISSING",
+      "QUARANTINED"
+    ],
+    "raw_path_semantics": "relative_to_staging_root",
+    "required_files": [
+      "STAGING_MANIFEST.sha256",
+      "staged_receipts.csv",
+      "staged_observations.csv",
+      "staged_coverage.csv"
+    ],
+    "staged_coverage_required_fields": [
+      "coverage_id",
+      "economy",
+      "armilar_code",
+      "classification",
+      "category_or_division",
+      "period",
+      "dataset_role",
+      "coverage_status",
+      "staged_observation_id"
+    ],
+    "staged_observations_required_fields": [
+      "staged_observation_id",
+      "staged_receipt_id",
+      "dataset_role",
+      "economy",
+      "armilar_code",
+      "classification",
+      "category_or_division",
+      "period",
+      "unit",
+      "value",
+      "source_period_type",
+      "parser_version",
+      "quality_status"
+    ],
+    "staged_receipts_required_fields": [
+      "staged_receipt_id",
+      "dataset_role",
+      "provider",
+      "dataset_code",
+      "request_url",
+      "retrieved_at",
+      "http_status",
+      "raw_path",
+      "raw_sha256",
+      "byte_count",
+      "content_type",
+      "classification",
+      "time_window",
+      "query_fingerprint"
+    ]
+  },
+  "status": "ECOICOP_V1_V2_DUAL_PANEL_MATERIALIZATION_RUNNER_V0106_VALID"
+}

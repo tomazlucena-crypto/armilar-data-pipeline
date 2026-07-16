@@ -428,6 +428,58 @@
         "ARM-O 2026 extension",
         "monetary use"
       ]
+    },
+    {
+      "contract_id": "V106-C01-ECOICOP-DUAL-PANEL-MATERIALIZATION-RUNNER",
+      "milestone": "0.10.6",
+      "status": "COMPLETE",
+      "objective": "Define the offline runner that materializes a v0.10.5-compatible external ECOICOP v1/v2 dual-panel artifact from staged official bytes before any backtest.",
+      "inputs": [
+        "config/ecoicop_dual_panel_replay_v0105.json",
+        "v0.10.5 replay verifier",
+        "external staging directory with already acquired provider bytes and parsed rows"
+      ],
+      "outputs": [
+        "config/ecoicop_dual_panel_materialization_v0106.json",
+        "src/armilar_backtest/ecoicop_dual_panel_materialization_v0106.py",
+        "scripts/check_ecoicop_dual_panel_materialization_v0106.py",
+        "tests/test_ecoicop_dual_panel_materialization_v0106.py",
+        "docs/ECOICOP_DUAL_PANEL_MATERIALIZATION_V0106_CONTRACT.md"
+      ],
+      "invariants": [
+        "no live provider acquisition in the code PR",
+        "no official provider bytes committed in the repository",
+        "no public/latest modification",
+        "no live 2026 observation accepted before constitutional transition",
+        "no transition backtest executed",
+        "no transition strategy selected",
+        "all research and monetary gates remain false"
+      ],
+      "failure_states": [
+        "STAGING_MANIFEST_MISMATCH",
+        "RAW_RECEIPT_HASH_MISMATCH",
+        "OBSERVATION_WITHOUT_RECEIPT",
+        "COVERAGE_STATUS_INVALID",
+        "LIVE_2026_OBSERVATION_PREMATURE",
+        "MATERIALIZED_ARTIFACT_REPLAY_REJECTED"
+      ],
+      "success_condition": "The v0.10.6 checker validates the policy, v0.10.5 predecessor, staged fixture, deterministic materialization and v0.10.5 replay verification of the materialized artifact.",
+      "stop_condition": "Stop before live provider acquisition, real official panel verification, transition backtest execution, constitutional ratification or ARM-O 2026 extension.",
+      "fallback_condition": "If staged official bytes are unavailable, keep the materializer valid but do not claim the dual panel is verified.",
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_dual_panel_materialization_v0106.py",
+        "python scripts/check_ecoicop_dual_panel_materialization_v0106.py --root .",
+        "python scripts/validate_development_contracts.py",
+        "git diff --name-only HEAD -- public/latest"
+      ],
+      "out_of_scope": [
+        "live Eurostat acquisition",
+        "official byte commits",
+        "transition backtest execution",
+        "constitutional ratification",
+        "ARM-O 2026 extension",
+        "monetary use"
+      ]
     }
   ]
 }

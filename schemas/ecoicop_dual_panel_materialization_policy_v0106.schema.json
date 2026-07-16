@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "policy_version": {
+      "const": "0.10.6"
+    },
+    "status": {
+      "const": "ECOICOP_V1_V2_DUAL_PANEL_MATERIALIZATION_RUNNER_V0106_VALID"
+    }
+  },
+  "required": [
+    "policy_id",
+    "policy_version",
+    "status",
+    "predecessor_status",
+    "scope",
+    "staging_contract",
+    "materialized_artifact_contract",
+    "gates",
+    "next_milestone"
+  ],
+  "title": "ARMILAR ECOICOP dual-panel materialization policy v0.10.6",
+  "type": "object"
+}
