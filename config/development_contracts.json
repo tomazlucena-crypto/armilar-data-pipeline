@@ -535,6 +535,50 @@
         "ARM-O 2026 extension",
         "monetary use"
       ]
+    },
+    {
+      "contract_id": "V108-C01-ECOICOP-TRANSITION-BACKTEST-RUNNER",
+      "milestone": "0.10.8",
+      "status": "COMPLETE",
+      "objective": "Define the fail-closed ECOICOP v1/v2 transition backtest runner without executing the empirical backtest in the PR.",
+      "inputs": [
+        "v0.10.7 external attachment protocol",
+        "v0.10.3 transition backtest protocol",
+        "external attachment supplied outside repository"
+      ],
+      "outputs": [
+        "config/ecoicop_transition_backtest_runner_v0108.json",
+        "readiness report contract",
+        "checker and tests"
+      ],
+      "invariants": [
+        "no live acquisition",
+        "no official bytes committed",
+        "no public/latest modification",
+        "no strategy selection",
+        "all gates remain closed"
+      ],
+      "failure_states": [
+        "ATTACHMENT_MISSING",
+        "ATTACHMENT_REPLAY_INVALID",
+        "STRATEGY_SELECTED",
+        "BACKTEST_EXECUTION_CLAIMED",
+        "PUBLIC_LATEST_MODIFIED"
+      ],
+      "success_condition": "The runner validates the predecessor, candidate strategies, metrics and a fixture attachment readiness report while keeping execution gates closed.",
+      "stop_condition": "Stop after the runner contract and readiness verifier pass; do not run the empirical transition backtest in this milestone.",
+      "fallback_condition": "If no verified external attachment is available, fail closed and keep the next milestone blocked.",
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_transition_backtest_v0108.py",
+        "python scripts/check_ecoicop_transition_backtest_v0108.py --root ."
+      ],
+      "out_of_scope": [
+        "live data acquisition",
+        "official byte commits",
+        "empirical backtest result publication",
+        "constitutional ratification",
+        "ARM-O 2026 extension"
+      ]
     }
   ]
 }
