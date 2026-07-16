@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARMILAR ECOICOP dual-panel external attachment summary v0.10.7",
+  "type": "object",
+  "required": [
+    "attachment_status",
+    "policy_version",
+    "created_at",
+    "repository_commit",
+    "artifact_uri",
+    "artifact_manifest_sha256",
+    "artifact_manifest_entry_count",
+    "artifact_replay_status",
+    "official_bytes_committed_to_repository",
+    "public_latest_modified",
+    "transition_backtest_executed",
+    "selected_strategy",
+    "panel_verified_gate_open"
+  ],
+  "properties": {
+    "policy_version": {"const": "0.10.7"},
+    "attachment_status": {
+      "enum": [
+        "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ARTIFACT_ATTACHMENT_V0107_VALID",
+        "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ATTACHMENT_PROTOCOL_V0107_VALID"
+      ]
+    },
+    "artifact_replay_status": {"const": "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ARTIFACT_REPLAY_VALID"},
+    "official_bytes_committed_to_repository": {"const": false},
+    "public_latest_modified": {"const": false},
+    "transition_backtest_executed": {"const": false},
+    "selected_strategy": {"const": "NONE"},
+    "panel_verified_gate_open": {"const": false}
+  },
+  "additionalProperties": true
+}

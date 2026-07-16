@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARMILAR ECOICOP dual-panel external attachment policy v0.10.7",
+  "type": "object",
+  "required": [
+    "policy_id",
+    "policy_version",
+    "status",
+    "predecessor_status",
+    "predecessor_policy",
+    "scope",
+    "attachment_contract",
+    "gates",
+    "next_milestone"
+  ],
+  "properties": {
+    "policy_version": {"const": "0.10.7"},
+    "status": {"const": "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ATTACHMENT_PROTOCOL_V0107_VALID"},
+    "predecessor_status": {"const": "ECOICOP_V1_V2_DUAL_PANEL_MATERIALIZATION_RUNNER_V0106_VALID"},
+    "scope": {"type": "object"},
+    "attachment_contract": {"type": "object"},
+    "gates": {"type": "object"},
+    "next_milestone": {"const": "V0108_EXECUTE_ECOICOP_TRANSITION_BACKTEST_WITH_VERIFIED_DUAL_PANEL"}
+  },
+  "additionalProperties": true
+}

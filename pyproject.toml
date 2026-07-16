@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "armilar-data-pipeline"
-version = "0.10.6"
+version = "0.10.7"
 description = "Auditable acquisition and construction pipeline for the ICP 2021 Armilar weight matrix"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -48,6 +48,7 @@ armilar-ecoicop-v2-backtest-v0103 = "armilar_backtest.ecoicop_v2_backtest_v0103:
 armilar-ecoicop-dual-panel-v0104 = "armilar_backtest.ecoicop_dual_panel_v0104:main"
 armilar-ecoicop-dual-panel-replay-v0105 = "armilar_backtest.ecoicop_dual_panel_replay_v0105:main"
 armilar-ecoicop-dual-panel-materialize-v0106 = "armilar_backtest.ecoicop_dual_panel_materialization_v0106:main"
+armilar-ecoicop-dual-panel-attach-v0107 = "armilar_backtest.ecoicop_dual_panel_attachment_v0107:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

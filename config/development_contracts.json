@@ -480,6 +480,61 @@
         "ARM-O 2026 extension",
         "monetary use"
       ]
+    },
+    {
+      "contract_id": "V107-C01-ECOICOP-DUAL-PANEL-EXTERNAL-ATTACHMENT",
+      "milestone": "0.10.7",
+      "status": "COMPLETE",
+      "objective": "Define the external attachment protocol for a materialized ECOICOP v1/v2 dual-panel artifact before transition backtest execution.",
+      "inputs": [
+        "config/ecoicop_dual_panel_materialization_v0106.json",
+        "v0.10.6 materialization runner",
+        "v0.10.5 replay verifier",
+        "external materialized panel artifact with PANEL_MANIFEST.sha256"
+      ],
+      "outputs": [
+        "config/ecoicop_dual_panel_attachment_v0107.json",
+        "src/armilar_backtest/ecoicop_dual_panel_attachment_v0107.py",
+        "scripts/check_ecoicop_dual_panel_attachment_v0107.py",
+        "tests/test_ecoicop_dual_panel_attachment_v0107.py",
+        "docs/ECOICOP_DUAL_PANEL_ATTACHMENT_V0107_CONTRACT.md"
+      ],
+      "invariants": [
+        "no live provider acquisition in the code PR",
+        "no official provider bytes committed in the repository",
+        "no public/latest modification",
+        "materialized artifact must pass v0.10.5 replay verification before attachment",
+        "no transition backtest executed",
+        "no transition strategy selected",
+        "all research and monetary gates remain false"
+      ],
+      "failure_states": [
+        "ATTACHMENT_MANIFEST_MISMATCH",
+        "MATERIALIZED_ARTIFACT_MANIFEST_MISMATCH",
+        "ARTIFACT_REPLAY_REJECTED",
+        "OFFICIAL_BYTES_COMMITTED_CLAIMED",
+        "PUBLIC_LATEST_MODIFIED_CLAIMED",
+        "BACKTEST_PREMATURELY_EXECUTED",
+        "TRANSITION_STRATEGY_SELECTED",
+        "GATE_OPENED"
+      ],
+      "success_condition": "The v0.10.7 checker validates the policy, v0.10.6 predecessor, fixture materialized artifact replay, and deterministic non-committed attachment descriptor.",
+      "stop_condition": "Stop before transition backtest execution, constitutional ratification, ARM-O 2026 extension or verified-panel gate opening.",
+      "fallback_condition": "If an external panel artifact is not available, keep the attachment protocol valid but do not claim the dual panel is verified.",
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_dual_panel_attachment_v0107.py",
+        "python scripts/check_ecoicop_dual_panel_attachment_v0107.py --root .",
+        "python scripts/validate_development_contracts.py",
+        "git diff --name-only HEAD -- public/latest"
+      ],
+      "out_of_scope": [
+        "live Eurostat acquisition",
+        "official byte commits",
+        "transition backtest execution",
+        "constitutional ratification",
+        "ARM-O 2026 extension",
+        "monetary use"
+      ]
     }
   ]
 }
