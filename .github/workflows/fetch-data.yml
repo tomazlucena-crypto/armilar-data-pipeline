@@ -46,8 +46,8 @@ jobs:
       - name: Run unit tests
         run: python -m pytest -q
 
-      - name: Validate v0.10.7 ECOICOP dual-panel external attachment protocol
-        run: python scripts/check_ecoicop_dual_panel_attachment_v0107.py --root .
+      - name: Validate v0.10.8 ECOICOP transition backtest runner
+        run: python scripts/check_ecoicop_transition_backtest_v0108.py --root .
 
       - name: Validate Research Core ratification
         run: python scripts/check_research_core_ratification.py --root .
