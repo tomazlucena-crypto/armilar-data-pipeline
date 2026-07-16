@@ -1,0 +1,61 @@
+{
+  "policy_id": "ARMILAR_ECOICOP_DUAL_PANEL_EXTERNAL_ATTACHMENT_V0107",
+  "policy_version": "0.10.7",
+  "status": "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ATTACHMENT_PROTOCOL_V0107_VALID",
+  "predecessor_status": "ECOICOP_V1_V2_DUAL_PANEL_MATERIALIZATION_RUNNER_V0106_VALID",
+  "predecessor_policy": "config/ecoicop_dual_panel_materialization_v0106.json",
+  "scope": {
+    "define_external_attachment_protocol": true,
+    "verify_materialized_artifact_with_v0105_replay": true,
+    "generate_non_committed_attachment_descriptor": true,
+    "record_artifact_manifest_hash": true,
+    "acquire_live_provider_bytes_in_pr": false,
+    "commit_official_bytes_in_pr": false,
+    "publish_live_outputs_in_pr": false,
+    "open_dual_panel_verified_gate": false,
+    "execute_transition_backtest": false,
+    "select_transition_strategy": false,
+    "ratify_classification_transition": false,
+    "extend_arm_o_to_2026": false
+  },
+  "attachment_contract": {
+    "required_manifest": "ATTACHMENT_MANIFEST.sha256",
+    "descriptor_file": "panel_attachment_descriptor.json",
+    "artifact_manifest_name": "PANEL_MANIFEST.sha256",
+    "artifact_summary_name": "panel_summary.json",
+    "artifact_bytes_semantics": "external_to_repository_or_ci_artifact",
+    "required_descriptor_fields": [
+      "attachment_status",
+      "policy_version",
+      "created_at",
+      "repository_commit",
+      "artifact_uri",
+      "artifact_manifest_sha256",
+      "artifact_manifest_entry_count",
+      "artifact_summary_sha256",
+      "artifact_replay_status",
+      "materialization_policy_sha256",
+      "replay_policy_sha256",
+      "official_bytes_committed_to_repository",
+      "public_latest_modified",
+      "transition_backtest_executed",
+      "selected_strategy",
+      "panel_verified_gate_open"
+    ],
+    "required_artifact_replay_status": "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ARTIFACT_REPLAY_VALID",
+    "required_attachment_status": "ECOICOP_V1_V2_DUAL_PANEL_EXTERNAL_ARTIFACT_ATTACHMENT_V0107_VALID",
+    "selected_strategy_must_equal": "NONE",
+    "official_bytes_committed_to_repository_must_equal": false,
+    "public_latest_modified_must_equal": false
+  },
+  "gates": {
+    "ecoicop_v1_v2_dual_panel_verified": false,
+    "classification_transition_ratified": false,
+    "arm_o_2026_extension_allowed": false,
+    "backtest_execution_claim_allowed": false,
+    "model_training_allowed": false,
+    "research_release_allowed": false,
+    "monetary_use_allowed": false
+  },
+  "next_milestone": "V0108_EXECUTE_ECOICOP_TRANSITION_BACKTEST_WITH_VERIFIED_DUAL_PANEL"
+}
