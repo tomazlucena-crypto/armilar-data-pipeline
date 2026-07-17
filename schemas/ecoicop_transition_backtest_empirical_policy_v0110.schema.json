@@ -1,0 +1,42 @@
+{
+  "$id": "https://armilar.local/schemas/ecoicop_transition_backtest_empirical_policy_v0110.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "empirical_gate_contract": {
+      "type": "object"
+    },
+    "gates": {
+      "type": "object"
+    },
+    "next_milestone": {
+      "const": "V0111_ACQUIRE_OR_ATTACH_REAL_EXTERNAL_DUAL_PANEL_FOR_EMPIRICAL_RUN"
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "policy_version": {
+      "const": "0.11.0"
+    },
+    "predecessor_status": {
+      "const": "ECOICOP_V2_TRANSITION_BACKTEST_EXECUTION_ENGINE_V0109_VALID"
+    },
+    "scope": {
+      "type": "object"
+    },
+    "status": {
+      "const": "ECOICOP_V2_TRANSITION_BACKTEST_EMPIRICAL_GATE_V0110_VALID"
+    }
+  },
+  "required": [
+    "policy_id",
+    "policy_version",
+    "status",
+    "predecessor_status",
+    "scope",
+    "empirical_gate_contract",
+    "gates",
+    "next_milestone"
+  ],
+  "type": "object"
+}

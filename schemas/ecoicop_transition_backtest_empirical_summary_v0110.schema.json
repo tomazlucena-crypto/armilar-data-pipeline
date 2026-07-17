@@ -1,0 +1,37 @@
+{
+  "$id": "https://armilar.local/schemas/ecoicop_transition_backtest_empirical_summary_v0110.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "backtest_execution_claim_allowed": {
+      "const": false
+    },
+    "blocking_reason": {
+      "const": "EXTERNAL_VERIFIED_PANEL_AND_EMPIRICAL_RESULT_NOT_ATTACHED"
+    },
+    "empirical_transition_backtest_executed": {
+      "const": false
+    },
+    "policy_version": {
+      "const": "0.11.0"
+    },
+    "preflight_status": {
+      "enum": [
+        "ECOICOP_V2_TRANSITION_BACKTEST_EMPIRICAL_GATE_V0110_VALID",
+        "ECOICOP_V2_TRANSITION_BACKTEST_EMPIRICAL_PREFLIGHT_REPORT_V0110_VALID"
+      ]
+    },
+    "selected_strategy": {
+      "const": "NONE"
+    }
+  },
+  "required": [
+    "preflight_status",
+    "policy_version",
+    "empirical_transition_backtest_executed",
+    "backtest_execution_claim_allowed",
+    "selected_strategy",
+    "blocking_reason"
+  ],
+  "type": "object"
+}

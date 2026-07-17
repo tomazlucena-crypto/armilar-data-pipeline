@@ -1,13 +1,664 @@
 {
-  "schema_version": "1.0",
-  "roadmap_version": "v0.8.6-to-v1.0.0",
-  "reviewed_on": "2026-07-09",
   "allowed_statuses": [
     "PLANNED",
     "IN_PROGRESS",
     "COMPLETE",
     "BLOCKED",
     "DEFERRED"
+  ],
+  "contracts": [
+    {
+      "acceptance_tests": [
+        "python scripts/validate_development_contracts.py",
+        "python -m unittest discover -s tests -p test_development_contracts.py -v"
+      ],
+      "contract_id": "V086-C01-CONTRACTS-AND-ROADMAP",
+      "failure_states": [
+        "CONTRACT_FIELD_MISSING",
+        "DUPLICATE_CONTRACT_ID",
+        "UNBOUNDED_SCOPE",
+        "RELEASE_GATE_WEAKENED"
+      ],
+      "fallback_condition": "If an existing file conflicts with a ratified constitutional rule, preserve the constitutional rule and record the conflict in the decision log.",
+      "inputs": [
+        "main at v0.8.5",
+        "existing methodology documents",
+        "existing component registry"
+      ],
+      "invariants": [
+        "no economic methodology change",
+        "research_release_allowed remains false",
+        "monetary_release_allowed remains false",
+        "no public/latest modification"
+      ],
+      "milestone": "0.8.6",
+      "objective": "Ratify bounded development contracts and the vertical roadmap before further material implementation.",
+      "out_of_scope": [
+        "version code changes",
+        "SDMX live requests",
+        "Hypothesis properties",
+        "telemetry generation",
+        "country adapters"
+      ],
+      "outputs": [
+        "docs/ROADMAP_V0.8.6_TO_V1.0.md",
+        "docs/DEVELOPMENT_CONTRACT_STANDARD.md",
+        "config/development_contracts.json",
+        "docs/DECISION_LOG.md"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after contract, roadmap and reuse-governance files are complete; do not implement SDMX, versioning or telemetry in this pull request.",
+      "success_condition": "The contract validator and its unit tests pass and the roadmap supersedes stale next-action guidance."
+    },
+    {
+      "acceptance_tests": [
+        "full unit suite",
+        "deliberate divergence test",
+        "wheel or editable-install metadata test"
+      ],
+      "contract_id": "V086-C02-VERSION-SOURCE-OF-TRUTH",
+      "failure_states": [
+        "PACKAGE_NOT_INSTALLED",
+        "VERSION_DIVERGENCE",
+        "UNDECLARED_VERSION_LITERAL"
+      ],
+      "fallback_condition": "In an uninstalled source checkout, report 0+unknown only for diagnostic display and never for release artefacts.",
+      "inputs": [
+        "pyproject.toml",
+        "installed package metadata",
+        "version-bearing configs and generated reports"
+      ],
+      "invariants": [
+        "no manually maintained second version constant",
+        "generated reports identify the installed version",
+        "release flags are unaffected"
+      ],
+      "milestone": "0.8.6",
+      "objective": "Make pyproject.toml the sole authored project version and fail CI on divergent generated values.",
+      "out_of_scope": [
+        "semantic version redesign",
+        "release publication",
+        "branch renaming"
+      ],
+      "outputs": [
+        "importlib.metadata version helper",
+        "version consistency check",
+        "CI gate"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after version derivation and consistency tests pass; do not bump to 0.8.6 until every v0.8.6 gate is complete.",
+      "success_condition": "A clean install reports the pyproject version and CI rejects a deliberately altered config or generated version."
+    },
+    {
+      "acceptance_tests": [
+        "existing replay tests",
+        "network-disabled failure test",
+        "non-PR live smoke report",
+        "raw hash verification"
+      ],
+      "contract_id": "V086-C03-SDMX-CLIENT-SPIKE",
+      "failure_states": [
+        "NETWORK_BLOCKED",
+        "PROVIDER_SCHEMA_UNRESOLVED",
+        "RAW_BYTES_NOT_PRESERVED",
+        "CLIENT_REQUIREMENT_UNMET"
+      ],
+      "fallback_condition": "Preserve the current replay contract and classify the spike as blocked without enabling live production.",
+      "inputs": [
+        "existing armilar_prices SDMX adapter contract",
+        "Eurostat official endpoint",
+        "OECD official endpoint",
+        "network-enabled non-PR runner"
+      ],
+      "invariants": [
+        "live network is excluded from PR checks",
+        "raw bytes and hashes remain Armilar-controlled",
+        "provider errors fail closed",
+        "pysdmx is not installed without a demonstrated gap"
+      ],
+      "milestone": "0.8.6",
+      "objective": "Select one SDMX client for the v0.8.7 Eurostat and OECD pilot using recorded evidence.",
+      "out_of_scope": [
+        "country adapters",
+        "production scheduling",
+        "full historical acquisition",
+        "API publication"
+      ],
+      "outputs": [
+        "spike report",
+        "preserved request metadata",
+        "capability matrix",
+        "selected-client decision"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after the declared requirement matrix is evaluated; do not build the full v0.8.7 series.",
+      "success_condition": "sdmx1 retrieves and parses representative Eurostat and OECD responses with sufficient metadata, or a specific unmet requirement justifies a bounded pysdmx comparison."
+    },
+    {
+      "acceptance_tests": [
+        "full unit suite",
+        "Hypothesis CI profile",
+        "seeded reproduction of one deliberate failure during development"
+      ],
+      "contract_id": "V086-C04-PROPERTY-TESTS",
+      "failure_states": [
+        "FLAKY_PROPERTY",
+        "UNBOUNDED_GENERATION",
+        "RUNTIME_DEPENDENCY_LEAK",
+        "INVARIANT_NOT_ASSERTED"
+      ],
+      "fallback_condition": "Where a public function cannot be tested without redesign, retain deterministic cases and record the testability gap instead of refactoring broadly.",
+      "inputs": [
+        "current deterministic engines",
+        "current unit tests",
+        "declared invariants"
+      ],
+      "invariants": [
+        "no runtime dependency",
+        "examples are reproducible on failure",
+        "existing deterministic tests remain",
+        "no test weakens fail-closed behaviour"
+      ],
+      "milestone": "0.8.6",
+      "objective": "Use Hypothesis to test economic and mathematical invariants over generated edge cases.",
+      "out_of_scope": [
+        "fuzzing external providers",
+        "performance benchmarking",
+        "new imputation models"
+      ],
+      "outputs": [
+        "test-only Hypothesis dependency",
+        "property tests",
+        "documented profiles suitable for CI"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after the declared properties pass; do not add model-performance tests or new economic methods.",
+      "success_condition": "Properties cover sums, ordering, duplicate rejection, future periods, FX conventions, incomplete grids and silent-renormalisation prevention within bounded CI runtime."
+    },
+    {
+      "acceptance_tests": [
+        "fixture repository count test",
+        "determinism test",
+        "CI artefact smoke check",
+        "no public/latest diff"
+      ],
+      "contract_id": "V086-C05-DEVELOPMENT-TELEMETRY",
+      "failure_states": [
+        "METRIC_DEFINITION_AMBIGUOUS",
+        "NONDETERMINISTIC_COUNT",
+        "PUBLICATION_PATH_VIOLATION",
+        "BASELINE_REGRESSION_UNEXPLAINED"
+      ],
+      "fallback_condition": "Emit null plus an explicit reason for unavailable economic coverage metrics rather than fabricate zero.",
+      "inputs": [
+        "repository tree",
+        "test result",
+        "pipeline outputs when available"
+      ],
+      "invariants": [
+        "generated telemetry is deterministic for a checkout",
+        "generated files do not enter public/latest in PRs",
+        "LOC is descriptive only",
+        "missing optional pipeline outputs are explicit"
+      ],
+      "milestone": "0.8.6",
+      "objective": "Publish reproducible codebase and pipeline telemetry without treating code volume as progress.",
+      "out_of_scope": [
+        "dashboard",
+        "time-series database",
+        "external monitoring service"
+      ],
+      "outputs": [
+        "development_metrics.json",
+        "CI artefact",
+        "documented metric definitions"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after telemetry generation and CI upload work; do not introduce an observability platform.",
+      "success_condition": "CI publishes production LOC, test LOC, tests, suite duration, modules, largest file, pipeline runtime, artefact count and available weight/price coverage."
+    },
+    {
+      "acceptance_tests": [
+        "live acquisition outside PR",
+        "deterministic replay",
+        "complete-month checks",
+        "economic contribution identities"
+      ],
+      "contract_id": "V087-C01-EUROSTAT-VERTICAL-SERIES",
+      "failure_states": [
+        "INCOMPLETE_COMMON_INTERVAL",
+        "SOURCE_CONCEPT_MISMATCH",
+        "REPLAY_HASH_MISMATCH",
+        "UNDECLARED_FALLBACK"
+      ],
+      "fallback_condition": "Reduce the declared universe or common interval explicitly before acquisition; never drop cells during monthly calculation.",
+      "inputs": [
+        "selected SDMX client",
+        "official Eurostat HICP responses",
+        "fixed price universe",
+        "Armilar weights and mappings"
+      ],
+      "invariants": [
+        "fixed universe",
+        "no silent renormalisation",
+        "local-price primary index",
+        "common-currency layer separate",
+        "release flags false"
+      ],
+      "milestone": "0.8.7",
+      "objective": "Produce the first real replayable monthly Armilar research series for a fixed Eurostat universe.",
+      "out_of_scope": [
+        "worldwide coverage",
+        "nowcast",
+        "public API",
+        "monetary use"
+      ],
+      "outputs": [
+        "raw receipts",
+        "normalised observations",
+        "monthly index",
+        "contributions",
+        "coverage",
+        "uncertainty",
+        "manifest",
+        "economic report"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop before OECD expansion, new countries or backtest model development.",
+      "success_condition": "The declared historical series can be rebuilt from exact hashed official bytes and every observation has provenance."
+    },
+    {
+      "acceptance_tests": [
+        "temporal split tests",
+        "vintage cutoff tests",
+        "common-sample assertion",
+        "metric reproduction"
+      ],
+      "contract_id": "V088-C01-MINIMUM-BACKTEST",
+      "failure_states": [
+        "LOOK_AHEAD_DETECTED",
+        "COMPARISON_SAMPLE_MISMATCH",
+        "VINTAGE_MISSING",
+        "METRIC_NOT_REPRODUCIBLE"
+      ],
+      "fallback_condition": "If vintage data are insufficient, publish the limitation and run only defensible subperiods rather than reconstruct unavailable knowledge.",
+      "inputs": [
+        "v0.8.7 series",
+        "publication-aware vintages",
+        "B0-B3 baseline definitions"
+      ],
+      "invariants": [
+        "no look-ahead",
+        "revisions preserve vintages",
+        "same evaluation sample for compared models",
+        "no gate chosen after seeing results"
+      ],
+      "milestone": "0.8.8",
+      "objective": "Measure whether category-level Armilar construction improves on simpler baselines and identify the three largest error sources.",
+      "out_of_scope": [
+        "MLflow",
+        "Kalman nowcast",
+        "API",
+        "monetary release"
+      ],
+      "outputs": [
+        "rolling-origin metrics",
+        "error decomposition",
+        "sensitivity results",
+        "ranked top-three error report"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop before adding complex nowcast models or broad source expansion.",
+      "success_condition": "B0-B3 are compared on a common publication-aware sample and the top three measured error sources are reported quantitatively."
+    },
+    {
+      "acceptance_tests": [
+        "policy validation",
+        "request register completeness",
+        "deterministic scaffold build and replay",
+        "manifest hash verification",
+        "predecessor v0.10.3 checker"
+      ],
+      "contract_id": "V104-C01-ECOICOP-DUAL-PANEL",
+      "failure_states": [
+        "UNDECLARED_DATASET_ROLE",
+        "LIVE_OUTPUT_IN_PR",
+        "RAW_RECEIPT_HASH_MISSING",
+        "SILENT_COVERAGE_GAP",
+        "PREDECESSOR_PROTOCOL_INVALID"
+      ],
+      "fallback_condition": "If official acquisition cannot run, keep the verification gate closed and publish only the acquisition failure evidence outside the PR.",
+      "inputs": [
+        "v0.10.3 transition backtest protocol",
+        "Eurostat five-economy ARM-O universe",
+        "official legacy and replacement dataset register",
+        "classification correspondence requirements"
+      ],
+      "invariants": [
+        "no committed empirical observations",
+        "no live 2026 ARM-O target",
+        "all gates closed",
+        "no selected transition strategy",
+        "every future observation requires immutable raw receipt provenance"
+      ],
+      "milestone": "0.10.4",
+      "objective": "Define the executable acquisition and replay contract for the official ECOICOP v1/v2 dual panel without committing live outputs in a pull request.",
+      "out_of_scope": [
+        "official byte acquisition in PR",
+        "transition backtest metrics",
+        "ARM-O 2026 extension",
+        "model training",
+        "monetary release"
+      ],
+      "outputs": [
+        "dual-panel policy",
+        "acquisition request register scaffold",
+        "raw receipt contract",
+        "normalised observation contract",
+        "coverage contract",
+        "lineage contract",
+        "checker and tests"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop before official provider acquisition, empirical backtest execution, strategy selection or constitutional ratification.",
+      "success_condition": "The v0.10.4 checker validates the policy, predecessor protocol, deterministic scaffold, zero committed observations and closed gates."
+    },
+    {
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_dual_panel_replay_v0105.py",
+        "python scripts/check_ecoicop_dual_panel_replay_v0105.py --root .",
+        "python scripts/validate_development_contracts.py",
+        "git diff --name-only HEAD -- public/latest"
+      ],
+      "contract_id": "V105-C01-ECOICOP-DUAL-PANEL-REPLAY-VERIFIER",
+      "failure_states": [
+        "EXTERNAL_ARTIFACT_MANIFEST_MISMATCH",
+        "RAW_RECEIPT_HASH_MISMATCH",
+        "OBSERVATION_WITHOUT_RECEIPT",
+        "COVERAGE_WITHOUT_EXPLICIT_STATUS",
+        "LINEAGE_REWRITES_HISTORY",
+        "BACKTEST_PREMATURELY_EXECUTED"
+      ],
+      "fallback_condition": "If a real panel cannot yet be acquired, keep the verified-panel gate closed and require a future external artifact to pass this verifier.",
+      "inputs": [
+        "config/ecoicop_dual_panel_v0104.json",
+        "v0.10.4 acquisition contract",
+        "future non-PR external dual-panel artifact"
+      ],
+      "invariants": [
+        "no official provider bytes committed in the code PR",
+        "no public/latest modification",
+        "no live 2026 observation accepted",
+        "no transition backtest executed",
+        "no transition strategy selected",
+        "all research and monetary gates remain false"
+      ],
+      "milestone": "0.10.5",
+      "objective": "Define the offline replay verifier that a future external ECOICOP v1/v2 dual-panel artifact must satisfy before transition backtesting.",
+      "out_of_scope": [
+        "live Eurostat acquisition",
+        "official panel materialisation in PR",
+        "transition backtest execution",
+        "constitutional ratification",
+        "ARM-O 2026 extension",
+        "monetary use"
+      ],
+      "outputs": [
+        "config/ecoicop_dual_panel_replay_v0105.json",
+        "src/armilar_backtest/ecoicop_dual_panel_replay_v0105.py",
+        "scripts/check_ecoicop_dual_panel_replay_v0105.py",
+        "tests/test_ecoicop_dual_panel_replay_v0105.py",
+        "docs/ECOICOP_DUAL_PANEL_REPLAY_V0105_CONTRACT.md"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after the replay verifier is defined and tested; do not acquire or commit official panel bytes and do not execute the transition backtest.",
+      "success_condition": "The v0.10.5 checker validates the policy, v0.10.4 predecessor, reproducible contract scaffold and fixture-level external artifact replay rules."
+    },
+    {
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_dual_panel_materialization_v0106.py",
+        "python scripts/check_ecoicop_dual_panel_materialization_v0106.py --root .",
+        "python scripts/validate_development_contracts.py",
+        "git diff --name-only HEAD -- public/latest"
+      ],
+      "contract_id": "V106-C01-ECOICOP-DUAL-PANEL-MATERIALIZATION-RUNNER",
+      "failure_states": [
+        "STAGING_MANIFEST_MISMATCH",
+        "RAW_RECEIPT_HASH_MISMATCH",
+        "OBSERVATION_WITHOUT_RECEIPT",
+        "COVERAGE_STATUS_INVALID",
+        "LIVE_2026_OBSERVATION_PREMATURE",
+        "MATERIALIZED_ARTIFACT_REPLAY_REJECTED"
+      ],
+      "fallback_condition": "If staged official bytes are unavailable, keep the materializer valid but do not claim the dual panel is verified.",
+      "inputs": [
+        "config/ecoicop_dual_panel_replay_v0105.json",
+        "v0.10.5 replay verifier",
+        "external staging directory with already acquired provider bytes and parsed rows"
+      ],
+      "invariants": [
+        "no live provider acquisition in the code PR",
+        "no official provider bytes committed in the repository",
+        "no public/latest modification",
+        "no live 2026 observation accepted before constitutional transition",
+        "no transition backtest executed",
+        "no transition strategy selected",
+        "all research and monetary gates remain false"
+      ],
+      "milestone": "0.10.6",
+      "objective": "Define the offline runner that materializes a v0.10.5-compatible external ECOICOP v1/v2 dual-panel artifact from staged official bytes before any backtest.",
+      "out_of_scope": [
+        "live Eurostat acquisition",
+        "official byte commits",
+        "transition backtest execution",
+        "constitutional ratification",
+        "ARM-O 2026 extension",
+        "monetary use"
+      ],
+      "outputs": [
+        "config/ecoicop_dual_panel_materialization_v0106.json",
+        "src/armilar_backtest/ecoicop_dual_panel_materialization_v0106.py",
+        "scripts/check_ecoicop_dual_panel_materialization_v0106.py",
+        "tests/test_ecoicop_dual_panel_materialization_v0106.py",
+        "docs/ECOICOP_DUAL_PANEL_MATERIALIZATION_V0106_CONTRACT.md"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop before live provider acquisition, real official panel verification, transition backtest execution, constitutional ratification or ARM-O 2026 extension.",
+      "success_condition": "The v0.10.6 checker validates the policy, v0.10.5 predecessor, staged fixture, deterministic materialization and v0.10.5 replay verification of the materialized artifact."
+    },
+    {
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_dual_panel_attachment_v0107.py",
+        "python scripts/check_ecoicop_dual_panel_attachment_v0107.py --root .",
+        "python scripts/validate_development_contracts.py",
+        "git diff --name-only HEAD -- public/latest"
+      ],
+      "contract_id": "V107-C01-ECOICOP-DUAL-PANEL-EXTERNAL-ATTACHMENT",
+      "failure_states": [
+        "ATTACHMENT_MANIFEST_MISMATCH",
+        "MATERIALIZED_ARTIFACT_MANIFEST_MISMATCH",
+        "ARTIFACT_REPLAY_REJECTED",
+        "OFFICIAL_BYTES_COMMITTED_CLAIMED",
+        "PUBLIC_LATEST_MODIFIED_CLAIMED",
+        "BACKTEST_PREMATURELY_EXECUTED",
+        "TRANSITION_STRATEGY_SELECTED",
+        "GATE_OPENED"
+      ],
+      "fallback_condition": "If an external panel artifact is not available, keep the attachment protocol valid but do not claim the dual panel is verified.",
+      "inputs": [
+        "config/ecoicop_dual_panel_materialization_v0106.json",
+        "v0.10.6 materialization runner",
+        "v0.10.5 replay verifier",
+        "external materialized panel artifact with PANEL_MANIFEST.sha256"
+      ],
+      "invariants": [
+        "no live provider acquisition in the code PR",
+        "no official provider bytes committed in the repository",
+        "no public/latest modification",
+        "materialized artifact must pass v0.10.5 replay verification before attachment",
+        "no transition backtest executed",
+        "no transition strategy selected",
+        "all research and monetary gates remain false"
+      ],
+      "milestone": "0.10.7",
+      "objective": "Define the external attachment protocol for a materialized ECOICOP v1/v2 dual-panel artifact before transition backtest execution.",
+      "out_of_scope": [
+        "live Eurostat acquisition",
+        "official byte commits",
+        "transition backtest execution",
+        "constitutional ratification",
+        "ARM-O 2026 extension",
+        "monetary use"
+      ],
+      "outputs": [
+        "config/ecoicop_dual_panel_attachment_v0107.json",
+        "src/armilar_backtest/ecoicop_dual_panel_attachment_v0107.py",
+        "scripts/check_ecoicop_dual_panel_attachment_v0107.py",
+        "tests/test_ecoicop_dual_panel_attachment_v0107.py",
+        "docs/ECOICOP_DUAL_PANEL_ATTACHMENT_V0107_CONTRACT.md"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop before transition backtest execution, constitutional ratification, ARM-O 2026 extension or verified-panel gate opening.",
+      "success_condition": "The v0.10.7 checker validates the policy, v0.10.6 predecessor, fixture materialized artifact replay, and deterministic non-committed attachment descriptor."
+    },
+    {
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_transition_backtest_v0108.py",
+        "python scripts/check_ecoicop_transition_backtest_v0108.py --root ."
+      ],
+      "contract_id": "V108-C01-ECOICOP-TRANSITION-BACKTEST-RUNNER",
+      "failure_states": [
+        "ATTACHMENT_MISSING",
+        "ATTACHMENT_REPLAY_INVALID",
+        "STRATEGY_SELECTED",
+        "BACKTEST_EXECUTION_CLAIMED",
+        "PUBLIC_LATEST_MODIFIED"
+      ],
+      "fallback_condition": "If no verified external attachment is available, fail closed and keep the next milestone blocked.",
+      "inputs": [
+        "v0.10.7 external attachment protocol",
+        "v0.10.3 transition backtest protocol",
+        "external attachment supplied outside repository"
+      ],
+      "invariants": [
+        "no live acquisition",
+        "no official bytes committed",
+        "no public/latest modification",
+        "no strategy selection",
+        "all gates remain closed"
+      ],
+      "milestone": "0.10.8",
+      "objective": "Define the fail-closed ECOICOP v1/v2 transition backtest runner without executing the empirical backtest in the PR.",
+      "out_of_scope": [
+        "live data acquisition",
+        "official byte commits",
+        "empirical backtest result publication",
+        "constitutional ratification",
+        "ARM-O 2026 extension"
+      ],
+      "outputs": [
+        "config/ecoicop_transition_backtest_runner_v0108.json",
+        "readiness report contract",
+        "checker and tests"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after the runner contract and readiness verifier pass; do not run the empirical transition backtest in this milestone.",
+      "success_condition": "The runner validates the predecessor, candidate strategies, metrics and a fixture attachment readiness report while keeping execution gates closed."
+    },
+    {
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_transition_backtest_execution_v0109.py",
+        "python scripts/check_ecoicop_transition_backtest_execution_v0109.py --root ."
+      ],
+      "contract_id": "V109-C01-ECOICOP-TRANSITION-BACKTEST-EXECUTION-ENGINE",
+      "failure_states": [
+        "READINESS_REPORT_INVALID",
+        "METRIC_MATRIX_INCOMPLETE",
+        "STRATEGY_SELECTED",
+        "EMPIRICAL_EXECUTION_CLAIMED",
+        "RESULT_INTERPRETATION_ALLOWED",
+        "PUBLIC_LATEST_MODIFIED"
+      ],
+      "fallback_condition": "If no real external verified panel is available, keep the engine valid but produce only fixture results with interpretation forbidden.",
+      "inputs": [
+        "v0.10.8 readiness report",
+        "v0.10.3 transition backtest protocol",
+        "future external verified panel"
+      ],
+      "invariants": [
+        "no live acquisition",
+        "no official bytes committed",
+        "no public/latest modification",
+        "no empirical backtest claim",
+        "no strategy selection",
+        "all gates remain closed"
+      ],
+      "milestone": "0.10.9",
+      "objective": "Define the fail-closed ECOICOP v1/v2 transition backtest execution-result contract without claiming an empirical run in the PR.",
+      "out_of_scope": [
+        "live data acquisition",
+        "official byte commits",
+        "empirical backtest result publication",
+        "constitutional ratification",
+        "ARM-O 2026 extension"
+      ],
+      "outputs": [
+        "config/ecoicop_transition_backtest_execution_v0109.json",
+        "src/armilar_backtest/ecoicop_transition_backtest_execution_v0109.py",
+        "scripts/check_ecoicop_transition_backtest_execution_v0109.py",
+        "tests/test_ecoicop_transition_backtest_execution_v0109.py",
+        "docs/ECOICOP_TRANSITION_BACKTEST_EXECUTION_V0109_CONTRACT.md"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop before running the real empirical transition backtest, selecting a strategy or opening any gate.",
+      "success_condition": "The execution engine validates predecessor readiness, declared strategies and metrics, a full fixture result matrix and all fail-closed invariants."
+    },
+    {
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_transition_backtest_empirical_v0110.py",
+        "python scripts/check_ecoicop_transition_backtest_empirical_v0110.py --root .",
+        "python scripts/validate_development_contracts.py"
+      ],
+      "contract_id": "V110-C01-ECOICOP-TRANSITION-BACKTEST-EMPIRICAL-GATE",
+      "failure_states": [
+        "EMPIRICAL_CLAIM_WITHOUT_EXTERNAL_PANEL",
+        "STRATEGY_SELECTED_PREMATURELY",
+        "PUBLIC_LATEST_MODIFIED",
+        "OFFICIAL_BYTES_COMMITTED",
+        "GATE_OPENED"
+      ],
+      "fallback_condition": "If no external verified panel exists, produce only a blocked preflight report and keep all gates closed.",
+      "inputs": [
+        "v0.10.9 execution engine",
+        "v0.10.3 strategy and metric protocol",
+        "external verified panel requirements"
+      ],
+      "invariants": [
+        "no empirical backtest claim",
+        "no strategy selected",
+        "no official bytes committed",
+        "public/latest unchanged",
+        "all research and monetary gates remain false"
+      ],
+      "milestone": "0.11.0",
+      "objective": "Define a fail-closed empirical gatekeeper for any future real ECOICOP v1/v2 transition backtest claim.",
+      "out_of_scope": [
+        "v0.11.1",
+        "live acquisition",
+        "real empirical backtest execution",
+        "constitutional decision",
+        "ARM-O 2026 extension",
+        "monetary use"
+      ],
+      "outputs": [
+        "config/ecoicop_transition_backtest_empirical_v0110.json",
+        "scripts/check_ecoicop_transition_backtest_empirical_v0110.py",
+        "src/armilar_backtest/ecoicop_transition_backtest_empirical_v0110.py"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after defining and validating the gatekeeper; do not acquire or attach real official data in this pull request.",
+      "success_condition": "The v0.11.0 checker emits ECOICOP_V2_TRANSITION_BACKTEST_EMPIRICAL_GATE_V0110_VALID and targeted tests pass."
+    }
   ],
   "required_fields": [
     "objective",
@@ -21,612 +672,7 @@
     "acceptance_tests",
     "out_of_scope"
   ],
-  "contracts": [
-    {
-      "contract_id": "V086-C01-CONTRACTS-AND-ROADMAP",
-      "milestone": "0.8.6",
-      "status": "COMPLETE",
-      "objective": "Ratify bounded development contracts and the vertical roadmap before further material implementation.",
-      "inputs": [
-        "main at v0.8.5",
-        "existing methodology documents",
-        "existing component registry"
-      ],
-      "outputs": [
-        "docs/ROADMAP_V0.8.6_TO_V1.0.md",
-        "docs/DEVELOPMENT_CONTRACT_STANDARD.md",
-        "config/development_contracts.json",
-        "docs/DECISION_LOG.md"
-      ],
-      "invariants": [
-        "no economic methodology change",
-        "research_release_allowed remains false",
-        "monetary_release_allowed remains false",
-        "no public/latest modification"
-      ],
-      "failure_states": [
-        "CONTRACT_FIELD_MISSING",
-        "DUPLICATE_CONTRACT_ID",
-        "UNBOUNDED_SCOPE",
-        "RELEASE_GATE_WEAKENED"
-      ],
-      "success_condition": "The contract validator and its unit tests pass and the roadmap supersedes stale next-action guidance.",
-      "stop_condition": "Stop after contract, roadmap and reuse-governance files are complete; do not implement SDMX, versioning or telemetry in this pull request.",
-      "fallback_condition": "If an existing file conflicts with a ratified constitutional rule, preserve the constitutional rule and record the conflict in the decision log.",
-      "acceptance_tests": [
-        "python scripts/validate_development_contracts.py",
-        "python -m unittest discover -s tests -p test_development_contracts.py -v"
-      ],
-      "out_of_scope": [
-        "version code changes",
-        "SDMX live requests",
-        "Hypothesis properties",
-        "telemetry generation",
-        "country adapters"
-      ]
-    },
-    {
-      "contract_id": "V086-C02-VERSION-SOURCE-OF-TRUTH",
-      "milestone": "0.8.6",
-      "status": "COMPLETE",
-      "objective": "Make pyproject.toml the sole authored project version and fail CI on divergent generated values.",
-      "inputs": [
-        "pyproject.toml",
-        "installed package metadata",
-        "version-bearing configs and generated reports"
-      ],
-      "outputs": [
-        "importlib.metadata version helper",
-        "version consistency check",
-        "CI gate"
-      ],
-      "invariants": [
-        "no manually maintained second version constant",
-        "generated reports identify the installed version",
-        "release flags are unaffected"
-      ],
-      "failure_states": [
-        "PACKAGE_NOT_INSTALLED",
-        "VERSION_DIVERGENCE",
-        "UNDECLARED_VERSION_LITERAL"
-      ],
-      "success_condition": "A clean install reports the pyproject version and CI rejects a deliberately altered config or generated version.",
-      "stop_condition": "Stop after version derivation and consistency tests pass; do not bump to 0.8.6 until every v0.8.6 gate is complete.",
-      "fallback_condition": "In an uninstalled source checkout, report 0+unknown only for diagnostic display and never for release artefacts.",
-      "acceptance_tests": [
-        "full unit suite",
-        "deliberate divergence test",
-        "wheel or editable-install metadata test"
-      ],
-      "out_of_scope": [
-        "semantic version redesign",
-        "release publication",
-        "branch renaming"
-      ]
-    },
-    {
-      "contract_id": "V086-C03-SDMX-CLIENT-SPIKE",
-      "milestone": "0.8.6",
-      "status": "COMPLETE",
-      "objective": "Select one SDMX client for the v0.8.7 Eurostat and OECD pilot using recorded evidence.",
-      "inputs": [
-        "existing armilar_prices SDMX adapter contract",
-        "Eurostat official endpoint",
-        "OECD official endpoint",
-        "network-enabled non-PR runner"
-      ],
-      "outputs": [
-        "spike report",
-        "preserved request metadata",
-        "capability matrix",
-        "selected-client decision"
-      ],
-      "invariants": [
-        "live network is excluded from PR checks",
-        "raw bytes and hashes remain Armilar-controlled",
-        "provider errors fail closed",
-        "pysdmx is not installed without a demonstrated gap"
-      ],
-      "failure_states": [
-        "NETWORK_BLOCKED",
-        "PROVIDER_SCHEMA_UNRESOLVED",
-        "RAW_BYTES_NOT_PRESERVED",
-        "CLIENT_REQUIREMENT_UNMET"
-      ],
-      "success_condition": "sdmx1 retrieves and parses representative Eurostat and OECD responses with sufficient metadata, or a specific unmet requirement justifies a bounded pysdmx comparison.",
-      "stop_condition": "Stop after the declared requirement matrix is evaluated; do not build the full v0.8.7 series.",
-      "fallback_condition": "Preserve the current replay contract and classify the spike as blocked without enabling live production.",
-      "acceptance_tests": [
-        "existing replay tests",
-        "network-disabled failure test",
-        "non-PR live smoke report",
-        "raw hash verification"
-      ],
-      "out_of_scope": [
-        "country adapters",
-        "production scheduling",
-        "full historical acquisition",
-        "API publication"
-      ]
-    },
-    {
-      "contract_id": "V086-C04-PROPERTY-TESTS",
-      "milestone": "0.8.6",
-      "status": "COMPLETE",
-      "objective": "Use Hypothesis to test economic and mathematical invariants over generated edge cases.",
-      "inputs": [
-        "current deterministic engines",
-        "current unit tests",
-        "declared invariants"
-      ],
-      "outputs": [
-        "test-only Hypothesis dependency",
-        "property tests",
-        "documented profiles suitable for CI"
-      ],
-      "invariants": [
-        "no runtime dependency",
-        "examples are reproducible on failure",
-        "existing deterministic tests remain",
-        "no test weakens fail-closed behaviour"
-      ],
-      "failure_states": [
-        "FLAKY_PROPERTY",
-        "UNBOUNDED_GENERATION",
-        "RUNTIME_DEPENDENCY_LEAK",
-        "INVARIANT_NOT_ASSERTED"
-      ],
-      "success_condition": "Properties cover sums, ordering, duplicate rejection, future periods, FX conventions, incomplete grids and silent-renormalisation prevention within bounded CI runtime.",
-      "stop_condition": "Stop after the declared properties pass; do not add model-performance tests or new economic methods.",
-      "fallback_condition": "Where a public function cannot be tested without redesign, retain deterministic cases and record the testability gap instead of refactoring broadly.",
-      "acceptance_tests": [
-        "full unit suite",
-        "Hypothesis CI profile",
-        "seeded reproduction of one deliberate failure during development"
-      ],
-      "out_of_scope": [
-        "fuzzing external providers",
-        "performance benchmarking",
-        "new imputation models"
-      ]
-    },
-    {
-      "contract_id": "V086-C05-DEVELOPMENT-TELEMETRY",
-      "milestone": "0.8.6",
-      "status": "COMPLETE",
-      "objective": "Publish reproducible codebase and pipeline telemetry without treating code volume as progress.",
-      "inputs": [
-        "repository tree",
-        "test result",
-        "pipeline outputs when available"
-      ],
-      "outputs": [
-        "development_metrics.json",
-        "CI artefact",
-        "documented metric definitions"
-      ],
-      "invariants": [
-        "generated telemetry is deterministic for a checkout",
-        "generated files do not enter public/latest in PRs",
-        "LOC is descriptive only",
-        "missing optional pipeline outputs are explicit"
-      ],
-      "failure_states": [
-        "METRIC_DEFINITION_AMBIGUOUS",
-        "NONDETERMINISTIC_COUNT",
-        "PUBLICATION_PATH_VIOLATION",
-        "BASELINE_REGRESSION_UNEXPLAINED"
-      ],
-      "success_condition": "CI publishes production LOC, test LOC, tests, suite duration, modules, largest file, pipeline runtime, artefact count and available weight/price coverage.",
-      "stop_condition": "Stop after telemetry generation and CI upload work; do not introduce an observability platform.",
-      "fallback_condition": "Emit null plus an explicit reason for unavailable economic coverage metrics rather than fabricate zero.",
-      "acceptance_tests": [
-        "fixture repository count test",
-        "determinism test",
-        "CI artefact smoke check",
-        "no public/latest diff"
-      ],
-      "out_of_scope": [
-        "dashboard",
-        "time-series database",
-        "external monitoring service"
-      ]
-    },
-    {
-      "contract_id": "V087-C01-EUROSTAT-VERTICAL-SERIES",
-      "milestone": "0.8.7",
-      "status": "COMPLETE",
-      "objective": "Produce the first real replayable monthly Armilar research series for a fixed Eurostat universe.",
-      "inputs": [
-        "selected SDMX client",
-        "official Eurostat HICP responses",
-        "fixed price universe",
-        "Armilar weights and mappings"
-      ],
-      "outputs": [
-        "raw receipts",
-        "normalised observations",
-        "monthly index",
-        "contributions",
-        "coverage",
-        "uncertainty",
-        "manifest",
-        "economic report"
-      ],
-      "invariants": [
-        "fixed universe",
-        "no silent renormalisation",
-        "local-price primary index",
-        "common-currency layer separate",
-        "release flags false"
-      ],
-      "failure_states": [
-        "INCOMPLETE_COMMON_INTERVAL",
-        "SOURCE_CONCEPT_MISMATCH",
-        "REPLAY_HASH_MISMATCH",
-        "UNDECLARED_FALLBACK"
-      ],
-      "success_condition": "The declared historical series can be rebuilt from exact hashed official bytes and every observation has provenance.",
-      "stop_condition": "Stop before OECD expansion, new countries or backtest model development.",
-      "fallback_condition": "Reduce the declared universe or common interval explicitly before acquisition; never drop cells during monthly calculation.",
-      "acceptance_tests": [
-        "live acquisition outside PR",
-        "deterministic replay",
-        "complete-month checks",
-        "economic contribution identities"
-      ],
-      "out_of_scope": [
-        "worldwide coverage",
-        "nowcast",
-        "public API",
-        "monetary use"
-      ]
-    },
-    {
-      "contract_id": "V088-C01-MINIMUM-BACKTEST",
-      "milestone": "0.8.8",
-      "status": "COMPLETE",
-      "objective": "Measure whether category-level Armilar construction improves on simpler baselines and identify the three largest error sources.",
-      "inputs": [
-        "v0.8.7 series",
-        "publication-aware vintages",
-        "B0-B3 baseline definitions"
-      ],
-      "outputs": [
-        "rolling-origin metrics",
-        "error decomposition",
-        "sensitivity results",
-        "ranked top-three error report"
-      ],
-      "invariants": [
-        "no look-ahead",
-        "revisions preserve vintages",
-        "same evaluation sample for compared models",
-        "no gate chosen after seeing results"
-      ],
-      "failure_states": [
-        "LOOK_AHEAD_DETECTED",
-        "COMPARISON_SAMPLE_MISMATCH",
-        "VINTAGE_MISSING",
-        "METRIC_NOT_REPRODUCIBLE"
-      ],
-      "success_condition": "B0-B3 are compared on a common publication-aware sample and the top three measured error sources are reported quantitatively.",
-      "stop_condition": "Stop before adding complex nowcast models or broad source expansion.",
-      "fallback_condition": "If vintage data are insufficient, publish the limitation and run only defensible subperiods rather than reconstruct unavailable knowledge.",
-      "acceptance_tests": [
-        "temporal split tests",
-        "vintage cutoff tests",
-        "common-sample assertion",
-        "metric reproduction"
-      ],
-      "out_of_scope": [
-        "MLflow",
-        "Kalman nowcast",
-        "API",
-        "monetary release"
-      ]
-    },
-    {
-      "contract_id": "V104-C01-ECOICOP-DUAL-PANEL",
-      "milestone": "0.10.4",
-      "status": "COMPLETE",
-      "objective": "Define the executable acquisition and replay contract for the official ECOICOP v1/v2 dual panel without committing live outputs in a pull request.",
-      "inputs": [
-        "v0.10.3 transition backtest protocol",
-        "Eurostat five-economy ARM-O universe",
-        "official legacy and replacement dataset register",
-        "classification correspondence requirements"
-      ],
-      "outputs": [
-        "dual-panel policy",
-        "acquisition request register scaffold",
-        "raw receipt contract",
-        "normalised observation contract",
-        "coverage contract",
-        "lineage contract",
-        "checker and tests"
-      ],
-      "invariants": [
-        "no committed empirical observations",
-        "no live 2026 ARM-O target",
-        "all gates closed",
-        "no selected transition strategy",
-        "every future observation requires immutable raw receipt provenance"
-      ],
-      "failure_states": [
-        "UNDECLARED_DATASET_ROLE",
-        "LIVE_OUTPUT_IN_PR",
-        "RAW_RECEIPT_HASH_MISSING",
-        "SILENT_COVERAGE_GAP",
-        "PREDECESSOR_PROTOCOL_INVALID"
-      ],
-      "success_condition": "The v0.10.4 checker validates the policy, predecessor protocol, deterministic scaffold, zero committed observations and closed gates.",
-      "stop_condition": "Stop before official provider acquisition, empirical backtest execution, strategy selection or constitutional ratification.",
-      "fallback_condition": "If official acquisition cannot run, keep the verification gate closed and publish only the acquisition failure evidence outside the PR.",
-      "acceptance_tests": [
-        "policy validation",
-        "request register completeness",
-        "deterministic scaffold build and replay",
-        "manifest hash verification",
-        "predecessor v0.10.3 checker"
-      ],
-      "out_of_scope": [
-        "official byte acquisition in PR",
-        "transition backtest metrics",
-        "ARM-O 2026 extension",
-        "model training",
-        "monetary release"
-      ]
-    },
-    {
-      "contract_id": "V105-C01-ECOICOP-DUAL-PANEL-REPLAY-VERIFIER",
-      "milestone": "0.10.5",
-      "status": "COMPLETE",
-      "objective": "Define the offline replay verifier that a future external ECOICOP v1/v2 dual-panel artifact must satisfy before transition backtesting.",
-      "inputs": [
-        "config/ecoicop_dual_panel_v0104.json",
-        "v0.10.4 acquisition contract",
-        "future non-PR external dual-panel artifact"
-      ],
-      "outputs": [
-        "config/ecoicop_dual_panel_replay_v0105.json",
-        "src/armilar_backtest/ecoicop_dual_panel_replay_v0105.py",
-        "scripts/check_ecoicop_dual_panel_replay_v0105.py",
-        "tests/test_ecoicop_dual_panel_replay_v0105.py",
-        "docs/ECOICOP_DUAL_PANEL_REPLAY_V0105_CONTRACT.md"
-      ],
-      "invariants": [
-        "no official provider bytes committed in the code PR",
-        "no public/latest modification",
-        "no live 2026 observation accepted",
-        "no transition backtest executed",
-        "no transition strategy selected",
-        "all research and monetary gates remain false"
-      ],
-      "failure_states": [
-        "EXTERNAL_ARTIFACT_MANIFEST_MISMATCH",
-        "RAW_RECEIPT_HASH_MISMATCH",
-        "OBSERVATION_WITHOUT_RECEIPT",
-        "COVERAGE_WITHOUT_EXPLICIT_STATUS",
-        "LINEAGE_REWRITES_HISTORY",
-        "BACKTEST_PREMATURELY_EXECUTED"
-      ],
-      "success_condition": "The v0.10.5 checker validates the policy, v0.10.4 predecessor, reproducible contract scaffold and fixture-level external artifact replay rules.",
-      "stop_condition": "Stop after the replay verifier is defined and tested; do not acquire or commit official panel bytes and do not execute the transition backtest.",
-      "fallback_condition": "If a real panel cannot yet be acquired, keep the verified-panel gate closed and require a future external artifact to pass this verifier.",
-      "acceptance_tests": [
-        "python -m pytest -q tests/test_ecoicop_dual_panel_replay_v0105.py",
-        "python scripts/check_ecoicop_dual_panel_replay_v0105.py --root .",
-        "python scripts/validate_development_contracts.py",
-        "git diff --name-only HEAD -- public/latest"
-      ],
-      "out_of_scope": [
-        "live Eurostat acquisition",
-        "official panel materialisation in PR",
-        "transition backtest execution",
-        "constitutional ratification",
-        "ARM-O 2026 extension",
-        "monetary use"
-      ]
-    },
-    {
-      "contract_id": "V106-C01-ECOICOP-DUAL-PANEL-MATERIALIZATION-RUNNER",
-      "milestone": "0.10.6",
-      "status": "COMPLETE",
-      "objective": "Define the offline runner that materializes a v0.10.5-compatible external ECOICOP v1/v2 dual-panel artifact from staged official bytes before any backtest.",
-      "inputs": [
-        "config/ecoicop_dual_panel_replay_v0105.json",
-        "v0.10.5 replay verifier",
-        "external staging directory with already acquired provider bytes and parsed rows"
-      ],
-      "outputs": [
-        "config/ecoicop_dual_panel_materialization_v0106.json",
-        "src/armilar_backtest/ecoicop_dual_panel_materialization_v0106.py",
-        "scripts/check_ecoicop_dual_panel_materialization_v0106.py",
-        "tests/test_ecoicop_dual_panel_materialization_v0106.py",
-        "docs/ECOICOP_DUAL_PANEL_MATERIALIZATION_V0106_CONTRACT.md"
-      ],
-      "invariants": [
-        "no live provider acquisition in the code PR",
-        "no official provider bytes committed in the repository",
-        "no public/latest modification",
-        "no live 2026 observation accepted before constitutional transition",
-        "no transition backtest executed",
-        "no transition strategy selected",
-        "all research and monetary gates remain false"
-      ],
-      "failure_states": [
-        "STAGING_MANIFEST_MISMATCH",
-        "RAW_RECEIPT_HASH_MISMATCH",
-        "OBSERVATION_WITHOUT_RECEIPT",
-        "COVERAGE_STATUS_INVALID",
-        "LIVE_2026_OBSERVATION_PREMATURE",
-        "MATERIALIZED_ARTIFACT_REPLAY_REJECTED"
-      ],
-      "success_condition": "The v0.10.6 checker validates the policy, v0.10.5 predecessor, staged fixture, deterministic materialization and v0.10.5 replay verification of the materialized artifact.",
-      "stop_condition": "Stop before live provider acquisition, real official panel verification, transition backtest execution, constitutional ratification or ARM-O 2026 extension.",
-      "fallback_condition": "If staged official bytes are unavailable, keep the materializer valid but do not claim the dual panel is verified.",
-      "acceptance_tests": [
-        "python -m pytest -q tests/test_ecoicop_dual_panel_materialization_v0106.py",
-        "python scripts/check_ecoicop_dual_panel_materialization_v0106.py --root .",
-        "python scripts/validate_development_contracts.py",
-        "git diff --name-only HEAD -- public/latest"
-      ],
-      "out_of_scope": [
-        "live Eurostat acquisition",
-        "official byte commits",
-        "transition backtest execution",
-        "constitutional ratification",
-        "ARM-O 2026 extension",
-        "monetary use"
-      ]
-    },
-    {
-      "contract_id": "V107-C01-ECOICOP-DUAL-PANEL-EXTERNAL-ATTACHMENT",
-      "milestone": "0.10.7",
-      "status": "COMPLETE",
-      "objective": "Define the external attachment protocol for a materialized ECOICOP v1/v2 dual-panel artifact before transition backtest execution.",
-      "inputs": [
-        "config/ecoicop_dual_panel_materialization_v0106.json",
-        "v0.10.6 materialization runner",
-        "v0.10.5 replay verifier",
-        "external materialized panel artifact with PANEL_MANIFEST.sha256"
-      ],
-      "outputs": [
-        "config/ecoicop_dual_panel_attachment_v0107.json",
-        "src/armilar_backtest/ecoicop_dual_panel_attachment_v0107.py",
-        "scripts/check_ecoicop_dual_panel_attachment_v0107.py",
-        "tests/test_ecoicop_dual_panel_attachment_v0107.py",
-        "docs/ECOICOP_DUAL_PANEL_ATTACHMENT_V0107_CONTRACT.md"
-      ],
-      "invariants": [
-        "no live provider acquisition in the code PR",
-        "no official provider bytes committed in the repository",
-        "no public/latest modification",
-        "materialized artifact must pass v0.10.5 replay verification before attachment",
-        "no transition backtest executed",
-        "no transition strategy selected",
-        "all research and monetary gates remain false"
-      ],
-      "failure_states": [
-        "ATTACHMENT_MANIFEST_MISMATCH",
-        "MATERIALIZED_ARTIFACT_MANIFEST_MISMATCH",
-        "ARTIFACT_REPLAY_REJECTED",
-        "OFFICIAL_BYTES_COMMITTED_CLAIMED",
-        "PUBLIC_LATEST_MODIFIED_CLAIMED",
-        "BACKTEST_PREMATURELY_EXECUTED",
-        "TRANSITION_STRATEGY_SELECTED",
-        "GATE_OPENED"
-      ],
-      "success_condition": "The v0.10.7 checker validates the policy, v0.10.6 predecessor, fixture materialized artifact replay, and deterministic non-committed attachment descriptor.",
-      "stop_condition": "Stop before transition backtest execution, constitutional ratification, ARM-O 2026 extension or verified-panel gate opening.",
-      "fallback_condition": "If an external panel artifact is not available, keep the attachment protocol valid but do not claim the dual panel is verified.",
-      "acceptance_tests": [
-        "python -m pytest -q tests/test_ecoicop_dual_panel_attachment_v0107.py",
-        "python scripts/check_ecoicop_dual_panel_attachment_v0107.py --root .",
-        "python scripts/validate_development_contracts.py",
-        "git diff --name-only HEAD -- public/latest"
-      ],
-      "out_of_scope": [
-        "live Eurostat acquisition",
-        "official byte commits",
-        "transition backtest execution",
-        "constitutional ratification",
-        "ARM-O 2026 extension",
-        "monetary use"
-      ]
-    },
-    {
-      "contract_id": "V108-C01-ECOICOP-TRANSITION-BACKTEST-RUNNER",
-      "milestone": "0.10.8",
-      "status": "COMPLETE",
-      "objective": "Define the fail-closed ECOICOP v1/v2 transition backtest runner without executing the empirical backtest in the PR.",
-      "inputs": [
-        "v0.10.7 external attachment protocol",
-        "v0.10.3 transition backtest protocol",
-        "external attachment supplied outside repository"
-      ],
-      "outputs": [
-        "config/ecoicop_transition_backtest_runner_v0108.json",
-        "readiness report contract",
-        "checker and tests"
-      ],
-      "invariants": [
-        "no live acquisition",
-        "no official bytes committed",
-        "no public/latest modification",
-        "no strategy selection",
-        "all gates remain closed"
-      ],
-      "failure_states": [
-        "ATTACHMENT_MISSING",
-        "ATTACHMENT_REPLAY_INVALID",
-        "STRATEGY_SELECTED",
-        "BACKTEST_EXECUTION_CLAIMED",
-        "PUBLIC_LATEST_MODIFIED"
-      ],
-      "success_condition": "The runner validates the predecessor, candidate strategies, metrics and a fixture attachment readiness report while keeping execution gates closed.",
-      "stop_condition": "Stop after the runner contract and readiness verifier pass; do not run the empirical transition backtest in this milestone.",
-      "fallback_condition": "If no verified external attachment is available, fail closed and keep the next milestone blocked.",
-      "acceptance_tests": [
-        "python -m pytest -q tests/test_ecoicop_transition_backtest_v0108.py",
-        "python scripts/check_ecoicop_transition_backtest_v0108.py --root ."
-      ],
-      "out_of_scope": [
-        "live data acquisition",
-        "official byte commits",
-        "empirical backtest result publication",
-        "constitutional ratification",
-        "ARM-O 2026 extension"
-      ]
-    },
-    {
-      "contract_id": "V109-C01-ECOICOP-TRANSITION-BACKTEST-EXECUTION-ENGINE",
-      "milestone": "0.10.9",
-      "status": "COMPLETE",
-      "objective": "Define the fail-closed ECOICOP v1/v2 transition backtest execution-result contract without claiming an empirical run in the PR.",
-      "inputs": [
-        "v0.10.8 readiness report",
-        "v0.10.3 transition backtest protocol",
-        "future external verified panel"
-      ],
-      "outputs": [
-        "config/ecoicop_transition_backtest_execution_v0109.json",
-        "src/armilar_backtest/ecoicop_transition_backtest_execution_v0109.py",
-        "scripts/check_ecoicop_transition_backtest_execution_v0109.py",
-        "tests/test_ecoicop_transition_backtest_execution_v0109.py",
-        "docs/ECOICOP_TRANSITION_BACKTEST_EXECUTION_V0109_CONTRACT.md"
-      ],
-      "invariants": [
-        "no live acquisition",
-        "no official bytes committed",
-        "no public/latest modification",
-        "no empirical backtest claim",
-        "no strategy selection",
-        "all gates remain closed"
-      ],
-      "failure_states": [
-        "READINESS_REPORT_INVALID",
-        "METRIC_MATRIX_INCOMPLETE",
-        "STRATEGY_SELECTED",
-        "EMPIRICAL_EXECUTION_CLAIMED",
-        "RESULT_INTERPRETATION_ALLOWED",
-        "PUBLIC_LATEST_MODIFIED"
-      ],
-      "success_condition": "The execution engine validates predecessor readiness, declared strategies and metrics, a full fixture result matrix and all fail-closed invariants.",
-      "stop_condition": "Stop before running the real empirical transition backtest, selecting a strategy or opening any gate.",
-      "fallback_condition": "If no real external verified panel is available, keep the engine valid but produce only fixture results with interpretation forbidden.",
-      "acceptance_tests": [
-        "python -m pytest -q tests/test_ecoicop_transition_backtest_execution_v0109.py",
-        "python scripts/check_ecoicop_transition_backtest_execution_v0109.py --root ."
-      ],
-      "out_of_scope": [
-        "live data acquisition",
-        "official byte commits",
-        "empirical backtest result publication",
-        "constitutional ratification",
-        "ARM-O 2026 extension"
-      ]
-    }
-  ]
+  "reviewed_on": "2026-07-09",
+  "roadmap_version": "v0.8.6-to-v1.0.0",
+  "schema_version": "1.0"
 }
