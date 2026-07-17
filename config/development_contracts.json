@@ -579,6 +579,54 @@
         "constitutional ratification",
         "ARM-O 2026 extension"
       ]
+    },
+    {
+      "contract_id": "V109-C01-ECOICOP-TRANSITION-BACKTEST-EXECUTION-ENGINE",
+      "milestone": "0.10.9",
+      "status": "COMPLETE",
+      "objective": "Define the fail-closed ECOICOP v1/v2 transition backtest execution-result contract without claiming an empirical run in the PR.",
+      "inputs": [
+        "v0.10.8 readiness report",
+        "v0.10.3 transition backtest protocol",
+        "future external verified panel"
+      ],
+      "outputs": [
+        "config/ecoicop_transition_backtest_execution_v0109.json",
+        "src/armilar_backtest/ecoicop_transition_backtest_execution_v0109.py",
+        "scripts/check_ecoicop_transition_backtest_execution_v0109.py",
+        "tests/test_ecoicop_transition_backtest_execution_v0109.py",
+        "docs/ECOICOP_TRANSITION_BACKTEST_EXECUTION_V0109_CONTRACT.md"
+      ],
+      "invariants": [
+        "no live acquisition",
+        "no official bytes committed",
+        "no public/latest modification",
+        "no empirical backtest claim",
+        "no strategy selection",
+        "all gates remain closed"
+      ],
+      "failure_states": [
+        "READINESS_REPORT_INVALID",
+        "METRIC_MATRIX_INCOMPLETE",
+        "STRATEGY_SELECTED",
+        "EMPIRICAL_EXECUTION_CLAIMED",
+        "RESULT_INTERPRETATION_ALLOWED",
+        "PUBLIC_LATEST_MODIFIED"
+      ],
+      "success_condition": "The execution engine validates predecessor readiness, declared strategies and metrics, a full fixture result matrix and all fail-closed invariants.",
+      "stop_condition": "Stop before running the real empirical transition backtest, selecting a strategy or opening any gate.",
+      "fallback_condition": "If no real external verified panel is available, keep the engine valid but produce only fixture results with interpretation forbidden.",
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_transition_backtest_execution_v0109.py",
+        "python scripts/check_ecoicop_transition_backtest_execution_v0109.py --root ."
+      ],
+      "out_of_scope": [
+        "live data acquisition",
+        "official byte commits",
+        "empirical backtest result publication",
+        "constitutional ratification",
+        "ARM-O 2026 extension"
+      ]
     }
   ]
 }
