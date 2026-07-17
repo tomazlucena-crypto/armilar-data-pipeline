@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "policy_id",
+    "policy_version",
+    "status",
+    "predecessor_status",
+    "scope",
+    "runner_contract",
+    "gates",
+    "next_milestone"
+  ],
+  "properties": {
+    "policy_version": {
+      "const": "0.10.8"
+    },
+    "status": {
+      "const": "ECOICOP_V2_TRANSITION_BACKTEST_RUNNER_V0108_VALID"
+    }
+  },
+  "additionalProperties": true
+}

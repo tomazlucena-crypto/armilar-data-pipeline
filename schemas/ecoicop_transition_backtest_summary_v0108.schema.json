@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "runner_status",
+    "policy_version",
+    "transition_backtest_executed",
+    "selected_strategy"
+  ],
+  "properties": {
+    "runner_status": {
+      "enum": [
+        "ECOICOP_V2_TRANSITION_BACKTEST_RUNNER_V0108_VALID",
+        "ECOICOP_V2_TRANSITION_BACKTEST_READINESS_REPORT_V0108_VALID"
+      ]
+    },
+    "policy_version": {
+      "const": "0.10.8"
+    },
+    "transition_backtest_executed": {
+      "const": false
+    },
+    "selected_strategy": {
+      "const": "NONE"
+    }
+  },
+  "additionalProperties": true
+}
