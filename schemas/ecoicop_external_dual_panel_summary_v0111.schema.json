@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "empirical_transition_backtest_executed": {
+      "const": false
+    },
+    "external_verified_panel_available": {
+      "const": true
+    },
+    "intake_status": {
+      "const": "ECOICOP_V2_TRANSITION_BACKTEST_EXTERNAL_PANEL_INTAKE_REPORT_V0111_VALID"
+    },
+    "policy_version": {
+      "const": "0.11.1"
+    },
+    "selected_strategy": {
+      "const": "NONE"
+    }
+  },
+  "required": [
+    "intake_status",
+    "policy_version",
+    "external_verified_panel_available",
+    "empirical_transition_backtest_executed",
+    "selected_strategy",
+    "blocking_reason"
+  ],
+  "title": "ARMILAR ECOICOP external dual panel intake report v0.11.1",
+  "type": "object"
+}
