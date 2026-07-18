@@ -7,13 +7,13 @@ A blocked source or changed structural marker prevents a closed rejection.
 
 | Criterion | Status | Evidence source | SHA-256 | Evidence |
 |---|---|---|---|---|
-| `national_accounts_catalogue_acquired` | `CONFIRMED` | `EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG` | `53a8f3d49506cb2a6c7dda89a082869d32cf81f14e5787fe90c142c7ba431cee` | The official CAPMAS National Accounts collection was acquired and its study inventory reviewed. |
+| `national_accounts_catalogue_acquired` | `CONFIRMED` | `EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG` | `c37465853d9e48809387e5ee3e404b96b8504cd3419d1cd3c9c717d19ad7448e` | The official CAPMAS National Accounts collection was acquired and its study inventory reviewed. |
 | `machine_readable_catalogue_inventory_acquired` | `CONFIRMED` | `EGY_CAPMAS_NATIONAL_ACCOUNTS_EXPORT_CSV` | `dd4c1a3bcf31154dbfaabe65b60eb6f5a3be76fd6d9a6e36727981df1ab01eb9` | The official catalogue CSV inventory was acquired as machine-readable source-family evidence. |
-| `sut_reference_period_matches_2021` | `CONTRADICTED` | `EGY_CAPMAS_SUT_2017_2018_METHOD` | `676f5fe6ad9cf56329bedd3a6c8c5b19ad826bc93c6b5aef948c8cf66d16bb16` | The identified CAPMAS SUT benchmark is 2017/2018 rather than 2021. |
-| `sut_is_exact_purpose_classification` | `CONTRADICTED` | `EGY_CAPMAS_SUT_2017_2018_METHOD` | `676f5fe6ad9cf56329bedd3a6c8c5b19ad826bc93c6b5aef948c8cf66d16bb16` | The SUT is organised around products and activities, not twelve household purposes. |
+| `sut_reference_period_matches_2021` | `CONTRADICTED` | `EGY_CAPMAS_SUT_2017_2018_METHOD` | `6277a7034096a465ce134676ff38c10b301db6822b90070b6bf7d4121ff9dea4` | The identified CAPMAS SUT benchmark is 2017/2018 rather than 2021. |
+| `sut_is_exact_purpose_classification` | `CONTRADICTED` | `EGY_CAPMAS_SUT_2017_2018_METHOD` | `6277a7034096a465ce134676ff38c10b301db6822b90070b6bf7d4121ff9dea4` | The SUT is organised around products and activities, not twelve household purposes. |
 | `hiecs_is_national_accounts_s14_p31` | `NOT_FOUND` | `EGY_CAPMAS_HIECS_2021` | `` | HIECS 2021 is explicitly a sample survey and cannot be substituted for national-accounts S14/P31. |
 | `hiecs_reference_period_matches_2021` | `NOT_FOUND` | `EGY_CAPMAS_HIECS_2021` | `` | HIECS is a 2021 survey, but the matching year does not cure the conceptual mismatch. |
-| `exact_armilar_source_available` | `NOT_FOUND` | `EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG` | `53a8f3d49506cb2a6c7dda89a082869d32cf81f14e5787fe90c142c7ba431cee` | The catalogues, historical product-based SUT and 2021 survey each fail at least one exact Armilar gate; none supplies current-price 2021 S14/P31 by twelve purposes. |
+| `exact_armilar_source_available` | `NOT_FOUND` | `EGY_CAPMAS_NATIONAL_ACCOUNTS_CATALOG` | `c37465853d9e48809387e5ee3e404b96b8504cd3419d1cd3c9c717d19ad7448e` | The catalogues, historical product-based SUT and 2021 survey each fail at least one exact Armilar gate; none supplies current-price 2021 S14/P31 by twelve purposes. |
 
 ## Decision
 
