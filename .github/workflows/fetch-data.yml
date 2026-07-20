@@ -46,8 +46,8 @@ jobs:
       - name: Run unit tests
         run: python -m pytest -q
 
-      - name: Validate v0.11.0 ECOICOP transition empirical backtest gatekeeper
-        run: python scripts/check_ecoicop_transition_backtest_empirical_v0110.py --root .
+      - name: Validate v0.11.1 ECOICOP external dual-panel intake
+        run: python scripts/check_ecoicop_external_dual_panel_v0111.py --root .
 
       - name: Validate Research Core ratification
         run: python scripts/check_research_core_ratification.py --root .

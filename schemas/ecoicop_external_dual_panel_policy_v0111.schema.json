@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "policy_id": {
+      "const": "ARMILAR_ECOICOP_EXTERNAL_DUAL_PANEL_INTAKE_V0111"
+    },
+    "policy_version": {
+      "const": "0.11.1"
+    },
+    "status": {
+      "const": "ECOICOP_V2_TRANSITION_BACKTEST_EXTERNAL_PANEL_INTAKE_V0111_VALID"
+    }
+  },
+  "required": [
+    "policy_id",
+    "policy_version",
+    "status",
+    "predecessor_status",
+    "scope",
+    "external_panel_intake_contract",
+    "gates",
+    "next_milestone"
+  ],
+  "title": "ARMILAR ECOICOP external dual panel intake policy v0.11.1",
+  "type": "object"
+}

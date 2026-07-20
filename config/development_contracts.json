@@ -658,6 +658,57 @@
       "status": "COMPLETE",
       "stop_condition": "Stop after defining and validating the gatekeeper; do not acquire or attach real official data in this pull request.",
       "success_condition": "The v0.11.0 checker emits ECOICOP_V2_TRANSITION_BACKTEST_EMPIRICAL_GATE_V0110_VALID and targeted tests pass."
+    },
+    {
+      "acceptance_tests": [
+        "python -m pytest -q tests/test_ecoicop_external_dual_panel_v0111.py",
+        "python scripts/check_ecoicop_external_dual_panel_v0111.py --root .",
+        "python scripts/validate_development_contracts.py"
+      ],
+      "contract_id": "V111-C01-ECOICOP-EXTERNAL-DUAL-PANEL-INTAKE",
+      "failure_states": [
+        "EXTERNAL_ARTIFACT_MISSING",
+        "ATTACHMENT_DESCRIPTOR_INVALID",
+        "OFFICIAL_BYTES_COMMITTED",
+        "PUBLIC_LATEST_MODIFIED",
+        "EMPIRICAL_BACKTEST_CLAIMED",
+        "GATE_OPENED"
+      ],
+      "fallback_condition": "If no real external panel is supplied, the runner produces only fixture validation and refuses empirical execution claims.",
+      "inputs": [
+        "v0.11.0 empirical gatekeeper",
+        "v0.10.7 external attachment descriptor",
+        "external materialized dual-panel artifact"
+      ],
+      "invariants": [
+        "no live acquisition in PR",
+        "no official bytes committed",
+        "public/latest unchanged",
+        "no empirical backtest claim",
+        "no strategy selection",
+        "all research and monetary gates remain false"
+      ],
+      "milestone": "0.11.1",
+      "objective": "Define the controlled external-panel intake runner for a real ECOICOP v1/v2 dual-panel artifact, without committing provider bytes or claiming an empirical backtest in the repository.",
+      "out_of_scope": [
+        "v0.11.2",
+        "live acquisition inside PR",
+        "official byte commits",
+        "real empirical backtest execution",
+        "constitutional decision",
+        "ARM-O 2026 extension",
+        "monetary use"
+      ],
+      "outputs": [
+        "config/ecoicop_external_dual_panel_v0111.json",
+        "src/armilar_backtest/ecoicop_external_dual_panel_v0111.py",
+        "scripts/check_ecoicop_external_dual_panel_v0111.py",
+        "tests/test_ecoicop_external_dual_panel_v0111.py",
+        "docs/ECOICOP_EXTERNAL_DUAL_PANEL_V0111_CONTRACT.md"
+      ],
+      "status": "COMPLETE",
+      "stop_condition": "Stop after defining and validating the external-panel intake runner; do not run the real empirical backtest or select a transition strategy.",
+      "success_condition": "The v0.11.1 checker emits ECOICOP_V2_TRANSITION_BACKTEST_EXTERNAL_PANEL_INTAKE_V0111_VALID and targeted tests pass using a deterministic external-artifact fixture."
     }
   ],
   "required_fields": [
