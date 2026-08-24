@@ -45,7 +45,7 @@ Generated: deterministic v0.6.13 Step 2I report
 
 ## Source-family coverage
 
-- IND `official_structured_publications`: 10 attempt(s), best status `stale_cache`.
+- IND `official_structured_publications`: 10 attempt(s), best status `fresh`.
 - RUT `official_structured_publications`: 25 attempt(s), best status `ACCESS_BLOCKED`.
 - CHN `official_structured_publications`: 30 attempt(s), best status `ACQUIRED_AGGREGATE_ONLY`.
 - IDN `official_csv_xls_xlsx`: 1 attempt(s), best status `ACCESS_BLOCKED`.
