@@ -1,6 +1,6 @@
 # Armilar Step 2 hybrid ICP 2021 report
 
-Generated: 2026-08-24T07:37:06Z
+Generated: 2026-08-31T12:33:11Z
 
 ## Method
 
@@ -26,7 +26,7 @@ Government and NPISH expenditure never enters the numerator.
 - `OECD_TABLE5_T501`: accepted=432, excluded=8312, status=OK
 - `UNDATA_SNA_TABLE32`: accepted=675, excluded=12, status=OK
 - `EUROSTAT_NAMA_10_CP18`: accepted=384, excluded=0, status=OK
-- `OECD_TABLE5A_T501`: accepted=360, excluded=8390, status=OK
+- `OECD_TABLE5A_T501`: accepted=360, excluded=8588, status=OK
 
 ## Step 2H0 feasibility audit
 
